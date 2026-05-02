@@ -1065,94 +1065,110 @@ const MAGIC_NUMBER_CLEAN=[
 ];
 
 // ═══════════════════════════════════════════════════════════
-// SHAPE OF THE DAY BANK
+// SHAPE OF THE DAY BANK - YEAR 2 (Age 6-7)
+// 2D and 3D shapes with sides, corners, faces, edges
 // ═══════════════════════════════════════════════════════════
 const SHAPES=[
-  {name:'Square',type:'2D shape',questions:['How many sides does it have?','How many lines of symmetry does it have?','What are its interior angles?','Does it have any parallel sides?','Name a real-world example.'],properties:['4 equal sides, 4 equal angles.','4 lines of symmetry.','All interior angles are 90° (right angles). Angles sum = 360°.','2 pairs of parallel sides.','A chess board square, a window pane, floor tiles.']},
-  {name:'Rectangle',type:'2D shape',questions:['How many sides does it have?','How many lines of symmetry?','What are its interior angles?','Does it have parallel sides?','Name a real-world example.'],properties:['4 sides — 2 pairs of equal length.','2 lines of symmetry.','All interior angles are 90°. Angles sum = 360°.','2 pairs of parallel sides.','A door, a book, a football pitch.']},
-  {name:'Equilateral Triangle',type:'2D shape',questions:['How many sides and angles?','How many lines of symmetry?','What is each interior angle?','Is it a regular polygon?','Name a real-world example.'],properties:['3 equal sides and 3 equal angles.','3 lines of symmetry.','Each interior angle is 60°. Angles sum = 180°.','Yes — a regular polygon.','Yield road signs, a musical triangle, some roof shapes.']},
-  {name:'Isosceles Triangle',type:'2D shape',questions:['What makes it different from other triangles?','How many lines of symmetry?','Describe its angles.','Name a real-world example.'],properties:['2 equal sides and 2 equal base angles.','1 line of symmetry.','Two base angles are equal; angles sum = 180°.','Some mountain shapes, arrows, roof gables.']},
-  {name:'Scalene Triangle',type:'2D shape',questions:['What makes it different from other triangles?','How many lines of symmetry?','Describe its sides and angles.','Name a real-world example.'],properties:['All 3 sides are different lengths. All 3 angles are different.','No lines of symmetry.','No equal angles; angles sum = 180°.','Many real triangles in architecture (trusses, bridges).']},
-  {name:'Circle',type:'2D shape',questions:['Does it have any sides or corners?','How many lines of symmetry?','What is special about every point on its edge?','Name the key parts: radius, diameter, circumference.'],properties:['No straight sides or corners — it has one curved edge.','Infinite lines of symmetry — any diameter is a line of symmetry.','Every point on the edge is the same distance from the centre (the radius).','Radius = centre to edge. Diameter = across the middle. Circumference = all the way around.']},
-  {name:'Pentagon',type:'2D shape',questions:['How many sides and angles?','How many lines of symmetry (regular)?','What do interior angles sum to?','Name a real-world example.'],properties:['5 sides and 5 angles.','A regular pentagon has 5 lines of symmetry.','Interior angles sum to 540°. Each angle in a regular pentagon = 108°.','The Pentagon building in the USA, some football stitch patterns.']},
-  {name:'Hexagon',type:'2D shape',questions:['How many sides and angles?','How many lines of symmetry (regular)?','What do interior angles sum to?','Name a real-world example.'],properties:['6 sides and 6 angles.','A regular hexagon has 6 lines of symmetry.','Interior angles sum to 720°. Each angle in a regular hexagon = 120°.','Honeycomb cells, snowflakes, some tiles, nuts and bolts.']},
-  {name:'Octagon',type:'2D shape',questions:['How many sides?','How many lines of symmetry (regular)?','What do interior angles sum to?','Name a real-world example.'],properties:['8 sides and 8 angles.','A regular octagon has 8 lines of symmetry.','Interior angles sum to 1080°. Each angle = 135°.','Stop signs, some bathroom tiles, clock faces.']},
-  {name:'Parallelogram',type:'2D shape',questions:['What is special about its sides?','How many lines of symmetry?','Describe its angles.','How is it different from a rectangle?'],properties:['2 pairs of parallel, equal-length sides.','0 lines of symmetry (unlike a rectangle).','Opposite angles are equal; adjacent angles sum to 180°.','Like a rectangle that has been pushed to the side — no right angles (unless it is a rectangle).']},
-  {name:'Rhombus',type:'2D shape',questions:['What is special about its sides?','How many lines of symmetry?','Describe its angles.','How is it different from a square?'],properties:['All 4 sides are equal length.','2 lines of symmetry (the two diagonals).','Opposite angles are equal; adjacent angles sum to 180°.','Like a square that has been tilted — sides equal but angles are not right angles.']},
-  {name:'Trapezium',type:'2D shape',questions:['What is special about its sides?','How many lines of symmetry?','Describe its angles.','Name a real-world example.'],properties:['Exactly 1 pair of parallel sides.','An isosceles trapezium has 1 line of symmetry; a general trapezium has none.','Angles on the same side between the parallel sides add to 180°.','A bridge support, cross-section of a canal, some table shapes.']},
-  {name:'Cube',type:'3D shape',questions:['How many faces, edges and vertices?','What shape are the faces?','How many lines of symmetry?','Name a real-world example.'],properties:['6 faces, 12 edges, 8 vertices.','All faces are squares.','A cube has 9 planes of symmetry.','A dice, a Rubik\'s Cube, sugar cubes.']},
-  {name:'Cuboid',type:'3D shape',questions:['How many faces, edges and vertices?','What shape are the faces?','How is it different from a cube?','Name a real-world example.'],properties:['6 faces, 12 edges, 8 vertices.','Faces are rectangles (some may be squares).','Sides are not all equal — length, width and height can differ.','A cereal box, a book, a brick.']},
-  {name:'Cylinder',type:'3D shape',questions:['How many faces, edges and vertices?','Describe the faces.','Does it have any curved surfaces?','Name a real-world example.'],properties:['2 flat circular faces, 1 curved surface. 0 vertices, 2 curved edges.','Two circles at the top and bottom.','Yes — the curved surface wraps around the side.','A tin can, a toilet roll, a rolling pin.']},
-  {name:'Sphere',type:'3D shape',questions:['How many faces, edges and vertices?','What is special about every point on its surface?','Is it the same as a circle?','Name a real-world example.'],properties:['1 curved surface. 0 flat faces, 0 edges, 0 vertices.','Every point on the surface is the same distance from the centre.','No — a circle is 2D; a sphere is the 3D version.','A football, a marble, the Earth, bubbles.']},
-  {name:'Cone',type:'3D shape',questions:['How many faces, edges and vertices?','Describe the faces.','Where is the apex?','Name a real-world example.'],properties:['1 flat circular face, 1 curved surface. 1 vertex (the apex). 1 curved edge.','A circular base and a curved surface tapering to a point.','The apex is the sharp point at the top.','An ice cream cone, a party hat, a traffic cone.']},
-  {name:'Triangular Prism',type:'3D shape',questions:['How many faces, edges and vertices?','What shapes are the faces?','What is a cross-section?','Name a real-world example.'],properties:['5 faces, 9 edges, 6 vertices.','2 triangular faces and 3 rectangular faces.','A triangular cross-section all the way along — the same shape at each end.','A Toblerone box, a tent, a door wedge.']},
-  {name:'Square-Based Pyramid',type:'3D shape',questions:['How many faces, edges and vertices?','What shapes are the faces?','Where is the apex?','Name a real-world example.'],properties:['5 faces, 8 edges, 5 vertices.','1 square base and 4 triangular faces.','The apex is the single point at the top.','The Egyptian pyramids, some chocolate shapes.']}
+  // 2D Shapes
+  {name:'Circle',type:'2D shape',questions:['How many sides does it have?','How many corners does it have?','Is it flat or solid?','Can you draw a circle?'],properties:['A circle has 1 curved side.','A circle has 0 corners.','A circle is a flat (2D) shape.','To draw a circle, use a compass or trace around something round.']},
+  {name:'Square',type:'2D shape',questions:['How many sides does it have?','Are all sides the same length?','How many corners does it have?','What do the corners look like?'],properties:['A square has 4 sides.','All 4 sides are the same length.','A square has 4 corners.','The corners are right angles (90 degrees, like the corner of a book).']},
+  {name:'Triangle',type:'2D shape',questions:['How many sides does it have?','How many corners does it have?','Can all sides be different lengths?','What is a triangle with equal sides called?'],properties:['A triangle has 3 sides.','A triangle has 3 corners.','Yes, all sides can be different (scalene), or two sides the same (isosceles), or all sides equal (equilateral).','An equilateral triangle has all sides the same length.']},
+  {name:'Rectangle',type:'2D shape',questions:['How many sides does it have?','Are opposite sides the same?','How many corners does it have?','What is the difference between a rectangle and a square?'],properties:['A rectangle has 4 sides.','Opposite sides are the same length (2 long sides, 2 short sides).','A rectangle has 4 corners.','A square has all sides equal. A rectangle has opposite sides equal.']},
+  {name:'Pentagon',type:'2D shape',questions:['How many sides does a pentagon have?','How many corners does it have?','What does "penta" mean?','Can you find something shaped like a pentagon?'],properties:['A pentagon has 5 sides.','A pentagon has 5 corners.','"Penta" means 5 in Greek.','A pentagon has 5 sides and 5 corners. Think of a 5-sided shape.']},
+  {name:'Hexagon',type:'2D shape',questions:['How many sides does a hexagon have?','How many corners does it have?','What does "hexa" mean?','What is shaped like a hexagon in nature?'],properties:['A hexagon has 6 sides.','A hexagon has 6 corners.','"Hexa" means 6 in Greek.','Honeycomb cells in a beehive are hexagons!']},
+  {name:'Heptagon',type:'2D shape',questions:['How many sides does a heptagon have?','How many corners does it have?','What does "hepta" mean?','Is a heptagon a 2D or 3D shape?'],properties:['A heptagon has 7 sides.','A heptagon has 7 corners.','"Hepta" means 7 in Greek.','A heptagon is a flat (2D) shape.']},
+  {name:'Octagon',type:'2D shape',questions:['How many sides does an octagon have?','How many corners does it have?','What does "octa" mean?','What road sign is an octagon?'],properties:['An octagon has 8 sides.','An octagon has 8 corners.','"Octa" means 8 in Greek.','A stop sign is an octagon!']},
+  // 3D Shapes
+  {name:'Cube',type:'3D shape',questions:['How many faces does a cube have?','What shape is each face?','How many edges does it have?','How many corners (vertices)?'],properties:['A cube has 6 faces.','Each face is a square.','A cube has 12 edges.','A cube has 8 corners (vertices).']},
+  {name:'Cuboid',type:'3D shape',questions:['How many faces does a cuboid have?','What shape are the faces?','What is the difference between a cube and a cuboid?','Can you find something shaped like a cuboid?'],properties:['A cuboid has 6 faces.','Each face is a rectangle (some may be squares).','A cube has all faces the same size. A cuboid has faces of different sizes.','A cereal box and a book are cuboids.']},
+  {name:'Sphere',type:'3D shape',questions:['How many faces does a sphere have?','Is it flat or curved?','How many corners does it have?','What is shaped like a sphere?'],properties:['A sphere has 1 curved face.','A sphere is round in all directions.','A sphere has 0 corners.','A ball, a marble, and the Earth are spheres.']},
+  {name:'Cylinder',type:'3D shape',questions:['How many flat faces does a cylinder have?','What shape are the flat faces?','How many curved faces?','What is shaped like a cylinder?'],properties:['A cylinder has 2 flat faces (circles at top and bottom).','The flat faces are circles.','A cylinder has 1 curved face.','A tin can, a toilet roll, and a pipe are cylinders.']},
+  {name:'Cone',type:'3D shape',questions:['How many flat faces does a cone have?','What shape is the flat face?','What is the point called at the top?','What is shaped like a cone?'],properties:['A cone has 1 flat face (a circle).','The flat face is a circle.','The point at the top is called the apex.','An ice cream cone and a traffic cone are cones.']},
+  {name:'Pyramid',type:'3D shape',questions:['How many triangular faces does a square pyramid have?','What shape is the base?','What is the point at the top called?','What famous building is a pyramid?'],properties:['A square pyramid has 4 triangular faces.','The base is a square.','The point at the top is called the apex.','The Egyptian pyramids are famous pyramids!']}
 ];
 
 // ═══════════════════════════════════════════════════════════
-// ESTIMATION STATION BANK
+// ESTIMATION STATION BANK - YEAR 2 (Age 6-7)
+// Simple estimation within 100, counting, measuring
 // ═══════════════════════════════════════════════════════════
 const ESTIMATION=[
+  // Counting objects
   {question:'How many children are in your class?',answer:'Count them!',explanation:'Look around and count each person.'},
   {question:'How many pencils are in your pencil case?',answer:'Count them!',explanation:'Open your pencil case and count.'},
-  {question:'How many windows are in your classroom?',answer:'Count them!',explanation:'Look around the room and count the windows.'},
-  {question:'How many letters are in your first name?',answer:'Count them!',explanation:'Write your name and count each letter.'},
-  {question:'How many chairs are at your table?',answer:'Count them!',explanation:'Look at your table and count.'},
+  {question:'How many chairs are at your table?',answer:'Count them!',explanation:'Look at your table and count the chairs.'},
   {question:'How many books are in your book bag?',answer:'Count them!',explanation:'Open your bag and count.'},
-  {question:'How many steps from your desk to the door?',answer:'Walk and count!',explanation:'Walk to the door and count your steps.'},
-  {question:'How many fingers do you have on both hands?',answer:'10 fingers!',explanation:'You have 5 fingers on each hand, so 5 + 5 = 10.'},
-  {question:'How many toes do you have?',answer:'10 toes!',explanation:'You have 5 toes on each foot, so 5 + 5 = 10.'},
-  {question:'How many months are in a year?',answer:'12 months.',explanation:'January, February, March, April, May, June, July, August, September, October, November, December.'},
-  {question:'How many days are in a week?',answer:'7 days.',explanation:'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday.'},
-  {question:'How many hours are in a day?',answer:'24 hours.',explanation:'12 hours in the morning, 12 hours in the afternoon and evening.'},
-  {question:'How many minutes are in an hour?',answer:'60 minutes.',explanation:'The long hand goes all the way around the clock in 60 minutes.'},
-  {question:'How many corners does a square have?',answer:'4 corners.',explanation:'Count each corner of a square: top left, top right, bottom left, bottom right.'},
-  {question:'How many sides does a triangle have?',answer:'3 sides.',explanation:'A triangle has 3 sides: one, two, three!'},
-  {question:'How many sides does a rectangle have?',answer:'4 sides.',explanation:'A rectangle has 4 sides: 2 long sides and 2 short sides.'},
-  {question:'How many wheels does a car have?',answer:'4 wheels.',explanation:'Most cars have 4 wheels.'},
-  {question:'How many wheels does a bicycle have?',answer:'2 wheels.',explanation:'A bicycle has 2 wheels: one at the front and one at the back.'},
-  {question:'How many legs does a dog have?',answer:'4 legs.',explanation:'Dogs walk on 4 legs.'},
-  {question:'How many legs does a spider have?',answer:'8 legs.',explanation:'Spiders have 8 legs! Count them: 4 on one side, 4 on the other.'},
-  {question:'How many legs does a bird have?',answer:'2 legs.',explanation:'Birds have 2 legs for walking and 2 wings for flying.'},
-  {question:'How many eyes do you have?',answer:'2 eyes.',explanation:'You have one eye on each side of your nose.'},
-  {question:'How many ears do you have?',answer:'2 ears.',explanation:'You have one ear on each side of your head.'},
-  {question:'How many hands do you have?',answer:'2 hands.',explanation:'You have a left hand and a right hand.'},
-  {question:'How many letters are in the word CAT?',answer:'3 letters.',explanation:'C-A-T spells cat with 3 letters.'},
-  {question:'How many letters are in the word SCHOOL?',answer:'6 letters.',explanation:'S-C-H-O-O-L spells school with 6 letters.'},
-  {question:'How many letters are in the word FRIEND?',answer:'6 letters.',explanation:'F-R-I-E-N-D spells friend with 6 letters.'},
-  {question:'How many cubes long is your pencil?',answer:'Use cubes to measure!',explanation:'Line up cubes next to your pencil and count them.'},
-  {question:'How many jumps can you do in 10 seconds?',answer:'Try jumping!',explanation:'Count your jumps while someone times 10 seconds.'},
-  {question:'How many times can you clap in 5 seconds?',answer:'Try clapping!',explanation:'Clap and count while someone times 5 seconds.'}
 
+  // Fingers and hands
+  {question:'How many fingers do you have on both hands?',answer:'10 fingers!',explanation:'You have 5 fingers on each hand, so 5 + 5 = 10.'},
+  {question:'How many toes do you have on both feet?',answer:'10 toes!',explanation:'You have 5 toes on each foot, so 5 + 5 = 10.'},
+
+  // Days and time
+  {question:'How many days are in a week?',answer:'7 days',explanation:'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday.'},
+  {question:'How many months are in a year?',answer:'12 months',explanation:'January, February, March, April, May, June, July, August, September, October, November, December.'},
+  {question:'How many hours are in a day?',answer:'24 hours',explanation:'12 hours in the morning, 12 hours in the afternoon and evening.'},
+  {question:'How many minutes are in an hour?',answer:'60 minutes',explanation:'The long hand goes all the way around the clock in 60 minutes.'},
+
+  // Shapes
+  {question:'How many corners does a square have?',answer:'4 corners',explanation:'Count each corner: top left, top right, bottom left, bottom right.'},
+  {question:'How many sides does a triangle have?',answer:'3 sides',explanation:'A triangle has 3 sides: one, two, three!'},
+  {question:'How many sides does a rectangle have?',answer:'4 sides',explanation:'A rectangle has 4 sides: 2 long sides and 2 short sides.'},
+  {question:'How many corners does a triangle have?',answer:'3 corners',explanation:'A triangle has 3 corners where the sides meet.'},
+
+  // Simple measuring
+  {question:'How many cubes long is your pencil?',answer:'Use cubes to measure!',explanation:'Line up cubes next to your pencil and count them.'},
+  {question:'How many hand spans wide is your desk?',answer:'Use your hands to measure!',explanation:'Put your hands side by side across the desk and count.'},
+  {question:'How many steps from your desk to the door?',answer:'Walk and count!',explanation:'Walk from your desk to the door and count your steps.'},
+
+  // Numbers
+  {question:'How many letters are in your first name?',answer:'Count them!',explanation:'Write your name and count each letter.'},
+  {question:'How many letters are in the word SCHOOL?',answer:'6 letters',explanation:'S-C-H-O-O-L spells school with 6 letters.'},
+  {question:'How many letters are in the word FRIEND?',answer:'6 letters',explanation:'F-R-I-E-N-D spells friend with 6 letters.'},
+
+  // Skip counting
+  {question:'Count in 2s: 2, 4, 6, ... What comes next?',answer:'8',explanation:'2, 4, 6, 8 - we are counting in 2s!'},
+  {question:'Count in 5s: 5, 10, 15, ... What comes next?',answer:'20',explanation:'5, 10, 15, 20 - we are counting in 5s!'},
+  {question:'Count in 10s: 10, 20, 30, ... What comes next?',answer:'40',explanation:'10, 20, 30, 40 - we are counting in 10s!'},
+
+  // Real-world
+  {question:'How many wheels does a car have?',answer:'4 wheels',explanation:'Most cars have 4 wheels - one at each corner.'},
+  {question:'How many wheels does a bicycle have?',answer:'2 wheels',explanation:'A bicycle has 2 wheels - one at the front and one at the back.'},
+  {question:'How many legs does a dog have?',answer:'4 legs',explanation:'Dogs walk on 4 legs.'},
+  {question:'How many legs does a spider have?',answer:'8 legs',explanation:'Spiders have 8 legs! Count them: 4 on one side, 4 on the other.'},
+  {question:'How many legs does a bird have?',answer:'2 legs',explanation:'Birds have 2 legs for walking and 2 wings for flying.'},
+
+  // Money
+  {question:'How many pennies make £1?',answer:'100 pennies',explanation:'100 pennies = £1. We can write 100p or £1.'},
+  {question:'How many 10p coins make £1?',answer:'10 coins',explanation:'10 × 10p = 100p = £1.'}
 ];
 
 // ═══════════════════════════════════════════════════════════
-// MAP CHALLENGE BANK
+// MAP CHALLENGE BANK - YEAR 2 (Age 6-7)
+// UK countries, continents, oceans, weather, seasons, local area
 // ═══════════════════════════════════════════════════════════
 const MAP_CHALLENGE=[
-  // ── SOUTH AMERICA (Y4 Geography core) ─────────────────────
-  {country:'Brazil',facts:['It is the largest country in South America.','The Amazon rainforest, which covers much of the north, is the world\'s largest tropical rainforest.','Brazil is the only country in South America where Portuguese is the main language.'],questions:['What continent is Brazil in?','Is Brazil in the northern or southern hemisphere?','What is the capital city of Brazil?'],answers:['South America.','Mostly the southern hemisphere (though part of the north crosses the Equator).','Brasília (not Rio de Janeiro — that\'s the most famous city, but not the capital!).']},
-  {country:'Peru',facts:['Peru lies on the western coast of South America, bordering the Pacific Ocean.','The Andes mountain range runs along Peru\'s western side — it is the world\'s longest mountain range.','The Amazon River has its source in the mountains of Peru before flowing east across Brazil.'],questions:['What continent is Peru in?','Name two countries that border Peru.','What is the capital city of Peru?'],answers:['South America.','Any two of: Brazil, Colombia, Ecuador, Bolivia, Chile.','Lima.']},
-  {country:'Colombia',facts:['Colombia is the only country in South America with coastlines on both the Pacific Ocean and the Caribbean Sea.','The Andes mountain range passes through the west of the country.','Colombia is one of the world\'s biggest producers of coffee and cut flowers.'],questions:['What continent is Colombia in?','Is Colombia closer to the Equator or the Tropic of Capricorn?','What is the capital city of Colombia?'],answers:['South America.','The Equator — Colombia is very close to it and sits in the tropical zone.','Bogotá.']},
-  {country:'Ecuador',facts:['Ecuador sits right on the Equator — in fact, its name means \'equator\' in Spanish!','The Galápagos Islands, famous for their unique wildlife, belong to Ecuador.','Ecuador is one of the smaller countries in South America, but it has huge biodiversity.'],questions:['What continent is Ecuador in?','Why is Ecuador\'s name appropriate for where it is?','Name a country that borders Ecuador.'],answers:['South America.','Because it sits on the Equator — \'Ecuador\' is Spanish for \'equator\'.','Colombia (to the north) or Peru (to the south).']},
-  {country:'Bolivia',facts:['Bolivia is a landlocked country — it has no coastline.','La Paz is one of the highest capital cities in the world, sitting in the Andes mountains.','Bolivia contains part of the Amazon basin and is rich in biodiversity.'],questions:['What continent is Bolivia in?','What does \'landlocked\' mean?','Name a country that borders Bolivia.'],answers:['South America.','It means the country has no coastline — it is completely surrounded by other countries on land.','Any of: Peru, Brazil, Argentina, Chile, Paraguay.']},
-  {country:'Chile',facts:['Chile is one of the world\'s longest and narrowest countries, stretching nearly 4,300 km from north to south.','The Atacama Desert in northern Chile is one of the driest places on Earth.','The Andes mountain range forms Chile\'s eastern border with Argentina.'],questions:['What continent is Chile in?','Is Chile to the east or west coast of South America?','What is the capital city of Chile?'],answers:['South America.','West coast — it borders the Pacific Ocean.','Santiago.']},
-  {country:'Venezuela',facts:['Venezuela is in the north of South America, on the Caribbean coast.','Angel Falls in Venezuela is the world\'s highest uninterrupted waterfall.','The Orinoco is one of South America\'s major rivers, flowing through Venezuela.'],questions:['What continent is Venezuela in?','Which ocean or sea does Venezuela border in the north?','Name a country that borders Venezuela.'],answers:['South America.','The Caribbean Sea (part of the Atlantic Ocean).','Any of: Colombia, Brazil, Guyana.']},
-  {country:'Argentina',facts:['Argentina is the second largest country in South America.','The Pampas — vast flat grasslands — cover much of central Argentina.','Argentina is in the southern hemisphere, so its seasons are opposite to ours in the UK.'],questions:['What continent is Argentina in?','Why are Argentina\'s seasons opposite to the UK\'s?','What is the capital city of Argentina?'],answers:['South America.','Because it is in the southern hemisphere — when the UK has winter, Argentina has summer.','Buenos Aires.']},
-  // ── UK & LONDON (Y4 Geography core) ───────────────────────
-  {country:'London, England',facts:['London is the capital city of England and the United Kingdom.','The River Thames flows through the centre of London from west to east.','London is home to famous landmarks including the Palace of Westminster, Tower of London and Buckingham Palace.'],questions:['In which country is London?','Name the river that flows through London.','Name one South-East English county that borders Greater London.'],answers:['England (and the United Kingdom).','The River Thames.','Any of: Kent, Surrey, Essex, Hertfordshire, Berkshire.']},
-  {country:'South-East England',facts:['The South-East is one of England\'s most densely populated regions.','The White Cliffs of Dover in Kent face the English Channel and France.','The South-East includes counties such as Kent, Surrey, Sussex, Essex, Buckinghamshire and Hampshire.'],questions:['Name the capital city of England (in the South-East).','Name the body of water between South-East England and France.','Name two South-East counties.'],answers:['London.','The English Channel (or Strait of Dover at the narrowest point).','Any two of: Kent, Surrey, East Sussex, West Sussex, Essex, Buckinghamshire, Hampshire, Berkshire, Oxfordshire.']},
-  {country:'England',facts:['England is the largest of the four countries that make up the United Kingdom.','Significant English cities include London, Bristol, Manchester, Birmingham, Leeds, Sheffield, Liverpool and Newcastle.','The Lake District in the north-west and the Peak District in the north are famous national parks.'],questions:['Name the four countries that make up the United Kingdom.','Name the national park in north-west England known for its lakes.','What is the capital city of England?'],answers:['England, Scotland, Wales and Northern Ireland.','The Lake District.','London.']},
-  // ── MEXICO / MAYAN GEOGRAPHY (Y4 History contrast unit) ───
-  {country:'Mexico',facts:['Mexico is in North America, directly south of the United States.','The ancient Maya and Aztec civilisations both flourished in what is now Mexico.','Mexico is home to over 60 volcanoes, some still active today.'],questions:['What continent is Mexico in?','Which ancient civilisation built pyramids in Mexico?','Name a country that borders Mexico to the south.'],answers:['North America.','The Maya (and the Aztecs). The Mayan civilisation is one we study in Year 4.','Guatemala or Belize.']},
-  {country:'Guatemala',facts:['Guatemala is in Central America, directly south of Mexico.','It was the heartland of the ancient Maya civilisation — many Mayan temples are here.','Lake Atitlán in Guatemala is one of the most beautiful volcanic lakes in the world.'],questions:['What region is Guatemala in?','Which ancient civilisation is closely linked to Guatemala?','What country is directly to the north of Guatemala?'],answers:['Central America (between North and South America).','The Maya — many of their greatest cities were built in what is now Guatemala.','Mexico.']},
-  // ── REST OF WORLD (general knowledge) ─────────────────────
-  {country:'Brazil — Rainforest Deep Dive',facts:['The Amazon rainforest produces around 20% of the world\'s oxygen.','The soil in the Amazon rainforest is actually not very fertile — nutrients are stored in the plants, not the ground.','Deforestation is destroying large areas of rainforest for farming and roads.'],questions:['Where is the Amazon rainforest mainly found?','Why is Amazon soil surprisingly poor for farming once the forest is cleared?','What is deforestation?'],answers:['Mainly in Brazil, with parts in Peru, Colombia and other South American countries.','Because nutrients are held in the vegetation itself, not in the soil — once trees are removed the soil is quickly exhausted.','The large-scale cutting down of forests, usually to clear land for farming or building.']},
-  {country:'France',facts:['France is the largest country in Western Europe by area.','It shares borders with eight countries: Spain, Andorra, Monaco, Italy, Switzerland, Germany, Luxembourg and Belgium.','The River Seine flows through Paris, the capital.'],questions:['What continent is France in?','Name two countries that border France.','What is the capital city of France?'],answers:['Europe.','Any two of: Spain, Andorra, Monaco, Italy, Switzerland, Germany, Luxembourg, Belgium.','Paris.']},
-  {country:'Japan',facts:['Japan is an archipelago — a chain of islands — in the Pacific Ocean.','Mount Fuji is Japan\'s highest peak and an iconic symbol of the country.','The Japanese art tradition of woodblock printing inspired the artist Hokusai, whom we study in Year 4 art.'],questions:['What continent is Japan closest to?','What is an archipelago?','Name one of Japan\'s most famous natural landmarks.'],answers:['Asia.','A group or chain of islands.','Mount Fuji (a dormant volcano).']},
-  {country:'Egypt',facts:['The River Nile flows through Egypt from south to north, emptying into the Mediterranean Sea.','Egypt is home to the Pyramids of Giza, one of the Seven Wonders of the Ancient World.','Most of Egypt is desert — nearly all Egyptians live along the Nile.'],questions:['What continent is Egypt in?','In which direction does the River Nile flow?','What is the capital city of Egypt?'],answers:['Africa.','South to north — unusually, it flows northwards to reach the Mediterranean Sea.','Cairo.']},
-  {country:'India',facts:['India is one of the world\'s most populous countries with over 1.4 billion people.','The Himalaya mountain range forms India\'s northern border.','The Ganges is India\'s most important and sacred river.'],questions:['What continent is India in?','Name the mountain range on India\'s northern border.','What is the capital city of India?'],answers:['Asia.','The Himalayas.','New Delhi.']},
-  {country:'Australia',facts:['Australia is the only country that is also an entire continent.','The Great Barrier Reef — the world\'s largest coral reef system — runs along its north-east coast.','Australia is in the southern hemisphere, so its seasons are the opposite of the UK\'s.'],questions:['What is special about Australia compared to all other countries?','Why are Australia\'s seasons opposite to ours?','What is the capital city of Australia?'],answers:['It is the only country that is also a whole continent on its own.','Because it is in the southern hemisphere.','Canberra (not Sydney — Sydney is the largest city but Canberra is the capital).']}
+  // ── THE UNITED KINGDOM (Y2 Geography) ─────────────────────
+  {country:'The United Kingdom',facts:['The United Kingdom is made up of four countries: England, Scotland, Wales and Northern Ireland.','The UK is an island in Europe.','London is the capital city of England and the UK.'],questions:['How many countries are in the UK?','What are the four countries called?','What is the capital city of England?'],answers:['Four countries.',['England, Scotland, Wales and Northern Ireland.'],'London.']},
+  {country:'England',facts:['England is the largest country in the UK.','The capital city of England is London.','England has cities, countryside, coasts and mountains.'],questions:['What is the biggest country in the UK?','What is the capital city of England?','Name one city in England besides London.'],answers:['England is the biggest.','London.','Bristol, Manchester, Birmingham, Liverpool, Leeds, Sheffield, Newcastle (and others).']},
+  {country:'Scotland',facts:['Scotland is north of England.','The capital city of Scotland is Edinburgh.','Scotland has mountains called the Highlands and lakes called lochs.'],questions:['Where is Scotland?','What is the capital city of Scotland?','What do Scots call a lake?'],answers:['Scotland is north of England.','Edinburgh.','A lake is called a loch in Scotland.']},
+  {country:'Wales',facts:['Wales is west of England.','The capital city of Wales is Cardiff.','Wales has mountains, valleys and coasts.'],questions:['Where is Wales?','What is the capital city of Wales?','Is Wales bigger or smaller than England?'],answers:['Wales is west of England.','Cardiff.','Wales is smaller than England.']},
+  {country:'Northern Ireland',facts:['Northern Ireland is part of the UK.','It is on the island of Ireland.','The capital city of Northern Ireland is Belfast.'],questions:['Is Northern Ireland part of the UK?','What is the capital city of Northern Ireland?','Is Northern Ireland on the same island as England?'],answers:['Yes, Northern Ireland is part of the UK.','Belfast.','No, Northern Ireland is on the island of Ireland. England is on the island of Great Britain.']},
+  // ── THE SEVEN CONTINENTS (Y2 Geography) ─────────────────────
+  {country:'The Seven Continents',facts:['A continent is a very large area of land.','There are seven continents: Africa, Asia, Europe, North America, South America, Australia (Oceania) and Antarctica.','Europe is the continent where we live.'],questions:['What is a continent?','How many continents are there?','Which continent do we live in?'],answers:['A continent is a very large area of land.','Seven continents.',['We live in Europe.']},
+  {country:'Africa',facts:['Africa is a hot continent near the equator.','Africa has deserts, rainforests and savannahs.','Africa has many animals like lions, elephants and giraffes.'],questions:['Is Africa hot or cold?','What is the equator?','Name an animal that lives in Africa.'],answers:['Africa is hot because it is near the equator.','The equator is an imaginary line around the middle of the Earth where it is hottest.',['Lions, elephants, giraffes, zebras, hippos (and many others).']},
+  {country:'Asia',facts:['Asia is the largest continent.','Asia has the most people of any continent.','China and India are countries in Asia.'],questions:['Which is the largest continent?','Which continent has the most people?','Name a country in Asia.'],answers:['Asia is the largest continent.',['Asia has the most people.'],'China or India (and many others like Japan, Thailand, Indonesia).']},
+  {country:'Australia',facts:['Australia is a country and a continent.','Australia has unique animals like kangaroos and koalas.','Australia is in the southern hemisphere.'],questions:['What is special about Australia?','Name an animal that lives in Australia.','Is Australia near the equator?'],answers:['Australia is both a country and a continent.',['Kangaroos, koalas, platypus, emu.'],'Australia is south of the equator.']},
+  // ── OCEANS AND SEAS (Y2 Geography) ─────────────────────────
+  {country:'The Five Oceans',facts:['Oceans are very large areas of salt water.','There are five oceans: Pacific, Atlantic, Indian, Southern and Arctic.','The Pacific Ocean is the largest ocean.'],questions:['What is an ocean?','How many oceans are there?','Which is the largest ocean?'],answers:['An ocean is a very large area of salt water.','Five oceans.',['The Pacific Ocean.']},
+  {country:'Seas and Oceans near the UK',facts:['The UK is an island surrounded by water.','The English Channel separates England from France.','The North Sea is to the east of England.'],questions:['What surrounds the UK?','What sea separates England from France?','What sea is to the east of England?'],answers:['The UK is surrounded by the sea.',['The English Channel.'],'The North Sea.']},
+  // ── WEATHER AND SEASONS (Y2 Geography) ─────────────────────
+  {country:'The Four Seasons',facts:['There are four seasons: spring, summer, autumn and winter.','Each season has different weather.','The seasons are caused by how the Earth moves around the Sun.'],questions:['How many seasons are there?','Name the four seasons.','Why do we have seasons?'],answers:['Four seasons.','Spring, summer, autumn, winter.',['The seasons are caused by how the Earth moves around the Sun.']},
+  {country:'Spring',facts:['Spring comes after winter and before summer.','In spring, flowers grow and trees get new leaves.','Spring weather is warmer than winter but cooler than summer.'],questions:['What season comes after winter?','What happens to trees in spring?','Is spring warmer or colder than winter?'],answers:['Spring comes after winter.',['Trees grow new leaves in spring.'],'Spring is warmer than winter.']},
+  {country:'Summer',facts:['Summer is the warmest season in the UK.','In summer, the days are long and the weather is usually sunny and warm.','We have summer holidays from school.'],questions:['Which season is the warmest?','What are summer days like?','What do we have from school in summer?'],answers:['Summer is the warmest season.',['Summer days are long and usually sunny.'],'We have summer holidays.']},
+  {country:'Autumn',facts:['Autumn comes after summer and before winter.','In autumn, leaves change colour and fall off the trees.','Autumn weather gets cooler.'],questions:['What season comes after summer?','What happens to leaves in autumn?','Is autumn warmer or cooler than summer?'],answers:['Autumn comes after summer.',['Leaves change colour and fall off the trees.'],'Autumn is cooler than summer.']},
+  {country:'Winter',facts:['Winter is the coldest season.','In winter, the days are short and the weather is cold.','We might have snow and frost in winter.'],questions:['Which season is the coldest?','What might we see in winter?','Why do we wear coats in winter?'],answers:['Winter is the coldest season.',['We might see snow and frost.'],'We wear coats because it is cold.']},
+  // ── LOCAL AREA (Y2 Geography) ───────────────────────────────
+  {country:'Maps and Symbols',facts:['A map is a drawing that shows where things are.','Maps use symbols to show things like roads, rivers and buildings.','A key tells us what the symbols mean.'],questions:['What is a map?','What is a symbol on a map?','What does the key on a map tell us?'],answers:['A map is a drawing that shows where things are.',['A symbol is a small picture that stands for something.'],'The key tells us what the symbols mean.']},
+  {country:'Our Local Area',facts:['Our local area includes our school, homes and the places around us.','We can use maps to find places in our local area.','Local areas have shops, parks, schools and houses.'],questions:['What things might be in our local area?','How can we find places in our local area?','What is the name of our school?'],answers:['Shops, parks, schools, houses, libraries, playgrounds.',['We can use maps to find places.'],'(Ask your teacher!)']}
 ];
 
 // ═══════════════════════════════════════════════════════════
@@ -1183,29 +1199,41 @@ const TIMELINE_SETS=[
 ];
 
 // ═══════════════════════════════════════════════════════════
-// WOULD YOU RATHER (MATHS) BANK
+// WOULD YOU RATHER (MATHS) BANK - YEAR 2 (Age 6-7)
+// 2, 5, 10 times tables, fractions (1/2, 1/4), money, length in cm/m
 // ═══════════════════════════════════════════════════════════
 const WOULD_YOU_RATHER=[
-  {question:'Would you rather have…',optA:'£5 a day for 10 days',optB:'£1 doubled each day for 6 days',workingA:'£5 × 10 = £50',workingB:'Day 1: £1, Day 2: £2, Day 3: £4, Day 4: £8, Day 5: £16, Day 6: £32. Total = £63!',answer:'Option B — doubling wins! £63 > £50. Doubling (exponential growth) beats steady saving.'},
-  {question:'Would you rather have…',optA:'10% of £200',optB:'25% of £80',workingA:'10% of £200 = £200 ÷ 10 = £20',workingB:'25% of £80 = £80 ÷ 4 = £20',answer:'They are equal! Both give exactly £20.'},
-  {question:'Would you rather have the bigger area: …',optA:'A square with sides of 8 cm',optB:'A rectangle 12 cm × 5 cm',workingA:'Area = 8 × 8 = 64 cm²',workingB:'Area = 12 × 5 = 60 cm²',answer:'Option A — the square has the bigger area: 64 cm² vs 60 cm².'},
-  {question:'Would you rather have…',optA:'1/2 of 120',optB:'2/3 of 90',workingA:'1/2 of 120 = 60',workingB:'2/3 of 90 = 90 ÷ 3 × 2 = 60',answer:'They are equal! Both give exactly 60.'},
-  {question:'Would you rather run…',optA:'8 laps of a 400 m track',optB:'3.5 km in total',workingA:'8 × 400 m = 3,200 m = 3.2 km',workingB:'3.5 km = 3,500 m',answer:'Option A is shorter — 3,200 m vs 3,500 m. Choose 8 laps!'},
-  {question:'Would you rather save…',optA:'20p every day for a year (365 days)',optB:'£60 in one go',workingA:'20p × 365 = 7,300p = £73.00',workingB:'£60 in one go',answer:'Option A — saving 20p daily for a year gives £73, which beats £60.'},
-  {question:'Would you rather have the bigger perimeter: …',optA:'A square with sides of 9 cm',optB:'A rectangle 14 cm × 3 cm',workingA:'Perimeter = 4 × 9 = 36 cm',workingB:'Perimeter = 2 × (14 + 3) = 2 × 17 = 34 cm',answer:'Option A — the square has the bigger perimeter: 36 cm vs 34 cm.'},
-  {question:'Would you rather have…',optA:'30% of £90',optB:'A quarter of £100',workingA:'30% of £90 = £90 ÷ 10 × 3 = £27',workingB:'¼ of £100 = £25',answer:'Option A — 30% of £90 = £27, which is more than ¼ of £100 = £25.'},
-  {question:'Would you rather eat…',optA:'3/4 of a 400 g pizza',optB:'2/3 of a 450 g pizza',workingA:'3/4 of 400 g = 300 g',workingB:'2/3 of 450 g = 300 g',answer:'They are equal! Both give exactly 300 g.'},
-  {question:'Would you rather receive pocket money: …',optA:'£3.50 per week for 12 weeks',optB:'£3 per week for 13 weeks',workingA:'£3.50 × 12 = £42',workingB:'£3 × 13 = £39',answer:'Option A — £42 is more than £39.'},
-  {question:'Would you rather have the taller stack of books: …',optA:'12 books each 2.5 cm thick',optB:'8 books each 4 cm thick',workingA:'12 × 2.5 cm = 30 cm',workingB:'8 × 4 cm = 32 cm',answer:'Option B — 32 cm is taller than 30 cm.'},
-  {question:'Would you rather have…',optA:'50% of 144',optB:'Three-quarters of 100',workingA:'50% of 144 = 72',workingB:'3/4 of 100 = 75',answer:'Option B — 75 is more than 72.'},
-  {question:'Would you rather travel…',optA:'Twice as fast, but for half as long',optB:'Stay at the same speed for the same time',workingA:'If normal = d miles, twice the speed for half the time = same distance.',workingB:'Normal speed = same distance.',answer:'They are equal! Doubling speed and halving time means you travel the same distance.'},
-  {question:'Would you rather share…',optA:'£72 equally between 9 people',optB:'£56 equally between 7 people',workingA:'£72 ÷ 9 = £8 each',workingB:'£56 ÷ 7 = £8 each',answer:'They are equal! Both give £8 per person.'},
-  {question:'Would you rather have the bigger volume: …',optA:'A box 6 cm × 4 cm × 5 cm',optB:'A box 5 cm × 5 cm × 4 cm',workingA:'Volume = 6 × 4 × 5 = 120 cm³',workingB:'Volume = 5 × 5 × 4 = 100 cm³',answer:'Option A — 120 cm³ is bigger than 100 cm³.'},
-  {question:'Would you rather have…',optA:'60% of 60',optB:'40% of 90',workingA:'60% of 60 = 36',workingB:'40% of 90 = 36',answer:'They are equal! Both give exactly 36.'},
-  {question:'Would you rather buy…',optA:'3 books at £4.75 each',optB:'5 books at £2.85 each',workingA:'3 × £4.75 = £14.25',workingB:'5 × £2.85 = £14.25',answer:'They cost the same! Both come to £14.25.'},
-  {question:'Would you rather have the longer total: …',optA:'7 ropes, each 1 m 30 cm long',optB:'6 ropes, each 1 m 55 cm long',workingA:'7 × 130 cm = 910 cm',workingB:'6 × 155 cm = 930 cm',answer:'Option B — 930 cm (9.3 m) is longer than 910 cm (9.1 m).'},
-  {question:'Would you rather score…',optA:'80% in a 50-question test',optB:'3/4 of marks in a 60-question test',workingA:'80% of 50 = 40 questions correct',workingB:'3/4 of 60 = 45 questions correct',answer:'Option B — 45 correct is a better score than 40 correct.'},
-  {question:'Would you rather have the more efficient journey: …',optA:'120 km in 2 hours',optB:'200 km in 4 hours',workingA:'Speed = 120 ÷ 2 = 60 km/h',workingB:'Speed = 200 ÷ 4 = 50 km/h',answer:'Option A is faster — 60 km/h vs 50 km/h.'}
+  // 2 times table
+  {question:'Which is more?',optA:'2 × 4 pencils',optB:'2 × 6 pencils',workingA:'2 × 4 = 8 pencils',workingB:'2 × 6 = 12 pencils',answer:'12 is more than 8. Option B gives more pencils!'},
+  {question:'Which is more?',optA:'2 × 5 sweets',optB:'2 × 3 sweets',workingA:'2 × 5 = 10 sweets',workingB:'2 × 3 = 6 sweets',answer:'10 is more than 6. Option A gives more sweets!'},
+  // 5 times table
+  {question:'Which is more?',optA:'5 × 3 apples',optB:'5 × 2 apples',workingA:'5 × 3 = 15 apples',workingB:'5 × 2 = 10 apples',answer:'15 is more than 10. Option A gives more apples!'},
+  {question:'Which is more?',optA:'5 × 4 oranges',optB:'5 × 6 oranges',workingA:'5 × 4 = 20 oranges',workingB:'5 × 6 = 30 oranges',answer:'30 is more than 20. Option B gives more oranges!'},
+  // 10 times table
+  {question:'Which is more?',optA:'10 × 3 pennies',optB:'10 × 2 pennies',workingA:'10 × 3 = 30 pennies',workingB:'10 × 2 = 20 pennies',answer:'30 is more than 20. Option A gives more pennies!'},
+  {question:'Which is more?',optA:'10 × 5 stickers',optB:'10 × 7 stickers',workingA:'10 × 5 = 50 stickers',workingB:'10 × 7 = 70 stickers',answer:'70 is more than 50. Option B gives more stickers!'},
+  // Addition within 100
+  {question:'Which is more?',optA:'25 + 13',optB:'30 + 5',workingA:'25 + 13 = 38',workingB:'30 + 5 = 35',answer:'38 is more than 35. Option A is more!'},
+  {question:'Which is more?',optA:'40 + 20',optB:'35 + 30',workingA:'40 + 20 = 60',workingB:'35 + 30 = 65',answer:'65 is more than 60. Option B is more!'},
+  // Money
+  {question:'Which is more money?',optA:'50p + 20p',optB:'40p + 35p',workingA:'50 + 20 = 70p',workingB:'40 + 35 = 75p',answer:'75p is more than 70p!'},
+  {question:'Which is more money?',optA:'£1 (100p)',optB:'80p',workingA:'£1 = 100p',workingB:'80p',answer:'100p is more than 80p! £1 is more!'},
+  {question:'Which is more money?',optA:'30p + 40p',optB:'50p + 25p',workingA:'30 + 40 = 70p',workingB:'50 + 25 = 75p',answer:'75p is more than 70p!'},
+  // Half
+  {question:'Which is half of 16?',optA:'8',optB:'6',workingA:'16 ÷ 2 = 8',workingB:'6 × 2 = 12, not 16',answer:'Half of 16 is 8!'},
+  {question:'Which is more?',optA:'Half of 20',optB:'Half of 12',workingA:'20 ÷ 2 = 10',workingB:'12 ÷ 2 = 6',answer:'Half of 20 is 10, half of 12 is 6. 10 is more!'},
+  // Quarter
+  {question:'Which is a quarter of 16?',optA:'4',optB:'8',workingA:'16 ÷ 4 = 4',workingB:'8 × 4 = 32, not 16',answer:'A quarter of 16 is 4!'},
+  {question:'Which is more?',optA:'A quarter of 20',optB:'A quarter of 16',workingA:'20 ÷ 4 = 5',workingB:'16 ÷ 4 = 4',answer:'A quarter of 20 is 5, a quarter of 16 is 4. 5 is more!'},
+  // Length in cm
+  {question:'Which is longer?',optA:'A pencil 15 cm',optB:'A pencil 12 cm',workingA:'15 cm',workingB:'12 cm',answer:'15 cm is longer than 12 cm!'},
+  {question:'Which is longer?',optA:'A ribbon 50 cm',optB:'A ribbon 80 cm',workingA:'50 cm',workingB:'80 cm',answer:'80 cm is longer than 50 cm!'},
+  // Length comparing cm and m
+  {question:'Which is longer?',optA:'100 cm',optB:'1 metre',workingA:'100 cm = 1 m',workingB:'1 m = 100 cm',answer:'They are equal! 100 cm = 1 metre.'},
+  {question:'Which is shorter?',optA:'50 cm',optB:'1 metre',workingA:'50 cm',workingB:'1 m = 100 cm',answer:'50 cm is shorter than 1 metre (100 cm)!'},
+  // Time
+  {question:'Which is more minutes?',optA:'Half an hour',optB:'20 minutes',workingA:'Half an hour = 30 minutes',workingB:'20 minutes',answer:'30 minutes is more than 20 minutes!'},
+  {question:'Which is longer?',optA:'60 minutes',optB:'1 hour',workingA:'60 minutes',workingB:'1 hour = 60 minutes',answer:'They are equal! 60 minutes = 1 hour.'}
 ];
 
 // ═══════════════════════════════════════════════════════════
