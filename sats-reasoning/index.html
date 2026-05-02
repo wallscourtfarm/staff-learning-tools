@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KS2 SATs Reasoning — Question Generator</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 0; background: #f0f0f0; font-family: Arial, sans-serif; }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useCallback, useRef, useEffect } = React;
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
+    const SYSTEM_PROMPT = `You are an expert KS2 mathematics question writer. Generate SATs-style reasoning questions that look and feel exactly like genuine KS2 SATs papers (Papers 2 and 3).
+
+Return ONLY a valid JSON array — no markdown fences, no explanation, nothing else.
+
+Each element has this shape:
+{
+  "id": 1,
+  "marks": 1,
+  "type": "write-answer",
+  "questionText": "Question text here.",
+  "answerLabel": "km",
+  "showMethod": false,
+  "hasGrid": false,
+  "gridType": null,
+  "gridConfig": null,
+  "options": null,
+  "table": null,
+  "parts": null,
+  "answer": "correct answer",
+  "markScheme": "Brief mark scheme note"
+}
+
+TYPES (use exact string):
+- "write-answer"    — pupil writes in answer box
+- "tick-options"    — tick one or more; options = ["opt1","opt2","opt3","opt4"]
+- "circle-options"  — circle one from a horizontal list; options = ["a","b","c","d","e"]
+- "match"           — draw lines; options = {"left":["A","B","C"],"right":["X","Y","Z"]}
+- "order"           — arrange in order; options = ["3.2","0.7","1.05","2.8"]
+- "explain"         — write an explanation (no answer box needed)
+- "complete-table"  — table with blanks; table = {"headers":["col1","col2"],"rows":[[1,null],[null,4]]}
+- "sequence"        — fill missing terms; options = [100,null,300,null,500]  (null = blank)
+- "draw-on-grid"    — coordinate grid; hasGrid:true, gridType:"coordinate", gridConfig:{...}
+- "number-line"     — number line; hasGrid:true, gridType:"number-line", gridConfig:{...}
+- "multi-part"      — two sub-questions; parts = [{letter:"a",questionText:"...",answerLabel:"",marks:1,showMethod:false,answer:""},{letter:"b",...}]
+
+gridConfig for coordinate:
+{"xMin":0,"xMax":10,"yMin":0,"yMax":10,"points":[{"label":"A","x":3,"y":5}],"mirrorLine":null}
+mirrorLine: "vertical" | "horizontal" | null
+
+gridConfig for number-line:
+{"min":0,"max":1,"marked":[0,0.5,1],"labels":["0","0.5","1"]}
+
+Set showMethod:true when marks >= 2.
+Vary question types — never make all "write-answer". Generate exactly the count requested.`;
+
+    // ── Curriculum scope by year group (CLF / NC KS2 maths) ─────────────────
+
+    const CURRICULUM = {
+      Y3: {
+        label: "Year 3",
+        scope: `Year 3 maths curriculum scope (pitch questions here):
+- Number & Place Value: 3-digit numbers; round to nearest 10/100; locate on number line; compare and order
+- Addition & Subtraction: column methods with 3-digit numbers including regrouping; mental strategies (partitioning, bridging, adjusting)
+- Multiplication & Division: rapid recall of 2, 4, 8 times tables; 3 and 6 times tables introduced; multiply/divide 2-digit by 1-digit; distributive law informally
+- Fractions: unit and non-unit fractions; compare and order fractions with same denominator; add/subtract fractions with same denominator; fractions of amounts
+- Measurement: length (m/cm/mm); mass (kg/g); capacity (l/ml); convert between units; perimeter of simple shapes
+- Time: tell time to nearest minute; 24-hour clock; Roman numerals; calculate durations
+- Geometry: right angles; parallel and perpendicular lines; classify triangles and quadrilaterals; horizontal/vertical
+- Statistics: bar charts, pictograms, tables — interpret scales; create from data
+IMPORTANT: Use only 3-digit numbers for place value. No decimals. No coordinates. No negative numbers. Keep contexts simple and concrete.`
+      },
+      Y4: {
+        label: "Year 4",
+        scope: `Year 4 maths curriculum scope (pitch questions here):
+- Number & Place Value: 4-digit numbers; round to nearest 10/100/1000; negative numbers in context; number lines
+- Addition & Subtraction: column addition/subtraction with 4-digit numbers including multiple regroupings
+- Multiplication & Division: all times tables to 12×12 (rapid recall); factor pairs; multiply/divide by 10 and 100; short multiplication and division introduced; distributive law
+- Fractions: mixed numbers and improper fractions — convert between; add/subtract fractions crossing the whole; fractions of amounts
+- Coordinates: first quadrant only; plot, read and describe positions; translations
+- Geometry: classify triangles (scalene, isosceles, equilateral); lines of symmetry; reflections; properties of rectangles/squares
+- Measurement: convert between units (×1000); perimeter of regular and irregular polygons; area by counting squares; money (£/p)
+- Statistics: bar charts and line graphs — read and interpret scales; collect, present and discuss data
+IMPORTANT: Coordinates in first quadrant only (no negatives). Use 4-digit numbers. Fractions may include mixed numbers and improper fractions.`
+      },
+      Y5: {
+        label: "Year 5",
+        scope: `Year 5 maths curriculum scope (pitch questions here):
+- Number & Place Value: 5- and 6-digit numbers; powers of 10; decimals to hundredths; negative numbers on number lines
+- Addition & Subtraction: add/subtract decimals; mental strategies (compensation, adjusting, near-doubles)
+- Multiplication & Division: short multiplication and short division; factors, multiples, prime numbers, square numbers, cube numbers
+- Fractions: multiply a proper fraction by a whole number; fractions of quantities including non-unit fractions; equivalent fractions; convert between fractions and decimals
+- Area & Perimeter: area of rectangles (l×w); area of compound shapes; perimeter of all polygons
+- Volume: count cubes; volume of cuboids
+- Angles: acute, obtuse, reflex; measure and draw with protractor; angles on a straight line = 180°; angles around a point = 360°
+- Geometry: regular and irregular polygons; properties of 3D shapes; nets of 3D shapes
+- Statistics: line graphs; reading pie charts (begin); mean average
+IMPORTANT: Include decimals. Use larger numbers (5–6 digits). Introduce angles and volume. Fractions converted to/from decimals.`
+      },
+      Y6: {
+        label: "Year 6",
+        scope: `Year 6 maths curriculum scope (pitch questions here — this is SATs year):
+- Number & Place Value: numbers to 10 million; round to any power of 10; order/compare integers and decimals
+- Addition & Subtraction: equivalence and compensation strategies; multi-step calculations
+- Multiplication & Division: long multiplication (up to 4-digit × 2-digit); long division (up to 4-digit ÷ 2-digit); multiply/divide fractions
+- Fractions, Decimals & Percentages: add/subtract fractions with different denominators; multiply and divide fractions; convert fluently between fractions, decimals and percentages; find percentage of a value; find the whole
+- Ratio & Proportion: describe ratio relationships; scale; solve proportion problems
+- Algebra: balancing equations; two unknowns; substitution; order of operations (BODMAS)
+- Area: triangles (½bh); perimeter and area consolidation
+- Coordinates: all four quadrants — plot, read, translate, reflect
+- Statistics: construct and interpret pie charts; line graphs; mean, median, mode; two-way tables
+IMPORTANT: Use all four quadrants for coordinates. Include BODMAS, ratio, algebra, percentages. Multi-step problems. Full SATs style and difficulty.`
+      }
+    };
+
+    // ── SVG: Coordinate Grid ─────────────────────────────────────────────────
+
+    function CoordGrid({ cfg }) {
+      const { xMin=0, xMax=10, yMin=0, yMax=10, points=[], mirrorLine=null } = cfg;
+      const cell=30, pad=34;
+      const W=(xMax-xMin)*cell+pad*2, H=(yMax-yMin)*cell+pad*2;
+      const tx=x=>pad+(x-xMin)*cell, ty=y=>H-pad-(y-yMin)*cell;
+
+      const vLines=[], hLines=[];
+      for(let x=xMin;x<=xMax;x++) vLines.push(<line key={x} x1={tx(x)} y1={pad} x2={tx(x)} y2={H-pad} stroke="#ccc" strokeWidth="0.5"/>);
+      for(let y=yMin;y<=yMax;y++) hLines.push(<line key={y} x1={pad} y1={ty(y)} x2={W-pad} y2={ty(y)} stroke="#ccc" strokeWidth="0.5"/>);
+
+      const bx=tx(Math.max(xMin,0)), by=ty(Math.max(yMin,0));
+
+      let mirrorEl=null;
+      if(mirrorLine==='vertical'){const mx=Math.round((xMin+xMax)/2); mirrorEl=<><line x1={tx(mx)} y1={pad} x2={tx(mx)} y2={H-pad} stroke="#888" strokeWidth="1.5" strokeDasharray="6,3"/><text x={tx(mx)} y={pad-6} textAnchor="middle" fontSize="10" fill="#888" fontFamily="Arial">mirror line</text></>;}
+      if(mirrorLine==='horizontal'){const my=Math.round((yMin+yMax)/2); mirrorEl=<><line x1={pad} y1={ty(my)} x2={W-pad} y2={ty(my)} stroke="#888" strokeWidth="1.5" strokeDasharray="6,3"/><text x={pad} y={ty(my)-6} fontSize="10" fill="#888" fontFamily="Arial">mirror line</text></>;}
+
+      return (
+        <svg width={W} height={H} style={{display:"block",margin:"10px 0"}}>
+          {vLines}{hLines}
+          {xMin<=0&&xMax>=0 && <line x1={tx(0)} y1={pad} x2={tx(0)} y2={H-pad} stroke="#333" strokeWidth="1.5"/>}
+          {yMin<=0&&yMax>=0 && <line x1={pad} y1={ty(0)} x2={W-pad} y2={ty(0)} stroke="#333" strokeWidth="1.5"/>}
+          {mirrorEl}
+          {Array.from({length:xMax-xMin+1},(_,i)=>xMin+i).map(x=><text key={x} x={tx(x)} y={by+16} textAnchor="middle" fontSize="10" fill="#333" fontFamily="Arial">{x}</text>)}
+          {Array.from({length:yMax-yMin+1},(_,i)=>yMin+i).map(y=><text key={y} x={bx-14} y={ty(y)+4} textAnchor="middle" fontSize="10" fill="#333" fontFamily="Arial">{y}</text>)}
+          <text x={W-pad+8} y={by+4} fontSize="12" fontStyle="italic" fill="#333" fontFamily="Arial">x</text>
+          <text x={bx} y={pad-8} textAnchor="middle" fontSize="12" fontStyle="italic" fill="#333" fontFamily="Arial">y</text>
+          {points.map((p,i)=><g key={i}><circle cx={tx(p.x)} cy={ty(p.y)} r={4} fill="#1a1a8c"/><text x={tx(p.x)+8} y={ty(p.y)-6} fontSize="11" fontWeight="bold" fill="#1a1a8c" fontFamily="Arial">{p.label||""}</text></g>)}
+        </svg>
+      );
+    }
+
+    // ── SVG: Number Line ─────────────────────────────────────────────────────
+
+    function NumLine({ cfg }) {
+      const { min=0, max=10, marked=[], labels } = cfg;
+      const labs = labels || marked.map(String);
+      const W=420, H=60, pad=28, lY=36;
+      const toX=v=>pad+((v-min)/(max-min))*(W-pad*2);
+      return (
+        <svg width={W} height={H} style={{display:"block",margin:"10px 0"}}>
+          <line x1={pad} y1={lY} x2={W-pad} y2={lY} stroke="#333" strokeWidth="2"/>
+          <polygon points={`${W-pad},${lY} ${W-pad-8},${lY-4} ${W-pad-8},${lY+4}`} fill="#333"/>
+          {marked.map((v,i)=><g key={i}>
+            <line x1={toX(v)} y1={lY-8} x2={toX(v)} y2={lY+8} stroke="#333" strokeWidth="1.5"/>
+            <text x={toX(v)} y={lY+20} textAnchor="middle" fontSize="11" fontFamily="Arial" fill="#333">{labs[i]||String(v)}</text>
+          </g>)}
+        </svg>
+      );
+    }
+
+    // ── Question sub-components ──────────────────────────────────────────────
+
+    const ALine = ({label}) => (
+      <div style={{marginTop:14,display:"flex",alignItems:"baseline",gap:8}}>
+        {label && <span style={{fontSize:15,fontFamily:"Arial"}}>{label}</span>}
+        <span style={{display:"inline-block",width:label&&label.length>2?160:110,borderBottom:"2px solid #333",height:26}}/>
+      </div>
+    );
+
+    const MethodBox = () => (
+      <div style={{border:"1.5px solid #aaa",background:"#f8f8f8",padding:"10px 12px",margin:"14px 0 8px 0",minHeight:72,fontSize:13,color:"#666",fontStyle:"italic"}}>
+        Show your method
+      </div>
+    );
+
+    const QText = ({t}) => <p style={{fontSize:15,fontFamily:"Arial",lineHeight:1.5,margin:"0 0 4px 0"}}>{t}</p>;
+
+    function TickQ({q}){
+      return(<><QText t={q.questionText}/>
+        <div style={{margin:"12px 0 6px"}}>
+          {(q.options||[]).map((o,i)=>(
+            <div key={i} style={{display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
+              <div style={{width:18,height:18,border:"1.5px solid #333",flexShrink:0}}/>
+              <span style={{fontSize:15,fontFamily:"Arial"}}>{o}</span>
+            </div>
+          ))}
+        </div>
+      </>);
+    }
+
+    function CircleQ({q}){
+      return(<><QText t={q.questionText}/>
+        <div style={{display:"flex",gap:20,flexWrap:"wrap",margin:"12px 0 6px",alignItems:"center"}}>
+          {(q.options||[]).map((o,i)=>(
+            <span key={i} style={{fontSize:16,fontFamily:"Arial",border:"1.5px solid #333",borderRadius:40,padding:"4px 14px"}}>{o}</span>
+          ))}
+        </div>
+      </>);
+    }
+
+    function MatchQ({q}){
+      const {left=[],right=[]}=q.options||{};
+      return(<><QText t={q.questionText}/>
+        <div style={{display:"flex",gap:50,margin:"14px 0",alignItems:"flex-start"}}>
+          <div style={{display:"flex",flexDirection:"column",gap:10}}>
+            {left.map((l,i)=><div key={i} style={{border:"1.5px solid #333",padding:"6px 16px",fontSize:15,fontFamily:"Arial",minWidth:110,textAlign:"center"}}>{l}</div>)}
+          </div>
+          <div style={{paddingTop:10,fontSize:12,color:"#999",fontFamily:"Arial"}}>draw lines to match</div>
+          <div style={{display:"flex",flexDirection:"column",gap:10}}>
+            {right.map((r,i)=><div key={i} style={{border:"1.5px solid #333",padding:"6px 16px",fontSize:15,fontFamily:"Arial",minWidth:110,textAlign:"center"}}>{r}</div>)}
+          </div>
+        </div>
+      </>);
+    }
+
+    function OrderQ({q}){
+      const opts=q.options||[];
+      return(<><QText t={q.questionText}/>
+        <div style={{margin:"14px 0"}}>
+          <div style={{display:"flex",gap:18,flexWrap:"wrap",marginBottom:16}}>
+            {opts.map((o,i)=><span key={i} style={{fontSize:16,fontFamily:"Arial",fontWeight:500}}>{o}</span>)}
+          </div>
+          <div style={{display:"flex",gap:14,alignItems:"center"}}>
+            <span style={{fontSize:13,fontFamily:"Arial",color:"#555"}}>smallest</span>
+            {opts.map((_,i)=><div key={i} style={{width:72,borderBottom:"2px solid #333",height:24}}/>)}
+            <span style={{fontSize:13,fontFamily:"Arial",color:"#555"}}>largest</span>
+          </div>
+        </div>
+      </>);
+    }
+
+    function SeqQ({q}){
+      const opts=q.options||[];
+      return(<><QText t={q.questionText}/>
+        <div style={{display:"flex",gap:6,alignItems:"center",margin:"14px 0",flexWrap:"wrap"}}>
+          {opts.map((v,i)=>(
+            <span key={i} style={{display:"flex",alignItems:"center",gap:4}}>
+              {v===null
+                ? <span style={{display:"inline-block",width:58,borderBottom:"2px solid #1a1a8c",height:24}}/>
+                : <span style={{fontSize:18,fontWeight:"bold",fontFamily:"Arial"}}>{v}</span>}
+              {i<opts.length-1 && <span style={{color:"#888",fontSize:13}}>→</span>}
+            </span>
+          ))}
+        </div>
+      </>);
+    }
+
+    function ExplainQ({q}){
+      return(<><QText t={q.questionText}/>
+        <div style={{border:"1.5px solid #bbb",background:"#fafafa",minHeight:72,margin:"12px 0",padding:8}}/>
+      </>);
+    }
+
+    function TableQ({q}){
+      const {headers=[],rows=[]}=q.table||{};
+      return(<><QText t={q.questionText}/>
+        <table style={{borderCollapse:"collapse",margin:"14px 0",fontSize:14,fontFamily:"Arial"}}>
+          <thead><tr>{headers.map((h,i)=><th key={i} style={{border:"1.5px solid #555",padding:"6px 14px",background:"#f4f4f4",fontWeight:"bold"}}>{h}</th>)}</tr></thead>
+          <tbody>{rows.map((row,ri)=>(
+            <tr key={ri}>{row.map((cell,ci)=>(
+              <td key={ci} style={{border:"1.5px solid #555",padding:"6px 14px",minWidth:80,textAlign:"center"}}>
+                {cell===null ? <span style={{display:"inline-block",width:52,borderBottom:"1.5px solid #1a1a8c"}}/> : cell}
+              </td>
+            ))}</tr>
+          ))}</tbody>
+        </table>
+      </>);
+    }
+
+    function GridQ({q}){
+      return(<><QText t={q.questionText}/>
+        {q.gridConfig && <CoordGrid cfg={q.gridConfig}/>}
+        {q.gridConfig?.mirrorLine && <p style={{fontSize:13,color:"#555",fontStyle:"italic",marginTop:4}}>Use a ruler.</p>}
+      </>);
+    }
+
+    function NumLineQ({q}){
+      return(<><QText t={q.questionText}/>
+        {q.gridConfig && <NumLine cfg={q.gridConfig}/>}
+        <ALine label=""/>
+      </>);
+    }
+
+    function MultiPartQ({q}){
+      return(<>
+        <QText t={q.questionText}/>
+        {(q.parts||[]).map((p,i)=>(
+          <div key={i} style={{marginBottom:16}}>
+            <p style={{fontSize:15,fontFamily:"Arial",margin:"0 0 8px 0"}}><strong>{p.letter}</strong>{"  "}{p.questionText}</p>
+            {p.showMethod && <MethodBox/>}
+            <ALine label={p.answerLabel}/>
+            <div style={{fontSize:13,fontFamily:"Arial",color:"#333",textAlign:"right",marginTop:6}}>
+              <span style={{borderBottom:"1.5px solid #333",paddingBottom:2}}>{p.marks} {p.marks===1?"mark":"marks"}</span>
+            </div>
+          </div>
+        ))}
+      </>);
+    }
+
+    function WriteQ({q}){
+      return(<><QText t={q.questionText}/>
+        {q.hasGrid && q.gridType==="coordinate" && q.gridConfig && <CoordGrid cfg={q.gridConfig}/>}
+        {q.showMethod && <MethodBox/>}
+        <ALine label={q.answerLabel}/>
+      </>);
+    }
+
+    function QuestionBody({q}){
+      switch(q.type){
+        case "tick-options":   return <TickQ q={q}/>;
+        case "circle-options": return <CircleQ q={q}/>;
+        case "match":          return <MatchQ q={q}/>;
+        case "order":          return <OrderQ q={q}/>;
+        case "sequence":       return <SeqQ q={q}/>;
+        case "explain":        return <ExplainQ q={q}/>;
+        case "complete-table": return <TableQ q={q}/>;
+        case "draw-on-grid":   return <GridQ q={q}/>;
+        case "number-line":    return <NumLineQ q={q}/>;
+        case "multi-part":     return <MultiPartQ q={q}/>;
+        default:               return <WriteQ q={q}/>;
+      }
+    }
+
+    function QuestionCard({q, num}){
+      const totalMarks = q.type==="multi-part"
+        ? (q.parts||[]).reduce((s,p)=>s+(p.marks||1),0)
+        : (q.marks||1);
+      return(
+        <div style={{display:"flex",gap:0,padding:"22px 0",borderBottom:"1px solid #ddd"}}>
+          <div style={{width:38,flexShrink:0,fontSize:19,fontWeight:"bold",paddingTop:1,fontFamily:"Arial"}}>{num}</div>
+          <div style={{flex:1}}><QuestionBody q={q}/></div>
+          {q.type!=="multi-part" && (
+            <div style={{width:76,flexShrink:0,display:"flex",alignItems:"flex-end",justifyContent:"flex-end"}}>
+              <div style={{fontSize:13,fontFamily:"Arial",color:"#222",borderBottom:"1.5px solid #333",paddingBottom:2,paddingRight:2}}>
+                {totalMarks} {totalMarks===1?"mark":"marks"}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ── Mark Scheme ──────────────────────────────────────────────────────────
+
+    function MarkScheme({questions}){
+      return(
+        <div style={{background:"#eef2ff",border:"1.5px solid #99a",borderRadius:4,padding:"20px 24px",marginTop:22}}>
+          <h3 style={{fontFamily:"Arial",fontSize:16,color:"#1a1a8c",margin:"0 0 14px 0"}}>Mark Scheme</h3>
+          <table style={{width:"100%",borderCollapse:"collapse",fontFamily:"Arial",fontSize:14}}>
+            <thead>
+              <tr style={{borderBottom:"1.5px solid #99a"}}>
+                {["Qu.","Answer","Mark","Additional guidance"].map(h=>(
+                  <th key={h} style={{textAlign:"left",padding:"6px 10px 6px 0",color:"#333"}}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {questions.map((q,i)=>{
+                const mks=q.type==="multi-part"?(q.parts||[]).reduce((s,p)=>s+(p.marks||1),0):(q.marks||1);
+                return(
+                  <tr key={i} style={{borderBottom:"1px solid #ccd"}}>
+                    <td style={{padding:"8px 10px 8px 0",fontWeight:"bold",verticalAlign:"top"}}>{i+1}</td>
+                    <td style={{padding:"8px 10px",verticalAlign:"top"}}>{q.answer||""}</td>
+                    <td style={{padding:"8px 10px",verticalAlign:"top"}}>{mks}m</td>
+                    <td style={{padding:"8px 0 8px 10px",verticalAlign:"top",color:"#444"}}>{q.markScheme||""}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+
+    // ── API Key Panel ────────────────────────────────────────────────────────
+
+    function ApiKeyPanel({ apiKey, onSave }) {
+      const [draft, setDraft] = useState(apiKey);
+      const [open, setOpen] = useState(!apiKey);
+
+      const save = () => {
+        const trimmed = draft.trim();
+        localStorage.setItem("sats_api_key", trimmed);
+        onSave(trimmed);
+        setOpen(false);
+      };
+
+      if (!open) {
+        return (
+          <div style={{maxWidth:820,margin:"0 auto 10px auto",textAlign:"right"}}>
+            <button onClick={()=>setOpen(true)}
+              style={{fontSize:12,color:"rgba(255,255,255,0.65)",background:"transparent",border:"none",cursor:"pointer",padding:0,fontFamily:"Arial"}}>
+              {apiKey ? "API key saved ✓ — change" : "Set API key"}
+            </button>
+          </div>
+        );
+      }
+
+      return (
+        <div style={{maxWidth:820,margin:"0 auto 12px auto",background:"rgba(0,0,0,0.25)",borderRadius:4,padding:"14px 18px"}}>
+          <p style={{margin:"0 0 8px 0",fontSize:13,color:"rgba(255,255,255,0.9)",fontFamily:"Arial"}}>
+            Enter your Anthropic API key. It is saved only in your browser's local storage and never sent anywhere except the Anthropic API.
+          </p>
+          <div style={{display:"flex",gap:8}}>
+            <input
+              type="password"
+              value={draft}
+              onChange={e=>setDraft(e.target.value)}
+              onKeyDown={e=>e.key==="Enter"&&save()}
+              placeholder="sk-ant-…"
+              style={{flex:1,padding:"7px 10px",fontSize:14,fontFamily:"Arial",border:"none",borderRadius:4}}
+            />
+            <button onClick={save}
+              style={{padding:"7px 16px",fontSize:13,fontWeight:"bold",background:"#e8a000",color:"white",
+                border:"none",borderRadius:4,cursor:"pointer",fontFamily:"Arial"}}>
+              Save
+            </button>
+            {apiKey && <button onClick={()=>setOpen(false)}
+              style={{padding:"7px 12px",fontSize:13,background:"transparent",color:"rgba(255,255,255,0.7)",
+                border:"1px solid rgba(255,255,255,0.3)",borderRadius:4,cursor:"pointer",fontFamily:"Arial"}}>
+              Cancel
+            </button>}
+          </div>
+        </div>
+      );
+    }
+
+    // ── Main App ─────────────────────────────────────────────────────────────
+
+    function App(){
+      const [topic,     setTopic]   = useState("");
+      const [yearGroup, setYearGroup] = useState("Y4");
+      const [count,     setCount]   = useState("4");
+      const [diff,      setDiff]    = useState("mixed");
+      const [questions, setQs]      = useState([]);
+      const [loading,   setLoading] = useState(false);
+      const [error,     setError]   = useState("");
+      const [showMS,    setShowMS]  = useState(false);
+      const [apiKey,    setApiKey]  = useState(() => localStorage.getItem("sats_api_key") || "");
+      const topicRef = useRef("");
+
+      const handleTopicChange = useCallback((e) => {
+        topicRef.current = e.target.value;
+        setTopic(e.target.value);
+      }, []);
+
+      const generate = useCallback(async () => {
+        const t = topicRef.current.trim();
+        if (!t) return;
+
+        const key = localStorage.getItem("sats_api_key") || "";
+        if (!key) {
+          setError("Please enter your Anthropic API key first.");
+          return;
+        }
+
+        const diffNote = diff==="easier"
+          ? "Easier — 1-mark questions, straightforward, accessible."
+          : diff==="harder"
+          ? "Harder — 2 and 3-mark questions, multi-step, challenging."
+          : "Mixed difficulty — some 1-mark and some 2-mark questions.";
+
+        const curriculumNote = CURRICULUM[yearGroup]?.scope || "";
+
+        setLoading(true);
+        setError("");
+        setQs([]);
+        setShowMS(false);
+
+        try {
+          const resp = await fetch("https://api.anthropic.com/v1/messages", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": key,
+              "anthropic-version": "2023-06-01",
+              "anthropic-dangerous-direct-browser-access": "true"
+            },
+            body: JSON.stringify({
+              model: "claude-sonnet-4-6",
+              max_tokens: 4000,
+              system: SYSTEM_PROMPT,
+              messages: [{
+                role: "user",
+                content: `Generate ${count} KS2 SATs-style reasoning questions for ${CURRICULUM[yearGroup]?.label} on the topic: "${t}". ${diffNote}\n\n${curriculumNote}\n\nReturn ONLY the JSON array.`
+              }]
+            })
+          });
+
+          if (!resp.ok) {
+            const errData = await resp.json().catch(()=>({}));
+            throw new Error(errData?.error?.message || `API error ${resp.status}`);
+          }
+
+          const data = await resp.json();
+          const raw = (data.content||[]).find(b=>b.type==="text")?.text || "";
+          const clean = raw.replace(/```json\n?/g,"").replace(/```\n?/g,"").trim();
+          setQs(JSON.parse(clean));
+        } catch(e) {
+          setError(`Failed to generate questions — ${e.message || "please try again."}`);
+          console.error(e);
+        }
+        setLoading(false);
+      }, [count, diff]);
+
+      const handleKey = useCallback((e) => {
+        if (e.key==="Enter") generate();
+      }, [generate]);
+
+      const topicDisplay = topic.charAt(0).toUpperCase()+topic.slice(1);
+
+      return(
+        <div style={{fontFamily:"Arial",background:"#f0f0f0",minHeight:"100vh",padding:"20px 16px"}}>
+
+          {/* Controls */}
+          <div className="no-print" style={{maxWidth:820,margin:"0 auto 0 auto",background:"#1a1a8c",borderRadius:6,padding:"20px 24px 16px 24px",color:"white"}}>
+            <h1 style={{fontSize:19,fontWeight:"bold",margin:"0 0 3px 0"}}>KS2 Maths Reasoning — Question Generator</h1>
+            <p style={{fontSize:13,opacity:0.8,margin:"0 0 14px 0"}}>Generates SATs-style questions. Type a topic and click Generate.</p>
+
+            <ApiKeyPanel apiKey={apiKey} onSave={setApiKey}/>
+
+            <div style={{display:"flex",gap:12,flexWrap:"wrap",alignItems:"flex-end"}}>
+              <div style={{flex:1,minWidth:220,display:"flex",flexDirection:"column",gap:5}}>
+                <label style={{fontSize:12,opacity:0.85}}>Topic</label>
+                <input
+                  type="text"
+                  value={topic}
+                  onChange={handleTopicChange}
+                  onKeyDown={handleKey}
+                  placeholder="e.g. coordinates, fractions, time, percentages…"
+                  style={{padding:"8px 11px",fontSize:14,fontFamily:"Arial",border:"none",borderRadius:4,color:"#111",width:"100%"}}
+                />
+              </div>
+              <div style={{display:"flex",flexDirection:"column",gap:5,minWidth:100}}>
+                <label style={{fontSize:12,opacity:0.85}}>Year group</label>
+                <select value={yearGroup} onChange={e=>setYearGroup(e.target.value)}
+                  style={{padding:"8px 10px",fontSize:14,fontFamily:"Arial",border:"none",borderRadius:4}}>
+                  {Object.entries(CURRICULUM).map(([k,v])=><option key={k} value={k}>{v.label}</option>)}
+                </select>
+              </div>
+              <div style={{display:"flex",flexDirection:"column",gap:5,minWidth:130}}>
+                <label style={{fontSize:12,opacity:0.85}}>Difficulty</label>
+                <select value={diff} onChange={e=>setDiff(e.target.value)}
+                  style={{padding:"8px 10px",fontSize:14,fontFamily:"Arial",border:"none",borderRadius:4}}>
+                  <option value="easier">Easier (1 mark)</option>
+                  <option value="mixed">Mixed</option>
+                  <option value="harder">Harder (2–3 mark)</option>
+                </select>
+              </div>
+              <div style={{display:"flex",flexDirection:"column",gap:5,minWidth:90}}>
+                <label style={{fontSize:12,opacity:0.85}}>Questions</label>
+                <select value={count} onChange={e=>setCount(e.target.value)}
+                  style={{padding:"8px 10px",fontSize:14,fontFamily:"Arial",border:"none",borderRadius:4}}>
+                  {["2","3","4","5","6"].map(n=><option key={n}>{n}</option>)}
+                </select>
+              </div>
+              <button onClick={generate} disabled={loading||!topic.trim()||!apiKey}
+                style={{padding:"8px 22px",fontSize:15,fontWeight:"bold",
+                  background:(loading||!apiKey)?"#888":"#e8a000",
+                  color:"white",border:"none",borderRadius:4,
+                  cursor:(loading||!apiKey)?"default":"pointer",
+                  fontFamily:"Arial",alignSelf:"flex-end"}}>
+                {loading?"Generating…":"Generate"}
+              </button>
+            </div>
+          </div>
+
+          {/* Spacer below controls */}
+          <div className="no-print" style={{maxWidth:820,margin:"0 auto",height:24}}/>
+
+          {/* Error */}
+          {error && (
+            <div className="no-print" style={{maxWidth:820,margin:"0 auto 14px auto",padding:"12px 18px",background:"#fff0f0",
+              border:"1.5px solid #e88",borderRadius:4,color:"#c00",fontSize:14}}>
+              {error}
+            </div>
+          )}
+
+          {/* Loading */}
+          {loading && (
+            <div style={{maxWidth:820,margin:"0 auto"}}>
+              <div style={{background:"white",boxShadow:"0 2px 14px rgba(0,0,0,0.12)",padding:"60px 52px",
+                textAlign:"center",color:"#888",fontSize:16}}>
+                Generating questions…
+              </div>
+            </div>
+          )}
+
+          {/* Paper */}
+          {!loading && questions.length>0 && (
+            <div style={{maxWidth:820,margin:"0 auto"}}>
+              <div className="no-print" style={{display:"flex",gap:10,justifyContent:"flex-end",marginBottom:14}}>
+                <button onClick={()=>window.print()}
+                  style={{padding:"7px 15px",fontSize:13,fontFamily:"Arial",
+                    background:"white",color:"#333",border:"1.5px solid #999",borderRadius:4,cursor:"pointer"}}>
+                  Print / Save PDF
+                </button>
+                <button onClick={()=>setShowMS(s=>!s)}
+                  style={{padding:"7px 15px",fontSize:13,fontFamily:"Arial",
+                    background:showMS?"#1a1a8c":"white",color:showMS?"white":"#1a1a8c",
+                    border:"1.5px solid #1a1a8c",borderRadius:4,cursor:"pointer"}}>
+                  {showMS?"Hide Mark Scheme":"Show Mark Scheme"}
+                </button>
+                <button onClick={generate}
+                  style={{padding:"7px 15px",fontSize:13,fontFamily:"Arial",
+                    background:"white",color:"#555",border:"1.5px solid #999",borderRadius:4,cursor:"pointer"}}>
+                  Regenerate
+                </button>
+              </div>
+
+              <div style={{background:"white",boxShadow:"0 2px 14px rgba(0,0,0,0.12)",padding:"40px 52px 52px 52px"}}>
+                <div style={{borderBottom:"2.5px solid #222",paddingBottom:12,marginBottom:4}}>
+                  <div style={{fontSize:13,color:"#444",marginBottom:3}}>Key Stage 2 Mathematics — Reasoning &nbsp;|&nbsp; {CURRICULUM[yearGroup]?.label}</div>
+                  <div style={{fontSize:22,fontWeight:"bold",color:"#1a1a8c"}}>{topicDisplay} Practice Questions</div>
+                </div>
+                {questions.map((q,i)=><QuestionCard key={q.id||i} q={q} num={i+1}/>)}
+                <div style={{textAlign:"center",marginTop:30,paddingTop:14,borderTop:"1px solid #eee",
+                  fontSize:12,color:"#bbb"}}>[END OF QUESTIONS]</div>
+              </div>
+
+              {showMS && <MarkScheme questions={questions}/>}
+            </div>
+          )}
+
+          {/* Empty state */}
+          {!loading && questions.length===0 && !error && (
+            <div style={{maxWidth:820,margin:"0 auto",textAlign:"center",padding:"50px 0",color:"#aaa"}}>
+              <div style={{fontSize:48,marginBottom:10}}>✏️</div>
+              <div style={{fontSize:16,color:"#888",marginBottom:6}}>Enter a topic above to generate practice questions</div>
+              <div style={{fontSize:13}}>
+                Try: coordinates · fractions · time · percentages · place value · area and perimeter · angles · statistics
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+  </script>
+</body>
+</html>

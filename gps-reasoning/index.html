@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KS2 SATs GPS — Question Generator</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 0; background: #f0f0f0; font-family: Arial, sans-serif; }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; }
+      .paper-wrap { box-shadow: none !important; margin: 0 !important; padding: 20px !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useCallback } = React;
+
+    // ── GPS topic categories ──────────────────────────────────────────────────
+
+    const GPS_CATEGORIES = {
+      punctuation:      { label: "Punctuation",           desc: "commas (lists, fronted adverbials, relative clauses), colons, semi-colons, apostrophes (contraction & possession), inverted commas, brackets, dashes" },
+      tenses:           { label: "Tenses & Verbs",         desc: "simple past, present perfect, past perfect, progressive forms, subjunctive, active and passive voice" },
+      sentence_types:   { label: "Sentence Types",         desc: "statement, question, command, exclamation — identify and distinguish" },
+      standard_english: { label: "Standard English",       desc: "Standard English vs non-standard, formal vs informal register, subject–verb agreement" },
+      vocabulary:       { label: "Vocabulary",             desc: "synonyms, antonyms, prefixes (dis-, mis-, re-, pre-, un-), suffixes (-tion, -ous, -ment), word meaning in context" },
+      clauses:          { label: "Clauses & Phrases",      desc: "relative clauses (who/which/that/where/whose), fronted adverbials, subordinate clauses, main and subordinate clause identification" },
+      word_classes:     { label: "Word Classes",           desc: "nouns, verbs, adjectives, adverbs, pronouns (personal/relative/possessive), determiners, prepositions, conjunctions (co-ordinating and subordinating)" },
+      modal:            { label: "Modal Verbs",            desc: "modal verbs (could, should, would, might, must, will) — degrees of certainty and possibility" },
+    };
+
+    // ── System prompt ─────────────────────────────────────────────────────────
+
+    const SYSTEM_PROMPT = `You are an expert KS2 GPS (Grammar, Punctuation and Spelling) question writer. Generate questions that closely match real KS2 SATs Paper 1 (Questions) format.
+
+Return ONLY a valid JSON array — no markdown fences, no explanation, nothing else.
+
+Each element has EXACTLY this shape (include every field; use null for unused ones):
+{
+  "id": 1,
+  "marks": 1,
+  "type": "tick-one",
+  "instruction": "Tick one.",
+  "stem": "Which sentence uses a comma correctly?",
+  "sentence": null,
+  "options": ["opt A","opt B","opt C","opt D"],
+  "left": null,
+  "right": null,
+  "headers": null,
+  "rows": null,
+  "targets": null,
+  "answer": "opt B",
+  "markScheme": "Award 1 mark for ticking opt B."
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TYPES — use exact string:
+
+"tick-one"
+  instruction: "Tick one."
+  stem: the question text
+  options: array of EXACTLY 4 strings; only one correct
+  Use for: which sentence is punctuated correctly; which word class; which sentence type; synonyms/antonyms; modal verbs; Standard English; which sentence uses a word as a noun/verb; what does a prefix mean; which starts with a fronted adverbial; which expresses greatest certainty
+
+"tick-all"
+  instruction: "Tick all the correct answers."
+  stem: the question
+  options: array of 4–5 strings; one or more correct
+
+"punctuation-insertion"
+  instruction: e.g. "Insert a comma in the correct place in the sentence below." — name the punctuation mark
+  stem: null
+  sentence: a complete sentence that needs EXACTLY ONE punctuation mark added — write it WITHOUT the punctuation
+  answer: the corrected sentence with the punctuation inserted
+  Note: also used for inserting a colon, semi-colon, dash, or pair of brackets
+
+"circle-word"
+  instruction: "Circle the correct word in each underlined pair to complete the sentence."
+  stem: null
+  sentence: sentence with word-choice pairs encoded as [optionA/optionB] e.g. "She [went/go] to the park."
+  Encode 1–3 choices in the sentence. Both options inside [ ] separated by /.
+  answer: list the correct choices
+
+"classification-table"
+  instruction: "Tick to show whether each sentence is a [Cat1] or a [Cat2]." (adjust for 3–4 categories)
+  stem: null
+  headers: array of 2–4 category names e.g. ["Question","Command"] or ["Statement","Question","Command","Exclamation"]
+  rows: array of {sentence: "...", answer: "..."} — 3–4 rows; answer = correct header name
+  answer: brief description of correct answers
+
+"match"
+  instruction: "Draw a line to match each [item] to its [antonym/synonym/meaning]."
+  stem: null
+  left: array of EXACTLY 4 strings
+  right: array of EXACTLY 4 strings, shuffled so they are NOT in matching order
+  answer: describe the correct pairs e.g. "happy–sad, ancient–modern, generous–miserly, expand–shrink"
+
+"write-contracted"
+  instruction: "Write the contracted form of the underlined words."
+  stem: null
+  sentence: a sentence containing the target phrases
+  targets: array of 1–2 {phrase: "the words", answer: "contraction"} objects
+  answer: the contractions
+
+"fill-blank"
+  instruction: "Insert an appropriate [relative pronoun / conjunction / adverb / word] to complete the sentence below."
+  stem: null
+  sentence: a sentence with ___ marking the blank; write exactly three underscores ___
+  answer: the correct word(s)
+
+"write-word"
+  instruction: "Write a [synonym for / antonym of / word using the prefix / etc.]"
+  stem: full question text e.g. "Write a synonym for the word 'joyful'."
+  sentence: null or a sentence for context
+  answer: the correct answer(s)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RULES:
+- Vary question types — never repeat the same type more than twice in one set
+- Sentence contexts: age-appropriate, interesting, varied (adventure, science, history, everyday)
+- tick-one: exactly 4 options, plausible distractors, only one correct
+- match: exactly 4 items on each side; right column MUST be shuffled (not matching order of left)
+- classification-table: always 3–4 sentence rows
+- All content must be suitable for Year 6 pupils (10–11 year olds)
+- Generate exactly the count requested`;
+
+    // ── Helper: parse [A/B] pairs in circle-word sentences ───────────────────
+
+    function parseCircleWordParts(sentence) {
+      const parts = [];
+      const regex = /\[([^\]/]+)\/([^\]]+)\]/g;
+      let last = 0, m;
+      while ((m = regex.exec(sentence)) !== null) {
+        if (m.index > last) parts.push({ kind: "text", text: sentence.slice(last, m.index) });
+        parts.push({ kind: "choice", a: m[1].trim(), b: m[2].trim() });
+        last = m.index + m[0].length;
+      }
+      if (last < sentence.length) parts.push({ kind: "text", text: sentence.slice(last) });
+      return parts;
+    }
+
+    // Underline target phrases in a sentence
+    function renderWithUnderlines(sentence, targets) {
+      let parts = [{ k: "text", t: sentence }];
+      for (const tgt of (targets || [])) {
+        const next = [];
+        for (const p of parts) {
+          if (p.k !== "text") { next.push(p); continue; }
+          const idx = p.t.indexOf(tgt.phrase);
+          if (idx === -1) { next.push(p); continue; }
+          if (idx > 0) next.push({ k: "text", t: p.t.slice(0, idx) });
+          next.push({ k: "ul", t: tgt.phrase });
+          const after = p.t.slice(idx + tgt.phrase.length);
+          if (after) next.push({ k: "text", t: after });
+        }
+        parts = next;
+      }
+      return parts.map((p, i) =>
+        p.k === "ul"
+          ? <span key={i} style={{ textDecoration: "underline", fontWeight: "bold" }}>{p.t}</span>
+          : <span key={i}>{p.t}</span>
+      );
+    }
+
+    // ── Question rendering components ─────────────────────────────────────────
+
+    const InstrBanner = ({ text }) => (
+      <div style={{
+        background: "#f5f0e0", borderTop: "1px solid #c8ba8a", borderBottom: "1px solid #c8ba8a",
+        padding: "5px 12px", margin: "0 0 12px 0", fontSize: 13.5,
+        fontFamily: "Arial", fontWeight: "bold", color: "#333"
+      }}>{text}</div>
+    );
+
+    const Stem = ({ t }) => t
+      ? <p style={{ fontSize: 15, fontFamily: "Arial", lineHeight: 1.55, margin: "0 0 10px 0" }}>{t}</p>
+      : null;
+
+    const SentenceBlock = ({ s }) => s
+      ? <div style={{
+          fontFamily: "Arial", fontSize: 15, lineHeight: 1.9, padding: "11px 14px",
+          border: "1.5px solid #bbb", background: "white", margin: "0 0 10px 0", borderRadius: 2
+        }}>{s}</div>
+      : null;
+
+    // Tick one / tick all
+    function TickQ({ q }) {
+      return (<>
+        <Stem t={q.stem} />
+        {q.sentence && <SentenceBlock s={q.sentence} />}
+        <div style={{ margin: "4px 0 4px" }}>
+          {(q.options || []).map((o, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+              <div style={{ width: 18, height: 18, border: "1.5px solid #333", flexShrink: 0 }} />
+              <span style={{ fontSize: 15, fontFamily: "Arial" }}>{o}</span>
+            </div>
+          ))}
+        </div>
+      </>);
+    }
+
+    // Punctuation insertion — sentence with wide word-spacing
+    function PunctInsertQ({ q }) {
+      return (<>
+        <div style={{
+          fontFamily: "Arial", fontSize: 16, lineHeight: 2.6, padding: "14px 18px",
+          border: "1.5px solid #bbb", background: "white", margin: "0 0 6px 0",
+          borderRadius: 2, wordSpacing: "0.55em", letterSpacing: "0.02em"
+        }}>
+          {q.sentence || ""}
+        </div>
+      </>);
+    }
+
+    // Circle word — word pairs shown inline
+    function CircleWordQ({ q }) {
+      const parts = parseCircleWordParts(q.sentence || "");
+      return (<>
+        <div style={{
+          fontFamily: "Arial", fontSize: 15, lineHeight: 2.4, padding: "12px 14px",
+          border: "1.5px solid #bbb", background: "white", margin: "0 0 6px 0", borderRadius: 2
+        }}>
+          {parts.map((p, i) => {
+            if (p.kind === "text") return <span key={i}>{p.text}</span>;
+            return (
+              <span key={i} style={{
+                display: "inline-flex", alignItems: "center", gap: 3,
+                border: "1.5px solid #333", borderRadius: 22, padding: "0 8px",
+                margin: "0 3px", verticalAlign: "middle", background: "#fafafa",
+                fontSize: 14, height: 26
+              }}>
+                <span style={{ textDecoration: "underline" }}>{p.a}</span>
+                <span style={{ color: "#aaa", fontSize: 12, lineHeight: 1 }}>/</span>
+                <span style={{ textDecoration: "underline" }}>{p.b}</span>
+              </span>
+            );
+          })}
+        </div>
+      </>);
+    }
+
+    // Classification table
+    function ClassTableQ({ q }) {
+      const hdrs = q.headers || [];
+      const rows = q.rows || [];
+      return (<>
+        <Stem t={q.stem} />
+        <table style={{ borderCollapse: "collapse", margin: "6px 0", width: "100%", fontFamily: "Arial", fontSize: 14 }}>
+          <thead>
+            <tr>
+              <th style={{
+                border: "1.5px solid #555", padding: "7px 14px", background: "#f4f4f4",
+                textAlign: "left", fontWeight: "bold", width: "52%"
+              }}>Sentence</th>
+              {hdrs.map((h, i) => (
+                <th key={i} style={{
+                  border: "1.5px solid #555", padding: "7px 12px", background: "#f4f4f4",
+                  textAlign: "center", fontWeight: "bold", minWidth: 80
+                }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, ri) => (
+              <tr key={ri}>
+                <td style={{ border: "1.5px solid #555", padding: "9px 14px" }}>
+                  {row.sentence || row}
+                </td>
+                {hdrs.map((_, ci) => (
+                  <td key={ci} style={{ border: "1.5px solid #555", padding: "9px 14px", textAlign: "center" }}>
+                    <div style={{ width: 18, height: 18, border: "1.5px solid #333", display: "inline-block" }} />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </>);
+    }
+
+    // Match — draw lines
+    function MatchQ({ q }) {
+      return (<>
+        <Stem t={q.stem} />
+        <div style={{ display: "flex", gap: 44, margin: "10px 0 6px", alignItems: "flex-start" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {(q.left || []).map((l, i) => (
+              <div key={i} style={{
+                border: "1.5px solid #333", padding: "7px 18px", fontSize: 15,
+                fontFamily: "Arial", minWidth: 140, textAlign: "center", background: "white"
+              }}>{l}</div>
+            ))}
+          </div>
+          <div style={{ paddingTop: 14, fontSize: 12, color: "#aaa", fontFamily: "Arial", flexShrink: 0 }}>
+            draw lines
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {(q.right || []).map((r, i) => (
+              <div key={i} style={{
+                border: "1.5px solid #333", padding: "7px 18px", fontSize: 15,
+                fontFamily: "Arial", minWidth: 140, textAlign: "center", background: "white"
+              }}>{r}</div>
+            ))}
+          </div>
+        </div>
+      </>);
+    }
+
+    // Write contracted form
+    function WriteContractedQ({ q }) {
+      const targets = q.targets || [];
+      return (<>
+        <div style={{
+          fontFamily: "Arial", fontSize: 15, lineHeight: 2.2, padding: "12px 14px",
+          border: "1.5px solid #bbb", background: "white", margin: "0 0 10px 0", borderRadius: 2
+        }}>
+          {renderWithUnderlines(q.sentence || "", targets)}
+        </div>
+        <div style={{ display: "flex", gap: 32, flexWrap: "wrap", margin: "4px 0" }}>
+          {targets.map((t, i) => (
+            <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
+              <span style={{ fontSize: 13, fontFamily: "Arial", color: "#555", fontStyle: "italic",
+                textDecoration: "underline" }}>{t.phrase}</span>
+              <span style={{ fontSize: 18, color: "#666", lineHeight: 1 }}>↓</span>
+              <div style={{ width: 130, borderBottom: "2px solid #333", height: 26 }} />
+            </div>
+          ))}
+        </div>
+      </>);
+    }
+
+    // Fill blank — sentence with ___ replaced by a visible blank line
+    function FillBlankQ({ q }) {
+      const parts = (q.sentence || "").split("___");
+      return (<>
+        <div style={{
+          fontFamily: "Arial", fontSize: 15, lineHeight: 2.2, padding: "12px 14px",
+          border: "1.5px solid #bbb", background: "white", margin: "0 0 6px 0", borderRadius: 2
+        }}>
+          {parts.map((part, i) => (
+            <span key={i}>
+              {part}
+              {i < parts.length - 1 && (
+                <span style={{
+                  display: "inline-block", width: 90, borderBottom: "2px solid #1a1a8c",
+                  height: 20, verticalAlign: "bottom", margin: "0 4px"
+                }} />
+              )}
+            </span>
+          ))}
+        </div>
+      </>);
+    }
+
+    // Write a word
+    function WriteWordQ({ q }) {
+      return (<>
+        <Stem t={q.stem} />
+        {q.sentence && <SentenceBlock s={q.sentence} />}
+        <div style={{ marginTop: 12 }}>
+          <div style={{ width: 200, borderBottom: "2px solid #333", height: 26 }} />
+        </div>
+      </>);
+    }
+
+    function GPSQuestionBody({ q }) {
+      const instr = q.instruction;
+      return (<>
+        {instr && <InstrBanner text={instr} />}
+        {(() => {
+          switch (q.type) {
+            case "tick-one":              return <TickQ q={q} />;
+            case "tick-all":              return <TickQ q={q} />;
+            case "punctuation-insertion": return <PunctInsertQ q={q} />;
+            case "circle-word":           return <CircleWordQ q={q} />;
+            case "classification-table":  return <ClassTableQ q={q} />;
+            case "match":                 return <MatchQ q={q} />;
+            case "write-contracted":      return <WriteContractedQ q={q} />;
+            case "fill-blank":            return <FillBlankQ q={q} />;
+            case "write-word":            return <WriteWordQ q={q} />;
+            default:                      return <WriteWordQ q={q} />;
+          }
+        })()}
+      </>);
+    }
+
+    function QuestionCard({ q, num }) {
+      return (
+        <div style={{ display: "flex", gap: 0, padding: "20px 0", borderBottom: "1px solid #ddd" }}>
+          {/* Number circle */}
+          <div style={{ flexShrink: 0, marginRight: 16, marginTop: 3 }}>
+            <div style={{
+              width: 32, height: 32, borderRadius: "50%", background: "#222",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 15, fontWeight: "bold", color: "white", fontFamily: "Arial"
+            }}>{num}</div>
+          </div>
+          {/* Content */}
+          <div style={{ flex: 1 }}>
+            <GPSQuestionBody q={q} />
+          </div>
+          {/* Marks */}
+          <div style={{ width: 72, flexShrink: 0, display: "flex", alignItems: "flex-end", justifyContent: "flex-end" }}>
+            <div style={{
+              fontSize: 13, fontFamily: "Arial", color: "#222",
+              borderBottom: "1.5px solid #333", paddingBottom: 2, paddingRight: 2
+            }}>
+              {q.marks || 1} {(q.marks || 1) === 1 ? "mark" : "marks"}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ── Mark Scheme ───────────────────────────────────────────────────────────
+
+    function MarkScheme({ questions }) {
+      return (
+        <div style={{
+          background: "#eef2ff", border: "1.5px solid #99a", borderRadius: 4,
+          padding: "20px 24px", marginTop: 22
+        }}>
+          <h3 style={{ fontFamily: "Arial", fontSize: 16, color: "#1a1a8c", margin: "0 0 14px 0" }}>
+            Mark Scheme
+          </h3>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "Arial", fontSize: 14 }}>
+            <thead>
+              <tr style={{ borderBottom: "1.5px solid #99a" }}>
+                {["Qu.", "Answer", "Mark", "Additional guidance"].map(h => (
+                  <th key={h} style={{ textAlign: "left", padding: "6px 10px 6px 0", color: "#333" }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {questions.map((q, i) => (
+                <tr key={i} style={{ borderBottom: "1px solid #ccd" }}>
+                  <td style={{ padding: "8px 10px 8px 0", fontWeight: "bold", verticalAlign: "top" }}>{i + 1}</td>
+                  <td style={{ padding: "8px 10px", verticalAlign: "top", maxWidth: 260 }}>{q.answer || ""}</td>
+                  <td style={{ padding: "8px 10px", verticalAlign: "top" }}>{q.marks || 1}m</td>
+                  <td style={{ padding: "8px 0 8px 10px", verticalAlign: "top", color: "#444" }}>{q.markScheme || ""}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+
+    // ── API Key Panel ─────────────────────────────────────────────────────────
+
+    function ApiKeyPanel({ apiKey, onSave }) {
+      const [draft, setDraft] = useState(apiKey);
+      const [open, setOpen] = useState(!apiKey);
+
+      const save = () => {
+        const trimmed = draft.trim();
+        localStorage.setItem("sats_api_key", trimmed);
+        onSave(trimmed);
+        setOpen(false);
+      };
+
+      if (!open) {
+        return (
+          <div style={{ maxWidth: 820, margin: "0 auto 10px auto", textAlign: "right" }}>
+            <button onClick={() => setOpen(true)}
+              style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", background: "transparent",
+                border: "none", cursor: "pointer", padding: 0, fontFamily: "Arial" }}>
+              {apiKey ? "API key saved ✓ — change" : "Set API key"}
+            </button>
+          </div>
+        );
+      }
+
+      return (
+        <div style={{ maxWidth: 820, margin: "0 auto 12px auto", background: "rgba(0,0,0,0.25)",
+          borderRadius: 4, padding: "14px 18px" }}>
+          <p style={{ margin: "0 0 8px 0", fontSize: 13, color: "rgba(255,255,255,0.9)", fontFamily: "Arial" }}>
+            Enter your Anthropic API key. Stored only in your browser's local storage.
+          </p>
+          <div style={{ display: "flex", gap: 8 }}>
+            <input type="password" value={draft}
+              onChange={e => setDraft(e.target.value)}
+              onKeyDown={e => e.key === "Enter" && save()}
+              placeholder="sk-ant-…"
+              style={{ flex: 1, padding: "7px 10px", fontSize: 14, fontFamily: "Arial",
+                border: "none", borderRadius: 4 }}
+            />
+            <button onClick={save}
+              style={{ padding: "7px 16px", fontSize: 13, fontWeight: "bold", background: "#e8a000",
+                color: "white", border: "none", borderRadius: 4, cursor: "pointer", fontFamily: "Arial" }}>
+              Save
+            </button>
+            {apiKey && (
+              <button onClick={() => setOpen(false)}
+                style={{ padding: "7px 12px", fontSize: 13, background: "transparent",
+                  color: "rgba(255,255,255,0.7)", border: "1px solid rgba(255,255,255,0.3)",
+                  borderRadius: 4, cursor: "pointer", fontFamily: "Arial" }}>
+                Cancel
+              </button>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // ── Main App ──────────────────────────────────────────────────────────────
+
+    function App() {
+      const allKeys = Object.keys(GPS_CATEGORIES);
+
+      const [selectedCats, setSelectedCats] = useState(
+        allKeys.reduce((acc, k) => ({ ...acc, [k]: true }), {})
+      );
+      const [count, setCount]   = useState("4");
+      const [questions, setQs]  = useState([]);
+      const [loading, setLoading] = useState(false);
+      const [error, setError]   = useState("");
+      const [showMS, setShowMS] = useState(false);
+      const [apiKey, setApiKey] = useState(() => localStorage.getItem("sats_api_key") || "");
+
+      const toggleCat = useCallback((k) => {
+        setSelectedCats(prev => ({ ...prev, [k]: !prev[k] }));
+      }, []);
+
+      const selectAll  = useCallback(() => setSelectedCats(allKeys.reduce((a,k)=>({...a,[k]:true}),{})), []);
+      const selectNone = useCallback(() => setSelectedCats(allKeys.reduce((a,k)=>({...a,[k]:false}),{})), []);
+
+      const generate = useCallback(async () => {
+        const key = localStorage.getItem("sats_api_key") || "";
+        if (!key) { setError("Please enter your Anthropic API key first."); return; }
+
+        const active = Object.entries(selectedCats).filter(([, v]) => v).map(([k]) => k);
+        if (active.length === 0) { setError("Please select at least one GPS topic."); return; }
+
+        const topicDetails = active
+          .map(k => `• ${GPS_CATEGORIES[k].label}: ${GPS_CATEGORIES[k].desc}`)
+          .join("\n");
+
+        setLoading(true);
+        setError("");
+        setQs([]);
+        setShowMS(false);
+
+        try {
+          const resp = await fetch("https://api.anthropic.com/v1/messages", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": key,
+              "anthropic-version": "2023-06-01",
+              "anthropic-dangerous-direct-browser-access": "true"
+            },
+            body: JSON.stringify({
+              model: "claude-sonnet-4-6",
+              max_tokens: 4000,
+              system: SYSTEM_PROMPT,
+              messages: [{
+                role: "user",
+                content: `Generate ${count} KS2 SATs GPS questions covering these topics:\n${topicDetails}\n\nSpread questions across the selected topics. Vary question types — do not repeat the same type more than twice. Return ONLY the JSON array.`
+              }]
+            })
+          });
+
+          if (!resp.ok) {
+            const errData = await resp.json().catch(() => ({}));
+            throw new Error(errData?.error?.message || `API error ${resp.status}`);
+          }
+
+          const data = await resp.json();
+          const raw  = (data.content || []).find(b => b.type === "text")?.text || "";
+          const clean = raw.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
+          setQs(JSON.parse(clean));
+        } catch (e) {
+          setError(`Failed to generate questions — ${e.message || "please try again."}`);
+          console.error(e);
+        }
+        setLoading(false);
+      }, [count, selectedCats]);
+
+      const activeCatCount = Object.values(selectedCats).filter(Boolean).length;
+      const canGenerate = activeCatCount > 0 && !!apiKey && !loading;
+
+      return (
+        <div style={{ fontFamily: "Arial", background: "#f0f0f0", minHeight: "100vh", padding: "20px 16px" }}>
+
+          {/* ── Controls panel ── */}
+          <div className="no-print" style={{
+            maxWidth: 820, margin: "0 auto", background: "#1a1a8c",
+            borderRadius: 6, padding: "20px 24px 18px", color: "white"
+          }}>
+            <h1 style={{ fontSize: 19, fontWeight: "bold", margin: "0 0 3px 0" }}>
+              KS2 GPS — Grammar, Punctuation &amp; Spelling Question Generator
+            </h1>
+            <p style={{ fontSize: 13, opacity: 0.8, margin: "0 0 16px 0" }}>
+              Generates SATs-style GPS Paper 1 questions. Select topics and click Generate.
+            </p>
+
+            <ApiKeyPanel apiKey={apiKey} onSave={setApiKey} />
+
+            {/* Topic selector */}
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 8 }}>
+                <span style={{ fontSize: 12, opacity: 0.85, fontWeight: "bold" }}>GPS Topics</span>
+                <button onClick={selectAll}
+                  style={{ fontSize: 11, background: "none", border: "none", color: "rgba(255,255,255,0.6)",
+                    cursor: "pointer", padding: 0, fontFamily: "Arial" }}>
+                  Select all
+                </button>
+                <button onClick={selectNone}
+                  style={{ fontSize: 11, background: "none", border: "none", color: "rgba(255,255,255,0.6)",
+                    cursor: "pointer", padding: 0, fontFamily: "Arial" }}>
+                  Clear all
+                </button>
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {allKeys.map(k => (
+                  <label key={k} style={{
+                    display: "flex", alignItems: "center", gap: 6, cursor: "pointer",
+                    background: selectedCats[k] ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.18)",
+                    borderRadius: 4, padding: "5px 11px", fontSize: 13, color: "white",
+                    border: selectedCats[k] ? "1px solid rgba(255,255,255,0.45)" : "1px solid rgba(255,255,255,0.12)",
+                  }}>
+                    <input type="checkbox" checked={selectedCats[k]} onChange={() => toggleCat(k)}
+                      style={{ width: 14, height: 14, accentColor: "#e8a000", cursor: "pointer" }} />
+                    {GPS_CATEGORIES[k].label}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Count + Generate */}
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "flex-end" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                <label style={{ fontSize: 12, opacity: 0.85 }}>Questions</label>
+                <select value={count} onChange={e => setCount(e.target.value)}
+                  style={{ padding: "8px 10px", fontSize: 14, fontFamily: "Arial", border: "none", borderRadius: 4 }}>
+                  {["2","3","4","5","6","8","10"].map(n => <option key={n}>{n}</option>)}
+                </select>
+              </div>
+              <button onClick={generate} disabled={!canGenerate}
+                style={{
+                  padding: "9px 28px", fontSize: 14, fontWeight: "bold",
+                  background: canGenerate ? "#e8a000" : "#555",
+                  color: "white", border: "none", borderRadius: 4,
+                  cursor: canGenerate ? "pointer" : "not-allowed", fontFamily: "Arial"
+                }}>
+                {loading ? "Generating…" : "Generate"}
+              </button>
+            </div>
+
+            {error && (
+              <p style={{ color: "#ffd", fontSize: 13, margin: "10px 0 0 0", fontFamily: "Arial" }}>{error}</p>
+            )}
+          </div>
+
+          {/* ── Paper area ── */}
+          {questions.length > 0 && (
+            <div className="paper-wrap" style={{
+              maxWidth: 820, margin: "18px auto 0", background: "white",
+              borderRadius: 4, padding: "30px 36px 30px 30px",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+            }}>
+              {/* Print/mark scheme controls */}
+              <div className="no-print" style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginBottom: 18 }}>
+                <button onClick={() => setShowMS(s => !s)}
+                  style={{ padding: "6px 14px", fontSize: 13, border: "1.5px solid #1a1a8c",
+                    borderRadius: 4, background: "white", color: "#1a1a8c", cursor: "pointer", fontFamily: "Arial" }}>
+                  {showMS ? "Hide mark scheme" : "Show mark scheme"}
+                </button>
+                <button onClick={() => window.print()}
+                  style={{ padding: "6px 14px", fontSize: 13, background: "#1a1a8c", color: "white",
+                    border: "none", borderRadius: 4, cursor: "pointer", fontFamily: "Arial" }}>
+                  Print / Save PDF
+                </button>
+              </div>
+
+              {/* Paper header */}
+              <div style={{ borderBottom: "3px solid #1a1a8c", paddingBottom: 12, marginBottom: 8 }}>
+                <div style={{ fontFamily: "Arial", fontWeight: "bold", fontSize: 16, color: "#1a1a8c" }}>
+                  Key Stage 2 — Grammar, Punctuation and Spelling
+                </div>
+                <div style={{ fontFamily: "Arial", fontSize: 13, color: "#555", marginTop: 2 }}>
+                  Paper 1: Questions
+                </div>
+              </div>
+
+              {/* Questions */}
+              {questions.map((q, i) => <QuestionCard key={q.id || i} q={q} num={i + 1} />)}
+
+              {/* Mark scheme */}
+              {showMS && <MarkScheme questions={questions} />}
+            </div>
+          )}
+
+          {/* Empty state */}
+          {questions.length === 0 && !loading && (
+            <div className="no-print" style={{
+              maxWidth: 820, margin: "30px auto 0", textAlign: "center",
+              color: "#999", fontSize: 14, fontFamily: "Arial", padding: "50px 0"
+            }}>
+              Select GPS topics above and click Generate.
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
