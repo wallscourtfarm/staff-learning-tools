@@ -719,71 +719,119 @@ const SYN_ANT=[
 
 // ═══════════════════════════════════════════════════════════
 // MAGIC NUMBER BANK - YEAR 1 (Age 5-6)
-// Simple numbers 1-20, counting, doubles, halves
+// Simple addition, subtraction, counting patterns within 10
 // ═══════════════════════════════════════════════════════════
 const MAGIC_NUMBER=[
-  {clues:['I am less than 5.','I am greater than 2.','I am odd.'],answer:3},
-  {clues:['I am less than 10.','I am greater than 5.','I am even.'],answer:6},
-  {clues:['I am an even number.','I am less than 10.','I am greater than 4.'],answer:6},
-  {clues:['I am the number of fingers on one hand.'],answer:5},
-  {clues:['I am the number of legs on a dog.'],answer:4},
-  {clues:['I am the number of wheels on a car.'],answer:4},
-  {clues:['I am the number of sides on a triangle.'],answer:3},
-  {clues:['I am the number of sides on a square.'],answer:4},
-  {clues:['I am a teen number.','My digits are the same.','I am less than 12.'],answer:11},
-  {clues:['I am a teen number.','I am one more than 12.'],answer:13},
-  {clues:['I am a teen number.','I am two more than 15.'],answer:17},
-  {clues:['I am a teen number.','I am one less than 20.'],answer:19},
-  {clues:['I am the number of fingers on two hands.'],answer:10},
-  {clues:['I am 10 plus 5.'],answer:15},
-  {clues:['I am 10 plus 3.'],answer:13},
-  {clues:['I come after 6.'],answer:7},
+  // Number bonds to 5
+  {clues:['I add to 5.','2 + me = 5.'],answer:3},
+  {clues:['I add to 5.','4 + me = 5.'],answer:1},
+  {clues:['I add to 5.','1 + me = 5.'],answer:4},
+  {clues:['I add to 5.','3 + me = 5.'],answer:2},
+  // Number bonds to 10
+  {clues:['I add to 10.','5 + me = 10.'],answer:5},
+  {clues:['I add to 10.','6 + me = 10.'],answer:4},
+  {clues:['I add to 10.','7 + me = 10.'],answer:3},
+  {clues:['I add to 10.','8 + me = 10.'],answer:2},
+  {clues:['I add to 10.','9 + me = 10.'],answer:1},
+  {clues:['I add to 10.','1 + me = 10.'],answer:9},
+  {clues:['I add to 10.','2 + me = 10.'],answer:8},
+  {clues:['I add to 10.','3 + me = 10.'],answer:7},
+  {clues:['I add to 10.','4 + me = 10.'],answer:6},
+  // Simple addition within 10
+  {clues:['I am 3 + 2.'],answer:5},
+  {clues:['I am 4 + 3.'],answer:7},
+  {clues:['I am 5 + 2.'],answer:7},
+  {clues:['I am 6 + 3.'],answer:9},
+  {clues:['I am 2 + 2.'],answer:4},
+  {clues:['I am 3 + 3.'],answer:6},
+  {clues:['I am 4 + 4.'],answer:8},
+  {clues:['I am 5 + 5.'],answer:10},
+  // Simple subtraction within 10
+  {clues:['I am 5 take away 2.'],answer:3},
+  {clues:['I am 7 take away 3.'],answer:4},
+  {clues:['I am 10 take away 5.'],answer:5},
+  {clues:['I am 8 take away 2.'],answer:6},
+  {clues:['I am 9 take away 4.'],answer:5},
+  {clues:['I am 6 take away 1.'],answer:5},
+  // Counting patterns
+  {clues:['I come after 3.'],answer:4},
+  {clues:['I come after 7.'],answer:8},
   {clues:['I come before 5.'],answer:4},
-  {clues:['I come after 9.'],answer:10},
   {clues:['I come before 10.'],answer:9},
-  {clues:['I am between 5 and 7.'],answer:6},
-  {clues:['I am between 10 and 12.'],answer:11},
+  {clues:['I am between 4 and 6.'],answer:5},
+  {clues:['I am between 7 and 9.'],answer:8},
+  // One more/one less
+  {clues:['I am one more than 4.'],answer:5},
+  {clues:['I am one more than 8.'],answer:9},
+  {clues:['I am one less than 6.'],answer:5},
+  {clues:['I am one less than 10.'],answer:9},
+  // Doubles
   {clues:['I am double 2.'],answer:4},
   {clues:['I am double 3.'],answer:6},
   {clues:['I am double 4.'],answer:8},
   {clues:['I am double 5.'],answer:10},
-  {clues:['I am half of 6.'],answer:3},
-  {clues:['I am half of 8.'],answer:4},
-  {clues:['I am half of 10.'],answer:5},
-  {clues:['I am half of 4.'],answer:2}
+  // Counting in 2s (even numbers to 10)
+  {clues:['Count in 2s: 2, 4, 6, ... What comes next?'],answer:8},
+  {clues:['Count in 2s: 2, 4, ... What comes next?'],answer:6},
+  // Counting in 5s
+  {clues:['Count in 5s: 5, 10, ... What comes next?'],answer:15},
+  // Number recognition
+  {clues:['I have 5 fingers on one hand.'],answer:5},
+  {clues:['I have 10 fingers on two hands.'],answer:10},
+  {clues:['A triangle has 3 sides. What number am I?'],answer:3},
+  {clues:['A square has 4 sides. What number am I?'],answer:4}
 ];
 
 // Clean version with no stray note fields:
 const MAGIC_NUMBER_CLEAN=[
-  {clues:['I am less than 5.','I am greater than 2.','I am odd.'],answer:3},
-  {clues:['I am less than 10.','I am greater than 5.','I am even.'],answer:6},
-  {clues:['I am an even number.','I am less than 10.','I am greater than 4.'],answer:6},
-  {clues:['I am the number of fingers on one hand.'],answer:5},
-  {clues:['I am the number of legs on a dog.'],answer:4},
-  {clues:['I am the number of wheels on a car.'],answer:4},
-  {clues:['I am the number of sides on a triangle.'],answer:3},
-  {clues:['I am the number of sides on a square.'],answer:4},
-  {clues:['I am a teen number.','My digits are the same.','I am less than 12.'],answer:11},
-  {clues:['I am a teen number.','I am one more than 12.'],answer:13},
-  {clues:['I am a teen number.','I am two more than 15.'],answer:17},
-  {clues:['I am a teen number.','I am one less than 20.'],answer:19},
-  {clues:['I am the number of fingers on two hands.'],answer:10},
-  {clues:['I am 10 plus 5.'],answer:15},
-  {clues:['I am 10 plus 3.'],answer:13},
-  {clues:['I come after 6.'],answer:7},
+  {clues:['I add to 5.','2 + me = 5.'],answer:3},
+  {clues:['I add to 5.','4 + me = 5.'],answer:1},
+  {clues:['I add to 5.','1 + me = 5.'],answer:4},
+  {clues:['I add to 5.','3 + me = 5.'],answer:2},
+  {clues:['I add to 10.','5 + me = 10.'],answer:5},
+  {clues:['I add to 10.','6 + me = 10.'],answer:4},
+  {clues:['I add to 10.','7 + me = 10.'],answer:3},
+  {clues:['I add to 10.','8 + me = 10.'],answer:2},
+  {clues:['I add to 10.','9 + me = 10.'],answer:1},
+  {clues:['I add to 10.','1 + me = 10.'],answer:9},
+  {clues:['I add to 10.','2 + me = 10.'],answer:8},
+  {clues:['I add to 10.','3 + me = 10.'],answer:7},
+  {clues:['I add to 10.','4 + me = 10.'],answer:6},
+  {clues:['I am 3 + 2.'],answer:5},
+  {clues:['I am 4 + 3.'],answer:7},
+  {clues:['I am 5 + 2.'],answer:7},
+  {clues:['I am 6 + 3.'],answer:9},
+  {clues:['I am 2 + 2.'],answer:4},
+  {clues:['I am 3 + 3.'],answer:6},
+  {clues:['I am 4 + 4.'],answer:8},
+  {clues:['I am 5 + 5.'],answer:10},
+  {clues:['I am 5 take away 2.'],answer:3},
+  {clues:['I am 7 take away 3.'],answer:4},
+  {clues:['I am 10 take away 5.'],answer:5},
+  {clues:['I am 8 take away 2.'],answer:6},
+  {clues:['I am 9 take away 4.'],answer:5},
+  {clues:['I am 6 take away 1.'],answer:5},
+  {clues:['I come after 3.'],answer:4},
+  {clues:['I come after 7.'],answer:8},
   {clues:['I come before 5.'],answer:4},
-  {clues:['I come after 9.'],answer:10},
   {clues:['I come before 10.'],answer:9},
-  {clues:['I am between 5 and 7.'],answer:6},
-  {clues:['I am between 10 and 12.'],answer:11},
+  {clues:['I am between 4 and 6.'],answer:5},
+  {clues:['I am between 7 and 9.'],answer:8},
+  {clues:['I am one more than 4.'],answer:5},
+  {clues:['I am one more than 8.'],answer:9},
+  {clues:['I am one less than 6.'],answer:5},
+  {clues:['I am one less than 10.'],answer:9},
   {clues:['I am double 2.'],answer:4},
   {clues:['I am double 3.'],answer:6},
   {clues:['I am double 4.'],answer:8},
   {clues:['I am double 5.'],answer:10},
-  {clues:['I am half of 6.'],answer:3},
-  {clues:['I am half of 8.'],answer:4},
-  {clues:['I am half of 10.'],answer:5},
-  {clues:['I am half of 4.'],answer:2}
+  {clues:['Count in 2s: 2, 4, 6, ... What comes next?'],answer:8},
+  {clues:['Count in 2s: 2, 4, ... What comes next?'],answer:6},
+  {clues:['Count in 5s: 5, 10, ... What comes next?'],answer:15},
+  {clues:['I have 5 fingers on one hand.'],answer:5},
+  {clues:['I have 10 fingers on two hands.'],answer:10},
+  {clues:['A triangle has 3 sides. What number am I?'],answer:3},
+  {clues:['A square has 4 sides. What number am I?'],answer:4}
 ];
 
 // ═══════════════════════════════════════════════════════════
@@ -1572,8 +1620,8 @@ function renderPairLiteracy(eA,eB){
     <div class="wod-example">"${eA.example}"</div>
     <div class="wod-etymology">📚 ${eA.origin}</div>
     <div id="wod-prompts" class="wod-qs" style="width:100%;font-size:clamp(0.8rem,1.7vh,1.1rem)">
-      <div>💡 Think of a <strong>synonym</strong></div>
-      <div>💡 Think of an <strong>antonym</strong></div>
+      <div>💡 Think of a <strong>synonym</strong> (words with the same meaning)</div>
+      <div>💡 Think of an <strong>antonym</strong> (words with the opposite meaning)</div>
       <div>💡 Use <strong>${eA.word}</strong> in a sentence</div>
     </div>
     <button class="stm-btn" style="margin-top:0.3vh" onclick="revealWodExamples(this)">Show examples</button>
