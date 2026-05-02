@@ -261,7 +261,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
         <button class="cb" id="solbtn" onclick="toggleSols()">Solutions</button>
         <button class="cb" onclick="newPuzzle()">New puzzle</button>
         <button class="cb" onclick="toggleType()">Switch puzzle</button>
-        <button class="cb" onclick="document.getElementById('img-input').click()">Add image</button>
+        <button class="cb" onclick="openImgOverlay()">Add image</button>
         <button class="cb" onclick="openOverride()">Override today <span id="override-dot"></span></button>
         <button class="cb" onclick="openSetup()">Setup</button>
       </div>
@@ -269,6 +269,23 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
   </div>
 </div>
 <input type="file" id="img-input" accept="image/*" onchange="handleImgFile(event)">
+
+<!-- Image overlay -->
+<div class="overlay" id="img-overlay" onclick="if(event.target===this)closeImgOverlay()">
+  <div class="obox" style="max-width:480px">
+    <h2>Add image</h2>
+    <div style="margin:1rem 0">
+      <button class="oadd" style="display:block;width:100%;margin-bottom:12px" onclick="document.getElementById('img-input').click();closeImgOverlay()">Upload from device</button>
+      <p style="text-align:center;color:#999;font-size:0.8rem;margin:8px 0">— or —</p>
+      <div class="ov-field" style="margin-bottom:0">
+        <label>Paste image URL</label>
+        <input type="url" id="img-url-input" placeholder="https://example.com/image.png" style="margin-bottom:8px">
+        <button class="osave" style="width:100%" onclick="handleImgUrl()">Load from URL</button>
+      </div>
+    </div>
+    <div style="text-align:right;margin-top:1rem"><button class="oclose" onclick="closeImgOverlay()">Cancel</button></div>
+  </div>
+</div>
 
 <!-- Solutions -->
 <div class="overlay" id="sol-ov" onclick="if(event.target===this)closeSols()">
@@ -2067,7 +2084,10 @@ function closeSols(){document.getElementById('sol-ov').classList.remove('on');do
 // ═══════════════════════════════════════════════════════════
 // IMAGE
 // ═══════════════════════════════════════════════════════════
+function openImgOverlay(){document.getElementById('img-overlay').classList.add('on');document.getElementById('img-url-input').value=''}
+function closeImgOverlay(){document.getElementById('img-overlay').classList.remove('on')}
 function handleImgFile(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>showImg(ev.target.result);r.readAsDataURL(f);e.target.value='';}
+function handleImgUrl(){const url=document.getElementById('img-url-input').value.trim();if(!url)return;showImg(url);closeImgOverlay()}
 function showImg(src){document.getElementById('img-el').src=src;document.getElementById('img-pane').classList.add('visible');try{sessionStorage.setItem('ml_img',src)}catch(e){}}
 function removeImg(){document.getElementById('img-el').src='';document.getElementById('img-pane').classList.remove('visible');try{sessionStorage.removeItem('ml_img')}catch(e){}}
 function loadImg(){try{const s=sessionStorage.getItem('ml_img');if(s)showImg(s)}catch(e){}}
