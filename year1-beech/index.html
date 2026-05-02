@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Year 1 Beech — Morning Learning</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23e67e22'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='16' font-weight='bold' fill='white' text-anchor='middle'%3E1%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'Nunito',sans-serif}
+#app{width:100%;height:100%;display:flex;flex-direction:column;outline:5px solid #e67e22;outline-offset:-2px}
+
+#date-hdr{display:flex;align-items:center;justify-content:space-between;padding:0.06em 0.5em;border-bottom:3px solid #111;flex-shrink:0;line-height:1.05}
+#date-logo{height:clamp(48px,7vh,80px);width:auto;object-fit:contain;flex-shrink:0}
+#date-text{font-size:clamp(2.8rem,8vh,6rem);font-weight:700;color:#111;letter-spacing:0.01em;flex:1;text-align:center}
+#class-name{font-size:clamp(2rem,5vh,4rem);font-weight:900;color:#e67e22;flex-shrink:0;padding-right:0.2em}
+
+#lunch-bar{display:grid;grid-template-columns:2fr 2fr 1.5fr 1.5fr 1fr;border-bottom:3px solid #111;flex-shrink:0}
+.lc{display:flex;align-items:center;justify-content:center;font-weight:900;font-size:clamp(1.3rem,3.2vh,2.2rem);padding:0.4em 0.6em;text-align:center;line-height:1.2;min-height:clamp(60px,9.5vh,100px)}
+.lc+.lc{border-left:2.5px solid rgba(0,0,0,0.18)}
+.lc-r{background:#E00;color:#fff}.lc-g{background:#3A9922;color:#fff}.lc-p{background:#E07070;color:#fff}.lc-j{background:#6B4820;color:#F0DFC0}.lc-b{background:#111;color:#fff}
+
+#main{flex:1;display:grid;grid-template-columns:65% 35%;min-height:0;overflow:hidden}
+
+/* PUZZLE */
+#puzzle-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.2vh 2vw;gap:1vh}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);border:3px solid #111}
+.pcell{width:clamp(72px,10.5vh,120px);height:clamp(72px,10.5vh,120px);display:flex;align-items:center;justify-content:center;border:1.5px solid #111;font-size:clamp(2.2rem,6vh,4rem);font-weight:800;background:#fff;color:#111}
+.ptitle{font-size:clamp(1.6rem,4.5vh,3rem);font-weight:700;text-align:center;color:#111;margin-top:0.5vh}
+.num-tbl{border-collapse:collapse;margin-top:0.6vh}
+.num-tbl th{padding:clamp(6px,1.2vh,13px) clamp(18px,3vw,40px);font-size:clamp(1rem,2.4vh,1.6rem);font-weight:800;border:2.5px solid #111}
+.num-tbl td{text-align:center;padding:clamp(5px,1vh,11px) clamp(16px,2.5vw,36px);border:1.5px solid #777;font-size:clamp(1.3rem,3.4vh,2.4rem);font-weight:700}
+.th-2{background:#AED6F1;color:#1A5276}.th-3{background:#A9DFBF;color:#145A32}.th-4{background:#FAD7A0;color:#784212}
+.td-2{background:#EBF5FB}.td-3{background:#EAFAF1}.td-4{background:#FEF9E7}
+
+/* COMBINED PUZZLE */
+#combined-panel{width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;min-height:0;overflow:hidden}
+.cpanel{display:flex;flex-direction:column;padding:0.5vh 0.8vw;border-right:2.5px solid #EEE;border-bottom:2.5px solid #EEE;overflow:hidden;min-height:0}
+.cpanel:nth-child(2),.cpanel:nth-child(4){border-right:none}
+.cpanel:nth-child(3),.cpanel:nth-child(4){border-bottom:none}
+.cpanel-hdr{font-size:clamp(0.9rem,2vh,1.3rem);font-weight:900;color:#fff;background:#e67e22;border-radius:5px 5px 0 0;padding:0.18em 0.7em;text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:0.4em}
+.cpanel-hdr-title{flex:1;text-align:center}
+.reveal-btn{background:rgba(255,255,255,0.22);color:#fff;border:1.5px solid rgba(255,255,255,0.55);border-radius:4px;padding:0.08em 0.55em;font-size:clamp(0.65rem,1.4vh,0.9rem);font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;text-transform:none;letter-spacing:0;flex-shrink:0;white-space:nowrap}
+.reveal-btn:hover{background:rgba(255,255,255,0.4)}
+.cpanel-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4vh;padding:0.3vh 0;overflow:hidden;min-height:0}
+
+/* anagram */
+.ana-main{font-size:clamp(1.6rem,4.5vh,3.2rem);font-weight:900;letter-spacing:0.18em;background:#F1EFE8;border:2.5px solid #B4B2A9;border-radius:7px;padding:0.2em 0.5em;color:#111;text-align:center}
+.ana-blanks{display:flex;gap:5px;justify-content:center}
+.ana-blank{width:clamp(22px,3.5vh,36px);height:clamp(26px,4vh,42px);border-bottom:3.5px solid #111}
+.ana-hint{font-size:clamp(0.85rem,1.9vh,1.3rem);color:#999;font-weight:700;font-style:italic;text-align:center}
+.ana-bonus-list{width:100%;display:flex;flex-direction:column;gap:0.3vh;margin-top:0.1vh}
+.ana-bonus-row{display:flex;align-items:center;gap:8px;justify-content:center}
+.ana-bonus-word{font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:900;letter-spacing:0.12em;background:#F8F8F8;border:1.5px solid #DDD;border-radius:4px;padding:0.15em 0.5em;color:#666}
+.ana-bonus-blanks{display:flex;gap:4px}
+.ana-bonus-blank{width:clamp(14px,2.2vh,22px);height:clamp(18px,2.8vh,28px);border-bottom:2.5px solid #AAA}
+
+/* sequences */
+.seq-row{display:flex;align-items:center;justify-content:center;gap:clamp(4px,0.6vw,10px);width:100%}
+.seq-n{min-width:clamp(38px,5.5vh,62px);height:clamp(38px,5.5vh,62px);border:2.5px solid #111;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:clamp(1rem,2.6vh,1.8rem);font-weight:800;color:#111;padding:0 4px;flex-shrink:0}
+.seq-n.q{background:#FAD7A0;border-color:#F0A500;color:#784212;font-size:clamp(1.2rem,3vh,2rem)}
+.seq-arr{color:#CCC;font-weight:700;font-size:1.1rem;flex-shrink:0}
+.seq-divider{width:100%;height:1.5px;background:#EEE}
+.seq-instr{font-size:clamp(0.8rem,1.8vh,1.2rem);color:#AAA;font-style:italic;font-weight:700;text-align:center}
+
+/* two truths */
+.tt-topic{font-size:clamp(0.85rem,1.9vh,1.3rem);font-weight:900;color:#888;text-transform:uppercase;letter-spacing:0.06em;text-align:center}
+.tt-item{display:flex;gap:8px;align-items:flex-start;width:100%;padding:0.55vh 0.6vw;border:2px solid #E8E8E8;border-radius:7px}
+.tt-num{width:clamp(20px,3vh,32px);height:clamp(20px,3vh,32px);border-radius:50%;background:#e67e22;color:#fff;font-size:clamp(0.72rem,1.6vh,1.1rem);font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.tt-text{font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:700;color:#111;line-height:1.3}
+.tt-instr{font-size:clamp(0.75rem,1.7vh,1.1rem);color:#AAA;font-style:italic;font-weight:700;text-align:center}
+
+/* odd one out */
+.ooo-set{width:100%;display:flex;flex-direction:column;gap:0.35vh}
+.ooo-set+.ooo-set{border-top:3px solid #e67e22;padding-top:0.6vh;margin-top:0.3vh}
+.ooo-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.ooo-item{border:2px solid #E0E0E0;border-radius:6px;padding:0.45vh 0.5vw;font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:700;color:#111;text-align:center;line-height:1.25}
+.ooo-instr{font-size:clamp(0.75rem,1.7vh,1.1rem);color:#AAA;font-style:italic;font-weight:700;text-align:center}
+.tt-lie{border-color:#E03030!important;background:#FFEEEE!important}
+.tt-lie-label{font-size:clamp(0.72rem,1.6vh,1.05rem);color:#C00;font-weight:800;padding:0.2vh 0.5vw;margin-top:0.2vh;background:#FFDDDD;border-radius:4px;text-align:center;width:100%}
+.ooo-odd{border-color:#e67e22!important;background:#FFF3E8!important;color:#A05200!important;font-weight:900!important}
+.ooo-reason{font-size:clamp(0.7rem,1.55vh,1rem);color:#e67e22;font-weight:700;font-style:italic;padding:0.15vh 0;text-align:center}
+.seq-rule{font-size:clamp(0.7rem,1.55vh,1rem);color:#888;font-weight:700;font-style:italic;text-align:center;margin:-0.1vh 0 0.3vh}
+.ana-blank.filled{display:flex;align-items:center;justify-content:center;font-size:clamp(1rem,2.5vh,1.8rem);font-weight:900;color:#e67e22;border-bottom-color:#e67e22}
+.ana-bonus-blank.filled{display:flex;align-items:center;justify-content:center;font-size:clamp(0.75rem,1.9vh,1.3rem);font-weight:900;color:#e67e22;border-bottom-color:#e67e22}
+
+/* RIGHT PANEL */
+#right-panel{border-left:3px solid #E0E0E0;display:flex;flex-direction:column;padding:1.2vh 1.4vw 0.8vh;gap:0;min-height:0;overflow:hidden}
+.msg-hdr{background:#e67e22;color:#fff;font-size:clamp(1.2rem,3vh,2rem);font-weight:700;padding:0.22em 0.8em;border-radius:6px 6px 0 0;flex-shrink:0;line-height:1.3}
+#msg-img-wrap{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;border:2.5px solid #e67e22;border-top:none;border-radius:0 0 6px 6px}
+#msg-body{flex:0 0 auto;padding:0.8vh 1vw;font-size:clamp(1.6rem,3.8vh,2.6rem);font-weight:700;outline:none;overflow-y:auto;color:#111;line-height:1.5;width:100%;min-height:2em}
+#msg-body:empty::before{content:attr(data-ph);color:#ccc;font-style:italic;font-weight:400;font-size:0.85em}
+#img-pane{display:none;flex:1;border-top:2px solid #E8E8E8;position:relative;overflow:hidden;align-items:center;justify-content:center;min-height:0}
+#img-pane.visible{display:flex}
+#img-pane img{max-width:100%;max-height:100%;object-fit:contain}
+#img-del{position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.55);color:#fff;border:none;border-radius:4px;padding:3px 9px;font-size:11px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;opacity:0;transition:opacity 0.15s}
+#img-pane:hover #img-del{opacity:1}
+#img-input{display:none}
+
+/* CONTROLS */
+#ctrl{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:6px 0 2px;flex-shrink:0}
+.cb{padding:6px 8px;font-size:11px;font-family:'Nunito',sans-serif;font-weight:700;background:rgba(240,240,240,0.95);border:1.5px solid #C8C8C8;border-radius:5px;cursor:pointer;color:#444;text-align:center}
+.cb:hover{background:#DCDCDC}
+#override-dot{width:7px;height:7px;background:#FFC000;border-radius:50%;margin-left:4px;vertical-align:middle;display:none}
+
+/* OVERLAYS */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.48);z-index:100;align-items:flex-start;justify-content:center;padding:4vh 1rem 2rem;overflow-y:auto}
+.overlay.on{display:flex}
+.obox{background:#fff;border-radius:14px;padding:22px 26px;width:90vw;max-width:920px;font-family:'Nunito',sans-serif;margin:auto}
+.obox h2{font-size:1.3rem;font-weight:800;margin-bottom:0.8rem;color:#111}
+.obox h3{font-size:1rem;font-weight:800;margin:1rem 0 0.5rem;color:#333}
+.oclose{padding:7px 18px;background:#eee;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.osave{padding:7px 18px;background:#e67e22;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.odanger{padding:7px 18px;background:#E03030;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.oadd{padding:7px 18px;background:#3A9922;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.ov-field{margin-bottom:11px}
+.ov-field label{display:block;font-size:0.82rem;font-weight:700;color:#333;margin-bottom:4px}
+.ov-field input,.ov-field textarea{width:100%;padding:7px 10px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.9rem}
+.ov-field textarea{min-height:70px;resize:vertical}
+.hint{font-size:0.75rem;color:#999;margin-top:3px}
+.menu-wk{font-weight:800;font-size:1rem;color:#111;margin:14px 0 5px;padding-top:12px;border-top:2px solid #EEE}
+.menu-wk:first-child{border-top:none;margin-top:0}
+.mrow{display:grid;grid-template-columns:70px 1fr 1fr;gap:5px 10px;align-items:center;margin-bottom:5px}
+.mrow label{font-size:0.82rem;font-weight:700;color:#555}
+.mrow input{padding:5px 8px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.82rem;width:100%}
+.col-hdr{font-size:0.74rem;font-weight:700;color:#AAA}
+.sol-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sol-cl{font-weight:800;font-size:0.82rem;color:#555;margin-bottom:5px}
+.sol-ci{font-size:0.88rem;font-family:monospace;margin-bottom:4px;color:#111}
+.sol-words{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.sol-w{background:#FFF3E8;border:1px solid #F5B041;padding:3px 9px;border-radius:4px;font-size:0.9rem;font-weight:600;color:#A05200}
+
+/* ── SPOT THE MISTAKE ──────────────────────────────────── */
+.stm-para{background:#FFF8E7;border:2.5px solid #F0C040;border-radius:9px;padding:1.2vh 1.4vw;font-size:clamp(1.1rem,2.8vh,1.9rem);font-weight:600;line-height:1.7;color:#111;margin-bottom:1vh}
+.stm-count{font-size:clamp(1rem,2.4vh,1.6rem);font-weight:700;color:#555;text-align:center;margin-bottom:1vh}
+.stm-btn{padding:0.5em 1.4em;background:#e67e22;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer}
+.stm-btn:hover{background:#d35400}
+.stm-err{background:#FFDDDD;border-radius:4px;padding:0 3px;text-decoration:underline wavy #E03030}
+.stm-ans-list{margin-top:1.2vh;font-size:clamp(0.85rem,1.9vh,1.25rem);line-height:1.9;color:#333}
+.stm-ans-item{margin-bottom:0.3vh}
+.stm-ans-item b{color:#E03030}
+
+/* ── WORD OF THE DAY ───────────────────────────────────── */
+.wod-word{font-size:clamp(2.2rem,7vh,5rem);font-weight:900;color:#e67e22;text-align:center;letter-spacing:0.02em;line-height:1}
+.wod-class{font-size:clamp(0.85rem,2vh,1.3rem);font-weight:800;color:#fff;background:#555;border-radius:20px;padding:0.15em 0.8em;display:inline-block;margin:0.5vh auto 0.8vh;text-align:center}
+.wod-def{font-size:clamp(1rem,2.5vh,1.7rem);font-weight:700;color:#333;text-align:center;line-height:1.4;margin-bottom:0.6vh}
+.wod-example{font-size:clamp(0.85rem,2vh,1.35rem);color:#666;font-style:italic;text-align:center;margin-bottom:0.5vh;line-height:1.4}
+.wod-etymology{font-size:clamp(0.78rem,1.7vh,1.15rem);color:#888;text-align:center;margin-bottom:1vh;line-height:1.4}
+.wod-qs{background:#FFF3E8;border:2px solid #F5B041;border-radius:8px;padding:0.8vh 1vw;font-size:clamp(0.85rem,1.9vh,1.3rem);font-weight:700;color:#A05200;line-height:1.9}
+
+/* ── SYNONYM & ANTONYM ─────────────────────────────────── */
+.sna-word{font-size:clamp(2rem,6vh,4.2rem);font-weight:900;color:#111;text-align:center;margin-bottom:0.8vh}
+.sna-cols{display:grid;grid-template-columns:1fr 1fr;gap:1vw;width:100%}
+.sna-col-hdr{font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:900;text-align:center;padding:0.3em;border-radius:6px 6px 0 0;color:#fff}
+.sna-col-hdr.syn{background:#3A9922}
+.sna-col-hdr.ant{background:#E03030}
+.sna-col-body{border:2px solid #DDD;border-top:none;border-radius:0 0 6px 6px;padding:0.5vh 0.6vw;min-height:10vh;font-size:clamp(0.85rem,2vh,1.3rem);font-weight:700;color:#333;line-height:1.9;text-align:center}
+.sna-instr{font-size:clamp(0.8rem,1.8vh,1.2rem);color:#AAA;font-style:italic;font-weight:700;text-align:center;margin-bottom:0.5vh}
+.sna-btn{padding:0.45em 1.2em;background:#e67e22;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.85rem,1.9vh,1.25rem);font-weight:800;cursor:pointer}
+.sna-btn:hover{background:#d35400}
+
+/* ── MAGIC NUMBER ──────────────────────────────────────── */
+.mn-clues{width:100%;display:flex;flex-direction:column;gap:0.5vh}
+.mn-clue{display:flex;align-items:center;gap:0.7vw;padding:0.55vh 0.8vw;border:2px solid #E8E8E8;border-radius:7px;font-size:clamp(0.95rem,2.3vh,1.55rem);font-weight:700;color:#333}
+.mn-clue-num{min-width:clamp(24px,3.5vh,36px);height:clamp(24px,3.5vh,36px);border-radius:50%;background:#e67e22;color:#fff;font-size:clamp(0.75rem,1.7vh,1.1rem);font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mn-answer{font-size:clamp(3rem,9vh,6rem);font-weight:900;color:#e67e22;text-align:center;display:none}
+.mn-btn{padding:0.5em 1.4em;background:#e67e22;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer;margin-top:1vh}
+.mn-btn:hover{background:#d35400}
+
+/* ── SHAPE OF THE DAY ──────────────────────────────────── */
+.shp-name{font-size:clamp(2rem,6.5vh,4.5rem);font-weight:900;color:#111;text-align:center;margin-bottom:0.5vh}
+.shp-type{font-size:clamp(0.85rem,2vh,1.3rem);font-weight:800;color:#fff;background:#e67e22;border-radius:20px;padding:0.15em 0.9em;display:inline-block;margin-bottom:1vh}
+.shp-qs{display:flex;flex-direction:column;gap:0.5vh;width:100%;margin-bottom:1vh}
+.shp-q{padding:0.5vh 0.8vw;background:#F8F8F8;border:1.5px solid #E0E0E0;border-radius:6px;font-size:clamp(0.88rem,2vh,1.35rem);font-weight:700;color:#444;line-height:1.4}
+.shp-btn{padding:0.45em 1.2em;background:#e67e22;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.85rem,1.9vh,1.25rem);font-weight:800;cursor:pointer}
+.shp-btn:hover{background:#d35400}
+.shp-props{display:none;width:100%;background:#FFF3E8;border:2px solid #F5B041;border-radius:8px;padding:0.8vh 1vw;font-size:clamp(0.85rem,1.9vh,1.3rem);font-weight:700;color:#A05200;line-height:1.9;margin-top:0.5vh}
+
+/* ── ESTIMATION STATION ────────────────────────────────── */
+.est-q{background:#FFF0E0;border:2.5px solid #F0A050;border-radius:9px;padding:1.2vh 1.4vw;font-size:clamp(1.2rem,3.2vh,2.2rem);font-weight:800;color:#111;text-align:center;line-height:1.5;margin-bottom:1vh}
+.est-instr{font-size:clamp(0.9rem,2.1vh,1.4rem);font-weight:700;color:#777;text-align:center;margin-bottom:1vh}
+.est-btn{padding:0.5em 1.4em;background:#e67e22;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer}
+.est-btn:hover{background:#d35400}
+.est-ans{display:none;margin-top:1vh;background:#FFF3E8;border:2px solid #F5B041;border-radius:8px;padding:1vh 1.2vw;font-size:clamp(1rem,2.5vh,1.7rem);font-weight:800;color:#A05200;text-align:center;line-height:1.5}
+
+/* ── PAIR LAYOUT ───────────────────────────────────────── */
+.pair-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;height:100%;overflow:hidden}
+@media(max-width:640px){.pair-grid{grid-template-columns:1fr}}
+.pair-cell{overflow-y:auto;padding:1vh 1.2vw;display:flex;flex-direction:column;gap:0.4vh;border:2px solid #e8e8e8;border-radius:8px;background:#fdfdfd;min-height:0}
+.pair-cell .ptitle{font-size:clamp(0.9rem,2.2vh,1.4rem)!important;margin-bottom:0.2vh!important}
+.pair-cell .wod-word{font-size:clamp(1.5rem,4vh,2.8rem)}
+.pair-cell .stm-para,.pair-cell .est-q,.pair-cell .wyr-q,.pair-cell .map-country,.pair-cell .sna-word,.pair-cell .mn-clue,.pair-cell .shp-name{font-size:clamp(0.9rem,2vh,1.4rem)!important}
+
+/* TWO TRUTHS EDITOR */
+.tt-bank-item{border:1.5px solid #EEE;border-radius:8px;padding:10px 14px;margin-bottom:8px;position:relative}
+.tt-bank-topic{font-size:0.8rem;font-weight:800;color:#e67e22;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em}
+.tt-bank-stmts{font-size:0.82rem;color:#333;line-height:1.6}
+.tt-bank-lie{color:#E03030}
+.tt-bank-del{position:absolute;top:8px;right:10px;background:none;border:none;color:#CCC;cursor:pointer;font-size:1.1rem;font-family:'Nunito',sans-serif;font-weight:700}
+.tt-bank-del:hover{color:#E03030}
+.tt-add-form{background:#F8F8F8;border-radius:8px;padding:14px;margin-top:10px}
+.tt-add-form input{width:100%;padding:6px 9px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.85rem;margin-bottom:6px}
+.tt-lie-label{display:flex;align-items:center;gap:6px;font-size:0.8rem;font-weight:700;color:#666;margin-bottom:6px}
+.tt-lie-label select{padding:4px 7px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.82rem}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="date-hdr">
+    <img id="date-logo" src="../logo.png" alt="Wallscourt Farm Academy">
+    <span id="date-text"></span>
+    <span id="class-name">Beech</span>
+  </div>
+  <div id="lunch-bar">
+    <div class="lc lc-r" id="lc0">—</div>
+    <div class="lc lc-g" id="lc1">—</div>
+    <div class="lc lc-p">Tomato Pasta</div>
+    <div class="lc lc-j">Jacket Potato</div>
+    <div class="lc lc-b">Packed Lunch</div>
+  </div>
+  <div id="main">
+    <div id="puzzle-panel"></div>
+    <div id="right-panel">
+      <div class="msg-hdr">Morning Messages</div>
+      <div id="msg-img-wrap">
+        <div class="msg-body" id="msg-body" contenteditable="true" data-ph="No message today"></div>
+        <div id="img-pane">
+          <img id="img-el" src="" alt="">
+          <button id="img-del" onclick="removeImg()">Remove</button>
+        </div>
+      </div>
+      <div id="ctrl">
+        <button class="cb" id="solbtn" onclick="toggleSols()">Solutions</button>
+        <button class="cb" onclick="newPuzzle()">New puzzle</button>
+        <button class="cb" onclick="toggleType()">Switch puzzle</button>
+        <button class="cb" onclick="openImgOverlay()">Add image</button>
+        <button class="cb" onclick="openOverride()">Override today <span id="override-dot"></span></button>
+        <button class="cb" onclick="openSetup()">Setup</button>
+      </div>
+    </div>
+  </div>
+</div>
+<input type="file" id="img-input" accept="image/*" onchange="handleImgFile(event)">
+
+<!-- Image overlay -->
+<div class="overlay" id="img-overlay" onclick="if(event.target===this)closeImgOverlay()">
+  <div class="obox" style="max-width:480px">
+    <h2>Add image</h2>
+    <div style="margin:1rem 0">
+      <button class="oadd" style="display:block;width:100%;margin-bottom:12px" onclick="document.getElementById('img-input').click();closeImgOverlay()">Upload from device</button>
+      <p style="text-align:center;color:#999;font-size:0.8rem;margin:8px 0">— or —</p>
+      <div class="ov-field" style="margin-bottom:0">
+        <label>Paste image URL</label>
+        <input type="url" id="img-url-input" placeholder="https://example.com/image.png" style="margin-bottom:8px">
+        <button class="osave" style="width:100%" onclick="handleImgUrl()">Load from URL</button>
+      </div>
+    </div>
+    <div style="text-align:right;margin-top:1rem"><button class="oclose" onclick="closeImgOverlay()">Cancel</button></div>
+  </div>
+</div>
+
+<!-- Solutions -->
+<div class="overlay" id="sol-ov" onclick="if(event.target===this)closeSols()">
+  <div class="obox">
+    <h2 id="sol-title">Solutions</h2>
+    <div id="sol-content"></div>
+    <div style="text-align:right;margin-top:1rem"><button class="oclose" onclick="closeSols()">Close</button></div>
+  </div>
+</div>
+
+<!-- Override today -->
+<div class="overlay" id="ov-overlay" onclick="if(event.target===this)closeOverride()">
+  <div class="obox">
+    <h2>Override today's display</h2>
+    <p style="font-size:0.82rem;color:#666;margin-bottom:12px">Leave any field blank to use the automatic value.</p>
+    <div class="ov-field"><label>Hot option 1 (red)</label><input id="ov-meal1" placeholder="Leave blank to use rotation"></div>
+    <div class="ov-field"><label>Hot option 2 (green)</label><input id="ov-meal2" placeholder="Leave blank to use rotation"></div>
+    <div class="ov-field">
+      <label>Morning message</label>
+      <textarea id="ov-msg" placeholder="Leave blank for automatic message (Thu/Fri) or no message"></textarea>
+      <div class="hint" id="ov-auto-preview"></div>
+    </div>
+    <div class="ov-field">
+      <label>Two truths &amp; a lie — use today's custom set instead of bank</label>
+      <input id="ov-tt-topic" placeholder="Topic (e.g. Numbers to 10)" style="margin-bottom:5px">
+      <input id="ov-tt-1" placeholder="Statement 1">
+      <input id="ov-tt-2" placeholder="Statement 2" style="margin-top:5px">
+      <input id="ov-tt-3" placeholder="Statement 3" style="margin-top:5px">
+      <div class="tt-lie-label" style="margin-top:6px">The lie is statement <select id="ov-tt-lie"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+      <div class="hint">Leave topic blank to use a random set from the bank</div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:space-between;margin-top:1rem;flex-wrap:wrap">
+      <button class="odanger" onclick="clearOverride()">Clear all overrides</button>
+      <div style="display:flex;gap:10px"><button class="oclose" onclick="closeOverride()">Cancel</button><button class="osave" onclick="saveOverride()">Apply</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- Setup (menu + two truths bank) -->
+<div class="overlay" id="setup-ov" onclick="if(event.target===this)closeSetup()">
+  <div class="obox">
+    <h2>Setup</h2>
+
+    <h3>Lunch menu — 3-week rotation</h3>
+    <p style="font-size:0.82rem;color:#666;margin-bottom:10px">Tomato Pasta, Jacket Potato and Packed Lunch are fixed.</p>
+    <div id="menu-form"></div>
+
+    <h3 style="margin-top:1.5rem">Two Truths &amp; a Lie — question bank</h3>
+    <p style="font-size:0.82rem;color:#666;margin-bottom:10px">Add your own sets. The game picks randomly from this bank.</p>
+    <div id="tt-bank-list"></div>
+    <div class="tt-add-form">
+      <div style="font-size:0.85rem;font-weight:800;color:#333;margin-bottom:8px">Add a new set</div>
+      <input id="tt-new-topic" placeholder="Topic (e.g. Counting to 20)">
+      <input id="tt-new-1" placeholder="Statement 1">
+      <input id="tt-new-2" placeholder="Statement 2">
+      <input id="tt-new-3" placeholder="Statement 3">
+      <div class="tt-lie-label">The lie is statement <select id="tt-new-lie"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+      <button class="oadd" onclick="addTTSet()" style="margin-top:6px">Add to bank</button>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1.5rem">
+      <button class="oclose" onclick="closeSetup()">Cancel</button>
+      <button class="osave" onclick="saveSetup()">Save all</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// MENU DATA — same as main morning learning
+// ═══════════════════════════════════════════════════════════
+const MENU_BY_WEEK={
+  '2026-04-13':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-04-20':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-04-27':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-05-04':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-05-11':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-05-18':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-05-25':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-06-01':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-06-08':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-06-15':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-06-22':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-06-29':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-07-06':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-07-13':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-07-20':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-07-27':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-08-03':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-08-10':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-08-24':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-08-31':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-09-07':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-09-14':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-09-21':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-09-28':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-10-05':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-10-12':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-10-19':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+};
+const AUTO_MSGS={Thu:'Hand in your home learning\nPaired Spelling Bee',Fri:'Stick in your home learning\nLeave last week\'s to be checked'};
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DAYNAMES=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 1 ANAGRAM BANK — Simple 3-5 letter words
+// ═══════════════════════════════════════════════════════════
+const ANAGRAM_BANK=[
+  // ── CVC and simple words ───────────────────────────────────
+  {main:'CAT',mainHint:'a pet that says meow',bonus:[]},
+  {main:'DOG',mainHint:'a pet that barks',bonus:[]},
+  {main:'SUN',mainHint:'shines in the sky during the day',bonus:[]},
+  {main:'HAT',mainHint:'you wear this on your head',bonus:[]},
+  {main:'CUP',mainHint:'you drink from this',bonus:[]},
+  {main:'BED',mainHint:'you sleep in this',bonus:[]},
+  {main:'PEN',mainHint:'you write with this',bonus:[]},
+  {main:'BOX',mainHint:'you put things inside this',bonus:[]},
+  {main:'BUS',mainHint:'takes you to school',bonus:[]},
+  {main:'RUN',mainHint:'you do this fast',bonus:[]},
+  {main:'JUMP',mainHint:'you go up in the air',bonus:[{w:'MUM',hint:'mother'},{w:'PUM',hint:'short for puma'}]},
+  {main:'FISH',mainHint:'lives in water',bonus:[{w:'HIS',hint:'belonging to him'}]},
+  {main:'BIRD',mainHint:'an animal with wings',bonus:[{w:'BID',hint:'to offer to pay'}]},
+  {main:'BOOK',mainHint:'you read this',bonus:[{w:'BOO',hint:'a scary sound'}]},
+  {main:'TREE',mainHint:'a tall plant',bonus:[{w:'TEE',hint:'used in golf'}]},
+  {main:'STAR',mainHint:'shines in the night sky',bonus:[{w:'RAT',hint:'a small animal'},{w:'TAR',hint:'a black sticky substance'}]},
+  {main:'MOON',mainHint:'shines at night',bonus:[{w:'MOO',hint:'cow sound'}]},
+  {main:'CAKE',mainHint:'a sweet treat for birthdays',bonus:[{w:'ACE',hint:'very good'}]},
+  {main:'RAIN',mainHint:'water falls from clouds',bonus:[{w:'RAN',hint:'past of run'},{w:'AIR',hint:'we breathe this'}]},
+  {main:'BOAT',mainHint:'floats on water',bonus:[{w:'BAT',hint:'a flying mammal'},{w:'OAT',hint:'a grain'}]},
+  {main:'KING',mainHint:'rules a kingdom',bonus:[{w:'INK',hint:'used in pens'}]},
+  {main:'RING',mainHint:'you wear this on your finger',bonus:[{w:'GIN',hint:'a drink'}]},
+  {main:'SONG',mainHint:'you sing this',bonus:[{w:'SON',hint:'a boy child'}]},
+  {main:'FROG',mainHint:'a green animal that hops',bonus:[{w:'FOR',hint:'a preposition'},{w:'FOG',hint:'cloudy air'}]},
+  {main:'DUCK',mainHint:'a bird that quacks',bonus:[{w:'CUK',hint:'(no word)'}]},
+  {main:'SHIP',mainHint:'a big boat',bonus:[{w:'HIP',hint:'part of your body'},{w:'SIP',hint:'drink slowly'}]},
+  {main:'MILK',mainHint:'a white drink from cows',bonus:[{w:'ILK',hint:'type or kind'}]},
+  {main:'PARK',mainHint:'a place to play outside',bonus:[{w:'ARK',hint:'Noah\'s boat'}]},
+  {main:'WIND',mainHint:'blows the trees',bonus:[{w:'WIN',hint:'to come first'}]},
+  {main:'CAST',mainHint:'actors in a play',bonus:[{w:'CAT',hint:'a pet'},{w:'ACT',hint:'to do something'}]},
+  {main:'CLAP',mainHint:'you do this with your hands',bonus:[{w:'CAP',hint:'a hat'},{w:'LAP',hint:'your legs when sitting'}]},
+  {main:'PLAY',mainHint:'you do this with toys',bonus:[{w:'PAY',hint:'give money'},{w:'LAY',hint:'put down'}]},
+  {main:'SNOW',mainHint:'white and cold in winter',bonus:[{w:'OWN',hint:'belonging to you'},{w:'NOW',hint:'this moment'}]},
+  {main:'BEAR',mainHint:'a big furry animal',bonus:[{w:'EAR',hint:'you hear with these'},{w:'BAR',hint:'a long shape'}]},
+  {main:'DEAR',mainHint:'a way to start a letter',bonus:[{w:'EAR',hint:'you hear with these'},{w:'RED',hint:'a colour'}]},
+  {main:'FORK',mainHint:'you eat with this',bonus:[{w:'FOR',hint:'a preposition'}]},
+  {main:'CORN',mainHint:'a yellow vegetable',bonus:[{w:'COT',hint:'a small bed'}]},
+  {main:'BARN',mainHint:'a home for animals on a farm',bonus:[{w:'BAN',hint:'to forbid'},{w:'RAN',hint:'past of run'}]},
+  {main:'HAND',mainHint:'at the end of your arm',bonus:[{w:'AND',hint:'a joining word'},{w:'HAD',hint:'past of have'}]},
+  {main:'SAND',mainHint:'you find this at the beach',bonus:[{w:'AND',hint:'a joining word'},{w:'SAD',hint:'not happy'}]},
+  {main:'WISH',mainHint:'when you want something',bonus:[{w:'HIS',hint:'belonging to him'}]},
+  {main:'SHOP',mainHint:'where you buy things',bonus:[{w:'HOP',hint:'jump on one foot'},{w:'HIS',hint:'belonging to him'}]},
+  {main:'CHAT',mainHint:'to talk to friends',bonus:[{w:'CAT',hint:'a pet'},{w:'HAT',hint:'you wear this on your head'}]},
+  {main:'STEP',mainHint:'you take these when walking',bonus:[{w:'PET',hint:'an animal you keep'}]},
+  {main:'GIFT',mainHint:'a present',bonus:[{w:'FIT',hint:'the right size'}]},
+  {main:'SWIM',mainHint:'you do this in water',bonus:[{w:'WIN',hint:'to come first'}]},
+  {main:'WENT',mainHint:'past of go',bonus:[{w:'TEN',hint:'a number'},{w:'NET',hint:'used for catching fish'}]},
+  {main:'BEST',mainHint:'better than all the others',bonus:[{w:'BET',hint:'to gamble'},{w:'SET',hint:'a group'}]},
+  {main:'FAST',mainHint:'quick, not slow',bonus:[{w:'FAT',hint:'not thin'},{w:'SAT',hint:'past of sit'}]},
+  {main:'DARK',mainHint:'when there is no light',bonus:[{w:'ARK',hint:'Noah\'s boat'}]},
+  {main:'LAMP',mainHint:'gives light',bonus:[{w:'LAP',hint:'your legs when sitting'},{w:'MAP',hint:'shows you where to go'}]},
+  {main:'NEST',mainHint:'a bird\'s home',bonus:[{w:'NET',hint:'used for catching fish'},{w:'SET',hint:'a group'}]},
+  {main:'FROG',mainHint:'a green animal that jumps',bonus:[{w:'FOG',hint:'cloudy air'},{w:'FOR',hint:'a preposition'}]},
+  {main:'WORM',mainHint:'a long thin animal',bonus:[]},
+  {main:'FISH',mainHint:'lives in water and has fins',bonus:[{w:'HIS',hint:'belonging to him'}]},
+  {main:'FARM',mainHint:'where animals live',bonus:[{w:'FAR',hint:'not near'}]},
+  {main:'DRUM',mainHint:'you hit this to make music',bonus:[]},
+  {main:'SKY',mainHint:'look up to see this',bonus:[]},
+  {main:'FLY',mainHint:'an insect with wings',bonus:[]},
+  {main:'EGG',mainHint:'comes from a chicken',bonus:[]},
+  {main:'INK',mainHint:'used in pens',bonus:[]},
+  {main:'NUT',mainHint:'a food that grows on trees',bonus:[]},
+  {main:'ANT',mainHint:'a tiny insect',bonus:[]},
+  {main:'WEB',mainHint:'a spider makes this',bonus:[]},
+  {main:'HAY',mainHint:'food for horses',bonus:[]},
+  {main:'JAM',mainHint:'spread on toast',bonus:[]},
+  {main:'LEG',mainHint:'you walk on these',bonus:[]},
+  {main:'LIP',mainHint:'part of your mouth',bonus:[]},
+  {main:'MOP',mainHint:'used to clean floors',bonus:[]},
+  {main:'NAP',mainHint:'a short sleep',bonus:[]},
+  {main:'PIN',mainHint:'holds things together',bonus:[]},
+  {main:'POT',mainHint:'you cook in this',bonus:[]},
+  {main:'RAG',mainHint:'an old piece of cloth',bonus:[]},
+  {main:'SAD',mainHint:'not happy',bonus:[]},
+  {main:'TAP',mainHint:'water comes from this',bonus:[]},
+  {main:'TUB',mainHint:'you wash in this',bonus:[]},
+  {main:'VAN',mainHint:'a vehicle for carrying things',bonus:[]},
+  {main:'WIG',mainHint:'fake hair',bonus:[]},
+  {main:'YAK',mainHint:'a hairy animal',bonus:[]},
+  {main:'ZAP',mainHint:'a quick hit of energy',bonus:[]}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 1 TWO TRUTHS & A LIE — Simple statements
+// ═══════════════════════════════════════════════════════════
+const DEFAULT_TT=[
+  // ── Numbers to 20 ──────────────────────────────────────────
+  {topic:'Numbers',stmts:['5 comes after 4','7 is bigger than 9','10 has two digits'],lie:2},
+  {topic:'Numbers',stmts:['The number after 9 is 10','Zero is bigger than one','The number before 5 is 4'],lie:2},
+  {topic:'Numbers',stmts:['12 is between 11 and 13','20 is smaller than 10','15 has a 5 in it'],lie:2},
+  {topic:'Numbers',stmts:['We count from 1','The last number is 10','We can count backwards'],lie:2},
+  {topic:'Numbers',stmts:['3 plus 2 equals 5','4 is an even number','1 plus 1 equals 3'],lie:3},
+  // ── Shapes ──────────────────────────────────────────────────
+  {topic:'Shapes',stmts:['A square has 4 sides','A triangle has 4 corners','A circle is round'],lie:2},
+  {topic:'Shapes',stmts:['A rectangle has 4 corners','A triangle has 3 sides','A square has 3 sides'],lie:3},
+  {topic:'Shapes',stmts:['Circles have no corners','A hexagon has 6 sides','A square has 5 sides'],lie:3},
+  {topic:'Shapes',stmts:['A circle is round','Triangles have straight sides','A square is the same as a circle'],lie:3},
+  // ── Addition and subtraction ────────────────────────────────
+  {topic:'Adding',stmts:['2 plus 2 equals 4','5 plus 1 equals 7','1 plus 1 equals 2'],lie:2},
+  {topic:'Adding',stmts:['3 plus 3 equals 6','10 plus 0 equals 10','4 plus 4 equals 7'],lie:3},
+  {topic:'Adding',stmts:['5 plus 5 equals 10','2 plus 8 equals 9','3 plus 7 equals 10'],lie:2},
+  {topic:'Subtracting',stmts:['5 take away 2 equals 3','10 take away 5 equals 4','8 take away 3 equals 5'],lie:2},
+  {topic:'Subtracting',stmts:['6 take away 1 equals 5','7 take away 7 equals 1','4 take away 0 equals 4'],lie:2},
+  // ── Phonics and reading ─────────────────────────────────────
+  {topic:'Phonics',stmts:['"Cat" starts with the letter C',"Dog" starts with the letter D','"Sun" starts with the letter M'],lie:3},
+  {topic:'Phonics',stmts:['The word "bed" has 3 letters','The word "it" has 2 letters','The word "a" has 2 letters'],lie:3},
+  {topic:'Phonics',stmts:['"Sh" is a digraph — two letters making one sound','"Ch" is a digraph','"Th" has three letters'],lie:3},
+  {topic:'Phonics',stmts:['C-A-T spells cat','D-O-G spells dog','B-U-S spells car'],lie:3},
+  {topic:'Phonics',stmts:['The letter "a" makes the sound /a/ as in apple','The letter "b" makes the sound /b/ as in ball','The letter "s" makes the sound /k/'],lie:3},
+  // ── Animals and living things ───────────────────────────────
+  {topic:'Animals',stmts:['Dogs bark','Cats meow','Fish can fly'],lie:3},
+  {topic:'Animals',stmts:['Birds have wings','Dogs have feathers','Cats have fur'],lie:2},
+  {topic:'Animals',stmts:['Cows give us milk','Sheep give us wool','Pigs give us eggs'],lie:3},
+  {topic:'Animals',stmts:['A baby cat is called a kitten','A baby dog is called a puppy','A baby sheep is called a piglet'],lie:3},
+  {topic:'Animals',stmts:['Fish live in water','Birds live in nests','Dogs live in trees'],lie:3},
+  {topic:'Animals',stmts:['Rabbits have long ears','Snakes have legs','Frogs can jump'],lie:2},
+  // ── Seasons and weather ─────────────────────────────────────
+  {topic:'Seasons',stmts:['Winter is cold','Summer is hot','Spring comes after autumn'],lie:3},
+  {topic:'Seasons',stmts:['We have 4 seasons','Summer is the coldest season','Winter is a season'],lie:2},
+  {topic:'Weather',stmts:['Rain falls from clouds','Snow is cold','The sun comes out at night'],lie:3},
+  {topic:'Weather',stmts:['We need a coat when it is cold','We use an umbrella when it rains','We wear shorts in winter'],lie:3},
+  // ── Plants ──────────────────────────────────────────────────
+  {topic:'Plants',stmts:['Flowers have petals','Trees have leaves','Plants need mud to grow'],lie:3},
+  {topic:'Plants',stmts:['Plants need water','Plants need sunlight','Plants need to eat food like we do'],lie:3},
+  {topic:'Plants',stmts:['Leaves are green','Flowers can be many colours','All plants are small'],lie:3},
+  // ── Materials ───────────────────────────────────────────────
+  {topic:'Materials',stmts:['Wood comes from trees','Glass is transparent','Metal is soft like a pillow'],lie:3},
+  {topic:'Materials',stmts:['Plastic can be many colours','Fabric is used for clothes','Glass is soft'],lie:3},
+  {topic:'Materials',stmts:['Rocks are hard','Water is a solid','Paper comes from trees'],lie:2},
+  // ── Ourselves ───────────────────────────────────────────────
+  {topic:'Our bodies',stmts:['We have two eyes','We have one nose','We have three ears'],lie:3},
+  {topic:'Our bodies',stmts:['We use our eyes to see','We use our ears to smell','We use our nose to smell'],lie:2},
+  {topic:'Our bodies',stmts:['Our heart beats inside us','We have bones','Our skin is made of metal'],lie:3},
+  {topic:'Senses',stmts:['We see with our eyes','We hear with our ears','We taste with our hands'],lie:3},
+  // ── Everyday life ───────────────────────────────────────────
+  {topic:'School',stmts:['We write with pencils','We read books','We sleep in the classroom'],lie:3},
+  {topic:'School',stmts:['We use scissors to cut','We paint with brushes','We eat our lunch in the bathroom'],lie:3},
+  {topic:'Days',stmts:['Monday comes before Tuesday','Sunday is a day of the week','There are 10 days in a week'],lie:3},
+  {topic:'Months',stmts:['There are 12 months in a year','January is the first month','December is in summer'],lie:3},
+  // ── Simple maths ─────────────────────────────────────────────
+  {topic:'Counting',stmts:['The number after 5 is 6','The number before 3 is 1','We can count to 10'],lie:2},
+  {topic:'Counting',stmts:['The number 7 comes after 6','The number 4 comes after 5','We count from left to right'],lie:2},
+  {topic:'Patterns',stmts:['Red, blue, red, blue is a pattern','1, 2, 3, 4 is a pattern','Circle, circle, square is always the same'],lie:3},
+  // ── Money (simple introduction) ─────────────────────────────
+  {topic:'Money',stmts:['We use money to buy things','Coins are circles','A penny is worth 100 pounds'],lie:3},
+  // ── Time ────────────────────────────────────────────────────
+  {topic:'Time',stmts:['There are 7 days in a week','Morning comes before afternoon','Night comes before morning'],lie:3},
+  {topic:'Time',stmts:['We sleep at night','We go to school in the evening','Lunchtime is in the middle of the day'],lie:2},
+  // ── Position ────────────────────────────────────────────────
+  {topic:'Position',stmts:['Above means higher than something','Below means higher than something','Under means beneath something'],lie:2},
+  {topic:'Position',stmts:['Next to means beside something','Behind means at the back','In front means at the back'],lie:3}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 1 SPOT THE MISTAKE — Simple capital letters and basic spelling
+// ═══════════════════════════════════════════════════════════
+const SPOT_MISTAKE=[
+  {para:"i went to the park yesterday. i played on the swings and the slide. it was fun!",count:3,errors:[{wrong:"i went",correct:"I went",exp:"'I' always needs a capital letter when writing about yourself."},{wrong:"i played",correct:"I played",exp:"'I' always needs a capital letter when writing about yourself."},{wrong:"it was fun!",correct:"It was fun!",exp:"'It' starts a new sentence so it needs a capital letter."}]},
+  {para:"my name is tom. i am six years old. i like playing football.",count:3,errors:[{wrong:"my name",correct:"My name",exp:"'My' starts a new sentence so it needs a capital letter."},{wrong:"tom",correct:"Tom",exp:"Names always need a capital letter. Tom is a name."},{wrong:"i am",correct:"I am",exp:"'I' always needs a capital letter when writing about yourself."}]},
+  {para:"The dog runned in the park. She chased the ball and catched it.",count:2,errors:[{wrong:"runned",correct:"ran",exp:"'Run' is an irregular verb. The past tense is 'ran', not 'runned'."},{wrong:"catched",correct:"caught",exp:"'Catch' is an irregular verb. The past tense is 'caught', not 'catched'."}]},
+  {para:"we went to london on the train. we saw the queen. it was a long day.",count:3,errors:[{wrong:"we went",correct:"We went",exp:"'We' starts a new sentence so it needs a capital letter."},{wrong:"london",correct:"London",exp:"Place names like London always need a capital letter."},{wrong:"it was",correct:"It was",exp:"'It' starts a new sentence so it needs a capital letter."}]},
+  {para:"I have a cat called mog. mog is white and fluffy. she sleeps on my bed.",count:2,errors:[{wrong:"mog",correct:"Mog",exp:"Pet names are special names and need capital letters."},{wrong:"she sleeps",correct:"She sleeps",exp:"'She' starts a new sentence so it needs a capital letter."}]},
+  {para:"the sun is hot today. the sky is blue. i can see white clouds.",count:3,errors:[{wrong:"the sun",correct:"The sun",exp:"'The' starts a new sentence so it needs a capital letter."},{wrong:"the sky",correct:"The sky",exp:"'The' starts a new sentence so it needs a capital letter."},{wrong:"i can",correct:"I can",exp:"'I' always needs a capital letter when writing about yourself."}]},
+  {para:"I have two brother and one sister. We play game together every day.",count:2,errors:[{wrong:"two brother",correct:"two brothers",exp:"When you have more than one brother, you need to add 's' to make it plural."},{wrong:"play game",correct:"play games",exp:"When talking about more than one game, you need 'games'."}]},
+  {para:"Yesterday I goed to school. I eated my lunch and goed outside.",count:2,errors:[{wrong:"goed",correct:"went",exp:"'Go' is an irregular verb. The past tense is 'went', not 'goed'."},{wrong:"eated",correct:"ate",exp:"'Eat' is an irregular verb. The past tense is 'ate', not 'eated'."}]},
+  {para:"The cat sit on the mat. She sleeped all day. She was very lazy.",count:2,errors:[{wrong:"sit",correct:"sits or sat",exp:"If this is happening now, use 'sits'. If it happened before, use 'sat'."},{wrong:"sleeped",correct:"slept",exp:"'Sleep' is an irregular verb. The past tense is 'slept', not 'sleeped'."}]},
+  {para:"i like apple and banana. i eat fruit every day. fruit is healthy.",count:3,errors:[{wrong:"i like",correct:"I like",exp:"'I' always needs a capital letter when writing about yourself."},{wrong:"i eat",correct:"I eat",exp:"'I' always needs a capital letter when writing about yourself."},{wrong:"fruit is healthy",correct:"Fruit is healthy",exp:"'Fruit' starts a new sentence so it needs a capital letter."}]},
+  {para:"There is three cats in the garden. They is playing with a ball.",count:2,errors:[{wrong:"There is three cats",correct:"There are three cats",exp:"'Cats' is plural (more than one) so we use 'are', not 'is'."},{wrong:"They is playing",correct:"They are playing",exp:"'They' needs 'are', not 'is'."}]},
+  {para:"I can see one bird on the tree. I can see two bird in the sky.",count:1,errors:[{wrong:"two bird",correct:"two birds",exp:"When you have more than one bird, you need to add 's' to make it plural."}]},
+  {para:"In the morning I brush my tooth. I have many tooth in my mouth.",count:2,errors:[{wrong:"my tooth",correct:"my teeth",exp:"The plural of 'tooth' is 'teeth', not 'tooths'."},{wrong:"many tooth",correct:"many teeth",exp:"The plural of 'tooth' is 'teeth', not 'tooths'."}]},
+  {para:"My birthday is in july. july is a summer month. I love summer.",count:2,errors:[{wrong:"in july",correct:"in July",exp:"Months of the year always need capital letters."},{wrong:"july is",correct:"July is",exp:"Months of the year always need capital letters."}]},
+  {para:"I walk to school on monday. I like monday because we have PE.",count:2,errors:[{wrong:"on monday",correct:"on Monday",exp:"Days of the week always need capital letters."},{wrong:"like monday",correct:"like Monday",exp:"Days of the week always need capital letters."}]},
+  {para:"My frend is coming to my house. We are going to play game.",count:2,errors:[{wrong:"frend",correct:"friend",exp:"'Friend' has 'ie' in the middle, not 'e'."},{wrong:"play game",correct:"play games",exp:"If you're going to play more than one game, say 'games'."}]},
+  {para:"I writed a story at school. It was about a dragon. It flyed over the castle.",count:2,errors:[{wrong:"writed",correct:"wrote",exp:"'Write' is an irregular verb. The past tense is 'wrote', not 'writed'."},{wrong:"flyed",correct:"flew",exp:"'Fly' is an irregular verb. The past tense is 'flew', not 'flyed'."}]},
+  {para:"i live in bristol. bristol is a big city. i like living there.",count:3,errors:[{wrong:"i live",correct:"I live",exp:"'I' always needs a capital letter when writing about yourself."},{wrong:"in bristol",correct:"in Bristol",exp:"Place names like Bristol always need capital letters."},{wrong:"bristol is",correct:"Bristol is",exp:"Place names like Bristol always need capital letters."}]},
+  {para:"The butterfly flyed away. It goed to a flower and drinked the nectar.",count:2,errors:[{wrong:"flyed",correct:"flew",exp:"'Fly' is an irregular verb. The past tense is 'flew', not 'flyed'."},{wrong:"drinked",correct:"drank",exp:"'Drink' is an irregular verb. The past tense is 'drank', not 'drinked'."}]},
+  {para:"My teacher is nice. She give us homework. She help us learn.",count:2,errors:[{wrong:"She give",correct:"She gives",exp:"When we talk about one person (she), we add 's' to the verb."},{wrong:"She help",correct:"She helps",exp:"When we talk about one person (she), we add 's' to the verb."}]}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 1 WORD OF THE DAY — Simple Tier 2 words
+// ═══════════════════════════════════════════════════════════
+const WORD_OF_DAY=[
+  {word:'happy',cls:'adjective',def:'Feeling good and full of joy.',example:'I felt happy when I saw my friend.',origin:"An old English word meaning 'lucky' or 'glad'.",syns:['joyful','cheerful','glad'],ants:['sad','unhappy','sad']},
+  {word:'big',cls:'adjective',def:'Large in size.',example:'The elephant is very big.',origin:"An old English word.",syns:['large','huge','enormous'],ants:['small','tiny','little']},
+  {word:'small',cls:'adjective',def:'Little in size.',example:'The mouse was small.',origin:"An old English word.",syns:['little','tiny','mini'],ants:['big','large','huge']},
+  {word:'fast',cls:'adjective',def:'Moving quickly.',example:'The fast runner won the race.',origin:"An old word meaning 'firm' or 'fixed' before meaning 'quick'.",syns:['quick','speedy','fast'],ants:['slow','slow','sluggish']},
+  {word:'slow',cls:'adjective',def:'Not moving quickly.',example:'The tortoise is slow.',origin:"An old English word.",syns:['sluggish','unhurried','slow'],ants:['fast','quick','speedy']},
+  {word:'brave',cls:'adjective',def:'Not scared; ready to face danger.',example:'The brave knight fought the dragon.',origin:"From an old word meaning 'wild' or 'bold'.",syns:['courageous','bold','fearless'],ants:['scared','afraid','timid']},
+  {word:'kind',cls:'adjective',def:'Nice and helpful to others.',example:'She was kind and shared her sweets.',origin:"An old word meaning 'family' or 'gentle'.",syns:['nice','helpful','caring'],ants:['mean','unkind','nasty']},
+  {word:'scared',cls:'adjective',def:'Feeling afraid.',example:'I was scared of the dark.',origin:"From an old word meaning 'to fear'.",syns:['afraid','frightened','worried'],ants:['brave','confident','calm']},
+  {word:'beautiful',cls:'adjective',def:'Very pretty to look at.',example:'The flower was beautiful.',origin:"From a word meaning 'beauty'.",syns:['pretty','lovely','gorgeous'],ants:['ugly','plain','horrid']},
+  {word:'ugly',cls:'adjective',def:'Not pleasant to look at.',example:'The ugly toad became a handsome prince.',origin:"An old word meaning 'frightening'.",syns:['plain','unattractive','horrid'],ants:['beautiful','pretty','lovely']},
+  {word:'clever',cls:'adjective',def:'Good at learning and understanding.',example:'She is clever at reading.',origin:"An old word that may come from 'cleave' meaning 'to stick'.",syns:['smart','bright','intelligent'],ants:['silly','foolish','slow']},
+  {word:'silly',cls:'adjective',def:'Not sensible; a bit foolish.',example:'The clown was being silly.',origin:"From a word meaning 'blessed' or 'innocent'.",syns:['foolish','funny','daft'],ants:['sensible','serious','clever']},
+  {word:'noisy',cls:'adjective',def:'Making a lot of noise.',example:'The children were noisy in the hall.',origin:"From 'noise' added to 'y'.",syns:['loud','rowdy','boisterous'],ants:['quiet','silent','calm']},
+  {word:'quiet',cls:'adjective',def:'Making little or no noise.',example:'Please be quiet during story time.',origin:"From an old word meaning 'peaceful'.",syns:['silent','calm','peaceful'],ants:['noisy','loud','rowdy']},
+  {word:'hungry',cls:'adjective',def:'Wanting to eat.',example:'I was hungry after school.',origin:"From 'hunger'.",syns:['starving','famished','peckish'],ants:['full','satisfied','stuffed']},
+  {word:'thirsty',cls:'adjective',def:'Wanting to drink.',example:'Running made me thirsty.',origin:"From 'thirst'.",syns:['parched','dry','dehydrated'],ants:['full','satisfied','quenched']},
+  {word:'tired',cls:'adjective',def:'Feeling like you need to rest or sleep.',example:'I was tired after my long walk.',origin:"From an old word meaning 'to fail'.",syns:['sleepy','exhausted','weary'],ants:['awake','energetic','alert']},
+  {word:'strong',cls:'adjective',def:'Having power; able to lift heavy things.',example:'The strong man lifted the box.',origin:"An old English word meaning 'firm'.",syns:['powerful','sturdy','tough'],ants:['weak','frail','feeble']},
+  {word:'weak',cls:'adjective',def:'Not strong.',example:'The weak kitten needed help.',origin:"An old word from the same root as 'wick' meaning 'to yield'.",syns:['frail','feeble','feeble'],ants:['strong','powerful','sturdy']},
+  {word:'soft',cls:'adjective',def:'Not hard; gentle to touch.',example:'The pillow was soft.',origin:"An old word meaning 'smooth'.",syns:['fluffy','gentle','smooth'],ants:['hard','rough','stiff']},
+  {word:'hard',cls:'adjective',def:'Not soft; difficult.',example:'The rock was hard.',origin:"An old word.",syns:['solid','firm','difficult'],ants:['soft','easy','gentle']},
+  {word:'new',cls:'adjective',def:'Not old; recently made.',example:'I got a new toy.',origin:"An old word from the same root as 'now'.",syns:['fresh','recent','brand new'],ants:['old','used','worn']},
+  {word:'old',cls:'adjective',def:'Not new; having existed for a long time.',example:'The old castle was spooky.',origin:"An old word meaning 'grown' or 'mature'.",syns:['ancient','aged','worn'],ants:['new','young','fresh']},
+  {word:'young',cls:'adjective',def:'Not old; a child or baby.',example:'The young puppy played.',origin:"An old word.",syns:['small','little','junior'],ants:['old','elderly','mature']},
+  {word:'clean',cls:'adjective',def:'Not dirty.',example:'My hands are clean.',origin:"An old word meaning 'clear' or 'pure'.",syns:['tidy','spotless','pure'],ants:['dirty','messy','filthy']},
+  {word:'dirty',cls:'adjective',def:'Not clean.',example:'My shoes got dirty in the mud.',origin:"An old word from 'dirt'.",syns:['muddy','filthy','messy'],ants:['clean','spotless','tidy']},
+  {word:'warm',cls:'adjective',def:'Not cold; pleasantly hot.',example:'The fire made me warm.',origin:"An old word related to 'hot'.",syns:['hot','heated','sunny'],ants:['cold','cool','freezing']},
+  {word:'cold',cls:'adjective',def:'Not warm; low temperature.',example:'It was cold outside.',origin:"An old word.",syns:['freezing','chilly','icy'],ants:['hot','warm','heated']},
+  {word:'bright',cls:'adjective',def:'Giving out a lot of light; clever.',example:'The bright sun shone all day.',origin:"An old word.",syns:['shiny','clever','sunny'],ants:['dark','dull','dim']},
+  {word:'dark',cls:'adjective',def:'Not light; night time.',example:'It gets dark at night.',origin:"An old word.",syns:['black','dim','shadowy'],ants:['bright','light','sunny']}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 1 SYNONYM & ANTONYM — Simple pairs
+// ═══════════════════════════════════════════════════════════
+const SYN_ANT=[
+  {word:'big',syns:['large','huge','enormous','giant','great'],ants:['small','tiny','little','mini','petite']},
+  {word:'happy',syns:['glad','joyful','cheerful','pleased','delighted'],ants:['sad','unhappy','miserable','upset','glum']},
+  {word:'fast',syns:['quick','speedy','rapid','swift','hasty'],ants:['slow','sluggish','unhurried','steady','gentle']},
+  {word:'hot',syns:['warm','boiling','heated','burning','scorching'],ants:['cold','cool','freezing','icy','chilly']},
+  {word:'good',syns:['great','nice','brilliant','excellent','wonderful'],ants:['bad','poor','terrible','awful','horrible']},
+  {word:'small',syns:['tiny','little','mini','petite','miniature'],ants:['big','large','huge','enormous','giant']},
+  {word:'sad',syns:['unhappy','miserable','glum','upset','sorrowful'],ants:['happy','glad','joyful','cheerful','pleased']},
+  {word:'slow',syns:['sluggish','unhurried','gentle','steady','lazy'],ants:['fast','quick','speedy','rapid','swift']},
+  {word:'old',syns:['ancient','aged','elderly','worn','vintage'],ants:['new','young','fresh','modern','recent']},
+  {word:'clean',syns:['tidy','spotless','pure','neat','clear'],ants:['dirty','messy','filthy','muddy','grimy']},
+  {word:'hard',syns:['difficult','tough','firm','solid','stiff'],ants:['easy','soft','simple','gentle','smooth']},
+  {word:'loud',syns:['noisy','boisterous','rowdy','thundering','blaring'],ants:['quiet','silent','calm','peaceful','still']},
+  {word:'beautiful',syns:['pretty','gorgeous','lovely','stunning','attractive'],ants:['ugly','plain','horrid','unattractive','awful']},
+  {word:'brave',syns:['courageous','bold','fearless','daring','heroic'],ants:['scared','afraid','timid','cowardly','fearful']},
+  {word:'kind',syns:['nice','helpful','caring','gentle','friendly'],ants:['mean','unkind','nasty','cruel','horrid']}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 1 MAGIC NUMBER — Numbers to 20
+// ═══════════════════════════════════════════════════════════
+const MAGIC_NUMBER_CLEAN=[
+  {clues:['I am a number.','I come after 3.','I come before 5.'],answer:4},
+  {clues:['I am a number.','I am between 5 and 7.','I am one more than 5.'],answer:6},
+  {clues:['I am a number.','I come before 10.','I come after 8.'],answer:9},
+  {clues:['I am a number.','I have two digits.','Both my digits are the same.','I am 11.'],answer:11},
+  {clues:['I am a number.','I am the number of fingers on one hand.'],answer:5},
+  {clues:['I am a number.','I am the number of legs on a dog.'],answer:4},
+  {clues:['I am a number.','I am the number of sides on a triangle.'],answer:3},
+  {clues:['I am a number.','I am the number of sides on a square.'],answer:4},
+  {clues:['I am a number.','I am 5 add 5.'],answer:10},
+  {clues:['I am a number.','I am 10 take away 3.'],answer:7},
+  {clues:['I am a number.','I am double 4.'],answer:8},
+  {clues:['I am a number.','I am half of 10.'],answer:5},
+  {clues:['I am a number.','I come after 15.','I come before 17.'],answer:16},
+  {clues:['I am a number.','I am 6 plus 4.'],answer:10},
+  {clues:['I am a number.','I am 8 plus 2.'],answer:10},
+  {clues:['I am a number.','I am 12 take away 2.'],answer:10},
+  {clues:['I am a number.','I am the number of days in a week.'],answer:7},
+  {clues:['I am a number.','I am the number of months in a year.'],answer:12},
+  {clues:['I am a number.','I am between 12 and 14.'],answer:13},
+  {clues:['I am a number.','I am 15 take away 5.'],answer:10},
+  {clues:['I am a number.','I am the number of corners on a triangle.'],answer:3},
+  {clues:['I am a number.','I am the number of corners on a square.'],answer:4},
+  {clues:['I am a number.','I am 2 plus 2 plus 2.'],answer:6},
+  {clues:['I am a number.','I am 3 plus 3.'],answer:6},
+  {clues:['I am a number.','I am the number of eyes on your face.'],answer:2}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 1 SHAPE OF THE DAY — Basic 2D shapes
+// ═══════════════════════════════════════════════════════════
+const SHAPES=[
+  {name:'Circle',type:'2D shape',questions:['How many corners does it have?','How many straight sides does it have?','Can you roll it?','Name something that is a circle.'],properties:['A circle has 0 corners.','A circle has 0 straight sides — it has one curved line all the way round.','Yes, a circle can roll!','A clock face, a wheel, a plate.']},
+  {name:'Square',type:'2D shape',questions:['How many sides does it have?','How many corners does it have?','Are all the sides the same length?','Name something that is a square.'],properties:['A square has 4 sides.','A square has 4 corners.','Yes, all 4 sides are the same length.','A window pane, a tile, a cracker.']},
+  {name:'Triangle',type:'2D shape',questions:['How many sides does it have?','How many corners does it have?','Can a triangle roll?','Name something that is a triangle.'],properties:['A triangle has 3 sides.','A triangle has 3 corners.','No, a triangle cannot roll easily because it has corners.','A road sign, a slice of pizza, a musical triangle.']},
+  {name:'Rectangle',type:'2D shape',questions:['How many sides does it have?','How many corners does it have?','Are all the sides the same length?','Name something that is a rectangle.'],properties:['A rectangle has 4 sides.','A rectangle has 4 corners.','No — rectangles have 2 long sides and 2 short sides.','A door, a book, a TV screen.']},
+  {name:'Pentagon',type:'2D shape',questions:['How many sides does it have?','How many corners does it have?','What is special about a pentagon?','Name something that is a pentagon.'],properties:['A pentagon has 5 sides.','A pentagon has 5 corners.','A pentagon has 5 sides and 5 corners.','A home plate in baseball, some road signs, a starfish (roughly).']},
+  {name:'Hexagon',type:'2D shape',questions:['How many sides does it have?','How many corners does it have?','What is special about a hexagon?','Name something that is a hexagon.'],properties:['A hexagon has 6 sides.','A hexagon has 6 corners.','A hexagon has 6 sides and 6 corners.','A honeycomb cell, some tiles, a snowflake shape.']},
+  {name:'Oval',type:'2D shape',questions:['How many corners does it have?','How many straight sides does it have?','Is it round like a circle?','Name something that is an oval.'],properties:['An oval has 0 corners.','An oval has 0 straight sides — it has a curved line all the way round.','Yes, but it is longer and thinner than a circle.','An egg, a rugby ball, some mirrors.']},
+  {name:'Star',type:'2D shape',questions:['How many points does a star have?','How many corners does it have?','Is a star round?','Name something that is a star.'],properties:['A star usually has 5 points.','A star has 10 corners — 5 pointing out and 5 pointing in.','No, a star is not round — it has points.','A star in the sky, a star sticker, a star on a Christmas tree.']},
+  {name:'Semi-circle',type:'2D shape',questions:['How many corners does it have?','What shape is half of it?','How many sides does it have?','Name something that is a semi-circle.'],properties:['A semi-circle has 2 corners.','Half of a semi-circle is like a slice of pie.','A semi-circle has 2 sides — one curved and one straight.','Half a pizza, a protractor, a rainbow shape.']},
+  {name:'Diamond (Rhombus)',type:'2D shape',questions:['How many sides does it have?','How many corners does it have?','Are all the sides the same length?','Name something that is a diamond.'],properties:['A diamond has 4 sides.','A diamond has 4 corners.','Yes, all 4 sides are the same length.','A kite, a diamond playing card, a jewel shape.']}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 1 ESTIMATION STATION — Simple visual estimations
+// ═══════════════════════════════════════════════════════════
+const ESTIMATION=[
+  {question:'How many fingers do you have on both hands?',answer:'10 fingers',explanation:"You have 5 fingers on each hand. 5 + 5 = 10."},
+  {question:'How many eyes are in the classroom?',answer:'Count the children and multiply by 2!',explanation:"Each child has 2 eyes, plus the teacher's 2 eyes."},
+  {question:'How many days are in a week?',answer:'7 days',explanation:"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday."},
+  {question:'How many months are in a year?',answer:'12 months',explanation:"January, February, March, April, May, June, July, August, September, October, November, December."},
+  {question:'How many corners does a triangle have?',answer:'3 corners',explanation:"A triangle has 3 sides and 3 corners."},
+  {question:'How many corners does a square have?',answer:'4 corners',explanation:"A square has 4 sides and 4 corners."},
+  {question:'How many legs does a dog have?',answer:'4 legs',explanation:"Dogs walk on 4 legs."},
+  {question:'How many legs does a spider have?',answer:'8 legs',explanation:"Spiders have 8 legs."},
+  {question:'How many legs does an insect have?',answer:'6 legs',explanation:"All insects have 6 legs."},
+  {question:'How many wheels does a car have?',answer:'4 wheels',explanation:"Most cars have 4 wheels."},
+  {question:'How many letters in your name?',answer:'Count the letters!',explanation:"Different names have different numbers of letters. Count yours!"},
+  {question:'How many letters in the word "cat"?',answer:'3 letters',explanation:"C-A-T has 3 letters."},
+  {question:'How many letters in the word "school"?',answer:'6 letters',explanation:"S-C-H-O-O-L has 6 letters."},
+  {question:'How many children are in your class today?',answer:'Count them!',explanation:"The number changes if someone is absent. Count how many are in your class."},
+  {question:'How many chairs are at your table?',answer:'Count them!',explanation:"Tables have different numbers of chairs depending on the size."},
+  {question:'How many windows are in your classroom?',answer:'Count them!',explanation:"Every classroom is different. Look around and count!"},
+  {question:'If you jump 5 times, how many jumps is that?',answer:'5 jumps',explanation:"You can count your jumps as you do them."},
+  {question:'How many times can you clap your hands in 10 seconds?',answer:'Try it and count!',explanation:"Most children can clap about 15-25 times in 10 seconds. Try it!"},
+  {question:'How many cubes would fit in a small cup?',answer:'About 10-15 cubes',explanation:"A small cup might hold about 10-15 counting cubes."},
+  {question:'How many books are on the bookshelf?',answer:'Count them!',explanation:"Bookshelves have different numbers of books. Count the ones you can see."}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 1 SEQUENCE DATA — +1, +2, +10 patterns
+// ═══════════════════════════════════════════════════════════
+const SEQUENCE_DATA=[
+  {nums:[2,4,6,8],gap:2,rule:'+2 each time'},
+  {nums:[1,2,3,4],gap:1,rule:'+1 each time'},
+  {nums:[5,6,7,8],gap:1,rule:'+1 each time'},
+  {nums:[10,12,14,16],gap:2,rule:'+2 each time'},
+  {nums:[3,6,9,12],gap:3,rule:'+3 each time'},
+  {nums:[5,10,15,20],gap:5,rule:'+5 each time'},
+  {nums:[10,20,30,40],gap:10,rule:'+10 each time'},
+  {nums:[0,2,4,6],gap:2,rule:'+2 each time'},
+  {nums:[1,3,5,7],gap:2,rule:'+2 each time'},
+  {nums:[2,3,4,5],gap:1,rule:'+1 each time'},
+  {nums:[4,5,6,7],gap:1,rule:'+1 each time'},
+  {nums:[7,8,9,10],gap:1,rule:'+1 each time'},
+  {nums:[10,11,12,13],gap:1,rule:'+1 each time'},
+  {nums:[20,22,24,26],gap:2,rule:'+2 each time'},
+  {nums:[11,13,15,17],gap:2,rule:'+2 each time'},
+  {nums:[2,5,8,11],gap:3,rule:'+3 each time'},
+  {nums:[3,5,7,9],gap:2,rule:'+2 each time'},
+  {nums:[6,8,10,12],gap:2,rule:'+2 each time'},
+  {nums:[4,8,12,16],gap:4,rule:'+4 each time'},
+  {nums:[10,11,12],gap:1,rule:'+1 each time'},
+  {nums:[20,30,40,50],gap:10,rule:'+10 each time'},
+  {nums:[30,40,50,60],gap:10,rule:'+10 each time'},
+  {nums:[15,20,25,30],gap:5,rule:'+5 each time'},
+  {nums:[8,9,10,11],gap:1,rule:'+1 each time'},
+  {nums:[12,14,16,18],gap:2,rule:'+2 each time'}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 1 ODD ONE OUT — Simple category work
+// ═══════════════════════════════════════════════════════════
+const ODD_ONE_OUT_DATA=[
+  {items:['cat','dog','fish','bird'],odd:'fish',reason:'Fish live in water, but cats, dogs and birds live on land.'},
+  {items:['apple','banana','car','orange'],odd:'car',reason:'A car is a vehicle, but apple, banana and orange are fruits.'},
+  {items:['red','blue','green','dog'],odd:'dog',reason:'Dog is an animal, but red, blue and green are colours.'},
+  {items:['square','triangle','circle','cat'],odd:'cat',reason:'Cat is an animal, but square, triangle and circle are shapes.'},
+  {items:['table','chair','desk','shirt'],odd:'shirt',reason:'A shirt is clothing, but table, chair and desk are furniture.'},
+  {items:['sun','moon','star','sandwich'],odd:'sandwich',reason:'A sandwich is food, but sun, moon and star are in the sky.'},
+  {items:['hat','coat','shoes','milk'],odd:'milk',reason:'Milk is a drink, but hat, coat and shoes are clothes.'},
+  {items:['run','jump','swim','happy'],odd:'happy',reason:'Happy is a feeling, but run, jump and swim are actions.'},
+  {items:['Monday','Tuesday','Friday','cat'],odd:'cat',reason:'Cat is an animal, but Monday, Tuesday and Friday are days.'},
+  {items:['one','two','three','book'],odd:'book',reason:'Book is a thing, but one, two and three are numbers.'},
+  {items:['sock','glove','hat','tree'],odd:'tree',reason:'Tree is a plant, but sock, glove and hat are clothing.'},
+  {items:['car','bus','train','banana'],odd:'banana',reason:'Banana is a fruit, but car, bus and train are vehicles.'},
+  {items:['pig','cow','sheep','pen'],odd:'pen',reason:'A pen is something to write with, but pig, cow and sheep are farm animals.'},
+  {items:['summer','winter','spring','book'],odd:'book',reason:'Book is a thing, but summer, winter and spring are seasons.'},
+  {items:['mum','dad','sister','tree'],odd:'tree',reason:'Tree is a plant, but mum, dad and sister are family members.'},
+  {items:['leg','arm','hand','table'],odd:'table',reason:'Table is furniture, but leg, arm and hand are parts of the body.'},
+  {items:['tiger','lion','elephant','apple'],odd:'apple',reason:'Apple is a fruit, but tiger, lion and elephant are animals.'},
+  {items:['pencil','pen','rubber','flower'],odd:'flower',reason:'Flower is a plant, but pencil, pen and rubber are things for writing.'},
+  {items:['bed','bath','toilet','dog'],odd:'dog',reason:'Dog is an animal, but bed, bath and toilet are things in a bathroom or bedroom.'},
+  {items:['rain','snow','sun','sandwich'],odd:'sandwich',reason:'A sandwich is food, but rain, snow and sun are types of weather.'}
+];
+
+// ═══════════════════════════════════════════════════════════
+// BOGGLE BANK — Simple 3-letter words (not used in main puzzle but kept for reference)
+// ═══════════════════════════════════════════════════════════
+const BOGGLE=[]; // Not used in Year 1
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let cur={};let puzzleIdx=0;let puzzles=[];let ttBank=[...DEFAULT_TT];let menu={};let override={};let imgState={data:null, url:null};
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+function init(){
+  loadMenu();
+  loadTTBank();
+  loadOverride();
+  loadImgState();
+  setDate();
+  buildPuzzles();
+  newPuzzle();
+}
+function loadMenu(){try{menu=JSON.parse(localStorage.getItem('y1menu')||'{}');}catch(e){menu={};}}
+function loadTTBank(){try{const s=localStorage.getItem('y1ttbank');if(s){ttBank=JSON.parse(s);if(!Array.isArray(ttBank)||ttBank.length===0)ttBank=[...DEFAULT_TT];}}catch(e){ttBank=[...DEFAULT_TT];}}
+function loadOverride(){try{override=JSON.parse(localStorage.getItem('y1override')||'{}');}catch(e){override={};}}
+function loadImgState(){try{const d=localStorage.getItem('y1imgdata');const u=localStorage.getItem('y1imgurl');if(d){imgState.data=d;imgState.url=u||null;}}catch(e){}}
+function saveMenu(){localStorage.setItem('y1menu',JSON.stringify(menu));}
+function saveTTBank(){localStorage.setItem('y1ttbank',JSON.stringify(ttBank));}
+function saveOverride(){localStorage.setItem('y1override',JSON.stringify(override));}
+function saveImgState(){if(imgState.data){localStorage.setItem('y1imgdata',imgState.data);if(imgState.url)localStorage.setItem('y1imgurl',imgState.url);else localStorage.removeItem('y1imgurl');}else{localStorage.removeItem('y1imgdata');localStorage.removeItem('y1imgurl');}}
+
+function setDate(){
+  const now=new Date();
+  const d=now.getDay();
+  const date=now.getDate();
+  const m=now.getMonth();
+  const y=now.getFullYear();
+  document.getElementById('date-text').textContent=`${DAYS[d]} ${date} ${MONTHS[m]}`;
+  const meals=getMeals(now);
+  document.getElementById('lc0').textContent=meals[0];
+  document.getElementById('lc1').textContent=meals[1];
+  const msg=override.msg||(AUTO_MSGS[DAYS[d]]||'');
+  document.getElementById('msg-body').textContent=msg;
+  if(imgState.data){
+    document.getElementById('img-el').src=imgState.data;
+    document.getElementById('img-pane').classList.add('visible');
+  }else{
+    document.getElementById('img-pane').classList.remove('visible');
+  }
+  const hasOverride=override.meal1||override.meal2||override.msg||(override.ttStmts&&override.ttStmts.topic);
+  document.getElementById('override-dot').style.display=hasOverride?'inline-block':'none';
+}
+
+function getMeals(date){
+  const d=date.getDay();
+  if(d===0||d===6)return['—','—'];
+  const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,'0'),day=String(date.getDate()).padStart(2,'0');
+  const todayStr=`${y}-${m}-${day}`;
+  const dayOfWeek=DAYNAMES[d].slice(0,3);
+  let monday=new Date(date);monday.setDate(date.getDate()-(d-1));
+  const my=monday.getFullYear(),mm=String(monday.getMonth()+1).padStart(2,'0'),md=String(monday.getDate()).padStart(2,'0');
+  const monStr=`${my}-${mm}-${md}`;
+  const weekData=MENU_BY_WEEK[monStr];
+  if(!weekData)return['—','—'];
+  const dayMeals=weekData[dayOfWeek];
+  if(!dayMeals)return['—','—'];
+  return dayMeals;
+}
+
+function buildPuzzles(){
+  puzzles=[
+    {type:'anagram',fn:renderAnagram},
+    {type:'sequence',fn:renderSequence},
+    {type:'twoTruths',fn:renderTwoTruths},
+    {type:'oddOneOut',fn:renderOddOneOut},
+    {type:'spotMistake',fn:renderSpotMistake},
+    {type:'wordOfDay',fn:renderWordOfDay},
+    {type:'synAnt',fn:renderSynAnt},
+    {type:'magicNum',fn:renderMagicNum},
+    {type:'shape',fn:renderShape},
+    {type:'estimation',fn:renderEstimation}
+  ];
+}
+
+function newPuzzle(){
+  puzzleIdx=(puzzleIdx+1)%puzzles.length;
+  renderPuzzle();
+}
+function toggleType(){
+  puzzleIdx=(puzzleIdx+1)%puzzles.length;
+  renderPuzzle();
+}
+function renderPuzzle(){puzzles[puzzleIdx].fn();}
+
+// ═══════════════════════════════════════════════════════════
+// ANAGRAM
+// ═══════════════════════════════════════════════════════════
+function renderAnagram(){
+  const set=ANAGRAM_BANK[Math.floor(Math.random()*ANAGRAM_BANK.length)];
+  cur={type:'anagram',anaSet:set};
+  const cp=document.getElementById('combined-panel');
+  cp.innerHTML=`
+    <div class="cpanel"><div class="cpanel-hdr"><span class="cpanel-hdr-title">Anagram</span><button class="reveal-btn" data-revealed="0" onclick="revealAnagram(this)">👁 Reveal</button></div>
+      <div class="cpanel-body">
+        <div class="ana-main">${shuffleWord(set.main)}</div>
+        <div class="ana-hint">${set.mainHint}</div>
+        <div class="ana-blanks">${makeBlanks(set.main,'ana-blank')}</div>
+      </div>
+    </div>
+    <div class="cpanel"><div class="cpanel-hdr"><span class="cpanel-hdr-title">Make smaller words</span></div>
+      <div class="cpanel-body">
+        <div class="ana-bonus-list">${set.bonus.map((b,i)=>`<div class="ana-bonus-row"><span class="ana-bonus-word">${shuffleWord(b.w)}</span><div class="ana-bonus-blanks">${makeBlanks(b.w,'ana-bonus-blank')}</div></div>`).join('')}</div>
+      </div>
+    </div>
+    <div class="cpanel" id="seq-cp"><div class="cpanel-hdr"><span class="cpanel-hdr-title">Number sequence</span><button class="reveal-btn" data-revealed="0" onclick="revealSeq(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" id="seq-body"></div>
+    </div>
+    <div class="cpanel"><div class="cpanel-hdr"><span class="cpanel-hdr-title">Two truths & a lie</span><button class="reveal-btn" data-revealed="0" onclick="revealTT(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" id="tt-body"></div>
+    </div>
+  `;
+  renderSequenceMini();
+  renderTwoTruthsMini();
+}
+function makeBlanks(word,cls){
+  return word.split('').map(()=>`<div class="${cls}"></div>`).join('');
+}
+function shuffleWord(w){return w.split('').sort(()=>Math.random()-0.5).join('');}
+function revealAnagram(btn){
+  const cp=document.getElementById('combined-panel');
+  const mainBlanks=cp.querySelectorAll('.ana-blanks .ana-blank');
+  if(btn.dataset.revealed==='1'){
+    mainBlanks.forEach(b=>{b.textContent='';b.classList.remove('filled');});
+    const bonusBlanks=cp.querySelectorAll('.ana-bonus-blank');
+    bonusBlanks.forEach(b=>{b.textContent='';b.classList.remove('filled');});
+    btn.textContent='👁 Reveal';
+    btn.dataset.revealed='0';
+  }else{
+    [...cur.anaSet.main].forEach((ch,i)=>{if(mainBlanks[i]){mainBlanks[i].textContent=ch.toUpperCase();mainBlanks[i].classList.add('filled');}});
+    cur.anaSet.bonus.forEach((b,bi)=>{
+      const row=cp.querySelectorAll('.ana-bonus-row')[bi];
+      if(row){
+        const blanks=row.querySelectorAll('.ana-bonus-blank');
+        [...b.w].forEach((ch,i)=>{if(blanks[i]){blanks[i].textContent=ch.toUpperCase();blanks[i].classList.add('filled');}});
+      }
+    });
+    btn.textContent='👁 Hide';
+    btn.dataset.revealed='1';
+  }
+}
+function revealSeq(btn){
+  const seqBody=document.getElementById('seq-body');
+  if(btn.dataset.revealed==='1'){
+    seqBody.querySelectorAll('.seq-n.q').forEach(n=>{n.textContent='?';n.classList.add('q');});
+    btn.textContent='👁 Reveal';
+    btn.dataset.revealed='0';
+  }else{
+    seqBody.querySelectorAll('.seq-n.q').forEach(n=>{n.textContent=cur.seq.answer;n.classList.remove('q');});
+    btn.textContent='👁 Hide';
+    btn.dataset.revealed='1';
+  }
+}
+function revealTT(btn){
+  const ttBody=document.getElementById('tt-body');
+  if(btn.dataset.revealed==='1'){
+    ttBody.querySelectorAll('.tt-item').forEach((item,i)=>{item.classList.remove('tt-lie');const label=item.querySelector('.tt-lie-label');if(label)label.remove();});
+    btn.textContent='👁 Reveal';
+    btn.dataset.revealed='0';
+  }else{
+    ttBody.querySelectorAll('.tt-item').forEach((item,i)=>{
+      if(i+1===cur.ttSet.lie){
+        item.classList.add('tt-lie');
+        const label=document.createElement('div');label.className='tt-lie-label';label.textContent='Lie';item.appendChild(label);
+      }
+    });
+    btn.textContent='👁 Hide';
+    btn.dataset.revealed='1';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// MINI PUZZLES (inside combined panel)
+// ═══════════════════════════════════════════════════════════
+function renderSequenceMini(){
+  const seq=SEQUENCE_DATA[Math.floor(Math.random()*SEQUENCE_DATA.length)];
+  cur={...cur,seq:seq};
+  const seqBody=document.getElementById('seq-body');
+  seqBody.innerHTML=`
+    <div class="seq-instr">What comes next?</div>
+    <div class="seq-row">${seq.nums.map(n=>`<div class="seq-n">${n}</div>`).join('')}<div class="seq-arr">→</div><div class="seq-n q">?</div></div>
+    <div class="seq-rule">${seq.rule}</div>
+  `;
+}
+function renderTwoTruthsMini(){
+  const set=override.ttStmts&&override.ttStmts.topic?override.ttStmts:ttBank[Math.floor(Math.random()*ttBank.length)];
+  cur={...cur,ttSet:set};
+  const ttBody=document.getElementById('tt-body');
+  ttBody.innerHTML=`
+    <div class="tt-topic">${set.topic}</div>
+    ${set.stmts.map((s,i)=>`<div class="tt-item"><div class="tt-num">${i+1}</div><div class="tt-text">${s}</div></div>`).join('')}
+    <div class="tt-instr">Which one is the lie?</div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════
+// STANDALONE PUZZLES
+// ═══════════════════════════════════════════════════════════
+function renderSequence(){
+  const seq=SEQUENCE_DATA[Math.floor(Math.random()*SEQUENCE_DATA.length)];
+  cur={type:'sequence',seq:seq};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Number Sequence</div>
+    <div class="seq-row">${seq.nums.map(n=>`<div class="seq-n">${n}</div>`).join('')}<div class="seq-arr">→</div><div class="seq-n q">?</div></div>
+    <div class="seq-rule">${seq.rule}</div>
+    <button class="stm-btn" onclick="showSeqAns()">Reveal answer</button>
+  `;
+}
+function showSeqAns(){
+  const q=document.querySelector('.seq-n.q');
+  if(q){q.textContent=cur.seq.answer;q.classList.remove('q');}
+}
+
+function renderTwoTruths(){
+  const set=override.ttStmts&&override.ttStmts.topic?override.ttStmts:ttBank[Math.floor(Math.random()*ttBank.length)];
+  cur={type:'twoTruths',ttSet:set};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Two Truths & a Lie</div>
+    <div class="tt-topic">${set.topic}</div>
+    ${set.stmts.map((s,i)=>`<div class="tt-item"><div class="tt-num">${i+1}</div><div class="tt-text">${s}</div></div>`).join('')}
+    <div class="tt-instr">Which one is the lie?</div>
+    <button class="stm-btn" onclick="showTTAns()">Reveal answer</button>
+  `;
+}
+function showTTAns(){
+  const items=document.querySelectorAll('.tt-item');
+  items.forEach((item,i)=>{
+    if(i+1===cur.ttSet.lie){
+      item.classList.add('tt-lie');
+      const label=document.createElement('div');label.className='tt-lie-label';label.textContent='Lie';item.appendChild(label);
+    }
+  });
+}
+
+function renderOddOneOut(){
+  const set=ODD_ONE_OUT_DATA[Math.floor(Math.random()*ODD_ONE_OUT_DATA.length)];
+  cur={type:'oddOneOut',oooSet:set};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Odd One Out</div>
+    <div class="ooo-set">
+      <div class="ooo-grid">${set.items.map(item=>`<div class="ooo-item">${item}</div>`).join('')}</div>
+    </div>
+    <div class="ooo-instr">Which one doesn't belong? Why?</div>
+    <button class="ooo-btn" onclick="showOOOAns()">Reveal answer</button>
+  `;
+}
+function showOOOAns(){
+  const items=document.querySelectorAll('.ooo-item');
+  items.forEach(item=>{
+    if(item.textContent.toLowerCase()===cur.oooSet.odd.toLowerCase()){
+      item.classList.add('ooo-odd');
+    }
+  });
+  const set=document.querySelector('.ooo-set');
+  const reason=document.createElement('div');reason.className='ooo-reason';reason.textContent=cur.oooSet.reason;
+  set.appendChild(reason);
+}
+
+function renderSpotMistake(){
+  const set=SPOT_MISTAKE[Math.floor(Math.random()*SPOT_MISTAKE.length)];
+  cur={type:'spotMistake',smSet:set};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Spot the Mistake</div>
+    <div class="stm-para">${set.para}</div>
+    <div class="stm-count">Find ${set.count} mistake${set.count>1?'s':''}.</div>
+    <button class="stm-btn" onclick="showSMAns()">Show answers</button>
+  `;
+}
+function showSMAns(){
+  const para=document.querySelector('.stm-para');
+  let html=cur.smSet.para;
+  cur.smSet.errors.forEach(e=>{
+    html=html.replace(e.wrong,`<span class="stm-err">${e.wrong}</span>`);
+  });
+  para.innerHTML=html;
+  const count=document.querySelector('.stm-count');
+  const ansList=document.createElement('div');ansList.className='stm-ans-list';
+  cur.smSet.errors.forEach(e=>{
+    ansList.innerHTML+=`<div class="stm-ans-item"><b>${e.wrong}</b> → ${e.correct}: ${e.exp}</div>`;
+  });
+  count.insertAdjacentElement('afterend',ansList);
+}
+
+function renderWordOfDay(){
+  const w=WORD_OF_DAY[Math.floor(Math.random()*WORD_OF_DAY.length)];
+  cur={type:'wod',wod:w};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Word of the Day</div>
+    <div class="wod-word">${w.word}</div>
+    <div class="wod-class">${w.cls}</div>
+    <div class="wod-def">${w.def}</div>
+    <div class="wod-example">${w.example}</div>
+    <div class="wod-etymology">${w.origin}</div>
+    <div class="wod-qs">${w.syns.length>0?`Synonyms: ${w.syns.join(', ')}`:''}${w.syns.length>0&&w.ants.length>0?' | ':''}${w.ants.length>0?`Antonyms: ${w.ants.join(', ')}`:''}</div>
+  `;
+}
+
+function renderSynAnt(){
+  const w=SYN_ANT[Math.floor(Math.random()*SYN_ANT.length)];
+  cur={type:'synAnt',synAnt:w};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Synonyms & Antonyms</div>
+    <div class="sna-word">${w.word}</div>
+    <div class="sna-instr">Can you think of synonyms and antonyms?</div>
+    <div class="sna-cols">
+      <div><div class="sna-col-hdr syn">Synonyms</div><div class="sna-col-body" id="syn-body"></div></div>
+      <div><div class="sna-col-hdr ant">Antonyms</div><div class="sna-col-body" id="ant-body"></div></div>
+    </div>
+    <button class="sna-btn" onclick="showSynAntAns()">Reveal</button>
+  `;
+}
+function showSynAntAns(){
+  document.getElementById('syn-body').textContent=cur.synAnt.syns.join(', ');
+  document.getElementById('ant-body').textContent=cur.synAnt.ants.join(', ');
+}
+
+function renderMagicNum(){
+  const m=MAGIC_NUMBER_CLEAN[Math.floor(Math.random()*MAGIC_NUMBER_CLEAN.length)];
+  cur={type:'magicNum',magic:m};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Magic Number</div>
+    <div class="mn-clues">${m.clues.map((c,i)=>`<div class="mn-clue"><div class="mn-clue-num">${i+1}</div><div>${c}</div></div>`).join('')}</div>
+    <button class="mn-btn" onclick="showMagicAns()">Reveal answer</button>
+    <div class="mn-answer" id="magic-ans">${m.answer}</div>
+  `;
+}
+function showMagicAns(){document.getElementById('magic-ans').style.display='block';}
+
+function renderShape(){
+  const s=SHAPES[Math.floor(Math.random()*SHAPES.length)];
+  cur={type:'shape',shape:s};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Shape of the Day</div>
+    <div class="shp-name">${s.name}</div>
+    <div class="shp-type">${s.type}</div>
+    <div class="shp-qs">${s.questions.map(q=>`<div class="shp-q">${q}</div>`).join('')}</div>
+    <button class="shp-btn" onclick="showShapeAns()">Reveal properties</button>
+    <div class="shp-props" id="shape-props">${s.properties.join('<br>')}</div>
+  `;
+}
+function showShapeAns(){document.getElementById('shape-props').style.display='block';}
+
+function renderEstimation(){
+  const e=ESTIMATION[Math.floor(Math.random()*ESTIMATION.length)];
+  cur={type:'estimation',est:e};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Estimation Station</div>
+    <div class="est-q">${e.question}</div>
+    <div class="est-instr">Have a guess!</div>
+    <button class="est-btn" onclick="showEstAns()">Reveal answer</button>
+    <div class="est-ans" id="est-ans"><strong>${e.answer}</strong><br>${e.explanation}</div>
+  `;
+}
+function showEstAns(){document.getElementById('est-ans').style.display='block';}
+
+// ═══════════════════════════════════════════════════════════
+// SOLUTIONS
+// ═══════════════════════════════════════════════════════════
+function toggleSols(){document.getElementById('sol-ov').classList.toggle('on');}
+function closeSols(){document.getElementById('sol-ov').classList.remove('on');}
+
+// ═══════════════════════════════════════════════════════════
+// OVERRIDE
+// ═══════════════════════════════════════════════════════════
+function openOverride(){
+  document.getElementById('ov-meal1').value=override.meal1||'';
+  document.getElementById('ov-meal2').value=override.meal2||'';
+  document.getElementById('ov-msg').value=override.msg||'';
+  if(override.ttStmts){
+    document.getElementById('ov-tt-topic').value=override.ttStmts.topic||'';
+    document.getElementById('ov-tt-1').value=override.ttStmts.stmts[0]||'';
+    document.getElementById('ov-tt-2').value=override.ttStmts.stmts[1]||'';
+    document.getElementById('ov-tt-3').value=override.ttStmts.stmts[2]||'';
+    document.getElementById('ov-tt-lie').value=override.ttStmts.lie||'1';
+  }else{
+    document.getElementById('ov-tt-topic').value='';
+    document.getElementById('ov-tt-1').value='';
+    document.getElementById('ov-tt-2').value='';
+    document.getElementById('ov-tt-3').value='';
+    document.getElementById('ov-tt-lie').value='1';
+  }
+  document.getElementById('ov-overlay').classList.add('on');
+}
+function closeOverride(){document.getElementById('ov-overlay').classList.remove('on');}
+function saveOverride(){
+  override.meal1=document.getElementById('ov-meal1').value;
+  override.meal2=document.getElementById('ov-meal2').value;
+  override.msg=document.getElementById('ov-msg').value;
+  const topic=document.getElementById('ov-tt-topic').value.trim();
+  if(topic){
+    override.ttStmts={
+      topic:topic,
+      stmts:[
+        document.getElementById('ov-tt-1').value.trim(),
+        document.getElementById('ov-tt-2').value.trim(),
+        document.getElementById('ov-tt-3').value.trim()
+      ],
+      lie:parseInt(document.getElementById('ov-tt-lie').value)
+    };
+  }else{
+    delete override.ttStmts;
+  }
+  saveOverride();
+  closeOverride();
+  setDate();
+}
+function clearOverride(){
+  override={};
+  saveOverride();
+  closeOverride();
+  setDate();
+}
+
+// ═══════════════════════════════════════════════════════════
+// SETUP (MENU + TWO TRUTHS BANK)
+// ═══════════════════════════════════════════════════════════
+function openSetup(){
+  renderMenuForm();
+  renderTTBankList();
+  document.getElementById('setup-ov').classList.add('on');
+}
+function closeSetup(){document.getElementById('setup-ov').classList.remove('on');}
+function renderMenuForm(){
+  const mf=document.getElementById('menu-form');
+  const weeks=Object.keys(MENU_BY_WEEK).sort();
+  let html='';
+  let wi=1;
+  weeks.forEach(wk=>{
+    const days=MENU_BY_WEEK[wk];
+    html+=`<div class="menu-wk">Week ${wi}</div>`;
+    ['Mon','Tue','Wed','Thu','Fri'].forEach(d=>{
+      const m=menu[wk]&&menu[wk][d]?menu[wk][d]:days[d];
+      html+=`<div class="mrow"><label>${d}</label><input type="text" value="${m[0]||(m[0]||'')}" data-wk="${wk}" data-day="${d}" data-opt="0"><input type="text" value="${m[1]||(m[1]||'')}" data-wk="${wk}" data-day="${d}" data-opt="1"></div>`;
+    });
+    wi++;
+    if(wi>3)return;
+  });
+  mf.innerHTML=html;
+}
+function renderTTBankList(){
+  const tl=document.getElementById('tt-bank-list');
+  tl.innerHTML=ttBank.map((t,i)=>`
+    <div class="tt-bank-item">
+      <button class="tt-bank-del" onclick="delTTSet(${i})">×</button>
+      <div class="tt-bank-topic">${t.topic}</div>
+      <div class="tt-bank-stmts">${t.stmts.map((s,j)=>(j+1===t.lie?`<span class="tt-bank-lie">${s}</span>`:s)).join(' • ')}</div>
+    </div>
+  `).join('');
+}
+function delTTSet(i){
+  ttBank.splice(i,1);
+  renderTTBankList();
+}
+function addTTSet(){
+  const topic=document.getElementById('tt-new-topic').value.trim();
+  const s1=document.getElementById('tt-new-1').value.trim();
+  const s2=document.getElementById('tt-new-2').value.trim();
+  const s3=document.getElementById('tt-new-3').value.trim();
+  const lie=parseInt(document.getElementById('tt-new-lie').value);
+  if(!topic||!s1||!s2||!s3)return alert('Please fill in all fields');
+  ttBank.push({topic:topic,stmts:[s1,s2,s3],lie:lie});
+  document.getElementById('tt-new-topic').value='';
+  document.getElementById('tt-new-1').value='';
+  document.getElementById('tt-new-2').value='';
+  document.getElementById('tt-new-3').value='';
+  document.getElementById('tt-new-lie').value='1';
+  renderTTBankList();
+}
+function saveSetup(){
+  const inputs=document.querySelectorAll('#menu-form input');
+  inputs.forEach(inp=>{
+    const wk=inp.dataset.wk;
+    const day=inp.dataset.day;
+    const opt=parseInt(inp.dataset.opt);
+    if(!menu[wk])menu[wk]={};
+    if(!menu[wk][day])menu[wk][day]=['',''];
+    menu[wk][day][opt]=inp.value;
+  });
+  saveMenu();
+  saveTTBank();
+  closeSetup();
+  setDate();
+}
+
+// ═══════════════════════════════════════════════════════════
+// IMAGE HANDLING
+// ═══════════════════════════════════════════════════════════
+function openImgOverlay(){document.getElementById('img-overlay').classList.add('on');}
+function closeImgOverlay(){document.getElementById('img-overlay').classList.remove('on');}
+function handleImgFile(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    imgState.data=ev.target.result;
+    imgState.url=null;
+    saveImgState();
+    document.getElementById('img-el').src=imgState.data;
+    document.getElementById('img-pane').classList.add('visible');
+    closeImgOverlay();
+  };
+  reader.readAsDataURL(file);
+}
+function handleImgUrl(){
+  const url=document.getElementById('img-url-input').value.trim();
+  if(!url)return;
+  imgState.data=url;
+  imgState.url=url;
+  saveImgState();
+  document.getElementById('img-el').src=url;
+  document.getElementById('img-pane').classList.add('visible');
+  closeImgOverlay();
+}
+function removeImg(){
+  imgState.data=null;
+  imgState.url=null;
+  saveImgState();
+  document.getElementById('img-pane').classList.remove('visible');
+}
+
+// ═══════════════════════════════════════════════════════════
+// START
+// ═══════════════════════════════════════════════════════════
+init();
+</script>
+</body>
+</html>

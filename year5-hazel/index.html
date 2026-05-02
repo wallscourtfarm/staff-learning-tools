@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Year 5 Hazel — Morning Learning</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23e67e22'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='16' font-weight='bold' fill='white' text-anchor='middle'%3E5%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'Nunito',sans-serif}
+#app{width:100%;height:100%;display:flex;flex-direction:column;outline:5px solid #e67e22;outline-offset:-2px}
+
+#date-hdr{display:flex;align-items:center;justify-content:space-between;padding:0.06em 0.5em;border-bottom:3px solid #111;flex-shrink:0;line-height:1.05}
+#date-logo{height:clamp(48px,7vh,80px);width:auto;object-fit:contain;flex-shrink:0}
+#date-text{font-size:clamp(2.8rem,8vh,6rem);font-weight:700;color:#111;letter-spacing:0.01em;flex:1;text-align:center}
+#class-name{font-size:clamp(2rem,5vh,4rem);font-weight:900;color:#e67e22;flex-shrink:0;padding-right:0.2em}
+
+#lunch-bar{display:grid;grid-template-columns:2fr 2fr 1.5fr 1.5fr 1fr;border-bottom:3px solid #111;flex-shrink:0}
+.lc{display:flex;align-items:center;justify-content:center;font-weight:900;font-size:clamp(1.3rem,3.2vh,2.2rem);padding:0.4em 0.6em;text-align:center;line-height:1.2;min-height:clamp(60px,9.5vh,100px)}
+.lc+.lc{border-left:2.5px solid rgba(0,0,0,0.18)}
+.lc-r{background:#E00;color:#fff}.lc-g{background:#3A9922;color:#fff}.lc-p{background:#E07070;color:#fff}.lc-j{background:#6B4820;color:#F0DFC0}.lc-b{background:#111;color:#fff}
+
+#main{flex:1;display:grid;grid-template-columns:65% 35%;min-height:0;overflow:hidden}
+
+/* PUZZLE */
+#puzzle-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.2vh 2vw;gap:1vh}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);border:3px solid #111}
+.pcell{width:clamp(72px,10.5vh,120px);height:clamp(72px,10.5vh,120px);display:flex;align-items:center;justify-content:center;border:1.5px solid #111;font-size:clamp(2.2rem,6vh,4rem);font-weight:800;background:#fff;color:#111}
+.ptitle{font-size:clamp(1.6rem,4.5vh,3rem);font-weight:700;text-align:center;color:#111;margin-top:0.5vh}
+.num-tbl{border-collapse:collapse;margin-top:0.6vh}
+.num-tbl th{padding:clamp(6px,1.2vh,13px) clamp(18px,3vw,40px);font-size:clamp(1rem,2.4vh,1.6rem);font-weight:800;border:2.5px solid #111}
+.num-tbl td{text-align:center;padding:clamp(5px,1vh,11px) clamp(16px,2.5vw,36px);border:1.5px solid #777;font-size:clamp(1.3rem,3.4vh,2.4rem);font-weight:700}
+.th-2{background:#AED6F1;color:#1A5276}.th-3{background:#A9DFBF;color:#145A32}.th-4{background:#FAD7A0;color:#784212}.th-5{background:#E8DAEF;color:#6C3483}.th-6{background:#FADBD8;color:#922B21}
+.td-2{background:#EBF5FB}.td-3{background:#EAFAF1}.td-4{background:#FEF9E7}.td-5{background:#F5EEF8}.td-6{background:#FDEDEC}
+
+/* COMBINED PUZZLE */
+#combined-panel{width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;min-height:0;overflow:hidden}
+.cpanel{display:flex;flex-direction:column;padding:0.5vh 0.8vw;border-right:2.5px solid #EEE;border-bottom:2.5px solid #EEE;overflow:hidden;min-height:0}
+.cpanel:nth-child(2),.cpanel:nth-child(4){border-right:none}
+.cpanel:nth-child(3),.cpanel:nth-child(4){border-bottom:none}
+.cpanel-hdr{font-size:clamp(0.9rem,2vh,1.3rem);font-weight:900;color:#fff;background:#e67e22;border-radius:5px 5px 0 0;padding:0.18em 0.7em;text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:0.4em}
+.cpanel-hdr-title{flex:1;text-align:center}
+.reveal-btn{background:rgba(255,255,255,0.22);color:#fff;border:1.5px solid rgba(255,255,255,0.55);border-radius:4px;padding:0.08em 0.55em;font-size:clamp(0.65rem,1.4vh,0.9rem);font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;text-transform:none;letter-spacing:0;flex-shrink:0;white-space:nowrap}
+.reveal-btn:hover{background:rgba(255,255,255,0.4)}
+.cpanel-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4vh;padding:0.3vh 0;overflow:hidden;min-height:0}
+
+/* anagram */
+.ana-main{font-size:clamp(1.6rem,4.5vh,3.2rem);font-weight:900;letter-spacing:0.18em;background:#F1EFE8;border:2.5px solid #B4B2A9;border-radius:7px;padding:0.2em 0.5em;color:#111;text-align:center}
+.ana-blanks{display:flex;gap:5px;justify-content:center}
+.ana-blank{width:clamp(22px,3.5vh,36px);height:clamp(26px,4vh,42px);border-bottom:3.5px solid #111}
+.ana-hint{font-size:clamp(0.85rem,1.9vh,1.3rem);color:#999;font-weight:700;font-style:italic;text-align:center}
+.ana-bonus-list{width:100%;display:flex;flex-direction:column;gap:0.3vh;margin-top:0.1vh}
+.ana-bonus-row{display:flex;align-items:center;gap:8px;justify-content:center}
+.ana-bonus-word{font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:900;letter-spacing:0.12em;background:#F8F8F8;border:1.5px solid #DDD;border-radius:4px;padding:0.15em 0.5em;color:#666}
+.ana-bonus-blanks{display:flex;gap:4px}
+.ana-bonus-blank{width:clamp(14px,2.2vh,22px);height:clamp(18px,2.8vh,28px);border-bottom:2.5px solid #AAA}
+
+/* sequences */
+.seq-row{display:flex;align-items:center;justify-content:center;gap:clamp(4px,0.6vw,10px);width:100%}
+.seq-n{min-width:clamp(38px,5.5vh,62px);height:clamp(38px,5.5vh,62px);border:2.5px solid #111;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:clamp(1rem,2.6vh,1.8rem);font-weight:800;color:#111;padding:0 4px;flex-shrink:0}
+.seq-n.q{background:#FAD7A0;border-color:#F0A500;color:#784212;font-size:clamp(1.2rem,3vh,2rem)}
+.seq-arr{color:#CCC;font-weight:700;font-size:1.1rem;flex-shrink:0}
+.seq-divider{width:100%;height:1.5px;background:#EEE}
+.seq-instr{font-size:clamp(0.8rem,1.8vh,1.2rem);color:#AAA;font-style:italic;font-weight:700;text-align:center}
+
+/* two truths */
+.tt-topic{font-size:clamp(0.85rem,1.9vh,1.3rem);font-weight:900;color:#888;text-transform:uppercase;letter-spacing:0.06em;text-align:center}
+.tt-item{display:flex;gap:8px;align-items:flex-start;width:100%;padding:0.55vh 0.6vw;border:2px solid #E8E8E8;border-radius:7px}
+.tt-num{width:clamp(20px,3vh,32px);height:clamp(20px,3vh,32px);border-radius:50%;background:#e67e22;color:#fff;font-size:clamp(0.72rem,1.6vh,1.1rem);font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.tt-text{font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:700;color:#111;line-height:1.3}
+.tt-instr{font-size:clamp(0.75rem,1.7vh,1.1rem);color:#AAA;font-style:italic;font-weight:700;text-align:center}
+
+/* odd one out */
+.ooo-set{width:100%;display:flex;flex-direction:column;gap:0.35vh}
+.ooo-set+.ooo-set{border-top:3px solid #e67e22;padding-top:0.6vh;margin-top:0.3vh}
+.ooo-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.ooo-item{border:2px solid #E0E0E0;border-radius:6px;padding:0.45vh 0.5vw;font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:700;color:#111;text-align:center;line-height:1.25}
+.ooo-instr{font-size:clamp(0.75rem,1.7vh,1.1rem);color:#AAA;font-style:italic;font-weight:700;text-align:center}
+.tt-lie{border-color:#E03030!important;background:#FFEEEE!important}
+.tt-lie-label{font-size:clamp(0.72rem,1.6vh,1.05rem);color:#C00;font-weight:800;padding:0.2vh 0.5vw;margin-top:0.2vh;background:#FFDDDD;border-radius:4px;text-align:center;width:100%}
+.ooo-odd{border-color:#e67e22!important;background:#FEF5E7!important;color:#B45305!important;font-weight:900!important}
+.ooo-reason{font-size:clamp(0.7rem,1.55vh,1rem);color:#e67e22;font-weight:700;font-style:italic;padding:0.15vh 0;text-align:center}
+.seq-rule{font-size:clamp(0.7rem,1.55vh,1rem);color:#888;font-weight:700;font-style:italic;text-align:center;margin:-0.1vh 0 0.3vh}
+.ana-blank.filled{display:flex;align-items:center;justify-content:center;font-size:clamp(1rem,2.5vh,1.8rem);font-weight:900;color:#e67e22;border-bottom-color:#e67e22}
+.ana-bonus-blank.filled{display:flex;align-items:center;justify-content:center;font-size:clamp(0.75rem,1.9vh,1.3rem);font-weight:900;color:#e67e22;border-bottom-color:#e67e22}
+
+/* RIGHT PANEL */
+#right-panel{border-left:3px solid #E0E0E0;display:flex;flex-direction:column;padding:1.2vh 1.4vw 0.8vh;gap:0;min-height:0;overflow:hidden}
+.msg-hdr{background:#e67e22;color:#fff;font-size:clamp(1.2rem,3vh,2rem);font-weight:700;padding:0.22em 0.8em;border-radius:6px 6px 0 0;flex-shrink:0;line-height:1.3}
+#msg-img-wrap{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;border:2.5px solid #e67e22;border-top:none;border-radius:0 0 6px 6px}
+#msg-body{flex:0 0 auto;padding:0.8vh 1vw;font-size:clamp(1.6rem,3.8vh,2.6rem);font-weight:700;outline:none;overflow-y:auto;color:#111;line-height:1.5;width:100%;min-height:2em}
+#msg-body:empty::before{content:attr(data-ph);color:#ccc;font-style:italic;font-weight:400;font-size:0.85em}
+#img-pane{display:none;flex:1;border-top:2px solid #E8E8E8;position:relative;overflow:hidden;align-items:center;justify-content:center;min-height:0}
+#img-pane.visible{display:flex}
+#img-pane img{max-width:100%;max-height:100%;object-fit:contain}
+#img-del{position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.55);color:#fff;border:none;border-radius:4px;padding:3px 9px;font-size:11px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;opacity:0;transition:opacity 0.15s}
+#img-pane:hover #img-del{opacity:1}
+#img-input{display:none}
+
+/* CONTROLS */
+#ctrl{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:6px 0 2px;flex-shrink:0}
+.cb{padding:6px 8px;font-size:11px;font-family:'Nunito',sans-serif;font-weight:700;background:rgba(240,240,240,0.95);border:1.5px solid #C8C8C8;border-radius:5px;cursor:pointer;color:#444;text-align:center}
+.cb:hover{background:#DCDCDC}
+#override-dot{width:7px;height:7px;background:#FFC000;border-radius:50%;margin-left:4px;vertical-align:middle;display:none}
+
+/* OVERLAYS */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.48);z-index:100;align-items:flex-start;justify-content:center;padding:4vh 1rem 2rem;overflow-y:auto}
+.overlay.on{display:flex}
+.obox{background:#fff;border-radius:14px;padding:22px 26px;width:90vw;max-width:920px;font-family:'Nunito',sans-serif;margin:auto}
+.obox h2{font-size:1.3rem;font-weight:800;margin-bottom:0.8rem;color:#111}
+.obox h3{font-size:1rem;font-weight:800;margin:1rem 0 0.5rem;color:#333}
+.oclose{padding:7px 18px;background:#eee;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.osave{padding:7px 18px;background:#e67e22;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.odanger{padding:7px 18px;background:#E03030;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.oadd{padding:7px 18px;background:#3A9922;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.ov-field{margin-bottom:11px}
+.ov-field label{display:block;font-size:0.82rem;font-weight:700;color:#333;margin-bottom:4px}
+.ov-field input,.ov-field textarea{width:100%;padding:7px 10px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.9rem}
+.ov-field textarea{min-height:70px;resize:vertical}
+.hint{font-size:0.75rem;color:#999;margin-top:3px}
+.menu-wk{font-weight:800;font-size:1rem;color:#111;margin:14px 0 5px;padding-top:12px;border-top:2px solid #EEE}
+.menu-wk:first-child{border-top:none;margin-top:0}
+.mrow{display:grid;grid-template-columns:70px 1fr 1fr;gap:5px 10px;align-items:center;margin-bottom:5px}
+.mrow label{font-size:0.82rem;font-weight:700;color:#555}
+.mrow input{padding:5px 8px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.82rem;width:100%}
+.col-hdr{font-size:0.74rem;font-weight:700;color:#AAA}
+.sol-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sol-cl{font-weight:800;font-size:0.82rem;color:#555;margin-bottom:5px}
+.sol-ci{font-size:0.88rem;font-family:monospace;margin-bottom:4px;color:#111}
+.sol-words{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.sol-w{background:#FEF5E7;border:1px solid #e67e22;padding:3px 9px;border-radius:4px;font-size:0.9rem;font-weight:600;color:#B45305}
+
+/* ── SPOT THE MISTAKE ──────────────────────────────────── */
+.stm-para{background:#FFF8E7;border:2.5px solid #F0C040;border-radius:9px;padding:1.2vh 1.4vw;font-size:clamp(1.1rem,2.8vh,1.9rem);font-weight:600;line-height:1.7;color:#111;margin-bottom:1vh}
+.stm-count{font-size:clamp(1rem,2.4vh,1.6rem);font-weight:700;color:#555;text-align:center;margin-bottom:1vh}
+.stm-btn{padding:0.5em 1.4em;background:#e67e22;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer}
+.stm-btn:hover{background:#d35400}
+.stm-err{background:#FFDDDD;border-radius:4px;padding:0 3px;text-decoration:underline wavy #E03030}
+.stm-ans-list{margin-top:1.2vh;font-size:clamp(0.85rem,1.9vh,1.25rem);line-height:1.9;color:#333}
+.stm-ans-item{margin-bottom:0.3vh}
+.stm-ans-item b{color:#E03030}
+
+/* ── WORD OF THE DAY ───────────────────────────────────── */
+.wod-word{font-size:clamp(2.2rem,7vh,5rem);font-weight:900;color:#e67e22;text-align:center;letter-spacing:0.02em;line-height:1}
+.wod-class{font-size:clamp(0.85rem,2vh,1.3rem);font-weight:800;color:#fff;background:#555;border-radius:20px;padding:0.15em 0.8em;display:inline-block;margin:0.5vh auto 0.8vh;text-align:center}
+.wod-def{font-size:clamp(1rem,2.5vh,1.7rem);font-weight:700;color:#333;text-align:center;line-height:1.4;margin-bottom:0.6vh}
+.wod-example{font-size:clamp(0.85rem,2vh,1.35rem);color:#666;font-style:italic;text-align:center;margin-bottom:0.5vh;line-height:1.4}
+.wod-etymology{font-size:clamp(0.78rem,1.7vh,1.15rem);color:#888;text-align:center;margin-bottom:1vh;line-height:1.4}
+.wod-qs{background:#FEF5E7;border:2px solid #e67e22;border-radius:8px;padding:0.8vh 1vw;font-size:clamp(0.85rem,1.9vh,1.3rem);font-weight:700;color:#B45305;line-height:1.9}
+
+/* ── SYNONYM & ANTONYM ─────────────────────────────────── */
+.sna-word{font-size:clamp(2rem,6vh,4.2rem);font-weight:900;color:#111;text-align:center;margin-bottom:0.8vh}
+.sna-cols{display:grid;grid-template-columns:1fr 1fr;gap:1vw;width:100%}
+.sna-col-hdr{font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:900;text-align:center;padding:0.3em;border-radius:6px 6px 0 0;color:#fff}
+.sna-col-hdr.syn{background:#3A9922}
+.sna-col-hdr.ant{background:#E03030}
+.sna-col-body{border:2px solid #DDD;border-top:none;border-radius:0 0 6px 6px;padding:0.5vh 0.6vw;min-height:10vh;font-size:clamp(0.85rem,2vh,1.3rem);font-weight:700;color:#333;line-height:1.9;text-align:center}
+.sna-instr{font-size:clamp(0.8rem,1.8vh,1.2rem);color:#AAA;font-style:italic;font-weight:700;text-align:center;margin-bottom:0.5vh}
+.sna-btn{padding:0.45em 1.2em;background:#e67e22;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.85rem,1.9vh,1.25rem);font-weight:800;cursor:pointer}
+.sna-btn:hover{background:#d35400}
+
+/* ── MAGIC NUMBER ──────────────────────────────────────── */
+.mn-clues{width:100%;display:flex;flex-direction:column;gap:0.5vh}
+.mn-clue{display:flex;align-items:center;gap:0.7vw;padding:0.55vh 0.8vw;border:2px solid #E8E8E8;border-radius:7px;font-size:clamp(0.95rem,2.3vh,1.55rem);font-weight:700;color:#333}
+.mn-clue-num{min-width:clamp(24px,3.5vh,36px);height:clamp(24px,3.5vh,36px);border-radius:50%;background:#e67e22;color:#fff;font-size:clamp(0.75rem,1.7vh,1.1rem);font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mn-answer{font-size:clamp(3rem,9vh,6rem);font-weight:900;color:#e67e22;text-align:center;display:none}
+.mn-btn{padding:0.5em 1.4em;background:#e67e22;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer;margin-top:1vh}
+.mn-btn:hover{background:#d35400}
+
+/* ── SHAPE OF THE DAY ──────────────────────────────────── */
+.shp-name{font-size:clamp(2rem,6.5vh,4.5rem);font-weight:900;color:#111;text-align:center;margin-bottom:0.5vh}
+.shp-type{font-size:clamp(0.85rem,2vh,1.3rem);font-weight:800;color:#fff;background:#e67e22;border-radius:20px;padding:0.15em 0.9em;display:inline-block;margin-bottom:1vh}
+.shp-qs{display:flex;flex-direction:column;gap:0.5vh;width:100%;margin-bottom:1vh}
+.shp-q{padding:0.5vh 0.8vw;background:#F8F8F8;border:1.5px solid #E0E0E0;border-radius:6px;font-size:clamp(0.88rem,2vh,1.35rem);font-weight:700;color:#444;line-height:1.4}
+.shp-btn{padding:0.45em 1.2em;background:#e67e22;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.85rem,1.9vh,1.25rem);font-weight:800;cursor:pointer}
+.shp-btn:hover{background:#d35400}
+.shp-props{display:none;width:100%;background:#FEF5E7;border:2px solid #e67e22;border-radius:8px;padding:0.8vh 1vw;font-size:clamp(0.85rem,1.9vh,1.3rem);font-weight:700;color:#B45305;line-height:1.9;margin-top:0.5vh}
+
+/* ── ESTIMATION STATION ────────────────────────────────── */
+.est-q{background:#FFF0E0;border:2.5px solid #F0A050;border-radius:9px;padding:1.2vh 1.4vw;font-size:clamp(1.2rem,3.2vh,2.2rem);font-weight:800;color:#111;text-align:center;line-height:1.5;margin-bottom:1vh}
+.est-instr{font-size:clamp(0.9rem,2.1vh,1.4rem);font-weight:700;color:#777;text-align:center;margin-bottom:1vh}
+.est-btn{padding:0.5em 1.4em;background:#e67e22;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer}
+.est-btn:hover{background:#d35400}
+.est-ans{display:none;margin-top:1vh;background:#FEF5E7;border:2px solid #e67e22;border-radius:8px;padding:1vh 1.2vw;font-size:clamp(1rem,2.5vh,1.7rem);font-weight:800;color:#B45305;text-align:center;line-height:1.5}
+
+/* ── PAIR LAYOUT ───────────────────────────────────────── */
+.pair-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;height:100%;overflow:hidden}
+@media(max-width:640px){.pair-grid{grid-template-columns:1fr}}
+.pair-cell{overflow-y:auto;padding:1vh 1.2vw;display:flex;flex-direction:column;gap:0.4vh;border:2px solid #e8e8e8;border-radius:8px;background:#fdfdfd;min-height:0}
+.pair-cell .ptitle{font-size:clamp(0.9rem,2.2vh,1.4rem)!important;margin-bottom:0.2vh!important}
+.pair-cell .wod-word{font-size:clamp(1.5rem,4vh,2.8rem)}
+.pair-cell .stm-para,.pair-cell .est-q,.pair-cell .wyr-q,.pair-cell .map-country,.pair-cell .sna-word,.pair-cell .mn-clue,.pair-cell .shp-name{font-size:clamp(0.9rem,2vh,1.4rem)!important}
+
+/* TWO TRUTHS EDITOR */
+.tt-bank-item{border:1.5px solid #EEE;border-radius:8px;padding:10px 14px;margin-bottom:8px;position:relative}
+.tt-bank-topic{font-size:0.8rem;font-weight:800;color:#e67e22;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em}
+.tt-bank-stmts{font-size:0.82rem;color:#333;line-height:1.6}
+.tt-bank-lie{color:#E03030}
+.tt-bank-del{position:absolute;top:8px;right:10px;background:none;border:none;color:#CCC;cursor:pointer;font-size:1.1rem;font-family:'Nunito',sans-serif;font-weight:700}
+.tt-bank-del:hover{color:#E03030}
+.tt-add-form{background:#F8F8F8;border-radius:8px;padding:14px;margin-top:10px}
+.tt-add-form input{width:100%;padding:6px 9px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.85rem;margin-bottom:6px}
+.tt-lie-label{display:flex;align-items:center;gap:6px;font-size:0.8rem;font-weight:700;color:#666;margin-bottom:6px}
+.tt-lie-label select{padding:4px 7px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.82rem}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="date-hdr">
+    <img id="date-logo" src="../logo.png" alt="Wallscourt Farm Academy">
+    <span id="date-text"></span>
+    <span id="class-name">Hazel</span>
+  </div>
+  <div id="lunch-bar">
+    <div class="lc lc-r" id="lc0">—</div>
+    <div class="lc lc-g" id="lc1">—</div>
+    <div class="lc lc-p">Tomato Pasta</div>
+    <div class="lc lc-j">Jacket Potato</div>
+    <div class="lc lc-b">Packed Lunch</div>
+  </div>
+  <div id="main">
+    <div id="puzzle-panel"></div>
+    <div id="right-panel">
+      <div class="msg-hdr">Morning Messages</div>
+      <div id="msg-img-wrap">
+        <div class="msg-body" id="msg-body" contenteditable="true" data-ph="No message today"></div>
+        <div id="img-pane">
+          <img id="img-el" src="" alt="">
+          <button id="img-del" onclick="removeImg()">Remove</button>
+        </div>
+      </div>
+      <div id="ctrl">
+        <button class="cb" id="solbtn" onclick="toggleSols()">Solutions</button>
+        <button class="cb" onclick="newPuzzle()">New puzzle</button>
+        <button class="cb" onclick="toggleType()">Switch puzzle</button>
+        <button class="cb" onclick="openImgOverlay()">Add image</button>
+        <button class="cb" onclick="openOverride()">Override today <span id="override-dot"></span></button>
+        <button class="cb" onclick="openSetup()">Setup</button>
+      </div>
+    </div>
+  </div>
+</div>
+<input type="file" id="img-input" accept="image/*" onchange="handleImgFile(event)">
+
+<!-- Image overlay -->
+<div class="overlay" id="img-overlay" onclick="if(event.target===this)closeImgOverlay()">
+  <div class="obox" style="max-width:480px">
+    <h2>Add image</h2>
+    <div style="margin:1rem 0">
+      <button class="oadd" style="display:block;width:100%;margin-bottom:12px" onclick="document.getElementById('img-input').click();closeImgOverlay()">Upload from device</button>
+      <p style="text-align:center;color:#999;font-size:0.8rem;margin:8px 0">— or —</p>
+      <div class="ov-field" style="margin-bottom:0">
+        <label>Paste image URL</label>
+        <input type="url" id="img-url-input" placeholder="https://example.com/image.png" style="margin-bottom:8px">
+        <button class="osave" style="width:100%" onclick="handleImgUrl()">Load from URL</button>
+      </div>
+    </div>
+    <div style="text-align:right;margin-top:1rem"><button class="oclose" onclick="closeImgOverlay()">Cancel</button></div>
+  </div>
+</div>
+
+<!-- Solutions -->
+<div class="overlay" id="sol-ov" onclick="if(event.target===this)closeSols()">
+  <div class="obox">
+    <h2 id="sol-title">Solutions</h2>
+    <div id="sol-content"></div>
+    <div style="text-align:right;margin-top:1rem"><button class="oclose" onclick="closeSols()">Close</button></div>
+  </div>
+</div>
+
+<!-- Override today -->
+<div class="overlay" id="ov-overlay" onclick="if(event.target===this)closeOverride()">
+  <div class="obox">
+    <h2>Override today's display</h2>
+    <p style="font-size:0.82rem;color:#666;margin-bottom:12px">Leave any field blank to use the automatic value.</p>
+    <div class="ov-field"><label>Hot option 1 (red)</label><input id="ov-meal1" placeholder="Leave blank to use rotation"></div>
+    <div class="ov-field"><label>Hot option 2 (green)</label><input id="ov-meal2" placeholder="Leave blank to use rotation"></div>
+    <div class="ov-field">
+      <label>Morning message</label>
+      <textarea id="ov-msg" placeholder="Leave blank for automatic message (Thu/Fri) or no message"></textarea>
+      <div class="hint" id="ov-auto-preview"></div>
+    </div>
+    <div class="ov-field">
+      <label>Two truths &amp; a lie — use today's custom set instead of bank</label>
+      <input id="ov-tt-topic" placeholder="Topic (e.g. Romans)" style="margin-bottom:5px">
+      <input id="ov-tt-1" placeholder="Statement 1">
+      <input id="ov-tt-2" placeholder="Statement 2" style="margin-top:5px">
+      <input id="ov-tt-3" placeholder="Statement 3" style="margin-top:5px">
+      <div class="tt-lie-label" style="margin-top:6px">The lie is statement <select id="ov-tt-lie"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+      <div class="hint">Leave topic blank to use a random set from the bank</div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:space-between;margin-top:1rem;flex-wrap:wrap">
+      <button class="odanger" onclick="clearOverride()">Clear all overrides</button>
+      <div style="display:flex;gap:10px"><button class="oclose" onclick="closeOverride()">Cancel</button><button class="osave" onclick="saveOverride()">Apply</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- Setup (menu + two truths bank) -->
+<div class="overlay" id="setup-ov" onclick="if(event.target===this)closeSetup()">
+  <div class="obox">
+    <h2>Setup</h2>
+
+    <h3>Lunch menu — 3-week rotation</h3>
+    <p style="font-size:0.82rem;color:#666;margin-bottom:10px">Tomato Pasta, Jacket Potato and Packed Lunch are fixed.</p>
+    <div id="menu-form"></div>
+
+    <h3 style="margin-top:1.5rem">Two Truths &amp; a Lie — question bank</h3>
+    <p style="font-size:0.82rem;color:#666;margin-bottom:10px">Add your own sets. The game picks randomly from this bank.</p>
+    <div id="tt-bank-list"></div>
+    <div class="tt-add-form">
+      <div style="font-size:0.85rem;font-weight:800;color:#333;margin-bottom:8px">Add a new set</div>
+      <input id="tt-new-topic" placeholder="Topic (e.g. Romans)">
+      <input id="tt-new-1" placeholder="Statement 1">
+      <input id="tt-new-2" placeholder="Statement 2">
+      <input id="tt-new-3" placeholder="Statement 3">
+      <div class="tt-lie-label">The lie is statement <select id="tt-new-lie"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+      <button class="oadd" onclick="addTTSet()" style="margin-top:6px">Add to bank</button>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1.5rem">
+      <button class="oclose" onclick="closeSetup()">Cancel</button>
+      <button class="osave" onclick="saveSetup()">Save all</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// MENU DATA
+// ═══════════════════════════════════════════════════════════
+const MENU_BY_WEEK={
+  '2026-04-13':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-04-20':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-04-27':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-05-04':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-05-11':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-05-18':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-05-25':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-06-01':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-06-08':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-06-15':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-06-22':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-06-29':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-07-06':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-07-13':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-07-20':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-07-27':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-08-03':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-08-10':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-08-24':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-08-31':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-09-07':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-09-14':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-09-21':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-09-28':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-10-05':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-10-12':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-10-19':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+};
+const AUTO_MSGS={Thu:'Hand in your home learning\nPaired Spelling Bee',Fri:'Stick in your home learning\nLeave last week\'s to be checked'};
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DAYNAMES=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 5 ANAGRAM BANK
+// ═══════════════════════════════════════════════════════════
+const ANAGRAM_BANK=[
+  {main:'ACCOMMODATE',mainHint:'to provide space for someone',bonus:[{w:'DATE',hint:'a day'},{w:'COME',hint:'to arrive'}]},
+  {main:'APPRECIATE',mainHint:'to value something',bonus:[{w:'PRICE',hint:'cost'},{w:'EAT',hint:'consume'}]},
+  {main:'COMMUNICATE',mainHint:'to share information',bonus:[{w:'COMMUNIC',hint:'communicate'},{w:'ACT',hint:'do something'}]},
+  {main:'CONCENTRATE',mainHint:'to focus attention',bonus:[{w:'CENT',hint:'a penny'},{w:'RATE',hint:'speed'}]},
+  {main:'DETERMINE',mainHint:'to decide something',bonus:[{w:'TERM',hint:'a period'},{w:'MINE',hint:'possessive'}]},
+  {main:'DISCUSSION',mainHint:'talking about something',bonus:[{w:'DISCUSS',hint:'to talk'},{w:'ION',hint:'charged particle'}]},
+  {main:'ENVIRONMENT',mainHint:'the world around us',bonus:[]},
+  {main:'EQUIPMENT',mainHint:'tools and materials',bonus:[{w:'QUIET',hint:'silent'},{w:'MEN',hint:'adult males'}]},
+  {main:'EXPERIENCE',mainHint:'knowledge from doing',bonus:[{w:'EXPERIENCE',hint:''}]},
+  {main:'FASCINATING',mainHint:'very interesting',bonus:[{w:'FAST',hint:'quick'},{w:'ACING',hint:'acing a test'}]},
+  {main:'GOVERNMENT',mainHint:'the ruling body',bonus:[{w:'GOVERN',hint:'to rule'},{w:'MEN',hint:'adult males'}]},
+  {main:'IMMEDIATELY',mainHint:'right now',bonus:[{w:'MEDIA',hint:'press'},{w:'MEAL',hint:'food'}]},
+  {main:'KNOWLEDGE',mainHint:'facts and information',bonus:[]},
+  {main:'NECESSARY',mainHint:'needed, required',bonus:[{w:'NECESSARY',hint:''}]},
+  {main:'OPPORTUNITY',mainHint:'a chance to do something',bonus:[{w:'UNITY',hint:'together'},{w:'PUN',hint:'wordplay'}]},
+  {main:'PARAGRAPH',mainHint:'a group of sentences',bonus:[]},
+  {main:'PHYSICAL',mainHint:'relating to the body',bonus:[{w:'PHYSICAL',hint:''}]},
+  {main:'PERSUADE',mainHint:'to convince someone',bonus:[{w:'SPEED',hint:'fast'},{w:'READ',hint:'to look at text'}]},
+  {main:'PRACTICE',mainHint:'doing something repeatedly',bonus:[{w:'PRICE',hint:'cost'},{w:'ACT',hint:'do something'}]},
+  {main:'PROGRAMME',mainHint:'a planned series of events',bonus:[{w:'PROGRAM',hint:'plan'},{w:'RAM',hint:'male sheep'}]},
+  {main:'RECOMMEND',mainHint:'to suggest something',bonus:[{w:'COMMEND',hint:'to praise'},{w:'MEN',hint:'adult males'}]},
+  {main:'RELEVANT',mainHint:'connected to the topic',bonus:[{w:'RELEVANT',hint:''}]},
+  {main:'SINCERELY',mainHint:'genuinely, honestly',bonus:[{w:'SINCE',hint:'from then'},{w:'RELY',hint:'depend on'}]},
+  {main:'SUFFICIENT',mainHint:'enough',bonus:[{w:'SUFFICIENT',hint:''}]},
+  {main:'TECHNOLOGY',mainHint:'scientific knowledge for practical use',bonus:[]},
+  {main:'TREMENDOUS',mainHint:'very large',bonus:[]},
+  {main:'VOCABULARY',mainHint:'all the words you know',bonus:[]},
+  {main:'WONDERFUL',mainHint:'amazing',bonus:[{w:'WONDER',hint:'to be amazed'},{w:'WORD',hint:'unit of language'}]}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 5 TWO TRUTHS & A LIE — Cumulative (Y1, Y2, Y3, Y4, Y5 curriculum)
+// ═══════════════════════════════════════════════════════════
+const DEFAULT_TT=[
+  // ── Place Value (Year 5) ────────────────────────────────────
+  {topic:'Place Value',stmts:['In 34,567, the 3 is worth 30,000','In 34,567, the 5 is worth 500','In 34,567, the 6 is worth 60'],lie:3},
+  {topic:'Place Value',stmts:['100,000 has 5 zeros','1,000,000 has 6 zeros','10,000 has 5 zeros'],lie:3},
+  {topic:'Place Value',stmts:['987,654 rounds to 1,000,000 to the nearest million','987,654 rounds to 990,000 to the nearest ten thousand','987,654 rounds to 988,000 to the nearest thousand'],lie:2},
+  // ── Multiplication (Year 5) ───────────────────────────────────
+  {topic:'Multiplication',stmts:['7 × 8 = 56','9 × 7 = 63','8 × 8 = 56'],lie:3},
+  {topic:'Multiplication',stmts:['12 × 12 = 144','11 × 11 = 121','13 × 13 = 169'],lie:0},
+  {topic:'Multiplication',stmts:['23 × 4 = 92','15 × 6 = 80','18 × 5 = 90'],lie:2},
+  {topic:'Multiplication',stmts:['25 × 4 = 100','50 × 4 = 200','75 × 4 = 250'],lie:3},
+  // ── Fractions, Decimals, Percentages (Year 5) ────────────────
+  {topic:'Fractions',stmts:['1/2 = 0.5 = 50%','1/4 = 0.25 = 25%','1/3 = 0.33 = 33%'],lie:0},
+  {topic:'Fractions',stmts:['3/4 of 200 is 150','2/3 of 150 is 100','1/5 of 100 is 25'],lie:3},
+  {topic:'Fractions',stmts:['2/5 = 0.4 = 40%','3/5 = 0.6 = 60%','4/5 = 0.75 = 75%'],lie:3},
+  {topic:'Percentages',stmts:['10% of 300 is 30','25% of 80 is 20','50% of 150 is 100'],lie:3},
+  // ── Roman Numerals (Year 5) ──────────────────────────────────
+  {topic:'Roman Numerals',stmts:['I = 1, V = 5, X = 10','L = 50, C = 100, D = 500','M = 1000, X = 100'],lie:3},
+  {topic:'Roman Numerals',stmts:['IV = 4, IX = 9','XL = 40, XC = 90','CD = 400, CM = 900'],lie:0},
+  {topic:'Roman Numerals',stmts:['2024 = MMXXIV','2023 = MMXXIII','2025 = MMXXV'],lie:0},
+  // ── Science: Forces (Year 5) ──────────────────────────────────
+  {topic:'Forces',stmts:['Gravity pulls objects towards Earth','Friction can slow things down','Magnetic force only works with air'],lie:3},
+  {topic:'Forces',stmts:['Levers can make work easier','Pulleys help lift heavy loads','Gears slow down movement'],lie:3},
+  {topic:'Forces',stmts:['Air resistance is a type of friction','Water resistance slows objects in water','Gravity gets weaker as you go higher'],lie:0},
+  {topic:'Forces',stmts:['A force is measured in newtons (N)','A force can change an object\'s shape','A force cannot change direction'],lie:3},
+  // ── Science: Earth and Space (Year 5) ────────────────────────
+  {topic:'Space',stmts:['The Sun is a star','The Moon orbits Earth','Earth orbits the Moon'],lie:3},
+  {topic:'Space',stmts:['Earth takes 365 days to orbit the Sun','Earth takes 24 hours to rotate once','The Moon takes 28 days to orbit Earth'],lie:0},
+  {topic:'Space',stmts:['Mercury is the closest planet to the Sun','Venus is the hottest planet','Mars is called the Red Planet'],lie:0},
+  {topic:'Space',stmts:['Jupiter is the largest planet','Saturn has rings made of ice and rock','Neptune is the closest to the Sun'],lie:3},
+  {topic:'Space',stmts:['The Sun gives us light and heat','The Moon gives out its own light','Stars give out their own light'],lie:2},
+  {topic:'Space',stmts:['Day happens when our side faces the Sun','Night happens when our side faces away from the Sun','The Sun moves around Earth'],lie:3},
+  // ── Science: Life Cycles (Year 5) ────────────────────────────
+  {topic:'Life Cycles',stmts:['All living things reproduce','Plants make seeds','Mammals lay eggs'],lie:3},
+  {topic:'Life Cycles',stmts:['Butterflies go through metamorphosis','Frogs start as tadpoles','Birds give birth to live young'],lie:3},
+  {topic:'Life Cycles',stmts:['Pollen is needed for plant reproduction','Bees help pollinate flowers','Flowers only exist to look pretty'],lie:3},
+  {topic:'Life Cycles',stmts:['Seeds need water to germinate','Seeds need warmth to germinate','Seeds need darkness to germinate'],lie:3},
+  // ── Science: Human Body (Year 5) ─────────────────────────────
+  {topic:'Human Body',stmts:['The heart pumps blood around the body','Blood vessels carry blood','Arteries carry blood to the heart'],lie:3},
+  {topic:'Human Body',stmts:['The heart has four chambers','Blood is pumped to the lungs to get oxygen','Veins carry blood away from the heart'],lie:3},
+  {topic:'Human Body',stmts:['We breathe in oxygen','We breathe out carbon dioxide','We breathe in carbon dioxide'],lie:3},
+  {topic:'Human Body',stmts:['Exercise makes your heart stronger','Exercise helps you sleep better','Exercise makes your heart beat slower'],lie:3},
+  // ── History: Romans (Year 5) ────────────────────────────────
+  {topic:'Romans',stmts:['The Romans invaded Britain in 43 AD','The Romans ruled Britain for nearly 400 years','The Romans came from modern-day France'],lie:3},
+  {topic:'Romans',stmts:['Boudicca led a rebellion against the Romans','Boudicca was queen of the Iceni tribe','Boudicca won the final battle'],lie:3},
+  {topic:'Romans',stmts:['Hadrian\'s Wall was built to keep out invaders','Hadrian\'s Wall is in the north of England','Hadrian\'s Wall was built by the Vikings'],lie:3},
+  {topic:'Romans',stmts:['The Romans built roads in Britain','The Romans built aqueducts','The Romans built motorways'],lie:3},
+  {topic:'Romans',stmts:['Roman soldiers were called legionaries','A legion had about 5,000 soldiers','Roman soldiers were all from Rome'],lie:3},
+  {topic:'Romans',stmts:['The Romans left Britain in 410 AD','The Romans left because their empire was declining','The Anglo-Saxons came after the Romans left'],lie:0},
+  // ── Geography: Rivers (Year 5) ───────────────────────────────
+  {topic:'Rivers',stmts:['A river starts at its source','A river ends at its mouth','A river flows downhill'],lie:0},
+  {topic:'Rivers',stmts:['The longest river in the UK is the River Severn','The River Thames flows through London','The Amazon is the longest river in Africa'],lie:3},
+  {topic:'Rivers',stmts:['Erosion wears away river banks','Deposition drops sediment','Tributaries flow away from the main river'],lie:3},
+  {topic:'Rivers',stmts:['A delta is formed at a river\'s mouth','An oxbow lake is formed when a river changes course','A waterfall is where a river starts'],lie:3},
+  // ── Cumulative from previous years ───────────────────────────
+  {topic:'Times Tables',stmts:['7 × 8 = 56','9 × 6 = 45','12 × 11 = 132'],lie:0},
+  {topic:'Times Tables',stmts:['6 × 7 = 42','8 × 9 = 72','11 × 12 = 144'],lie:0},
+  {topic:'Times Tables',stmts:['4 × 6 = 24','7 × 6 = 48','9 × 8 = 72'],lie:2},
+  {topic:'Anglo-Saxons',stmts:['The Anglo-Saxons came from Germany and Denmark','They came to Britain after the Romans left','They built stone houses'],lie:3},
+  {topic:'Vikings',stmts:['Vikings came from Scandinavia','Vikings raided Britain from 793 AD','Vikings were only warriors'],lie:3},
+  {topic:'Electricity',stmts:['A complete circuit lets electricity flow','A switch can open and close a circuit','Wires can connect in any direction'],lie:3},
+  {topic:'Sound',stmts:['Sound is caused by vibrations','Sound travels through solids','Sound cannot travel through water'],lie:3},
+  {topic:'Digestion',stmts:['Food travels from mouth to stomach','The small intestine absorbs nutrients','The large intestine absorbs all the food'],lie:3}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 5 SPOT THE MISTAKE — Formal language, complex sentences, curriculum spelling
+// ═══════════════════════════════════════════════════════════
+const SPOT_MISTAKE=[
+  {para:"The Roman Empire conquered Britain in 43 AD. The Romans builded roads and aqueducts across the country. They stayed for nearly 400 years.",count:2,errors:[{wrong:"builded",correct:"built",exp:"'Build' is irregular. The past tense is 'built'."},{wrong:"stayed",correct:"stayed",exp:"'Stay' is regular, but the sentence is about a completed historical period."}]},
+  {para:"The Sun is at the center of our solar system. The planets orbit around it. Earth take 365 days to complete one orbit.",count:1,errors:[{wrong:"take",correct:"takes",exp:"Subject-verb agreement: 'Earth' is singular, so 'takes' is needed."}]},
+  {para:"When the Romans left Britain in 410 AD, the Anglo-Saxons arrived. They come from Germany and Denmark. They brought new languages and customs.",count:1,errors:[{wrong:"come",correct:"came",exp:"Past tense is needed because this happened in history."}]},
+  {para:"Forces can change the shape of objects. Air resistance slows down falling objects. Gravity is a force that pushes things down.",count:1,errors:[{wrong:"pushes",correct:"pulls",exp:"Gravity pulls objects towards Earth, it doesn't push them."}]},
+  {para:"The heart pumps blood around the body. Veins carry blood away from the heart. Arteries carry blood back to the heart.",count:2,errors:[{wrong:"Veins carry blood away from the heart",correct:"Arteries carry blood away from the heart",exp:"Arteries carry blood away from the heart; veins carry it back."},{wrong:"Arteries carry blood back to the heart",correct:"Veins carry blood back to the heart",exp:"Veins carry blood back to the heart; arteries carry it away."}]},
+  {para:"Plants need sunlight to make food. This process is called photosynthesis. They absorb water through they're leaves.",count:1,errors:[{wrong:"they're",correct:"their",exp:"'Their' shows possession. 'They're' means 'they are'."}]},
+  {para:"Mercury is the closest planet to the Sun. Its very hot during the day. Venus is hotter because of its thick atmosphere.",count:1,errors:[{wrong:"Its very hot",correct:"It's very hot",exp:"'It's' means 'it is'. 'Its' shows possession."}]},
+  {para:"The River Severn is the longest river in the UK. It's source is in Wales. It flows into the Bristol Channel.",count:1,errors:[{wrong:"It's source",correct:"Its source",exp:"'Its' shows possession. 'It's' means 'it is'."}]},
+  {para:"The Romans built Hadrians Wall in the north of England. It was 73 miles long. It kept out the Picts from Scotland.",count:1,errors:[{wrong:"Hadrians Wall",correct:"Hadrian's Wall",exp:"Names of specific places need apostrophes for possession."}]},
+  {para:"The moon has phases. We see different amounts of its lit side. A full moon is when we can see the hole of the lit side.",count:1,errors:[{wrong:"hole",correct:"whole",exp:"'Whole' means complete. 'Hole' is an opening."}]},
+  {para:"Magnetism is a force. Magnets have a north pole and a south pole. Opposite poles repel each other.",count:1,errors:[{wrong:"repel",correct:"attract",exp:"Opposite poles attract; like poles repel."}]},
+  {para:"Boudicca led the Iceni tribe against the Romans. She were a strong leader. She burned Roman cities.",count:1,errors:[{wrong:"were",correct:"was",exp:"Subject-verb agreement: 'She' is singular, so 'was' is needed."}]},
+  {para:"Vikings were skilled sailors and traders. They travelled in longships. They raided monasteries for there riches.",count:1,errors:[{wrong:"there",correct:"their",exp:"'Their' shows possession. 'There' refers to a place."}]},
+  {para:"Earth rotates on its axis. This causes day and night. One rotation takes twenty four hours.",count:1,errors:[{wrong:"twenty four",correct:"twenty-four",exp:"Numbers between 21 and 99 need a hyphen."}]},
+  {para:"The heart has four chambers. The left side pumps blood to the lungs. The right side pumps blood to the body.",count:2,errors:[{wrong:"The left side pumps blood to the lungs",correct:"The right side pumps blood to the lungs",exp:"The right side pumps blood to the lungs."},{wrong:"The right side pumps blood to the body",correct:"The left side pumps blood to the body",exp:"The left side pumps blood to the body."}]},
+  {para:"A complete circuit is needed for electricity to flow. If there is a break in the circuit, the bulb wont light up.",count:1,errors:[{wrong:"wont",correct:"won't",exp:"'Won't' is short for 'will not'. The apostrophe shows the missing letters."}]},
+  {para:"Jupiter is the largest planet. Its got a Great Red Spot. Saturn is famous for it's rings.",count:2,errors:[{wrong:"Its got",correct:"It's got",exp:"'It's' means 'it is' or 'it has'."},{wrong:"it's rings",correct:"its rings",exp:"'Its' shows possession. 'It's' means 'it is'."}]},
+  {para:"The Vikings came from Scandinavia. They raided Britain from 793 AD. They settled in areas called the Danelaw.",count:0,errors:[]},
+  {para:"Pollination is when pollen moves from one flower to another. Bees are important pollinators. Flowers produce nectar to atract bees.",count:1,errors:[{wrong:"atract",correct:"attract",exp:"'Attract' has two t's."}]},
+  {para:"Germination is when a seed starts to grow. Seeds need water, warmth, and oxygen. They dont need soil to start germinating.",count:1,errors:[{wrong:"dont",correct:"don't",exp:"'Don't' needs an apostrophe to show the missing 'o'."}]}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 5 WORD OF THE DAY — Year 5/6 Tier 2 vocabulary
+// ═══════════════════════════════════════════════════════════
+const WORD_OF_DAY=[
+  {word:'appreciate',cls:'verb',def:'To understand the value of something.',example:'I appreciate all the help you gave me.',origin:"From Latin 'appretiare' meaning 'to set a price on'.",syns:['value','treasure','respect','admire','prize'],ants:['disregard','ignore','neglect','overlook','disrespect']},
+  {word:'consequence',cls:'noun',def:'The result or effect of an action.',example:'The consequence of not studying was a low score.',origin:"From Latin 'consequentia' meaning 'following logically'.",syns:['result','outcome','effect','aftermath','ramification'],ants:['cause','origin','source','beginning','cause']},
+  {word:'determine',cls:'verb',def:'To decide or find out something.',example:'We need to determine the best solution.',origin:"From Latin 'determinare' meaning 'to limit or set bounds'.",syns:['decide','establish','figure out','resolve','conclude'],ants:['hesitate','waver','undecided','uncertain','indecisive']},
+  {word:'environment',cls:'noun',def:'The surroundings in which something exists.',example:'We must protect the natural environment.',origin:"From French 'environ' meaning 'around'.",syns:['surroundings','habitat','setting','atmosphere','conditions'],ants:[]},
+  {word:'frequent',cls:'adjective',def:'Happening often.',example:'There were frequent delays on the train.',origin:"From Latin 'frequens' meaning 'crowded or repeated'.",syns:['regular','common','constant','repeated','often'],ants:['rare','occasional','infrequent','uncommon','seldom']},
+  {word:'guarantee',cls:'verb/noun',def:'To promise something will happen; a promise.',example:'The company guarantees its products for two years.',origin:"From Spanish 'garantia' meaning 'protection'.",syns:['promise','assure','warrant','certify','pledge'],ants:['uncertainty','doubt','risk','uncertainty','question']},
+  {word:'individual',cls:'noun/adjective',def:'A single person; relating to one person.',example:'Each individual has their own strengths.',origin:"From Latin 'individuus' meaning 'indivisible'.",syns:['person','individual','single','separate','distinct'],ants:['group','collective','whole','team','community']},
+  {word:'justified',cls:'adjective',def:'Having a good reason; fair or right.',example:'Her anger was justified by what happened.',origin:"From Latin 'justificare' meaning 'to make just'.",syns:['reasonable','fair','valid','warranted','right'],ants:['unjustified','unfair','unreasonable','wrong','invalid']},
+  {word:'maintain',cls:'verb',def:'To keep something in good condition.',example:'You need to maintain your bike by oiling the chain.',origin:"From Latin 'manu' meaning 'by hand'.",syns:['preserve','sustain','uphold','keep','continue'],ants:['neglect','abandon','ignore','discard','stop']},
+  {word:'necessary',cls:'adjective',def:'Needed; required.',example:'It is necessary to wear a helmet when cycling.',origin:"From Latin 'necessarius' meaning 'unavoidable'.",syns:['essential','required','needed','vital','crucial'],ants:['unnecessary','optional','unneeded','dispensable','extra']},
+  {word:'opportunity',cls:'noun',def:'A chance to do something.',example:'This is a great opportunity to learn.',origin:"From Latin 'opportunitas' meaning 'fitness or convenience'.",syns:['chance','possibility','opening','prospect','occasion'],ants:['obstacle','barrier','limitation','restriction','hindrance']},
+  {word:'persuade',cls:'verb',def:'To convince someone to do something.',example:'She tried to persuade him to try the new food.',origin:"From Latin 'persuadere' meaning 'to advise thoroughly'.",syns:['convince','influence','sway','encourage','talk into'],ants:['dissuade','discourage','put off','warn','advise against']},
+  {word:'recommend',cls:'verb',def:'To suggest something as being good.',example:'I recommend this book to anyone who likes adventure.',origin:"From Latin 're' meaning 'back' + 'commendare' meaning 'entrust'.",syns:['suggest','advise','endorse','propose','advocate'],ants:['discourage','dissuade','warn','advise against','forbid']},
+  {word:'significant',cls:'adjective',def:'Important; having meaning.',example:'This was a significant discovery for science.',origin:"From Latin 'significare' meaning 'to signify or mean'.",syns:['important','meaningful','notable','considerable','major'],ants:['insignificant','unimportant','minor','trivial','minor']},
+  {word:'sufficient',cls:'adjective',def:'Enough; adequate.',example:'Do we have sufficient time to finish?',origin:"From Latin 'sufficere' meaning 'to be enough'.",syns:['enough','adequate','plenty','ample','satisfactory'],ants:['insufficient','inadequate','lacking','not enough','short']},
+  {word:'technology',cls:'noun',def:'The use of scientific knowledge for practical purposes.',example:'Modern technology has changed how we communicate.',origin:"From Greek 'techne' meaning 'art, skill, craft'.",syns:['machinery','equipment','electronics','devices','tools'],ants:[]},
+  {word:'tremendous',cls:'adjective',def:'Very large or powerful.',example:'There was a tremendous crash of thunder.',origin:"From Latin 'tremendus' meaning 'to be trembled at'.",syns:['huge','enormous','massive','immense','vast'],ants:['tiny','small','minor','insignificant','little']},
+  {word:'voluntary',cls:'adjective',def:'Done by choice, not forced.',example:'Voluntary work helps the community.',origin:"From Latin 'voluntarius' meaning 'willing'.",syns:['optional','chosen','freely given','unpaid','willing'],ants:['compulsory','mandatory','forced','required','obligatory']}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 5 SYNONYM & ANTONYM — Year 5/6 appropriate pairs
+// ═══════════════════════════════════════════════════════════
+const SYN_ANT=[
+  {word:'appreciate',syns:['value','treasure','respect','admire','prize'],ants:['disregard','ignore','neglect','overlook','disrespect']},
+  {word:'consequence',syns:['result','outcome','effect','aftermath','ramification'],ants:['cause','origin','source','beginning','cause']},
+  {word:'determine',syns:['decide','establish','figure out','resolve','conclude'],ants:['hesitate','waver','undecided','uncertain','indecisive']},
+  {word:'frequent',syns:['regular','common','constant','repeated','often'],ants:['rare','occasional','infrequent','uncommon','seldom']},
+  {word:'guarantee',syns:['promise','assure','warrant','certify','pledge'],ants:['uncertainty','doubt','risk','uncertainty','question']},
+  {word:'necessary',syns:['essential','required','needed','vital','crucial'],ants:['unnecessary','optional','unneeded','dispensable','extra']},
+  {word:'opportunity',syns:['chance','possibility','opening','prospect','occasion'],ants:['obstacle','barrier','limitation','restriction','hindrance']},
+  {word:'persuade',syns:['convince','influence','sway','encourage','talk into'],ants:['dissuade','discourage','put off','warn','advise against']},
+  {word:'recommend',syns:['suggest','advise','endorse','propose','advocate'],ants:['discourage','dissuade','warn','advise against','forbid']},
+  {word:'significant',syns:['important','meaningful','notable','considerable','major'],ants:['insignificant','unimportant','minor','trivial','minor']},
+  {word:'sufficient',syns:['enough','adequate','plenty','ample','satisfactory'],ants:['insufficient','inadequate','lacking','not enough','short']},
+  {word:'tremendous',syns:['huge','enormous','massive','immense','vast'],ants:['tiny','small','minor','insignificant','little']},
+  {word:'voluntary',syns:['optional','chosen','freely given','unpaid','willing'],ants:['compulsory','mandatory','forced','required','obligatory']},
+  {word:'ancient',syns:['old','aged','vintage','antique','prehistoric'],ants:['modern','new','recent','contemporary','current']},
+  {word:'apprehensive',syns:['anxious','worried','nervous','uneasy','concerned'],ants:['confident','calm','relaxed','assured','comfortable']},
+  {word:'collaborate',syns:['cooperate','work together','partner','team up','join forces'],ants:['compete','oppose','conflict','resist','disagree']},
+  {word:'distinct',syns:['clear','obvious','different','separate','definite'],ants:['unclear','vague','similar','blurred','indistinct']},
+  {word:'inevitable',syns:['unavoidable','certain','sure','inescapable','definite'],ants:['avoidable','uncertain','preventable','optional','unlikely']},
+  {word:'reluctant',syns:['unwilling','hesitant','uncertain','dubious','loath'],ants:['willing','eager','keen','enthusiastic','ready']}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 5 MAGIC NUMBER — Place value, fractions, percentages, Roman numerals
+// ═══════════════════════════════════════════════════════════
+const MAGIC_NUMBER_CLEAN=[
+  {clues:['I am a number.','I have 6 digits.','My ten-thousands digit is 5.','My thousands digit is 3.','My hundreds digit is 7.','My tens digit is 2.','My ones digit is 8.'],answer:53728},
+  {clues:['I am a number.','I am 1,000,000 minus 1.'],answer:999999},
+  {clues:['I am a number.','I am half of 10,000.'],answer:5000},
+  {clues:['I am a number.','I am 25% of 400.'],answer:100},
+  {clues:['I am a number.','I am 75% of 200.'],answer:150},
+  {clues:['I am a number.','I am 10% of 850.'],answer:85},
+  {clues:['I am a number.','I am 50% of 360.'],answer:180},
+  {clues:['I am a number.','I am one third of 150.'],answer:50},
+  {clues:['I am a number.','I am three quarters of 400.'],answer:300},
+  {clues:['I am a number.','I am the Roman numeral XIV.'],answer:14},
+  {clues:['I am a number.','I am the Roman numeral XXXIX.'],answer:39},
+  {clues:['I am a number.','I am the Roman numeral XLII.'],answer:42},
+  {clues:['I am a number.','I am the Roman numeral LXXV.'],answer:75},
+  {clues:['I am a number.','I am the Roman numeral XCIX.'],answer:99},
+  {clues:['I am a number.','I am the Roman numeral CDXLIV.'],answer:444},
+  {clues:['I am a number.','I am 7 × 8.'],answer:56},
+  {clues:['I am a number.','I am 9 × 9.'],answer:81},
+  {clues:['I am a number.','I am 11 × 11.'],answer:121},
+  {clues:['I am a number.','I am 12 × 12.'],answer:144},
+  {clues:['I am a number.','I am the number of hours in 2 days.'],answer:48},
+  {clues:['I am a number.','I am the number of minutes in 3 hours.'],answer:180},
+  {clues:['I am a number.','I am the number of days in 4 weeks.'],answer:28},
+  {clues:['I am a number.','I am the number of planets in our solar system.'],answer:8},
+  {clues:['I am a number.','I am 15 × 4.'],answer:60},
+  {clues:['I am a number.','I am 25 × 8.'],answer:200},
+  {clues:['I am a number.','I am 17 × 5.'],answer:85},
+  {clues:['I am a number.','I am 1000 - 476.'],answer:524},
+  {clues:['I am a number.','I am the number of years the Romans ruled Britain, divided by 100.'],answer:4},
+  {clues:['I am a number.','I am the year the Romans invaded Britain, divided by 10.'],answer:4},
+  {clues:['I am a number.','I am the number of chambers in the human heart.'],answer:4}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 5 SHAPE OF THE DAY — Properties of shapes
+// ═══════════════════════════════════════════════════════════
+const SHAPES=[
+  {name:'Triangle',type:'2D shape',questions:['What do the angles in a triangle add up to?','Name three types of triangle.'],properties:['A triangle has 3 sides and 3 vertices.','The angles in a triangle add up to 180°.','Types: equilateral (all sides equal), isosceles (2 sides equal), scalene (all sides different).','Types by angles: acute, right-angled, obtuse.']},
+  {name:'Quadrilateral',type:'2D shape',questions:['How many sides does a quadrilateral have?','How many types of quadrilateral can you name?'],properties:['A quadrilateral has 4 sides and 4 vertices.','The angles in a quadrilateral add up to 360°.','Types: square, rectangle, parallelogram, rhombus, trapezium, kite.']},
+  {name:'Parallelogram',type:'2D shape',questions:['How many pairs of parallel sides?','Are opposite angles equal?'],properties:['A parallelogram has 2 pairs of parallel sides.','Opposite sides are equal in length.','Opposite angles are equal.','Diagonals bisect each other.']},
+  {name:'Rhombus',type:'2D shape',questions:['Are all sides equal?','Are opposite angles equal?'],properties:['A rhombus has 4 equal sides.','Opposite sides are parallel.','Opposite angles are equal.','Diagonals bisect each other at right angles.']},
+  {name:'Trapezium',type:'2D shape',questions:['How many pairs of parallel sides?','Can a trapezium have a right angle?'],properties:['A trapezium has 1 pair of parallel sides.','The parallel sides are called bases.','An isosceles trapezium has equal non-parallel sides.']},
+  {name:'Kite',type:'2D shape',questions:['How many pairs of equal sides?','What is special about the diagonals?'],properties:['A kite has 2 pairs of equal sides next to each other.','The diagonals cross at right angles.','One diagonal bisects the other.']},
+  {name:'Pentagon',type:'2D shape',questions:['How many sides does it have?','What do the angles add up to?'],properties:['A pentagon has 5 sides and 5 vertices.','The angles in a pentagon add up to 540°.','A regular pentagon has all sides and angles equal.']},
+  {name:'Hexagon',type:'2D shape',questions:['How many sides does it have?','What do the angles add up to?'],properties:['A hexagon has 6 sides and 6 vertices.','The angles in a hexagon add up to 720°.','A regular hexagon has all sides and angles equal.']},
+  {name:'Prism',type:'3D shape',questions:['What shape are the ends of a prism?','Can you name a type of prism?'],properties:['A prism has identical ends (bases).','The sides are parallelograms or rectangles.','Types: triangular prism, rectangular prism, pentagonal prism.','A cube is a special prism with square ends.']},
+  {name:'Pyramid',type:'3D shape',questions:['What shape is the base of a square pyramid?','How many triangular faces does it have?'],properties:['A pyramid has a polygon base and triangular sides.','A square pyramid has 1 square base and 4 triangular faces.','A triangular pyramid (tetrahedron) has 4 triangular faces.']},
+  {name:'Sphere',type:'3D shape',questions:['How many faces?','How many edges?','How many vertices?'],properties:['A sphere has 1 curved face.','A sphere has 0 edges.','A sphere has 0 vertices.','Examples: football, planet Earth.']},
+  {name:'Cylinder',type:'3D shape',questions:['How many flat faces?','How many curved faces?'],properties:['A cylinder has 2 circular flat faces.','A cylinder has 1 curved face.','A cylinder has 2 edges (circles).','Examples: tin can, toilet roll.']},
+  {name:'Cone',type:'3D shape',questions:['How many flat faces?','How many curved faces?','How many vertices?'],properties:['A cone has 1 circular flat face.','A cone has 1 curved face.','A cone has 1 vertex (the point).','Examples: ice cream cone, party hat.']}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 5 ESTIMATION STATION
+// ═══════════════════════════════════════════════════════════
+const ESTIMATION=[
+  {question:'How many seconds in 30 minutes?',answer:'1800 seconds',explanation:"30 × 60 = 1800 seconds."},
+  {question:'How many minutes in 4 hours?',answer:'240 minutes',explanation:"4 × 60 = 240 minutes."},
+  {question:'How many hours in 3 days?',answer:'72 hours',explanation:"3 × 24 = 72 hours."},
+  {question:'How many days in 8 weeks?',answer:'56 days',explanation:"8 × 7 = 56 days."},
+  {question:'What is 25% of 500?',answer:'125',explanation:"500 ÷ 4 = 125."},
+  {question:'What is 75% of 400?',answer:'300',explanation:"75% = 3/4. 400 ÷ 4 = 100, 100 × 3 = 300."},
+  {question:'What is 10% of 750?',answer:'75',explanation:"750 ÷ 10 = 75."},
+  {question:'What is 50% of 1400?',answer:'700',explanation:"1400 ÷ 2 = 700."},
+  {question:'What is one third of 270?',answer:'90',explanation:"270 ÷ 3 = 90."},
+  {question:'What is two thirds of 210?',answer:'140',explanation:"210 ÷ 3 = 70, 70 × 2 = 140."},
+  {question:'What is three quarters of 320?',answer:'240',explanation:"320 ÷ 4 = 80, 80 × 3 = 240."},
+  {question:'How many 5p coins make £5?',answer:'100 coins',explanation:"£5 = 500p. 500 ÷ 5 = 100 coins."},
+  {question:'How many 20p coins make £4?',answer:'20 coins',explanation:"£4 = 400p. 400 ÷ 20 = 20 coins."},
+  {question:'What is 17 × 10?',answer:'170',explanation:"Multiply by 10 moves the digit one place left."},
+  {question:'What is 35 × 20?',answer:'700',explanation:"35 × 20 = 35 × 2 × 10 = 70 × 10 = 700."},
+  {question:'How many metres in 2.5 kilometres?',answer:'2500 metres',explanation:"2.5 × 1000 = 2500 metres."},
+  {question:'How many millimetres in 5 centimetres?',answer:'50 millimetres',explanation:"5 × 10 = 50 millimetres."},
+  {question:'What is 15% of 200?',answer:'30',explanation:"10% of 200 = 20, 5% of 200 = 10, 15% = 20 + 10 = 30."},
+  {question:'How many sides do 6 hexagons have?',answer:'36 sides',explanation:"Each hexagon has 6 sides. 6 × 6 = 36."},
+  {question:'How many angles in 3 triangles?',answer:'9 angles',explanation:"Each triangle has 3 angles. 3 × 3 = 9."}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 5 SEQUENCE DATA — Complex patterns, fractions, decimals
+// ═══════════════════════════════════════════════════════════
+const SEQUENCE_DATA=[
+  {nums:[1,3,9,27],gap:0,rule:'×3 each time (powers of 3)'},
+  {nums:[2,6,18,54],gap:0,rule:'×3 each time'},
+  {nums:[1000,2000,3000,4000],gap:1000,rule:'+1000 each time'},
+  {nums:[250,500,750,1000],gap:250,rule:'+250 each time'},
+  {nums:[0.25,0.5,0.75,1],gap:0.25,rule:'+0.25 each time'},
+  {nums:[0.5,1,1.5,2],gap:0.5,rule:'+0.5 each time'},
+  {nums:[1,4,9,16],gap:0,rule:'Square numbers: 1², 2², 3², 4²'},
+  {nums:[1,8,27,64],gap:0,rule:'Cube numbers: 1³, 2³, 3³, 4³'},
+  {nums:[1,1,2,3,5],gap:0,rule:'Fibonacci sequence (each number is the sum of the two before)'},
+  {nums:[14,28,42,56],gap:14,rule:'+14 each time (multiples of 14)'},
+  {nums:[15,30,45,60],gap:15,rule:'+15 each time (multiples of 15)'},
+  {nums:[18,36,54,72],gap:18,rule:'+18 each time (multiples of 18)'},
+  {nums:[1,2,4,8],gap:0,rule:'×2 each time (powers of 2)'},
+  {nums:[4,16,36,64],gap:0,rule:'Even square numbers: 2², 4², 6², 8²'},
+  {nums:[0.1,0.2,0.3,0.4],gap:0.1,rule:'+0.1 each time'},
+  {nums:[0.25,0.5,1,2],gap:0,rule:'×2 each time (doubling)'},
+  {nums:[5,50,500,5000],gap:0,rule:'×10 each time'},
+  {nums:[144,121,100,81],gap:0,rule:'Square numbers decreasing: 12², 11², 10², 9²'},
+  {nums:[1000,900,800,700],gap:100,rule:'-100 each time'},
+  {nums:[500,250,125,62.5],gap:0,rule:'÷2 each time (halving)'}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 5 ODD ONE OUT — Classification, forces, space, Romans
+// ═══════════════════════════════════════════════════════════
+const ODD_ONE_OUT_DATA=[
+  {items:['Mercury','Venus','Mars','Moon'],odd:'Moon',reason:'The Moon is a natural satellite, but Mercury, Venus and Mars are planets.'},
+  {items:['Jupiter','Saturn','Uranus','Earth'],odd:'Earth',reason:'Earth is a terrestrial planet, but Jupiter, Saturn and Uranus are gas giants.'},
+  {items:['Mars','Venus','Mercury','Pluto'],odd:'Pluto',reason:'Pluto is a dwarf planet, but Mars, Venus and Mercury are planets in our solar system.'},
+  {items:['friction','gravity','magnetism','temperature'],odd:'temperature',reason:'Temperature is a measurement, but friction, gravity and magnetism are forces.'},
+  {items:['lever','pulley','gear','battery'],odd:'battery',reason:'A battery stores energy, but levers, pulleys and gears are simple machines.'},
+  {items:['source','mouth','tributary','mountain'],odd:'mountain',reason:'Mountain is landform, but source, mouth and tributary are river features.'},
+  {items:['erosion','deposition','tributary','weathering'],odd:'tributary',reason:'Tributary is a river feature, but erosion, deposition and weathering are processes.'},
+  {items:['legionary','centurion','Viking','auxiliary'],odd:'Viking',reason:'Viking is from a different time period, but legionary, centurion and auxiliary are Roman soldiers.'},
+  {items:['Boudicca','Claudius','Hadrian','Caesar'],odd:'Boudicca',reason:'Boudicca was a British rebel leader, but Claudius, Hadrian and Caesar were Roman leaders.'},
+  {items:['forum','villa','temple','longship'],odd:'longship',reason:'A longship is Viking, but forum, villa and temple are Roman buildings.'},
+  {items:['artery','vein','capillary','nerve'],odd:'nerve',reason:'A nerve carries electrical signals, but arteries, veins and capillaries carry blood.'},
+  {items:['heart','lung','brain','blood'],odd:'blood',reason:'Blood is a fluid, but heart, lung and brain are organs.'},
+  {items:['oxygen','carbon dioxide','nitrogen','water'],odd:'water',reason:'Water is a compound, but oxygen, carbon dioxide and nitrogen are elements or simple molecules.'},
+  {items:['germination','pollination','photosynthesis','evaporation'],odd:'evaporation',reason:'Evaporation is about water, but germination, pollination and photosynthesis are plant processes.'},
+  {items:['stamen','stigma','sepal','stem'],odd:'stem',reason:'Stem is not a flower part, but stamen, stigma and sepal are parts of a flower.'},
+  {items:['square','rectangle','parallelogram','triangle'],odd:'triangle',reason:'Triangle has 3 sides, but square, rectangle and parallelogram have 4 sides (quadrilaterals).'},
+  {items:['rhombus','kite','trapezium','circle'],odd:'circle',reason:'Circle has curved edges, but rhombus, kite and trapezium are quadrilaterals.'},
+  {items:['prism','pyramid','sphere','square'],odd:'square',reason:'Square is a 2D shape, but prism, pyramid and sphere are 3D shapes.'},
+  {items:['cube','cuboid','cylinder','triangle'],odd:'triangle',reason:'Triangle is a 2D shape, but cube, cuboid and cylinder are 3D shapes.'},
+  {items:['I','V','X','L','D','M','A'],odd:'A',reason:'A is not a Roman numeral, but I, V, X, L, D and M are Roman numerals.'}
+];
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let cur={};let puzzleIdx=0;let puzzles=[];let ttBank=[...DEFAULT_TT];let menu={};let override={};let imgState={data:null,url:null};
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+function init(){
+  loadMenu();
+  loadTTBank();
+  loadOverride();
+  loadImgState();
+  setDate();
+  buildPuzzles();
+  newPuzzle();
+}
+function loadMenu(){try{menu=JSON.parse(localStorage.getItem('y5menu')||'{}');}catch(e){menu={};}}
+function loadTTBank(){try{const s=localStorage.getItem('y5ttbank');if(s){ttBank=JSON.parse(s);if(!Array.isArray(ttBank)||ttBank.length===0)ttBank=[...DEFAULT_TT];}}catch(e){ttBank=[...DEFAULT_TT];}}
+function loadOverride(){try{override=JSON.parse(localStorage.getItem('y5override')||'{}');}catch(e){override={};}}
+function loadImgState(){try{const d=localStorage.getItem('y5imgdata');const u=localStorage.getItem('y5imgurl');if(d){imgState.data=d;imgState.url=u||null;}}catch(e){}}
+function saveMenu(){localStorage.setItem('y5menu',JSON.stringify(menu));}
+function saveTTBank(){localStorage.setItem('y5ttbank',JSON.stringify(ttBank));}
+function saveOverride(){localStorage.setItem('y5override',JSON.stringify(override));}
+function saveImgState(){if(imgState.data){localStorage.setItem('y5imgdata',imgState.data);if(imgState.url)localStorage.setItem('y5imgurl',imgState.url);else localStorage.removeItem('y5imgurl');}else{localStorage.removeItem('y5imgdata');localStorage.removeItem('y5imgurl');}}
+
+function setDate(){
+  const now=new Date();
+  const d=now.getDay();
+  const date=now.getDate();
+  const m=now.getMonth();
+  const y=now.getFullYear();
+  document.getElementById('date-text').textContent=`${DAYS[d]} ${date} ${MONTHS[m]}`;
+  const meals=getMeals(now);
+  document.getElementById('lc0').textContent=meals[0];
+  document.getElementById('lc1').textContent=meals[1];
+  const msg=override.msg||(AUTO_MSGS[DAYS[d]]||'');
+  document.getElementById('msg-body').textContent=msg;
+  if(imgState.data){
+    document.getElementById('img-el').src=imgState.data;
+    document.getElementById('img-pane').classList.add('visible');
+  }else{
+    document.getElementById('img-pane').classList.remove('visible');
+  }
+  const hasOverride=override.meal1||override.meal2||override.msg||(override.ttStmts&&override.ttStmts.topic);
+  document.getElementById('override-dot').style.display=hasOverride?'inline-block':'none';
+}
+
+function getMeals(date){
+  const d=date.getDay();
+  if(d===0||d===6)return['—','—'];
+  const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,'0'),day=String(date.getDate()).padStart(2,'0');
+  const todayStr=`${y}-${m}-${day}`;
+  const dayOfWeek=DAYNAMES[d].slice(0,3);
+  let monday=new Date(date);monday.setDate(date.getDate()-(d-1));
+  const my=monday.getFullYear(),mm=String(monday.getMonth()+1).padStart(2,'0'),md=String(monday.getDate()).padStart(2,'0');
+  const monStr=`${my}-${mm}-${md}`;
+  const weekData=MENU_BY_WEEK[monStr];
+  if(!weekData)return['—','—'];
+  const dayMeals=weekData[dayOfWeek];
+  if(!dayMeals)return['—','—'];
+  return dayMeals;
+}
+
+function buildPuzzles(){
+  puzzles=[
+    {type:'anagram',fn:renderAnagram},
+    {type:'sequence',fn:renderSequence},
+    {type:'twoTruths',fn:renderTwoTruths},
+    {type:'oddOneOut',fn:renderOddOneOut},
+    {type:'spotMistake',fn:renderSpotMistake},
+    {type:'wordOfDay',fn:renderWordOfDay},
+    {type:'synAnt',fn:renderSynAnt},
+    {type:'magicNum',fn:renderMagicNum},
+    {type:'shape',fn:renderShape},
+    {type:'estimation',fn:renderEstimation}
+  ];
+}
+
+function newPuzzle(){
+  puzzleIdx=(puzzleIdx+1)%puzzles.length;
+  renderPuzzle();
+}
+function toggleType(){
+  puzzleIdx=(puzzleIdx+1)%puzzles.length;
+  renderPuzzle();
+}
+function renderPuzzle(){puzzles[puzzleIdx].fn();}
+
+// ═══════════════════════════════════════════════════════════
+// ANAGRAM
+// ═══════════════════════════════════════════════════════════
+function renderAnagram(){
+  const set=ANAGRAM_BANK[Math.floor(Math.random()*ANAGRAM_BANK.length)];
+  cur={type:'anagram',anaSet:set};
+  const cp=document.getElementById('combined-panel');
+  cp.innerHTML=`
+    <div class="cpanel"><div class="cpanel-hdr"><span class="cpanel-hdr-title">Anagram</span><button class="reveal-btn" data-revealed="0" onclick="revealAnagram(this)">👁 Reveal</button></div>
+      <div class="cpanel-body">
+        <div class="ana-main">${shuffleWord(set.main)}</div>
+        <div class="ana-hint">${set.mainHint}</div>
+        <div class="ana-blanks">${makeBlanks(set.main,'ana-blank')}</div>
+      </div>
+    </div>
+    <div class="cpanel"><div class="cpanel-hdr"><span class="cpanel-hdr-title">Make smaller words</span></div>
+      <div class="cpanel-body">
+        <div class="ana-bonus-list">${set.bonus.map((b,i)=>`<div class="ana-bonus-row"><span class="ana-bonus-word">${shuffleWord(b.w)}</span><div class="ana-bonus-blanks">${makeBlanks(b.w,'ana-bonus-blank')}</div></div>`).join('')}</div>
+      </div>
+    </div>
+    <div class="cpanel" id="seq-cp"><div class="cpanel-hdr"><span class="cpanel-hdr-title">Number sequence</span><button class="reveal-btn" data-revealed="0" onclick="revealSeq(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" id="seq-body"></div>
+    </div>
+    <div class="cpanel"><div class="cpanel-hdr"><span class="cpanel-hdr-title">Two truths & a lie</span><button class="reveal-btn" data-revealed="0" onclick="revealTT(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" id="tt-body"></div>
+    </div>
+  `;
+  renderSequenceMini();
+  renderTwoTruthsMini();
+}
+function makeBlanks(word,cls){
+  return word.split('').map(()=>`<div class="${cls}"></div>`).join('');
+}
+function shuffleWord(w){return w.split('').sort(()=>Math.random()-0.5).join('');}
+function revealAnagram(btn){
+  const cp=document.getElementById('combined-panel');
+  const mainBlanks=cp.querySelectorAll('.ana-blanks .ana-blank');
+  if(btn.dataset.revealed==='1'){
+    mainBlanks.forEach(b=>{b.textContent='';b.classList.remove('filled');});
+    const bonusBlanks=cp.querySelectorAll('.ana-bonus-blank');
+    bonusBlanks.forEach(b=>{b.textContent='';b.classList.remove('filled');});
+    btn.textContent='👁 Reveal';
+    btn.dataset.revealed='0';
+  }else{
+    [...cur.anaSet.main].forEach((ch,i)=>{if(mainBlanks[i]){mainBlanks[i].textContent=ch.toUpperCase();mainBlanks[i].classList.add('filled');}});
+    cur.anaSet.bonus.forEach((b,bi)=>{
+      const row=cp.querySelectorAll('.ana-bonus-row')[bi];
+      if(row){
+        const blanks=row.querySelectorAll('.ana-bonus-blank');
+        [...b.w].forEach((ch,i)=>{if(blanks[i]){blanks[i].textContent=ch.toUpperCase();blanks[i].classList.add('filled');}});
+      }
+    });
+    btn.textContent='👁 Hide';
+    btn.dataset.revealed='1';
+  }
+}
+function revealSeq(btn){
+  const seqBody=document.getElementById('seq-body');
+  if(btn.dataset.revealed==='1'){
+    seqBody.querySelectorAll('.seq-n.q').forEach(n=>{n.textContent='?';n.classList.add('q');});
+    btn.textContent='👁 Reveal';
+    btn.dataset.revealed='0';
+  }else{
+    seqBody.querySelectorAll('.seq-n.q').forEach(n=>{n.textContent=cur.seq.answer;n.classList.remove('q');});
+    btn.textContent='👁 Hide';
+    btn.dataset.revealed='1';
+  }
+}
+function revealTT(btn){
+  const ttBody=document.getElementById('tt-body');
+  if(btn.dataset.revealed==='1'){
+    ttBody.querySelectorAll('.tt-item').forEach((item,i)=>{item.classList.remove('tt-lie');const label=item.querySelector('.tt-lie-label');if(label)label.remove();});
+    btn.textContent='👁 Reveal';
+    btn.dataset.revealed='0';
+  }else{
+    ttBody.querySelectorAll('.tt-item').forEach((item,i)=>{
+      if(i+1===cur.ttSet.lie){
+        item.classList.add('tt-lie');
+        const label=document.createElement('div');label.className='tt-lie-label';label.textContent='Lie';item.appendChild(label);
+      }
+    });
+    btn.textContent='👁 Hide';
+    btn.dataset.revealed='1';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// MINI PUZZLES
+// ═══════════════════════════════════════════════════════════
+function renderSequenceMini(){
+  const seq=SEQUENCE_DATA[Math.floor(Math.random()*SEQUENCE_DATA.length)];
+  cur={...cur,seq:seq};
+  const seqBody=document.getElementById('seq-body');
+  seqBody.innerHTML=`
+    <div class="seq-instr">What comes next?</div>
+    <div class="seq-row">${seq.nums.map(n=>`<div class="seq-n">${n}</div>`).join('')}<div class="seq-arr">→</div><div class="seq-n q">?</div></div>
+    <div class="seq-rule">${seq.rule}</div>
+  `;
+}
+function renderTwoTruthsMini(){
+  const set=override.ttStmts&&override.ttStmts.topic?override.ttStmts:ttBank[Math.floor(Math.random()*ttBank.length)];
+  cur={...cur,ttSet:set};
+  const ttBody=document.getElementById('tt-body');
+  ttBody.innerHTML=`
+    <div class="tt-topic">${set.topic}</div>
+    ${set.stmts.map((s,i)=>`<div class="tt-item"><div class="tt-num">${i+1}</div><div class="tt-text">${s}</div></div>`).join('')}
+    <div class="tt-instr">Which one is the lie?</div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════
+// STANDALONE PUZZLES
+// ═══════════════════════════════════════════════════════════
+function renderSequence(){
+  const seq=SEQUENCE_DATA[Math.floor(Math.random()*SEQUENCE_DATA.length)];
+  cur={type:'sequence',seq:seq};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Number Sequence</div>
+    <div class="seq-row">${seq.nums.map(n=>`<div class="seq-n">${n}</div>`).join('')}<div class="seq-arr">→</div><div class="seq-n q">?</div></div>
+    <div class="seq-rule">${seq.rule}</div>
+    <button class="stm-btn" onclick="showSeqAns()">Reveal answer</button>
+  `;
+}
+function showSeqAns(){
+  const q=document.querySelector('.seq-n.q');
+  if(q){q.textContent=cur.seq.answer;q.classList.remove('q');}
+}
+
+function renderTwoTruths(){
+  const set=override.ttStmts&&override.ttStmts.topic?override.ttStmts:ttBank[Math.floor(Math.random()*ttBank.length)];
+  cur={type:'twoTruths',ttSet:set};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Two Truths & a Lie</div>
+    <div class="tt-topic">${set.topic}</div>
+    ${set.stmts.map((s,i)=>`<div class="tt-item"><div class="tt-num">${i+1}</div><div class="tt-text">${s}</div></div>`).join('')}
+    <div class="tt-instr">Which one is the lie?</div>
+    <button class="stm-btn" onclick="showTTAns()">Reveal answer</button>
+  `;
+}
+function showTTAns(){
+  const items=document.querySelectorAll('.tt-item');
+  items.forEach((item,i)=>{
+    if(i+1===cur.ttSet.lie){
+      item.classList.add('tt-lie');
+      const label=document.createElement('div');label.className='tt-lie-label';label.textContent='Lie';item.appendChild(label);
+    }
+  });
+}
+
+function renderOddOneOut(){
+  const set=ODD_ONE_OUT_DATA[Math.floor(Math.random()*ODD_ONE_OUT_DATA.length)];
+  cur={type:'oddOneOut',oooSet:set};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Odd One Out</div>
+    <div class="ooo-set">
+      <div class="ooo-grid">${set.items.map(item=>`<div class="ooo-item">${item}</div>`).join('')}</div>
+    </div>
+    <div class="ooo-instr">Which one doesn't belong? Why?</div>
+    <button class="ooo-btn" onclick="showOOOAns()">Reveal answer</button>
+  `;
+}
+function showOOOAns(){
+  const items=document.querySelectorAll('.ooo-item');
+  items.forEach(item=>{
+    if(item.textContent.toLowerCase()===cur.oooSet.odd.toLowerCase()){
+      item.classList.add('ooo-odd');
+    }
+  });
+  const set=document.querySelector('.ooo-set');
+  const reason=document.createElement('div');reason.className='ooo-reason';reason.textContent=cur.oooSet.reason;
+  set.appendChild(reason);
+}
+
+function renderSpotMistake(){
+  const set=SPOT_MISTAKE[Math.floor(Math.random()*SPOT_MISTAKE.length)];
+  cur={type:'spotMistake',smSet:set};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Spot the Mistake</div>
+    <div class="stm-para">${set.para}</div>
+    <div class="stm-count">Find ${set.count} mistake${set.count>1?'s':''}.</div>
+    <button class="stm-btn" onclick="showSMAns()">Show answers</button>
+  `;
+}
+function showSMAns(){
+  const para=document.querySelector('.stm-para');
+  let html=cur.smSet.para;
+  cur.smSet.errors.forEach(e=>{
+    html=html.replace(e.wrong,`<span class="stm-err">${e.wrong}</span>`);
+  });
+  para.innerHTML=html;
+  const count=document.querySelector('.stm-count');
+  const ansList=document.createElement('div');ansList.className='stm-ans-list';
+  cur.smSet.errors.forEach(e=>{
+    ansList.innerHTML+=`<div class="stm-ans-item"><b>${e.wrong}</b> → ${e.correct}: ${e.exp}</div>`;
+  });
+  count.insertAdjacentElement('afterend',ansList);
+}
+
+function renderWordOfDay(){
+  const w=WORD_OF_DAY[Math.floor(Math.random()*WORD_OF_DAY.length)];
+  cur={type:'wod',wod:w};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Word of the Day</div>
+    <div class="wod-word">${w.word}</div>
+    <div class="wod-class">${w.cls}</div>
+    <div class="wod-def">${w.def}</div>
+    <div class="wod-example">${w.example}</div>
+    <div class="wod-etymology">${w.origin}</div>
+    <div class="wod-qs">${w.syns.length>0?`Synonyms: ${w.syns.join(', ')}`:''}${w.syns.length>0&&w.ants.length>0?' | ':''}${w.ants.length>0?`Antonyms: ${w.ants.join(', ')}`:''}</div>
+  `;
+}
+
+function renderSynAnt(){
+  const w=SYN_ANT[Math.floor(Math.random()*SYN_ANT.length)];
+  cur={type:'synAnt',synAnt:w};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Synonyms & Antonyms</div>
+    <div class="sna-word">${w.word}</div>
+    <div class="sna-instr">Can you think of synonyms and antonyms?</div>
+    <div class="sna-cols">
+      <div><div class="sna-col-hdr syn">Synonyms</div><div class="sna-col-body" id="syn-body"></div></div>
+      <div><div class="sna-col-hdr ant">Antonyms</div><div class="sna-col-body" id="ant-body"></div></div>
+    </div>
+    <button class="sna-btn" onclick="showSynAntAns()">Reveal</button>
+  `;
+}
+function showSynAntAns(){
+  document.getElementById('syn-body').textContent=cur.synAnt.syns.join(', ');
+  document.getElementById('ant-body').textContent=cur.synAnt.ants.join(', ');
+}
+
+function renderMagicNum(){
+  const m=MAGIC_NUMBER_CLEAN[Math.floor(Math.random()*MAGIC_NUMBER_CLEAN.length)];
+  cur={type:'magicNum',magic:m};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Magic Number</div>
+    <div class="mn-clues">${m.clues.map((c,i)=>`<div class="mn-clue"><div class="mn-clue-num">${i+1}</div><div>${c}</div></div>`).join('')}</div>
+    <button class="mn-btn" onclick="showMagicAns()">Reveal answer</button>
+    <div class="mn-answer" id="magic-ans">${m.answer}</div>
+  `;
+}
+function showMagicAns(){document.getElementById('magic-ans').style.display='block';}
+
+function renderShape(){
+  const s=SHAPES[Math.floor(Math.random()*SHAPES.length)];
+  cur={type:'shape',shape:s};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Shape of the Day</div>
+    <div class="shp-name">${s.name}</div>
+    <div class="shp-type">${s.type}</div>
+    <div class="shp-qs">${s.questions.map(q=>`<div class="shp-q">${q}</div>`).join('')}</div>
+    <button class="shp-btn" onclick="showShapeAns()">Reveal properties</button>
+    <div class="shp-props" id="shape-props">${s.properties.join('<br>')}</div>
+  `;
+}
+function showShapeAns(){document.getElementById('shape-props').style.display='block';}
+
+function renderEstimation(){
+  const e=ESTIMATION[Math.floor(Math.random()*ESTIMATION.length)];
+  cur={type:'estimation',est:e};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Estimation Station</div>
+    <div class="est-q">${e.question}</div>
+    <div class="est-instr">Have a guess!</div>
+    <button class="est-btn" onclick="showEstAns()">Reveal answer</button>
+    <div class="est-ans" id="est-ans"><strong>${e.answer}</strong><br>${e.explanation}</div>
+  `;
+}
+function showEstAns(){document.getElementById('est-ans').style.display='block';}
+
+// ═══════════════════════════════════════════════════════════
+// SOLUTIONS
+// ═══════════════════════════════════════════════════════════
+function toggleSols(){document.getElementById('sol-ov').classList.toggle('on');}
+function closeSols(){document.getElementById('sol-ov').classList.remove('on');}
+
+// ═══════════════════════════════════════════════════════════
+// OVERRIDE
+// ═══════════════════════════════════════════════════════════
+function openOverride(){
+  document.getElementById('ov-meal1').value=override.meal1||'';
+  document.getElementById('ov-meal2').value=override.meal2||'';
+  document.getElementById('ov-msg').value=override.msg||'';
+  if(override.ttStmts){
+    document.getElementById('ov-tt-topic').value=override.ttStmts.topic||'';
+    document.getElementById('ov-tt-1').value=override.ttStmts.stmts[0]||'';
+    document.getElementById('ov-tt-2').value=override.ttStmts.stmts[1]||'';
+    document.getElementById('ov-tt-3').value=override.ttStmts.stmts[2]||'';
+    document.getElementById('ov-tt-lie').value=override.ttStmts.lie||'1';
+  }else{
+    document.getElementById('ov-tt-topic').value='';
+    document.getElementById('ov-tt-1').value='';
+    document.getElementById('ov-tt-2').value='';
+    document.getElementById('ov-tt-3').value='';
+    document.getElementById('ov-tt-lie').value='1';
+  }
+  document.getElementById('ov-overlay').classList.add('on');
+}
+function closeOverride(){document.getElementById('ov-overlay').classList.remove('on');}
+function saveOverride(){
+  override.meal1=document.getElementById('ov-meal1').value;
+  override.meal2=document.getElementById('ov-meal2').value;
+  override.msg=document.getElementById('ov-msg').value;
+  const topic=document.getElementById('ov-tt-topic').value.trim();
+  if(topic){
+    override.ttStmts={
+      topic:topic,
+      stmts:[
+        document.getElementById('ov-tt-1').value.trim(),
+        document.getElementById('ov-tt-2').value.trim(),
+        document.getElementById('ov-tt-3').value.trim()
+      ],
+      lie:parseInt(document.getElementById('ov-tt-lie').value)
+    };
+  }else{
+    delete override.ttStmts;
+  }
+  saveOverride();
+  closeOverride();
+  setDate();
+}
+function clearOverride(){
+  override={};
+  saveOverride();
+  closeOverride();
+  setDate();
+}
+
+// ═══════════════════════════════════════════════════════════
+// SETUP (MENU + TWO TRUTHS BANK)
+// ═══════════════════════════════════════════════════════════
+function openSetup(){
+  renderMenuForm();
+  renderTTBankList();
+  document.getElementById('setup-ov').classList.add('on');
+}
+function closeSetup(){document.getElementById('setup-ov').classList.remove('on');}
+function renderMenuForm(){
+  const mf=document.getElementById('menu-form');
+  const weeks=Object.keys(MENU_BY_WEEK).sort();
+  let html='';
+  let wi=1;
+  weeks.forEach(wk=>{
+    const days=MENU_BY_WEEK[wk];
+    html+=`<div class="menu-wk">Week ${wi}</div>`;
+    ['Mon','Tue','Wed','Thu','Fri'].forEach(d=>{
+      const m=menu[wk]&&menu[wk][d]?menu[wk][d]:days[d];
+      html+=`<div class="mrow"><label>${d}</label><input type="text" value="${m[0]||(m[0]||'')}" data-wk="${wk}" data-day="${d}" data-opt="0"><input type="text" value="${m[1]||(m[1]||'')}" data-wk="${wk}" data-day="${d}" data-opt="1"></div>`;
+    });
+    wi++;
+    if(wi>3)return;
+  });
+  mf.innerHTML=html;
+}
+function renderTTBankList(){
+  const tl=document.getElementById('tt-bank-list');
+  tl.innerHTML=ttBank.map((t,i)=>`
+    <div class="tt-bank-item">
+      <button class="tt-bank-del" onclick="delTTSet(${i})">×</button>
+      <div class="tt-bank-topic">${t.topic}</div>
+      <div class="tt-bank-stmts">${t.stmts.map((s,j)=>(j+1===t.lie?`<span class="tt-bank-lie">${s}</span>`:s)).join(' • ')}</div>
+    </div>
+  `).join('');
+}
+function delTTSet(i){
+  ttBank.splice(i,1);
+  renderTTBankList();
+}
+function addTTSet(){
+  const topic=document.getElementById('tt-new-topic').value.trim();
+  const s1=document.getElementById('tt-new-1').value.trim();
+  const s2=document.getElementById('tt-new-2').value.trim();
+  const s3=document.getElementById('tt-new-3').value.trim();
+  const lie=parseInt(document.getElementById('tt-new-lie').value);
+  if(!topic||!s1||!s2||!s3)return alert('Please fill in all fields');
+  ttBank.push({topic:topic,stmts:[s1,s2,s3],lie:lie});
+  document.getElementById('tt-new-topic').value='';
+  document.getElementById('tt-new-1').value='';
+  document.getElementById('tt-new-2').value='';
+  document.getElementById('tt-new-3').value='';
+  document.getElementById('tt-new-lie').value='1';
+  renderTTBankList();
+}
+function saveSetup(){
+  const inputs=document.querySelectorAll('#menu-form input');
+  inputs.forEach(inp=>{
+    const wk=inp.dataset.wk;
+    const day=inp.dataset.day;
+    const opt=parseInt(inp.dataset.opt);
+    if(!menu[wk])menu[wk]={};
+    if(!menu[wk][day])menu[wk][day]=['',''];
+    menu[wk][day][opt]=inp.value;
+  });
+  saveMenu();
+  saveTTBank();
+  closeSetup();
+  setDate();
+}
+
+// ═══════════════════════════════════════════════════════════
+// IMAGE HANDLING
+// ═══════════════════════════════════════════════════════════
+function openImgOverlay(){document.getElementById('img-overlay').classList.add('on');}
+function closeImgOverlay(){document.getElementById('img-overlay').classList.remove('on');}
+function handleImgFile(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    imgState.data=ev.target.result;
+    imgState.url=null;
+    saveImgState();
+    document.getElementById('img-el').src=imgState.data;
+    document.getElementById('img-pane').classList.add('visible');
+    closeImgOverlay();
+  };
+  reader.readAsDataURL(file);
+}
+function handleImgUrl(){
+  const url=document.getElementById('img-url-input').value.trim();
+  if(!url)return;
+  imgState.data=url;
+  imgState.url=url;
+  saveImgState();
+  document.getElementById('img-el').src=url;
+  document.getElementById('img-pane').classList.add('visible');
+  closeImgOverlay();
+}
+function removeImg(){
+  imgState.data=null;
+  imgState.url=null;
+  saveImgState();
+  document.getElementById('img-pane').classList.remove('visible');
+}
+
+// ═══════════════════════════════════════════════════════════
+// START
+// ═══════════════════════════════════════════════════════════
+init();
+</script>
+</body>
+</html>

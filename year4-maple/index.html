@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Year 4 Maple — Morning Learning</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231798d3'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='16' font-weight='bold' fill='white' text-anchor='middle'%3E4%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'Nunito',sans-serif}
+#app{width:100%;height:100%;display:flex;flex-direction:column;outline:5px solid #1798d3;outline-offset:-2px}
+
+#date-hdr{display:flex;align-items:center;justify-content:space-between;padding:0.06em 0.5em;border-bottom:3px solid #111;flex-shrink:0;line-height:1.05}
+#date-logo{height:clamp(48px,7vh,80px);width:auto;object-fit:contain;flex-shrink:0}
+#date-text{font-size:clamp(2.8rem,8vh,6rem);font-weight:700;color:#111;letter-spacing:0.01em;flex:1;text-align:center}
+#class-name{font-size:clamp(2rem,5vh,4rem);font-weight:900;color:#1798d3;flex-shrink:0;padding-right:0.2em}
+
+#lunch-bar{display:grid;grid-template-columns:2fr 2fr 1.5fr 1.5fr 1fr;border-bottom:3px solid #111;flex-shrink:0}
+.lc{display:flex;align-items:center;justify-content:center;font-weight:900;font-size:clamp(1.3rem,3.2vh,2.2rem);padding:0.4em 0.6em;text-align:center;line-height:1.2;min-height:clamp(60px,9.5vh,100px)}
+.lc+.lc{border-left:2.5px solid rgba(0,0,0,0.18)}
+.lc-r{background:#E00;color:#fff}.lc-g{background:#3A9922;color:#fff}.lc-p{background:#E07070;color:#fff}.lc-j{background:#6B4820;color:#F0DFC0}.lc-b{background:#111;color:#fff}
+
+#main{flex:1;display:grid;grid-template-columns:65% 35%;min-height:0;overflow:hidden}
+
+/* PUZZLE */
+#puzzle-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.2vh 2vw;gap:1vh}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);border:3px solid #111}
+.pcell{width:clamp(72px,10.5vh,120px);height:clamp(72px,10.5vh,120px);display:flex;align-items:center;justify-content:center;border:1.5px solid #111;font-size:clamp(2.2rem,6vh,4rem);font-weight:800;background:#fff;color:#111}
+.ptitle{font-size:clamp(1.6rem,4.5vh,3rem);font-weight:700;text-align:center;color:#111;margin-top:0.5vh}
+.num-tbl{border-collapse:collapse;margin-top:0.6vh}
+.num-tbl th{padding:clamp(6px,1.2vh,13px) clamp(18px,3vw,40px);font-size:clamp(1rem,2.4vh,1.6rem);font-weight:800;border:2.5px solid #111}
+.num-tbl td{text-align:center;padding:clamp(5px,1vh,11px) clamp(16px,2.5vw,36px);border:1.5px solid #777;font-size:clamp(1.3rem,3.4vh,2.4rem);font-weight:700}
+.th-2{background:#AED6F1;color:#1A5276}.th-3{background:#A9DFBF;color:#145A32}.th-4{background:#FAD7A0;color:#784212}
+.td-2{background:#EBF5FB}.td-3{background:#EAFAF1}.td-4{background:#FEF9E7}
+
+/* COMBINED PUZZLE */
+#combined-panel{width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;min-height:0;overflow:hidden}
+.cpanel{display:flex;flex-direction:column;padding:0.5vh 0.8vw;border-right:2.5px solid #EEE;border-bottom:2.5px solid #EEE;overflow:hidden;min-height:0}
+.cpanel:nth-child(2),.cpanel:nth-child(4){border-right:none}
+.cpanel:nth-child(3),.cpanel:nth-child(4){border-bottom:none}
+.cpanel-hdr{font-size:clamp(0.9rem,2vh,1.3rem);font-weight:900;color:#fff;background:#1798d3;border-radius:5px 5px 0 0;padding:0.18em 0.7em;text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:0.4em}
+.cpanel-hdr-title{flex:1;text-align:center}
+.reveal-btn{background:rgba(255,255,255,0.22);color:#fff;border:1.5px solid rgba(255,255,255,0.55);border-radius:4px;padding:0.08em 0.55em;font-size:clamp(0.65rem,1.4vh,0.9rem);font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;text-transform:none;letter-spacing:0;flex-shrink:0;white-space:nowrap}
+.reveal-btn:hover{background:rgba(255,255,255,0.4)}
+.cpanel-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4vh;padding:0.3vh 0;overflow:hidden;min-height:0}
+
+/* anagram */
+.ana-main{font-size:clamp(1.6rem,4.5vh,3.2rem);font-weight:900;letter-spacing:0.18em;background:#F1EFE8;border:2.5px solid #B4B2A9;border-radius:7px;padding:0.2em 0.5em;color:#111;text-align:center}
+.ana-blanks{display:flex;gap:5px;justify-content:center}
+.ana-blank{width:clamp(22px,3.5vh,36px);height:clamp(26px,4vh,42px);border-bottom:3.5px solid #111}
+.ana-hint{font-size:clamp(0.85rem,1.9vh,1.3rem);color:#999;font-weight:700;font-style:italic;text-align:center}
+.ana-bonus-list{width:100%;display:flex;flex-direction:column;gap:0.3vh;margin-top:0.1vh}
+.ana-bonus-row{display:flex;align-items:center;gap:8px;justify-content:center}
+.ana-bonus-word{font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:900;letter-spacing:0.12em;background:#F8F8F8;border:1.5px solid #DDD;border-radius:4px;padding:0.15em 0.5em;color:#666}
+.ana-bonus-blanks{display:flex;gap:4px}
+.ana-bonus-blank{width:clamp(14px,2.2vh,22px);height:clamp(18px,2.8vh,28px);border-bottom:2.5px solid #AAA}
+
+/* sequences */
+.seq-row{display:flex;align-items:center;justify-content:center;gap:clamp(4px,0.6vw,10px);width:100%}
+.seq-n{min-width:clamp(38px,5.5vh,62px);height:clamp(38px,5.5vh,62px);border:2.5px solid #111;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:clamp(1rem,2.6vh,1.8rem);font-weight:800;color:#111;padding:0 4px;flex-shrink:0}
+.seq-n.q{background:#FAD7A0;border-color:#F0A500;color:#784212;font-size:clamp(1.2rem,3vh,2rem)}
+.seq-arr{color:#CCC;font-weight:700;font-size:1.1rem;flex-shrink:0}
+.seq-divider{width:100%;height:1.5px;background:#EEE}
+.seq-instr{font-size:clamp(0.8rem,1.8vh,1.2rem);color:#AAA;font-style:italic;font-weight:700;text-align:center}
+
+/* two truths */
+.tt-topic{font-size:clamp(0.85rem,1.9vh,1.3rem);font-weight:900;color:#888;text-transform:uppercase;letter-spacing:0.06em;text-align:center}
+.tt-item{display:flex;gap:8px;align-items:flex-start;width:100%;padding:0.55vh 0.6vw;border:2px solid #E8E8E8;border-radius:7px}
+.tt-num{width:clamp(20px,3vh,32px);height:clamp(20px,3vh,32px);border-radius:50%;background:#1798d3;color:#fff;font-size:clamp(0.72rem,1.6vh,1.1rem);font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.tt-text{font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:700;color:#111;line-height:1.3}
+.tt-instr{font-size:clamp(0.75rem,1.7vh,1.1rem);color:#AAA;font-style:italic;font-weight:700;text-align:center}
+
+/* odd one out */
+.ooo-set{width:100%;display:flex;flex-direction:column;gap:0.35vh}
+.ooo-set+.ooo-set{border-top:3px solid #1798d3;padding-top:0.6vh;margin-top:0.3vh}
+.ooo-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.ooo-item{border:2px solid #E0E0E0;border-radius:6px;padding:0.45vh 0.5vw;font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:700;color:#111;text-align:center;line-height:1.25}
+.ooo-instr{font-size:clamp(0.75rem,1.7vh,1.1rem);color:#AAA;font-style:italic;font-weight:700;text-align:center}
+.tt-lie{border-color:#E03030!important;background:#FFEEEE!important}
+.tt-lie-label{font-size:clamp(0.72rem,1.6vh,1.05rem);color:#C00;font-weight:800;padding:0.2vh 0.5vw;margin-top:0.2vh;background:#FFDDDD;border-radius:4px;text-align:center;width:100%}
+.ooo-odd{border-color:#1798d3!important;background:#D4EAF7!important;color:#0D6BA8!important;font-weight:900!important}
+.ooo-reason{font-size:clamp(0.7rem,1.55vh,1rem);color:#1798d3;font-weight:700;font-style:italic;padding:0.15vh 0;text-align:center}
+.seq-rule{font-size:clamp(0.7rem,1.55vh,1rem);color:#888;font-weight:700;font-style:italic;text-align:center;margin:-0.1vh 0 0.3vh}
+.ana-blank.filled{display:flex;align-items:center;justify-content:center;font-size:clamp(1rem,2.5vh,1.8rem);font-weight:900;color:#1798d3;border-bottom-color:#1798d3}
+.ana-bonus-blank.filled{display:flex;align-items:center;justify-content:center;font-size:clamp(0.75rem,1.9vh,1.3rem);font-weight:900;color:#1798d3;border-bottom-color:#1798d3}
+
+/* RIGHT PANEL */
+#right-panel{border-left:3px solid #E0E0E0;display:flex;flex-direction:column;padding:1.2vh 1.4vw 0.8vh;gap:0;min-height:0;overflow:hidden}
+.msg-hdr{background:#1798d3;color:#fff;font-size:clamp(1.2rem,3vh,2rem);font-weight:700;padding:0.22em 0.8em;border-radius:6px 6px 0 0;flex-shrink:0;line-height:1.3}
+#msg-img-wrap{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;border:2.5px solid #1798d3;border-top:none;border-radius:0 0 6px 6px}
+#msg-body{flex:0 0 auto;padding:0.8vh 1vw;font-size:clamp(1.6rem,3.8vh,2.6rem);font-weight:700;outline:none;overflow-y:auto;color:#111;line-height:1.5;width:100%;min-height:2em}
+#msg-body:empty::before{content:attr(data-ph);color:#ccc;font-style:italic;font-weight:400;font-size:0.85em}
+#img-pane{display:none;flex:1;border-top:2px solid #E8E8E8;position:relative;overflow:hidden;align-items:center;justify-content:center;min-height:0}
+#img-pane.visible{display:flex}
+#img-pane img{max-width:100%;max-height:100%;object-fit:contain}
+#img-del{position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.55);color:#fff;border:none;border-radius:4px;padding:3px 9px;font-size:11px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;opacity:0;transition:opacity 0.15s}
+#img-pane:hover #img-del{opacity:1}
+#img-input{display:none}
+
+/* CONTROLS */
+#ctrl{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:6px 0 2px;flex-shrink:0}
+.cb{padding:6px 8px;font-size:11px;font-family:'Nunito',sans-serif;font-weight:700;background:rgba(240,240,240,0.95);border:1.5px solid #C8C8C8;border-radius:5px;cursor:pointer;color:#444;text-align:center}
+.cb:hover{background:#DCDCDC}
+#override-dot{width:7px;height:7px;background:#FFC000;border-radius:50%;margin-left:4px;vertical-align:middle;display:none}
+
+/* OVERLAYS */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.48);z-index:100;align-items:flex-start;justify-content:center;padding:4vh 1rem 2rem;overflow-y:auto}
+.overlay.on{display:flex}
+.obox{background:#fff;border-radius:14px;padding:22px 26px;width:90vw;max-width:920px;font-family:'Nunito',sans-serif;margin:auto}
+.obox h2{font-size:1.3rem;font-weight:800;margin-bottom:0.8rem;color:#111}
+.obox h3{font-size:1rem;font-weight:800;margin:1rem 0 0.5rem;color:#333}
+.oclose{padding:7px 18px;background:#eee;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.osave{padding:7px 18px;background:#1798d3;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.odanger{padding:7px 18px;background:#E03030;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.oadd{padding:7px 18px;background:#3A9922;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.ov-field{margin-bottom:11px}
+.ov-field label{display:block;font-size:0.82rem;font-weight:700;color:#333;margin-bottom:4px}
+.ov-field input,.ov-field textarea{width:100%;padding:7px 10px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.9rem}
+.ov-field textarea{min-height:70px;resize:vertical}
+.hint{font-size:0.75rem;color:#999;margin-top:3px}
+.menu-wk{font-weight:800;font-size:1rem;color:#111;margin:14px 0 5px;padding-top:12px;border-top:2px solid #EEE}
+.menu-wk:first-child{border-top:none;margin-top:0}
+.mrow{display:grid;grid-template-columns:70px 1fr 1fr;gap:5px 10px;align-items:center;margin-bottom:5px}
+.mrow label{font-size:0.82rem;font-weight:700;color:#555}
+.mrow input{padding:5px 8px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.82rem;width:100%}
+.col-hdr{font-size:0.74rem;font-weight:700;color:#AAA}
+.sol-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sol-cl{font-weight:800;font-size:0.82rem;color:#555;margin-bottom:5px}
+.sol-ci{font-size:0.88rem;font-family:monospace;margin-bottom:4px;color:#111}
+.sol-words{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.sol-w{background:#D4EAF7;border:1px solid #1798d3;padding:3px 9px;border-radius:4px;font-size:0.9rem;font-weight:600;color:#0D6BA8}
+
+/* ── SPOT THE MISTAKE ──────────────────────────────────── */
+.stm-para{background:#FFF8E7;border:2.5px solid #F0C040;border-radius:9px;padding:1.2vh 1.4vw;font-size:clamp(1.1rem,2.8vh,1.9rem);font-weight:600;line-height:1.7;color:#111;margin-bottom:1vh}
+.stm-count{font-size:clamp(1rem,2.4vh,1.6rem);font-weight:700;color:#555;text-align:center;margin-bottom:1vh}
+.stm-btn{padding:0.5em 1.4em;background:#1798d3;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer}
+.stm-btn:hover{background:#0D6BA8}
+.stm-err{background:#FFDDDD;border-radius:4px;padding:0 3px;text-decoration:underline wavy #E03030}
+.stm-ans-list{margin-top:1.2vh;font-size:clamp(0.85rem,1.9vh,1.25rem);line-height:1.9;color:#333}
+.stm-ans-item{margin-bottom:0.3vh}
+.stm-ans-item b{color:#E03030}
+
+/* ── WORD OF THE DAY ───────────────────────────────────── */
+.wod-word{font-size:clamp(2.2rem,7vh,5rem);font-weight:900;color:#1798d3;text-align:center;letter-spacing:0.02em;line-height:1}
+.wod-class{font-size:clamp(0.85rem,2vh,1.3rem);font-weight:800;color:#fff;background:#555;border-radius:20px;padding:0.15em 0.8em;display:inline-block;margin:0.5vh auto 0.8vh;text-align:center}
+.wod-def{font-size:clamp(1rem,2.5vh,1.7rem);font-weight:700;color:#333;text-align:center;line-height:1.4;margin-bottom:0.6vh}
+.wod-example{font-size:clamp(0.85rem,2vh,1.35rem);color:#666;font-style:italic;text-align:center;margin-bottom:0.5vh;line-height:1.4}
+.wod-etymology{font-size:clamp(0.78rem,1.7vh,1.15rem);color:#888;text-align:center;margin-bottom:1vh;line-height:1.4}
+.wod-qs{background:#D4EAF7;border:2px solid #1798d3;border-radius:8px;padding:0.8vh 1vw;font-size:clamp(0.85rem,1.9vh,1.3rem);font-weight:700;color:#0D6BA8;line-height:1.9}
+
+/* ── SYNONYM & ANTONYM ─────────────────────────────────── */
+.sna-word{font-size:clamp(2rem,6vh,4.2rem);font-weight:900;color:#111;text-align:center;margin-bottom:0.8vh}
+.sna-cols{display:grid;grid-template-columns:1fr 1fr;gap:1vw;width:100%}
+.sna-col-hdr{font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:900;text-align:center;padding:0.3em;border-radius:6px 6px 0 0;color:#fff}
+.sna-col-hdr.syn{background:#3A9922}
+.sna-col-hdr.ant{background:#E03030}
+.sna-col-body{border:2px solid #DDD;border-top:none;border-radius:0 0 6px 6px;padding:0.5vh 0.6vw;min-height:10vh;font-size:clamp(0.85rem,2vh,1.3rem);font-weight:700;color:#333;line-height:1.9;text-align:center}
+.sna-instr{font-size:clamp(0.8rem,1.8vh,1.2rem);color:#AAA;font-style:italic;font-weight:700;text-align:center;margin-bottom:0.5vh}
+.sna-btn{padding:0.45em 1.2em;background:#1798d3;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.85rem,1.9vh,1.25rem);font-weight:800;cursor:pointer}
+.sna-btn:hover{background:#0D6BA8}
+
+/* ── MAGIC NUMBER ──────────────────────────────────────── */
+.mn-clues{width:100%;display:flex;flex-direction:column;gap:0.5vh}
+.mn-clue{display:flex;align-items:center;gap:0.7vw;padding:0.55vh 0.8vw;border:2px solid #E8E8E8;border-radius:7px;font-size:clamp(0.95rem,2.3vh,1.55rem);font-weight:700;color:#333}
+.mn-clue-num{min-width:clamp(24px,3.5vh,36px);height:clamp(24px,3.5vh,36px);border-radius:50%;background:#1798d3;color:#fff;font-size:clamp(0.75rem,1.7vh,1.1rem);font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mn-answer{font-size:clamp(3rem,9vh,6rem);font-weight:900;color:#1798d3;text-align:center;display:none}
+.mn-btn{padding:0.5em 1.4em;background:#1798d3;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer;margin-top:1vh}
+.mn-btn:hover{background:#0D6BA8}
+
+/* ── SHAPE OF THE DAY ──────────────────────────────────── */
+.shp-name{font-size:clamp(2rem,6.5vh,4.5rem);font-weight:900;color:#111;text-align:center;margin-bottom:0.5vh}
+.shp-type{font-size:clamp(0.85rem,2vh,1.3rem);font-weight:800;color:#fff;background:#1798d3;border-radius:20px;padding:0.15em 0.9em;display:inline-block;margin-bottom:1vh}
+.shp-qs{display:flex;flex-direction:column;gap:0.5vh;width:100%;margin-bottom:1vh}
+.shp-q{padding:0.5vh 0.8vw;background:#F8F8F8;border:1.5px solid #E0E0E0;border-radius:6px;font-size:clamp(0.88rem,2vh,1.35rem);font-weight:700;color:#444;line-height:1.4}
+.shp-btn{padding:0.45em 1.2em;background:#1798d3;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.85rem,1.9vh,1.25rem);font-weight:800;cursor:pointer}
+.shp-btn:hover{background:#0D6BA8}
+.shp-props{display:none;width:100%;background:#D4EAF7;border:2px solid #1798d3;border-radius:8px;padding:0.8vh 1vw;font-size:clamp(0.85rem,1.9vh,1.3rem);font-weight:700;color:#0D6BA8;line-height:1.9;margin-top:0.5vh}
+
+/* ── ESTIMATION STATION ────────────────────────────────── */
+.est-q{background:#FFF0E0;border:2.5px solid #F0A050;border-radius:9px;padding:1.2vh 1.4vw;font-size:clamp(1.2rem,3.2vh,2.2rem);font-weight:800;color:#111;text-align:center;line-height:1.5;margin-bottom:1vh}
+.est-instr{font-size:clamp(0.9rem,2.1vh,1.4rem);font-weight:700;color:#777;text-align:center;margin-bottom:1vh}
+.est-btn{padding:0.5em 1.4em;background:#1798d3;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer}
+.est-btn:hover{background:#0D6BA8}
+.est-ans{display:none;margin-top:1vh;background:#D4EAF7;border:2px solid #1798d3;border-radius:8px;padding:1vh 1.2vw;font-size:clamp(1rem,2.5vh,1.7rem);font-weight:800;color:#0D6BA8;text-align:center;line-height:1.5}
+
+/* ── PAIR LAYOUT ───────────────────────────────────────── */
+.pair-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;height:100%;overflow:hidden}
+@media(max-width:640px){.pair-grid{grid-template-columns:1fr}}
+.pair-cell{overflow-y:auto;padding:1vh 1.2vw;display:flex;flex-direction:column;gap:0.4vh;border:2px solid #e8e8e8;border-radius:8px;background:#fdfdfd;min-height:0}
+.pair-cell .ptitle{font-size:clamp(0.9rem,2.2vh,1.4rem)!important;margin-bottom:0.2vh!important}
+.pair-cell .wod-word{font-size:clamp(1.5rem,4vh,2.8rem)}
+.pair-cell .stm-para,.pair-cell .est-q,.pair-cell .wyr-q,.pair-cell .map-country,.pair-cell .sna-word,.pair-cell .mn-clue,.pair-cell .shp-name{font-size:clamp(0.9rem,2vh,1.4rem)!important}
+
+/* TWO TRUTHS EDITOR */
+.tt-bank-item{border:1.5px solid #EEE;border-radius:8px;padding:10px 14px;margin-bottom:8px;position:relative}
+.tt-bank-topic{font-size:0.8rem;font-weight:800;color:#1798d3;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em}
+.tt-bank-stmts{font-size:0.82rem;color:#333;line-height:1.6}
+.tt-bank-lie{color:#E03030}
+.tt-bank-del{position:absolute;top:8px;right:10px;background:none;border:none;color:#CCC;cursor:pointer;font-size:1.1rem;font-family:'Nunito',sans-serif;font-weight:700}
+.tt-bank-del:hover{color:#E03030}
+.tt-add-form{background:#F8F8F8;border-radius:8px;padding:14px;margin-top:10px}
+.tt-add-form input{width:100%;padding:6px 9px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.85rem;margin-bottom:6px}
+.tt-lie-label{display:flex;align-items:center;gap:6px;font-size:0.8rem;font-weight:700;color:#666;margin-bottom:6px}
+.tt-lie-label select{padding:4px 7px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.82rem}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="date-hdr">
+    <img id="date-logo" src="../logo.png" alt="Wallscourt Farm Academy">
+    <span id="date-text"></span>
+    <span id="class-name">Maple</span>
+  </div>
+  <div id="lunch-bar">
+    <div class="lc lc-r" id="lc0">—</div>
+    <div class="lc lc-g" id="lc1">—</div>
+    <div class="lc lc-p">Tomato Pasta</div>
+    <div class="lc lc-j">Jacket Potato</div>
+    <div class="lc lc-b">Packed Lunch</div>
+  </div>
+  <div id="main">
+    <div id="puzzle-panel"></div>
+    <div id="right-panel">
+      <div class="msg-hdr">Morning Messages</div>
+      <div id="msg-img-wrap">
+        <div class="msg-body" id="msg-body" contenteditable="true" data-ph="No message today"></div>
+        <div id="img-pane">
+          <img id="img-el" src="" alt="">
+          <button id="img-del" onclick="removeImg()">Remove</button>
+        </div>
+      </div>
+      <div id="ctrl">
+        <button class="cb" id="solbtn" onclick="toggleSols()">Solutions</button>
+        <button class="cb" onclick="newPuzzle()">New puzzle</button>
+        <button class="cb" onclick="toggleType()">Switch puzzle</button>
+        <button class="cb" onclick="openImgOverlay()">Add image</button>
+        <button class="cb" onclick="openOverride()">Override today <span id="override-dot"></span></button>
+        <button class="cb" onclick="openSetup()">Setup</button>
+      </div>
+    </div>
+  </div>
+</div>
+<input type="file" id="img-input" accept="image/*" onchange="handleImgFile(event)">
+
+<!-- Image overlay -->
+<div class="overlay" id="img-overlay" onclick="if(event.target===this)closeImgOverlay()">
+  <div class="obox" style="max-width:480px">
+    <h2>Add image</h2>
+    <div style="margin:1rem 0">
+      <button class="oadd" style="display:block;width:100%;margin-bottom:12px" onclick="document.getElementById('img-input').click();closeImgOverlay()">Upload from device</button>
+      <p style="text-align:center;color:#999;font-size:0.8rem;margin:8px 0">— or —</p>
+      <div class="ov-field" style="margin-bottom:0">
+        <label>Paste image URL</label>
+        <input type="url" id="img-url-input" placeholder="https://example.com/image.png" style="margin-bottom:8px">
+        <button class="osave" style="width:100%" onclick="handleImgUrl()">Load from URL</button>
+      </div>
+    </div>
+    <div style="text-align:right;margin-top:1rem"><button class="oclose" onclick="closeImgOverlay()">Cancel</button></div>
+  </div>
+</div>
+
+<!-- Solutions -->
+<div class="overlay" id="sol-ov" onclick="if(event.target===this)closeSols()">
+  <div class="obox">
+    <h2 id="sol-title">Solutions</h2>
+    <div id="sol-content"></div>
+    <div style="text-align:right;margin-top:1rem"><button class="oclose" onclick="closeSols()">Close</button></div>
+  </div>
+</div>
+
+<!-- Override today -->
+<div class="overlay" id="ov-overlay" onclick="if(event.target===this)closeOverride()">
+  <div class="obox">
+    <h2>Override today's display</h2>
+    <p style="font-size:0.82rem;color:#666;margin-bottom:12px">Leave any field blank to use the automatic value.</p>
+    <div class="ov-field"><label>Hot option 1 (red)</label><input id="ov-meal1" placeholder="Leave blank to use rotation"></div>
+    <div class="ov-field"><label>Hot option 2 (green)</label><input id="ov-meal2" placeholder="Leave blank to use rotation"></div>
+    <div class="ov-field">
+      <label>Morning message</label>
+      <textarea id="ov-msg" placeholder="Leave blank for automatic message (Thu/Fri) or no message"></textarea>
+      <div class="hint" id="ov-auto-preview"></div>
+    </div>
+    <div class="ov-field">
+      <label>Two truths &amp; a lie — use today's custom set instead of bank</label>
+      <input id="ov-tt-topic" placeholder="Topic (e.g. Multiplication)" style="margin-bottom:5px">
+      <input id="ov-tt-1" placeholder="Statement 1">
+      <input id="ov-tt-2" placeholder="Statement 2" style="margin-top:5px">
+      <input id="ov-tt-3" placeholder="Statement 3" style="margin-top:5px">
+      <div class="tt-lie-label" style="margin-top:6px">The lie is statement <select id="ov-tt-lie"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+      <div class="hint">Leave topic blank to use a random set from the bank</div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:space-between;margin-top:1rem;flex-wrap:wrap">
+      <button class="odanger" onclick="clearOverride()">Clear all overrides</button>
+      <div style="display:flex;gap:10px"><button class="oclose" onclick="closeOverride()">Cancel</button><button class="osave" onclick="saveOverride()">Apply</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- Setup (menu + two truths bank) -->
+<div class="overlay" id="setup-ov" onclick="if(event.target===this)closeSetup()">
+  <div class="obox">
+    <h2>Setup</h2>
+
+    <h3>Lunch menu — 3-week rotation</h3>
+    <p style="font-size:0.82rem;color:#666;margin-bottom:10px">Tomato Pasta, Jacket Potato and Packed Lunch are fixed.</p>
+    <div id="menu-form"></div>
+
+    <h3 style="margin-top:1.5rem">Two Truths &amp; a Lie — question bank</h3>
+    <p style="font-size:0.82rem;color:#666;margin-bottom:10px">Add your own sets. The game picks randomly from this bank.</p>
+    <div id="tt-bank-list"></div>
+    <div class="tt-add-form">
+      <div style="font-size:0.85rem;font-weight:800;color:#333;margin-bottom:8px">Add a new set</div>
+      <input id="tt-new-topic" placeholder="Topic (e.g. Multiplication)">
+      <input id="tt-new-1" placeholder="Statement 1">
+      <input id="tt-new-2" placeholder="Statement 2">
+      <input id="tt-new-3" placeholder="Statement 3">
+      <div class="tt-lie-label">The lie is statement <select id="tt-new-lie"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+      <button class="oadd" onclick="addTTSet()" style="margin-top:6px">Add to bank</button>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:1.5rem">
+      <button class="oclose" onclick="closeSetup()">Cancel</button>
+      <button class="osave" onclick="saveSetup()">Save all</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// MENU DATA
+// ═══════════════════════════════════════════════════════════
+const MENU_BY_WEEK={
+  '2026-04-13':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-04-20':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-04-27':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-05-04':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-05-11':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-05-18':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-05-25':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-06-01':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-06-08':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-06-15':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-06-22':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-06-29':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-07-06':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-07-13':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-07-20':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-07-27':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-08-03':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-08-10':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-08-24':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-08-31':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-09-07':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-09-14':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-09-21':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-09-28':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+  '2026-10-05':{Mon:['Cheese & Tomato Pizza','Cheddar & Tomato Puff Pastry Tart'],Tue:['Bangers and Mash','Veggie Bangers and Mash'],Wed:['Roast Gammon','Tomato & Lentil Layer Bake'],Thu:['Beef Pasta Bolognese','Veggie Pasta Bolognese'],Fri:['Golden Fish Fingers','Cheesy Bean Wrap']},
+  '2026-10-12':{Mon:['Cheese & Tomato Pizza','Macaroni Cheese'],Tue:['Creamy Swedish Meatballs','Creamy Veggie Sausage'],Wed:['Roast Pork','Med Veg Wellington'],Thu:['Jerk Chicken Wrap','Sweet Potato Coconut Bean Stew'],Fri:['Golden Fish Fingers','Vegetable Fingers']},
+  '2026-10-19':{Mon:['Macaroni Cheese','Mixed Bean Fajitas'],Tue:['Homemade Sausage Roll','Veggie Sausage Roll'],Wed:['Roast Chicken','Cauliflower & Broccoli Cheese Bake'],Thu:['Cottage Pie','Shepherdless Pie'],Fri:['Golden Fish Fingers','BBQ Veggie Wrap']},
+};
+const AUTO_MSGS={Thu:'Hand in your home learning\nPaired Spelling Bee',Fri:'Stick in your home learning\nLeave last week\'s to be checked'};
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DAYNAMES=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 4 ANAGRAM BANK — Y3/4 spelling words
+// ═══════════════════════════════════════════════════════════
+const ANAGRAM_BANK=[
+  {main:'COMPLETE',mainHint:'finished, whole',bonus:[{w:'POET',hint:'writes poems'},{w:'COME',hint:'to arrive'}]},
+  {main:'CONSIDER',mainHint:'to think about',bonus:[{w:'SIDE',hint:'a face'},{w:'DICE',hint:'for games'}]},
+  {main:'CONTINUE',mainHint:'to carry on',bonus:[{w:'COUNT',hint:'to number'},{w:'TIN',hint:'metal'}]},
+  {main:'DESCRIBE',mainHint:'to tell about',bonus:[{w:'SCRIBE',hint:'writer'},{w:'RIDE',hint:'on a horse'}]},
+  {main:'DIFFERENT',mainHint:'not the same',bonus:[{w:'Differ',hint:'be unlike'}]},
+  {main:'DIFFICULT',mainHint:'hard to do',bonus:[{w:'CULT',hint:'group'},{w:'FIT',hint:'healthy'}]},
+  {main:'DISAPPEAR',mainHint:'to vanish',bonus:[{w:'APPEAR',hint:'to show'},{w:'RISE',hint:'go up'}]},
+  {main:'EARLY',mainHint:'before expected time',bonus:[{w:'EAR',hint:'to hear'},{w:'LAY',hint:'put down'}]},
+  {main:'EIGHTH',mainHint:'8th in order',bonus:[{w:'EIGHT',hint:'number 8'},{w:'HIT',hint:'to strike'}]},
+  {main:'ENOUGH',mainHint:'sufficient',bonus:[{w:'HUG',hint:'embrace'}]},
+  {main:'EXERCISE',mainHint:'physical activity',bonus:[{w:'RISE',hint:'go up'}]},
+  {main:'EXPERIENCE',mainHint:'to go through',bonus:[{w:'PIERCE',hint:'pierce'}]},
+  {main:'EXPERIMENT',mainHint:'scientific test',bonus:[{w:'PRETEND',hint:'act as if'}]},
+  {main:'FAMOUS',mainHint:'well-known',bonus:[]},
+  {main:'FAVOURITE',mainHint:'liked best',bonus:[{w:'FAVOUR',hint:'kindness'}]},
+  {main:'FEBRUARY',mainHint:'a month',bonus:[{w:'BEAR',hint:'animal'}]},
+  {main:'FORWARD',mainHint:'towards the front',bonus:[{w:'WORD',hint:'unit of language'}]},
+  {main:'FRUIT',mainHint:'food from plants',bonus:[]},
+  {main:'GRAMMAR',mainHint:'rules of language',bonus:[{w:'RAM',hint:'male sheep'}]},
+  {main:'GUARD',mainHint:'to protect',bonus:[]},
+  {main:'GUIDE',mainHint:'to show the way',bonus:[]},
+  {main:'HEARD',mainHint:'past of hear',bonus:[{w:'HEAR',hint:'to listen'}]},
+  {main:'HEART',mainHint:'organ that pumps blood',bonus:[{w:'EAR',hint:'to hear'},{w:'ART',hint:'creative work'}]},
+  {main:'HEIGHT',mainHint:'how tall',bonus:[{w:'HIGH',hint:'tall'},{w:'HIT',hint:'strike'}]},
+  {main:'HISTORY',mainHint:'study of the past',bonus:[{w:'HIS',hint:'belonging to him'},{w:'STORY',hint:'tale'}]},
+  {main:'IMAGINE',mainHint:'to picture in mind',bonus:[{w:'IMAGE',hint:'picture'},{w:'MINE',hint:'possessive'}]},
+  {main:'IMPORTANT',mainHint:'matters a lot',bonus:[{w:'IMPORT',hint:'bring in'},{w:'POINT',hint:'sharp end'}]},
+  {main:'INCREASE',mainHint:'to make larger',bonus:[{w:'INCH',hint:'unit'},{w:'CASE',hint:'container'}]},
+  {main:'ISLAND',mainHint:'land surrounded by water',bonus:[{w:'LAND',hint:'ground'}]},
+  {main:'KNOWLEDGE',mainHint:'facts and information',bonus:[{w:'LEDGE',hint:'narrow shelf'}]},
+  {main:'LEARN',mainHint:'to gain knowledge',bonus:[{w:'EAR',hint:'to hear'}]},
+  {main:'LENGTH',mainHint:'how long',bonus:[{w:'LEN',hint:'(no word)'}]},
+  {main:'LIBRARY',mainHint:'place with books',bonus:[{w:'RARY',hint:'(no word)'}]},
+  {main:'MATERIAL',mainHint:'what something is made of',bonus:[{w:'MATTER',hint:'substance'},{w:'REAL',hint:'not fake'}]},
+  {main:'MEDICINE',mainHint:'to treat illness',bonus:[{w:'DICE',hint:'for games'}]},
+  {main:'MENTION',mainHint:'to speak about',bonus:[]},
+  {main:'MINUTE',mainHint:'60 seconds',bonus:[{w:'UNIT',hint:'a measure'}]},
+  {main:'NATURAL',mainHint:'found in nature',bonus:[{w:'NATURE',hint:'the natural world'}]},
+  {main:'NAUGHTY',mainHint:'badly behaved',bonus:[]},
+  {main:'NOTICE',mainHint:'to observe',bonus:[{w:'NOTE',hint:'written message'}]},
+  {main:'OCCASION',mainHint:'a special event',bonus:[{w:'ION',hint:'(no word)'}]},
+  {main:'OFTEN',mainHint:'frequently',bonus:[]},
+  {main:'OPPOSITE',mainHint:'facing or different',bonus:[{w:'SITE',hint:'location'},{w:'POP',hint:'burst sound'}]},
+  {main:'ORDINARY',mainHint:'normal, usual',bonus:[{w:'DIN',hint:'loud noise'}]},
+  {main:'PARTICULAR',mainHint:'specific',bonus:[{w:'PART',hint:'piece'},{w:'ART',hint:'creative work'}]},
+  {main:'PECULIAR',mainHint:'strange or unusual',bonus:[]},
+  {main:'PERHAPS',mainHint:'maybe',bonus:[{w:'HAP',hint:'(no word)'}]},
+  {main:'POPULAR',mainHint:'liked by many',bonus:[]},
+  {main:'POSITION',mainHint:'place or job',bonus:[{w:'POSITIVE',hint:'optimistic'}]},
+  {main:'POSSESS',mainHint:'to own',bonus:[{w:'POSE',hint:'position'}]},
+  {main:'POSSIBLE',mainHint:'can be done',bonus:[{w:'POSE',hint:'position'}]},
+  {main:'POTATOES',mainHint:'vegetable',bonus:[{w:'TOES',hint:'on feet'}]},
+  {main:'PRESSURE',mainHint:'force applied',bonus:[{w:'SURE',hint:'certain'}]},
+  {main:'PROBABLY',mainHint:'likely to happen',bonus:[]},
+  {main:'PROMISE',mainHint:'to say you will do something',bonus:[{w:'RISE',hint:'go up'}]},
+  {main:'PURPOSE',mainHint:'reason for something',bonus:[{w:'POSE',hint:'position'},{w:'PURR',hint:'cat sound'}]},
+  {main:'QUARTER',mainHint:'one fourth',bonus:[{w:'ART',hint:'creative work'}]},
+  {main:'QUESTION',mainHint:'asking for information',bonus:[{w:'QUEST',hint:'search'}]},
+  {main:'REMEMBER',mainHint:'to recall',bonus:[{w:'MEMBER',hint:'part of a group'}]},
+  {main:'SEPARATE',mainHint:'apart from each other',bonus:[{w:'PARATE',hint:'(no word)'}]},
+  {main:'SPECIAL',mainHint:'different from ordinary',bonus:[{w:'PLACE',hint:'location'}]},
+  {main:'STRAIGHT',mainHint:'not curved',bonus:[{w:'TRAIT',hint:'characteristic'}]},
+  {main:'STRANGE',mainHint:'unusual',bonus:[{w:'RANGE',hint:'set of values'}]},
+  {main:'STRENGTH',mainHint:'being strong',bonus:[]},
+  {main:'SUPPOSE',mainHint:'to assume',bonus:[{w:'POSE',hint:'position'}]},
+  {main:'SURPRISE',mainHint:'something unexpected',bonus:[{w:'RISE',hint:'go up'},{w:'SURE',hint:'certain'}]},
+  {main:'THEREFORE',mainHint:'for that reason',bonus:[{w:'THERE',hint:'location'},{w:'FOR',hint:'purpose'}]},
+  {main:'THOUGH',mainHint:'in spite of',bonus:[{w:'TOUGH',hint:'strong'}]},
+  {main:'THROUGH',mainHint:'from one side to the other',bonus:[{w:'ROUGH',hint:'not smooth'},{w:'HOUR',hint:'60 minutes'}]},
+  {main:'VARIOUS',mainHint:'different kinds',bonus:[]},
+  {main:'WEIGHT',mainHint:'how heavy',bonus:[{w:'HIGH',hint:'tall'}]},
+  {main:'WOMAN',mainHint:'adult female',bonus:[]},
+  {main:'WOMEN',mainHint:'more than one woman',bonus:[]}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 4 TWO TRUTHS & A LIE — Cumulative (Y1-Y4 curriculum)
+// ═══════════════════════════════════════════════════════════
+const DEFAULT_TT=[
+  // ── Place Value (Year 4) ────────────────────────────────────
+  {topic:'Place Value',stmts:['In 4567, the 5 is worth 500','In 4567, the 6 is worth 60','In 4567, the 7 is worth 700'],lie:3},
+  {topic:'Place Value',stmts:['4567 has 4 thousands, 5 hundreds, 6 tens, 7 ones','4567 is greater than 4000','4567 rounded to the nearest 100 is 4500'],lie:0},
+  {topic:'Place Value',stmts:['1000 is 10 hundreds','1000 is 100 tens','1000 is 10 thousands'],lie:3},
+  {topic:'Rounding',stmts:['3467 rounded to the nearest 10 is 3470','3467 rounded to the nearest 100 is 3500','3467 rounded to the nearest 1000 is 3000'],lie:3},
+  // ── Addition & Subtraction (Year 4) ──────────────────────────
+  {topic:'Adding',stmts:['3456 + 2000 = 5456','3456 + 200 = 3656','3456 + 20 = 3676'],lie:3},
+  {topic:'Adding',stmts:['4567 + 3543 = 8110','4567 + 3543 = 8010','4567 + 3543 = 8110'],lie:2},
+  {topic:'Subtracting',stmts:['5000 - 2345 = 2655','5000 - 2345 = 2755','6000 - 2345 = 3655'],lie:2},
+  {topic:'Mental Maths',stmts:['456 + 544 = 1000','367 + 633 = 1000','489 + 511 = 1000'],lie:0},
+  // ── Multiplication & Division (Year 4 - ALL tables) ───────────
+  {topic:'6 Times Table',stmts:['6 × 7 = 42','6 × 8 = 48','6 × 9 = 56'],lie:3},
+  {topic:'7 Times Table',stmts:['7 × 6 = 42','7 × 8 = 56','7 × 9 = 64'],lie:3},
+  {topic:'8 Times Table',stmts:['8 × 6 = 48','8 × 7 = 54','8 × 9 = 72'],lie:2},
+  {topic:'9 Times Table',stmts:['9 × 6 = 54','9 × 7 = 63','9 × 8 = 64'],lie:3},
+  {topic:'11 Times Table',stmts:['11 × 7 = 77','11 × 8 = 88','11 × 9 = 99'],lie:0},
+  {topic:'12 Times Table',stmts:['12 × 5 = 60','12 × 6 = 72','12 × 7 = 84'],lie:0},
+  {topic:'Division',stmts:['56 ÷ 7 = 8','63 ÷ 7 = 9','48 ÷ 6 = 7'],lie:3},
+  {topic:'Division',stmts:['72 ÷ 8 = 9','81 ÷ 9 = 9','54 ÷ 6 = 8'],lie:3},
+  // ── Fractions (Year 4) ────────────────────────────────────────
+  {topic:'Fractions',stmts:['2/5 of 15 is 6','3/5 of 15 is 9','4/5 of 15 is 12'],lie:0},
+  {topic:'Fractions',stmts:['1/2 is equivalent to 5/10','1/4 is equivalent to 3/12','1/3 is equivalent to 4/12'],lie:2},
+  {topic:'Fractions',stmts:['3/4 is greater than 2/3','5/6 is greater than 4/5','1/2 is greater than 3/5'],lie:3},
+  {topic:'Fractions',stmts:['2 1/4 is equal to 9/4','3 1/2 is equal to 7/2','4 3/4 is equal to 19/4'],lie:0},
+  // ── Coordinates (Year 4) ──────────────────────────────────────
+  {topic:'Coordinates',stmts:['(3, 4) means go right 3, up 4','(4, 3) means go right 4, up 3','(0, 0) is the origin'],lie:0},
+  {topic:'Coordinates',stmts:['The x-axis goes across','The y-axis goes up','(2, 5) and (5, 2) are the same point'],lie:3},
+  // ── Geometry (Year 4) ──────────────────────────────────────────
+  {topic:'Shapes',stmts:['A scalene triangle has no equal sides','An isosceles triangle has two equal sides','An equilateral triangle has two equal sides'],lie:3},
+  {topic:'Shapes',stmts:['A rectangle has 4 right angles','A rectangle has 4 equal sides','A square is a special rectangle'],lie:2},
+  {topic:'Symmetry',stmts:['A square has 4 lines of symmetry','A rectangle has 4 lines of symmetry','A regular hexagon has 6 lines of symmetry'],lie:2},
+  // ── Science: Electricity (Year 4) ──────────────────────────────
+  {topic:'Electricity',stmts:['A complete circuit lets electricity flow','A switch opens a circuit','A broken wire still lets electricity flow'],lie:3},
+  {topic:'Electricity',stmts:['Metals are conductors','Plastic is an insulator','Wood is a conductor'],lie:3},
+  {topic:'Electricity',stmts:['A bulb needs a complete circuit to light','A buzzer makes sound in a complete circuit','A cell stores electricity forever'],lie:3},
+  {topic:'Electricity',stmts:['In a series circuit, components are in one loop','If one bulb breaks in series, all go out','Adding more bulbs makes them brighter'],lie:3},
+  // ── Science: Sound (Year 4) ───────────────────────────────────
+  {topic:'Sound',stmts:['Sound is caused by vibrations','Loud sounds have bigger vibrations','High pitch means slow vibrations'],lie:3},
+  {topic:'Sound',stmts:['Sound travels through solids','Sound cannot travel through liquids','Sound travels through gases'],lie:2},
+  {topic:'Sound',stmts:['Pitch is how high or low a sound is','Volume is how loud or quiet','Faster vibrations make higher pitch'],lie:0},
+  {topic:'Sound',stmts:['A drum makes a low pitch sound','A whistle makes a high pitch sound','A guitar string makes only one pitch'],lie:3},
+  // ── Science: Classification (Year 4) ───────────────────────────
+  {topic:'Classification',stmts:['Vertebrates have backbones','Invertebrates have no backbone','Insects are vertebrates'],lie:3},
+  {topic:'Classification',stmts:['Mammals are warm-blooded','Reptiles are warm-blooded','Birds are warm-blooded'],lie:2},
+  {topic:'Classification',stmts:['Fish have gills','Mammals have lungs','Reptiles have fur'],lie:3},
+  {topic:'Classification',stmts:['Insects have 6 legs','Arachnids have 8 legs','Crustaceans have 10 legs'],lie:0},
+  // ── Science: Muscular & Skeletal System (Year 4) ──────────────
+  {topic:'Bodies',stmts:['The skull protects the brain','The ribcage protects the heart and lungs','The spine has 33 bones'],lie:0},
+  {topic:'Bodies',stmts:['Muscles work in pairs','Muscles push and pull bones','Voluntary muscles work without us thinking'],lie:3},
+  {topic:'Bodies',stmts:['Ball-and-socket joints allow rotation','Hinge joints allow back-and-forth movement','The shoulder is a hinge joint'],lie:3},
+  // ── Science: States of Matter (Year 4) ────────────────────────
+  {topic:'States of Matter',stmts:['Solids keep their shape','Liquids take the shape of their container','Gases have a fixed shape'],lie:3},
+  {topic:'States of Matter',stmts:['Water freezes at 0°C','Water boils at 100°C','Ice melts at 10°C'],lie:3},
+  {topic:'States of Matter',stmts:['Melting is solid to liquid','Freezing is liquid to solid','Evaporation is liquid to solid'],lie:3},
+  {topic:'States of Matter',stmts:['The water cycle includes evaporation','Condensation is gas to liquid','Rain is liquid water'],lie:0},
+  // ── History: Anglo-Saxons & Vikings (Year 4) ──────────────────
+  {topic:'Anglo-Saxons',stmts:['The Anglo-Saxons came from Germany','The Anglo-Saxons came to Britain in AD 410','The Anglo-Saxons created seven kingdoms'],lie:2},
+  {topic:'Vikings',stmts:['Vikings came from Scandinavia','Vikings first raided Britain in AD 793','Vikings were peaceful traders only'],lie:3},
+  {topic:'Vikings',stmts:['Alfred the Great was a Viking king','Alfred the Great fought the Vikings','Alfred the Great created laws'],lie:1},
+  {topic:'1066',stmts:['1066 was the year of the Norman Conquest','Harold Godwinson was killed at Hastings','William the Conqueror was Saxon'],lie:3},
+  // ── History: Mayan Civilisation (Year 4) ──────────────────────
+  {topic:'Maya',stmts:['The Maya lived in Central America','The Maya built pyramids','The Maya civilisation began in AD 1492'],lie:3},
+  {topic:'Maya',stmts:['The Maya had a writing system','The Maya studied astronomy','The Maya had no religion'],lie:3},
+  {topic:'Maya',stmts:['The Maya played a ball game','The Maya grew maize','The Maya lived in Europe'],lie:3},
+  // ── Geography: UK (Year 4) ───────────────────────────────────
+  {topic:'UK Geography',stmts:['London is the capital of England','Edinburgh is the capital of Scotland','Cardiff is the capital of Ireland'],lie:3},
+  {topic:'UK Geography',stmts:['England, Scotland, Wales and Northern Ireland make up the UK','Great Britain includes England, Scotland and Wales','The UK is in Europe'],lie:0},
+  // ── Geography: South America (Year 4) ────────────────────────
+  {topic:'South America',stmts:['Brazil is the largest country in South America','The Amazon rainforest is in South America','The Andes mountains are in Africa'],lie:3},
+  {topic:'South America',stmts:['The Equator runs through South America','The Tropic of Capricorn runs through South America','Peru is in Europe'],lie:3},
+  // ── Cumulative: Earlier years ─────────────────────────────────
+  {topic:'3 Times Table',stmts:['3 × 4 = 12','3 × 7 = 21','3 × 9 = 28'],lie:3},
+  {topic:'4 Times Table',stmts:['4 × 6 = 24','4 × 8 = 32','4 × 9 = 40'],lie:3},
+  {topic:'8 Times Table',stmts:['8 × 4 = 32','8 × 6 = 48','8 × 7 = 60'],lie:3},
+  {topic:'Fractions',stmts:['1/2 of 20 is 10','1/4 of 20 is 5','1/3 of 20 is 7'],lie:3}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 4 SPOT THE MISTAKE — Plural apostrophes, speech, fronted adverbials
+// ═══════════════════════════════════════════════════════════
+const SPOT_MISTAKE=[
+  {para:"The girls' books were on the table. The boys' bags were in the cupboard. The childrens' coats were on the hooks.",count:1,errors:[{wrong:"childrens'",correct:"children's",exp:"'Children' is already plural, so add 's (apostrophe after children, not before s)."}]},
+  {para:"The dog's bone was in the garden. The dogs' bones were in the garden. The dog's buryed them yesterday.",count:1,errors:[{wrong:"buryed",correct:"buried",exp:"'Bury' changes y to i before adding ed."}]},
+  {para:"My friend's bike is blue. My friends' bikes are red. My freinds bike is green.",count:2,errors:[{wrong:"freinds",correct:"friends",exp:"'Friend' has 'ie' not 'ei'."},{wrong:"freinds bike",correct:"friends' bikes or friend's bike",exp:"Without apostrophe, it's unclear if one friend or many."}]},
+  {para:"\"What time is it?\" asked Sarah. \"Its half past three,\" replied Tom. \"Lets go to the park.\"",count:2,errors:[{wrong:"Its",correct:"It's",exp:"'It's' is short for 'it is'. 'Its' means belonging to it."},{wrong:"Lets",correct:"Let's",exp:"'Let's' is short for 'let us'."}]},
+  {para:"Slowly, the cat walked across the garden. Suddenly, a dog appeared. Quick, the cat climbed the tree.",count:1,errors:[{wrong:"Quick,",correct:"Quickly,",exp:"Adverbs (describing how) often end in -ly. 'Quick' is an adjective."}]},
+  {para:"In the morning, I brush my teeth. Before breakfast, I get dressed. After school I do my homework.",count:1,errors:[{wrong:"After school I",correct:"After school, I",exp:"Fronted adverbials should be followed by a comma."}]},
+  {para:"Carefully, she opened the box. Inside, there was a present. Excited, she ripped off the paper.",count:0,errors:[]},
+  {para:"The childs' toys were everywhere. The womens' coats were by the door. The mens' shoes were in the hall.",count:3,errors:[{wrong:"childs'",correct:"children's",exp:"'Children' is the plural of 'child'."},{wrong:"womens'",correct:"women's",exp:"'Women' is the plural of 'woman'."},{wrong:"mens'",correct:"men's",exp:"'Men' is the plural of 'man'."}]},
+  {para:"\"Hello!\" said Mum. \"How are you?\" \"Im fine, thankyou,\" I replied. \"How was your day?\"",count:2,errors:[{wrong:"Im",correct:"I'm",exp:"'I'm' is short for 'I am'. The apostrophe shows the missing letter."},{wrong:"thankyou",correct:"thank you",exp:"'Thank you' is always two words."}]},
+  {para:"The city's streets were busy. The citys' parks were full. The cities population was growing.",count:2,errors:[{wrong:"citys'",correct:"city's",exp:"'City' ends in y, so we just add 's for singular possession."},{wrong:"cities population",correct:"city's population",exp:"We need an apostrophe to show possession (population belongs to the city)."}]},
+  {para:"The hero's journey was long. The hero's faced many challenges. Finally, the heroe's reached home.",count:2,errors:[{wrong:"hero's faced",correct:"heroes faced",exp:"No apostrophe needed for a simple plural (more than one hero)."},{wrong:"heroe's",correct:"hero",exp:"'Hero' doesn't need an 'e' before the apostrophe, and no apostrophe for singular possession here either."}]},
+  {para:"Unfortunatly, it started raining. Luckly, I had my umbrella. Hopeful, the sun will come out soon.",count:3,errors:[{wrong:"Unfortunatly",correct:"Unfortunately",exp:"'Unfortunately' needs 'ate' before 'ly'."},{wrong:"Luckly",correct:"Luckily",exp:"'Luckily' comes from 'lucky' - change y to i before ly."},{wrong:"Hopeful",correct:"Hopefully",exp:"'Hopefully' needs the -ly ending to be an adverb."}]},
+  {para:"The Vikings arrived in 793 AD. They came from Scandinavia. They where looking for land and treasure.",count:1,errors:[{wrong:"where",correct:"were",exp:"'Were' is the past tense of 'are'. 'Where' refers to a place."}]},
+  {para:"Anglo-Saxon's built wooden houses. The houses had thatched roofs. They growed crops in the fields.",count:2,errors:[{wrong:"Anglo-Saxon's",correct:"Anglo-Saxons",exp:"No apostrophe needed for a plural. 'Anglo-Saxons' means more than one."},{wrong:"growed",correct:"grew",exp:"'Grow' is irregular. Past tense is 'grew'."}]},
+  {para:"Electricity flows threw a circuit. Wires conduct electricity. Plastic allso conducts electricity.",count:2,errors:[{wrong:"threw",correct:"through",exp:"'Through' means from one side to another. 'Threw' is past of 'throw'."},{wrong:"allso",correct:"also",exp:"'Also' has only one 'l'."}]},
+  {para:"Sound travels threw solids, liquids and gases. Vibrations make sound. Louder sounds have bigger vibrations.",count:1,errors:[{wrong:"threw",correct:"through",exp:"'Through' means from one side to another. 'Threw' is past of 'throw'."}]},
+  {para:"The Maya lived in South America. They built pyramid's. They studied astronomy and mathmatics.",count:2,errors:[{wrong:"South America",correct:"Central America",exp:"The Maya lived in Central America (modern-day Mexico, Guatemala, Belize)."},{wrong:"pyramid's",correct:"pyramids",exp:"No apostrophe needed for a plural."},{wrong:"mathmatics",correct:"mathematics",exp:"'Mathematics' has an 'e' after 'math'."}]},
+  {para:"In maths, we learned about fractions. A quater is one fourth. A half is bigger then a quater.",count:3,errors:[{wrong:"quater",correct:"quarter",exp:"'Quarter' has 'uar' not just 'ua'."},{wrong:"then",correct:"than",exp:"Use 'than' for comparisons. 'Then' is for time."},{wrong:"quater",correct:"quarter",exp:"'Quarter' has 'uar' not just 'ua'."}]},
+  {para:"The Earth orbits the Sun. It takes 365 day's. The Moon orbits the Earth in about 28 days.",count:1,errors:[{wrong:"day's",correct:"days",exp:"No apostrophe needed for a simple plural."}]},
+  {para:"We went too the park. Their was a big slide. We played on it for ours.",count:3,errors:[{wrong:"too",correct:"to",exp:"'To' is used for direction. 'Too' means 'also' or 'very'."},{wrong:"Their",correct:"There",exp:"'There' refers to a place. 'Their' shows possession."},{wrong:"ours",correct:"hours",exp:"'Hours' are units of time. 'Ours' means belonging to us."}]}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 4 WORD OF THE DAY — Year 4 Tier 2 vocabulary
+// ═══════════════════════════════════════════════════════════
+const WORD_OF_DAY=[
+  {word:'apprehensive',cls:'adjective',def:'Worried or nervous about something.',example:'I felt apprehensive before my test.',origin:"From Latin 'apprehendere' meaning 'to seize'.",syns:['anxious','worried','nervous','uneasy','fearful'],ants:['confident','calm','relaxed','fearless','brave']},
+  {word:'collaborate',cls:'verb',def:'To work together with someone.',example:'The scientists collaborated on the experiment.',origin:"From Latin 'com-' (together) + 'laborare' (to work).",syns:['cooperate','team up','work together','partner','unite'],ants:['compete','oppose','conflict','work alone','disagree']},
+  {word:'consequence',cls:'noun',def:'A result or effect of an action.',example:'The consequence of not studying was a low score.',origin:"From Latin 'consequentia' meaning 'following closely'.",syns:['result','effect','outcome','aftermath','impact'],ants:['cause','origin','source','beginning','start']},
+  {word:'diligent',cls:'adjective',def:'Working hard and carefully.',example:'The diligent student always completed homework on time.',origin:"From Latin 'diligere' meaning 'to value highly'.",syns:['hardworking','careful','thorough','industrious','conscientious'],ants:['lazy','careless','idle','negligent','slack']},
+  {word:'emphatic',cls:'adjective',def:'Said or done with strong feeling.',example:'She gave an emphatic no to the question.',origin:"From Greek 'emphainein' meaning 'to show clearly'.",syns:['forceful','strong','firm','decisive','definite'],ants:['weak','hesitant','uncertain','vague','mild']},
+  {word:'inevitable',cls:'adjective',def:'Certain to happen and cannot be avoided.',example:'The inevitable result was a loss.',origin:"From Latin 'inevitabilis' meaning 'not avoidable'.",syns:['unavoidable','certain','inescapable','sure','bound'],ants:['avoidable','uncertain','optional','preventable','unlikely']},
+  {word:'meticulous',cls:'adjective',def:'Very careful and paying attention to detail.',example:'She was meticulous in her research.',origin:"From Latin 'meticulosus' meaning 'fearful'.",syns:['careful','precise','thorough','detailed','conscientious'],ants:['careless','sloppy','careless','messy','negligent']},
+  {word:'notorious',cls:'adjective',def:'Famous for something bad.',example:'The notorious criminal was caught.',origin:"From Latin 'notorius' meaning 'well-known'.",syns:['infamous','disreputable','well-known','famous'],ants:['unknown','obscure','reputable','respected','unknown']},
+  {word:'perpetual',cls:'adjective',def:'Lasting forever or for a long time.',example:'The perpetual noise from the road was annoying.',origin:"From Latin 'perpetuus' meaning 'continuous'.",syns:['endless','constant','continuous','eternal','everlasting'],ants:['temporary','brief','fleeting','short','intermittent']},
+  {word:'reluctant',cls:'adjective',def:'Not wanting to do something.',example:'The reluctant child didn\'t want to go to school.',origin:"From Latin 're-' (back) + 'luctari' (to struggle).",syns:['unwilling','hesitant','uncertain','reluctant'],ants:['willing','eager','keen','enthusiastic','ready']},
+  {word:'significance',cls:'noun',def:'Importance or meaning.',example:'The significance of the discovery was huge.',origin:"From Latin 'significare' meaning 'to signify'.",syns:['importance','meaning','value','weight','relevance'],ants:['insignificance','unimportance','triviality','meaninglessness']},
+  {word:'sufficient',cls:'adjective',def:'Enough for a purpose.',example:'We have sufficient food for the party.',origin:"From Latin 'sufficere' meaning 'to supply'." ,syns:['enough','adequate','ample','plenty','satisfactory'],ants:['insufficient','inadequate','lacking','scarce','deficient']},
+  {word:'unanimous',cls:'adjective',def:'When everyone agrees.',example:'The decision was unanimous.',origin:"From Latin 'unus' (one) + 'animus' (mind).",syns:['agreed','united','in agreement','shared','collective'],ants:['divided','disagreeing','split','conflicted','opposed']},
+  {word:'versatile',cls:'adjective',def:'Able to adapt to many different situations.',example:'She is a versatile athlete who can play many sports.',origin:"From Latin 'versatilis' meaning 'turning'.",syns:['adaptable','flexible','multitalented','all-round','capable'],ants:['limited','inflexible','narrow','specialised','one-sided']},
+  {word:'accumulate',cls:'verb',def:'To gather or collect over time.',example:'Leaves accumulate in autumn.',origin:"From Latin 'accumulare' meaning 'to heap up'.",syns:['gather','collect','amass','pile','build up'],ants:['disperse','scatter','distribute','spread','dissipate']},
+  {word:'anticipate',cls:'verb',def:'To expect something to happen.',example:'We anticipate rain tomorrow.',origin:"From Latin 'ante' (before) + 'capere' (to take).",syns:['expect','predict','foresee','await','prepare for'],ants:['ignore','neglect','overlook','be surprised by']},
+  {word:'determine',cls:'verb',def:'To decide or find out.',example:'The test will determine who wins.',origin:"From Latin 'de-' (completely) + 'terminare' (to limit).",syns:['decide','conclude','figure out','establish','resolve'],ants:['hesitate','waver','undecided','uncertain','guess']},
+  {word:'establish',cls:'verb',def:'To set up or prove.',example:'They established a new school.',origin:"From Latin 'stabilire' meaning 'to make stable'.",syns:['set up','found','create','start','prove'],ants:['abolish','destroy','close','end','remove']},
+  {word:'justify',cls:'verb',def:'To show that something is right or reasonable.',example:'He tried to justify his decision.',origin:"From Latin 'justus' (just) + 'facere' (to make).",syns:['defend','explain','validate','support','prove'],ants:['condemn','criticise','blame','accuse','oppose']},
+  {word:'obstacle',cls:'noun',def:'Something that blocks progress.',example:'The obstacle course was difficult.',origin:"From Latin 'ob' (against) + 'stare' (to stand).",syns:['barrier','hurdle','block','difficulty','impediment'],ants:['help','aid','advantage','assistance','support']}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 4 SYNONYM & ANTONYM — Year 4 appropriate pairs
+// ═══════════════════════════════════════════════════════════
+const SYN_ANT=[
+  {word:'apprehensive',syns:['anxious','worried','nervous','uneasy','fearful'],ants:['confident','calm','relaxed','fearless','brave']},
+  {word:'collaborate',syns:['cooperate','team up','work together','partner','unite'],ants:['compete','oppose','work alone','disagree','conflict']},
+  {word:'consequence',syns:['result','effect','outcome','aftermath','impact'],ants:['cause','origin','source','beginning','start']},
+  {word:'diligent',syns:['hardworking','careful','thorough','industrious','conscientious'],ants:['lazy','careless','idle','negligent','slack']},
+  {word:'emphatic',syns:['forceful','strong','firm','decisive','definite'],ants:['weak','hesitant','uncertain','vague','mild']},
+  {word:'inevitable',syns:['unavoidable','certain','inescapable','sure','bound'],ants:['avoidable','uncertain','optional','preventable','unlikely']},
+  {word:'meticulous',syns:['careful','precise','thorough','detailed','conscientious'],ants:['careless','sloppy','messy','negligent','hasty']},
+  {word:'notorious',syns:['infamous','disreputable','well-known','famous'],ants:['unknown','obscure','reputable','respected','anonymous']},
+  {word:'perpetual',syns:['endless','constant','continuous','eternal','everlasting'],ants:['temporary','brief','fleeting','short','intermittent']},
+  {word:'significance',syns:['importance','meaning','value','weight','relevance'],ants:['insignificance','unimportance','triviality','meaninglessness']},
+  {word:'sufficient',syns:['enough','adequate','ample','plenty','satisfactory'],ants:['insufficient','inadequate','lacking','scarce','deficient']},
+  {word:'unanimous',syns:['agreed','united','in agreement','shared','collective'],ants:['divided','disagreeing','split','conflicted','opposed']},
+  {word:'versatile',syns:['adaptable','flexible','multitalented','all-round','capable'],ants:['limited','inflexible','narrow','specialised','one-sided']},
+  {word:'accumulate',syns:['gather','collect','amass','pile','build up'],ants:['disperse','scatter','distribute','spread','dissipate']},
+  {word:'anticipate',syns:['expect','predict','foresee','await','prepare for'],ants:['ignore','neglect','overlook','be surprised by','misjudge']},
+  {word:'determine',syns:['decide','conclude','figure out','establish','resolve'],ants:['hesitate','waver','undecided','uncertain','guess']},
+  {word:'establish',syns:['set up','found','create','start','prove'],ants:['abolish','destroy','close','end','remove']},
+  {word:'justify',syns:['defend','explain','validate','support','prove'],ants:['condemn','criticise','blame','accuse','oppose']},
+  {word:'obstacle',syns:['barrier','hurdle','block','difficulty','impediment'],ants:['help','aid','advantage','assistance','support']},
+  {word:'persevere',syns:['persist','continue','endure','carry on','keep going'],ants:['give up','quit','surrender','abandon','stop']}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 4 MAGIC NUMBER — 4-digit place value, times tables 12×12, fractions
+// ═══════════════════════════════════════════════════════════
+const MAGIC_NUMBER_CLEAN=[
+  {clues:['I am a number.','I have 4 digits.','My thousands digit is 3.','My hundreds digit is 5.','My tens digit is 6.','My ones digit is 7.'],answer:3567},
+  {clues:['I am a number.','I have 4 digits.','I am 3 thousands, 4 hundreds, 5 tens, 6 ones.'],answer:3456},
+  {clues:['I am a number.','I am greater than 5000.','I am less than 6000.','My hundreds digit is 7.','My tens digit is 2.','My ones digit is 8.'],answer:5728},
+  {clues:['I am a number.','I am 6 × 7.'],answer:42},
+  {clues:['I am a number.','I am 7 × 8.'],answer:56},
+  {clues:['I am a number.','I am 9 × 6.'],answer:54},
+  {clues:['I am a number.','I am 11 × 11.'],answer:121},
+  {clues:['I am a number.','I am 12 × 8.'],answer:96},
+  {clues:['I am a number.','I am 48 ÷ 6.'],answer:8},
+  {clues:['I am a number.','I am 63 ÷ 7.'],answer:9},
+  {clues:['I am a number.','I am 56 ÷ 8.'],answer:7},
+  {clues:['I am a number.','I am 81 ÷ 9.'],answer:9},
+  {clues:['I am a number.','I am 1/2 of 100.'],answer:50},
+  {clues:['I am a number.','I am 1/4 of 100.'],answer:25},
+  {clues:['I am a number.','I am 3/4 of 100.'],answer:75},
+  {clues:['I am a number.','I am 1/3 of 24.'],answer:8},
+  {clues:['I am a number.','I am 2/3 of 24.'],answer:16},
+  {clues:['I am a number.','I am 1/5 of 25.'],answer:5},
+  {clues:['I am a number.','I am 2/5 of 20.'],answer:8},
+  {clues:['I am a number.','I am 3/5 of 20.'],answer:12},
+  {clues:['I am a number.','I am the number of minutes in an hour.'],answer:60},
+  {clues:['I am a number.','I am the number of hours in a day.'],answer:24},
+  {clues:['I am a number.','I am the number of seconds in a minute.'],answer:60},
+  {clues:['I am a number.','I am the number of months in a year.'],answer:12},
+  {clues:['I am a number.','I am the number of days in a leap year.'],answer:366},
+  {clues:['I am a number.','I am the number of centimetres in a metre.'],answer:100},
+  {clues:['I am a number.','I am the number of millimetres in a centimetre.'],answer:10},
+  {clues:['I am a number.','I am the number of metres in a kilometre.'],answer:1000},
+  {clues:['I am a number.','I am the number of sides on a quadrilateral.'],answer:4},
+  {clues:['I am a number.','I am the number of sides on a pentagon.'],answer:5},
+  {clues:['I am a number.','I am the number of sides on a hexagon.'],answer:6},
+  {clues:['I am a number.','I am the number of sides on an octagon.'],answer:8},
+  {clues:['I am a number.','I am 7 × 9.'],answer:63},
+  {clues:['I am a number.','I am 8 × 8.'],answer:64},
+  {clues:['I am a number.','I am 11 × 12.'],answer:132}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 4 SHAPE OF THE DAY — Triangles, symmetry, coordinates
+// ═══════════════════════════════════════════════════════════
+const SHAPES=[
+  {name:'Scalene Triangle',type:'2D shape',questions:['How many equal sides?','How many equal angles?','What type of triangle is it?'],properties:['A scalene triangle has no equal sides.','A scalene triangle has no equal angles.','All three sides are different lengths.','All three angles are different.']},
+  {name:'Isosceles Triangle',type:'2D shape',questions:['How many equal sides?','How many equal angles?','What is special about the angles?'],properties:['An isosceles triangle has 2 equal sides.','An isosceles triangle has 2 equal angles.','The equal angles are opposite the equal sides.','The angles opposite the equal sides are equal.']},
+  {name:'Equilateral Triangle',type:'2D shape',questions:['How many equal sides?','What size are the angles?','How many lines of symmetry?'],properties:['An equilateral triangle has 3 equal sides.','All angles are 60°.','An equilateral triangle has 3 lines of symmetry.','All sides are the same length.']},
+  {name:'Right-angled Triangle',type:'2D shape',questions:['What size is the right angle?','How many acute angles?','Can it be isosceles?'],properties:['A right-angled triangle has one 90° angle.','The other two angles add up to 90°.','The longest side is opposite the right angle.','A right-angled triangle can also be isosceles.']},
+  {name:'Quadrilateral',type:'2D shape',questions:['How many sides?','How many vertices?','What shapes are quadrilaterals?'],properties:['A quadrilateral has 4 sides.','A quadrilateral has 4 vertices.','Examples: square, rectangle, parallelogram, rhombus, trapezium.','The angles in any quadrilateral add up to 360°.']},
+  {name:'Parallelogram',type:'2D shape',questions:['How many pairs of parallel sides?','Are opposite angles equal?','Are opposite sides equal?'],properties:['A parallelogram has 2 pairs of parallel sides.','Opposite sides are equal in length.','Opposite angles are equal.','A parallelogram can be pushed over (not fixed like a rectangle).']},
+  {name:'Rhombus',type:'2D shape',questions:['How many equal sides?','Are opposite angles equal?','How many lines of symmetry?'],properties:['A rhombus has 4 equal sides.','Opposite angles are equal.','A rhombus has 2 lines of symmetry.','A rhombus is like a "squashed square".']},
+  {name:'Trapezium',type:'2D shape',questions:['How many parallel sides?','Can the other sides be equal?','What is an isosceles trapezium?'],properties:['A trapezium has exactly 1 pair of parallel sides.','The non-parallel sides can be equal (isosceles trapezium).','The parallel sides are called the bases.','An isosceles trapezium has 1 line of symmetry.']},
+  {name:'Line of Symmetry',type:'Concept',questions:['What is a line of symmetry?','How many lines of symmetry does a square have?','How many lines of symmetry does a rectangle have?'],properties:['A line of symmetry divides a shape into matching halves.','A square has 4 lines of symmetry.','A rectangle has 2 lines of symmetry.','An equilateral triangle has 3 lines of symmetry.']},
+  {name:'Coordinates',type:'Concept',questions:['Which axis goes across?','Which axis goes up?','What is the origin?'],properties:['The x-axis goes across (horizontal).','The y-axis goes up (vertical).','The origin is (0, 0).','Coordinates are written (x, y) - "along the corridor, up the stairs".']},
+  {name:'First Quadrant',type:'Concept',questions:['What are the positive numbers on x-axis?','What are the positive numbers on y-axis?','Where is (3, 4)?'],properties:['The first quadrant has all positive coordinates.','X-coordinates go right from 0.','Y-coordinates go up from 0.','Point (3, 4) means go right 3, up 4.']},
+  {name:'Translation',type:'Concept',questions:['What is a translation?','Does a shape change size in a translation?','Does a shape rotate in a translation?'],properties:['A translation moves a shape without rotating it.','The shape does not change size.','The shape stays the same way up.','Translations can be described using "left/right" and "up/down".']}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 4 ESTIMATION STATION
+// ═══════════════════════════════════════════════════════════
+const ESTIMATION=[
+  {question:'How many minutes in 3 hours?',answer:'180 minutes',explanation:"1 hour = 60 minutes. 60 × 3 = 180."},
+  {question:'How many hours in 2 days?',answer:'48 hours',explanation:"1 day = 24 hours. 24 × 2 = 48."},
+  {question:'How many days in 4 weeks?',answer:'28 days',explanation:"1 week = 7 days. 7 × 4 = 28."},
+  {question:'How many metres in 2 kilometres?',answer:'2000 metres',explanation:"1 km = 1000 m. 1000 × 2 = 2000."},
+  {question:'How many centimetres in 3 metres?',answer:'300 centimetres',explanation:"1 m = 100 cm. 100 × 3 = 300."},
+  {question:'How many millilitres in 2 litres?',answer:'2000 millilitres',explanation:"1 L = 1000 mL. 1000 × 2 = 2000."},
+  {question:'How many grams in 3 kilograms?',answer:'3000 grams',explanation:"1 kg = 1000 g. 1000 × 3 = 3000."},
+  {question:'How many sides do 6 triangles have?',answer:'18 sides',explanation:"Each triangle has 3 sides. 6 × 3 = 18."},
+  {question:'How many sides do 5 quadrilaterals have?',answer:'20 sides',explanation:"Each quadrilateral has 4 sides. 5 × 4 = 20."},
+  {question:'How many sides do 4 hexagons have?',answer:'24 sides',explanation:"Each hexagon has 6 sides. 4 × 6 = 24."},
+  {question:'How many vertices do 5 cubes have?',answer:'40 vertices',explanation:"Each cube has 8 vertices. 5 × 8 = 40."},
+  {question:'How many faces do 4 cubes have?',answer:'24 faces',explanation:"Each cube has 6 faces. 4 × 6 = 24."},
+  {question:'If you double 75, what do you get?',answer:'150',explanation:"Double means × 2. 75 × 2 = 150."},
+  {question:'What is half of 150?',answer:'75',explanation:"Half means ÷ 2. 150 ÷ 2 = 75."},
+  {question:'What is a quarter of 200?',answer:'50',explanation:"Quarter means ÷ 4. 200 ÷ 4 = 50."},
+  {question:'What is three quarters of 200?',answer:'150',explanation:"Three quarters = 50 + 50 + 50 = 150."},
+  {question:'How many 20p coins make £1?',answer:'5 coins',explanation:"5 × 20p = 100p = £1."},
+  {question:'How many 25p coins make £1?',answer:'4 coins',explanation:"4 × 25p = 100p = £1."},
+  {question:'How many 10p coins make £2?',answer:'20 coins',explanation:"20 × 10p = 200p = £2."},
+  {question:'What is 7 × 8?',answer:'56',explanation:"7 × 8 = 56. This is a times table fact."}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 4 SEQUENCE DATA — ×6, ×7, ×9, ×11, ×12, place value patterns
+// ═══════════════════════════════════════════════════════════
+const SEQUENCE_DATA=[
+  {nums:[6,12,18,24],gap:6,rule:'+6 each time (6 times table)'},
+  {nums:[7,14,21,28],gap:7,rule:'+7 each time (7 times table)'},
+  {nums:[9,18,27,36],gap:9,rule:'+9 each time (9 times table)'},
+  {nums:[11,22,33,44],gap:11,rule:'+11 each time (11 times table)'},
+  {nums:[12,24,36,48],gap:12,rule:'+12 each time (12 times table)'},
+  {nums:[6,18,30,42],gap:12,rule:'+12 each time'},
+  {nums:[7,21,35,49],gap:14,rule:'+14 each time'},
+  {nums:[1000,2000,3000,4000],gap:1000,rule:'+1000 each time'},
+  {nums:[2500,3500,4500,5500],gap:1000,rule:'+1000 each time'},
+  {nums:[1250,2250,3250,4250],gap:1000,rule:'+1000 each time'},
+  {nums:[100,200,300,400],gap:100,rule:'+100 each time'},
+  {nums:[350,450,550,650],gap:100,rule:'+100 each time'},
+  {nums:[250,350,450,550],gap:100,rule:'+100 each time'},
+  {nums:[500,600,700,800],gap:100,rule:'+100 each time'},
+  {nums:[450,550,650,750],gap:100,rule:'+100 each time'},
+  {nums:[10000,20000,30000,40000],gap:10000,rule:'+10000 each time'},
+  {nums:[15000,25000,35000,45000],gap:10000,rule:'+10000 each time'},
+  {nums:[25,50,100,200],gap:'×2',rule:'Double each time'},
+  {nums:[1,4,16,64],gap:'×4',rule:'Multiply by 4 each time'},
+  {nums:[2,6,18,54],gap:'×3',rule:'Multiply by 3 each time'}
+];
+
+// ═══════════════════════════════════════════════════════════
+// YEAR 4 ODD ONE OUT — Categories, classification, science
+// ═══════════════════════════════════════════════════════════
+const ODD_ONE_OUT_DATA=[
+  {items:['mammal','reptile','bird','insect'],odd:'insect',reason:'Insects are invertebrates (no backbone). Mammals, reptiles and birds are vertebrates.'},
+  {items:['fish','amphibian','reptile','insect'],odd:'insect',reason:'Insects have 6 legs. Fish, amphibians and reptiles have 4 legs (or fins).'},
+  {items:['spider','beetle','ant','butterfly'],odd:'spider',reason:'Spiders are arachnids (8 legs). Beetles, ants and butterflies are insects (6 legs).'},
+  {items:['crab','spider','scorpion','ant'],odd:'ant',reason:'Ants are insects (6 legs). Crabs, spiders and scorpions are not insects - they have more legs.'},
+  {items:['wood','plastic','metal','glass'],odd:'glass',reason:'Glass is transparent. Wood, plastic and metal can be opaque.'},
+  {items:['copper','iron','gold','rubber'],odd:'rubber',reason:'Rubber is an insulator (does not conduct electricity). Copper, iron and gold are metals that conduct.'},
+  {items:['bulb','buzzer','motor','switch'],odd:'switch',reason:'A switch opens and closes a circuit. Bulb, buzzer and motor are output devices.'},
+  {items:['cell','battery','wire','bulb'],odd:'wire',reason:'Wire is a conductor. Cell, battery and bulb are components in a circuit.'},
+  {items:['vibration','pitch','volume','colour'],odd:'colour',reason:'Colour is about light. Vibration, pitch and volume are about sound.'},
+  {items:['high','low','loud','quiet'],odd:'loud',reason:'Loud and quiet are about volume. High and low are about pitch. Wait, loud is about volume not pitch.'},
+  {items:['solid','liquid','gas','plasma'],odd:'plasma',reason:'Plasma is not typically taught in Year 4. Solids, liquids and gases are the three states of matter.'},
+  {items:['melting','freezing','evaporating','conducting'],odd:'conducting',reason:'Conducting is about electricity. Melting, freezing and evaporating are about states of matter.'},
+  {items:['condensation','evaporation','melting','electricity'],odd:'electricity',reason:'Electricity is energy. Condensation, evaporation and melting are changes of state.'},
+  {items:['skull','spine','ribcage','brain'],odd:'brain',reason:'The brain is an organ. Skull, spine and ribcage are bones in the skeleton.'},
+  {items:['ball-and-socket','hinge','pivot','muscle'],odd:'muscle',reason:'Muscle is tissue. Ball-and-socket, hinge and pivot are types of joints.'},
+  {items:['bicep','tricep','heart','deltoid'],odd:'heart',reason:'The heart is an involuntary muscle (works automatically). Bicep, tricep and deltoid are voluntary muscles we control.'},
+  {items:['Anglo-Saxon','Viking','Roman','Egyptian'],odd:'Egyptian',reason:'Egyptians were an ancient civilisation in Africa. Anglo-Saxons, Vikings and Romans came to Britain.'},
+  {items:['Alfred','Canute','Athelstan','Columbus'],odd:'Columbus',reason:'Columbus was an explorer from Italy. Alfred, Canute and Athelstan were kings in Britain.'},
+  {items:['Maya','Aztec','Inca','Roman'],odd:'Roman',reason:'Romans were from Europe. Maya, Aztec and Inca were civilisations in the Americas.'},
+  {items:['pyramid','temple','ball court','colosseum'],odd:'colosseum',reason:'The Colosseum is Roman. Pyramids, temples and ball courts were built by the Maya.'}
+];
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let cur={};let puzzleIdx=0;let puzzles=[];let ttBank=[...DEFAULT_TT];let menu={};let override={};let imgState={data:null, url:null};
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+function init(){
+  loadMenu();
+  loadTTBank();
+  loadOverride();
+  loadImgState();
+  setDate();
+  buildPuzzles();
+  newPuzzle();
+}
+function loadMenu(){try{menu=JSON.parse(localStorage.getItem('y4menu')||'{}');}catch(e){menu={};}}
+function loadTTBank(){try{const s=localStorage.getItem('y4ttbank');if(s){ttBank=JSON.parse(s);if(!Array.isArray(ttBank)||ttBank.length===0)ttBank=[...DEFAULT_TT];}}catch(e){ttBank=[...DEFAULT_TT];}}
+function loadOverride(){try{override=JSON.parse(localStorage.getItem('y4override')||'{}');}catch(e){override={};}}
+function loadImgState(){try{const d=localStorage.getItem('y4imgdata');const u=localStorage.getItem('y4imgurl');if(d){imgState.data=d;imgState.url=u||null;}}catch(e){}}
+function saveMenu(){localStorage.setItem('y4menu',JSON.stringify(menu));}
+function saveTTBank(){localStorage.setItem('y4ttbank',JSON.stringify(ttBank));}
+function saveOverride(){localStorage.setItem('y4override',JSON.stringify(override));}
+function saveImgState(){if(imgState.data){localStorage.setItem('y4imgdata',imgState.data);if(imgState.url)localStorage.setItem('y4imgurl',imgState.url);else localStorage.removeItem('y4imgurl');}else{localStorage.removeItem('y4imgdata');localStorage.removeItem('y4imgurl');}}
+
+function setDate(){
+  const now=new Date();
+  const d=now.getDay();
+  const date=now.getDate();
+  const m=now.getMonth();
+  const y=now.getFullYear();
+  document.getElementById('date-text').textContent=`${DAYS[d]} ${date} ${MONTHS[m]}`;
+  const meals=getMeals(now);
+  document.getElementById('lc0').textContent=meals[0];
+  document.getElementById('lc1').textContent=meals[1];
+  const msg=override.msg||(AUTO_MSGS[DAYS[d]]||'');
+  document.getElementById('msg-body').textContent=msg;
+  if(imgState.data){
+    document.getElementById('img-el').src=imgState.data;
+    document.getElementById('img-pane').classList.add('visible');
+  }else{
+    document.getElementById('img-pane').classList.remove('visible');
+  }
+  const hasOverride=override.meal1||override.meal2||override.msg||(override.ttStmts&&override.ttStmts.topic);
+  document.getElementById('override-dot').style.display=hasOverride?'inline-block':'none';
+}
+
+function getMeals(date){
+  const d=date.getDay();
+  if(d===0||d===6)return['—','—'];
+  const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,'0'),day=String(date.getDate()).padStart(2,'0');
+  const todayStr=`${y}-${m}-${day}`;
+  const dayOfWeek=DAYNAMES[d].slice(0,3);
+  let monday=new Date(date);monday.setDate(date.getDate()-(d-1));
+  const my=monday.getFullYear(),mm=String(monday.getMonth()+1).padStart(2,'0'),md=String(monday.getDate()).padStart(2,'0');
+  const monStr=`${my}-${mm}-${md}`;
+  const weekData=MENU_BY_WEEK[monStr];
+  if(!weekData)return['—','—'];
+  const dayMeals=weekData[dayOfWeek];
+  if(!dayMeals)return['—','—'];
+  return dayMeals;
+}
+
+function buildPuzzles(){
+  puzzles=[
+    {type:'anagram',fn:renderAnagram},
+    {type:'sequence',fn:renderSequence},
+    {type:'twoTruths',fn:renderTwoTruths},
+    {type:'oddOneOut',fn:renderOddOneOut},
+    {type:'spotMistake',fn:renderSpotMistake},
+    {type:'wordOfDay',fn:renderWordOfDay},
+    {type:'synAnt',fn:renderSynAnt},
+    {type:'magicNum',fn:renderMagicNum},
+    {type:'shape',fn:renderShape},
+    {type:'estimation',fn:renderEstimation}
+  ];
+}
+
+function newPuzzle(){
+  puzzleIdx=(puzzleIdx+1)%puzzles.length;
+  renderPuzzle();
+}
+function toggleType(){
+  puzzleIdx=(puzzleIdx+1)%puzzles.length;
+  renderPuzzle();
+}
+function renderPuzzle(){puzzles[puzzleIdx].fn();}
+
+// ═══════════════════════════════════════════════════════════
+// ANAGRAM
+// ═══════════════════════════════════════════════════════════
+function renderAnagram(){
+  const set=ANAGRAM_BANK[Math.floor(Math.random()*ANAGRAM_BANK.length)];
+  cur={type:'anagram',anaSet:set};
+  const cp=document.getElementById('combined-panel');
+  cp.innerHTML=`
+    <div class="cpanel"><div class="cpanel-hdr"><span class="cpanel-hdr-title">Anagram</span><button class="reveal-btn" data-revealed="0" onclick="revealAnagram(this)">👁 Reveal</button></div>
+      <div class="cpanel-body">
+        <div class="ana-main">${shuffleWord(set.main)}</div>
+        <div class="ana-hint">${set.mainHint}</div>
+        <div class="ana-blanks">${makeBlanks(set.main,'ana-blank')}</div>
+      </div>
+    </div>
+    <div class="cpanel"><div class="cpanel-hdr"><span class="cpanel-hdr-title">Make smaller words</span></div>
+      <div class="cpanel-body">
+        <div class="ana-bonus-list">${set.bonus.map((b,i)=>`<div class="ana-bonus-row"><span class="ana-bonus-word">${shuffleWord(b.w)}</span><div class="ana-bonus-blanks">${makeBlanks(b.w,'ana-bonus-blank')}</div></div>`).join('')}</div>
+      </div>
+    </div>
+    <div class="cpanel" id="seq-cp"><div class="cpanel-hdr"><span class="cpanel-hdr-title">Number sequence</span><button class="reveal-btn" data-revealed="0" onclick="revealSeq(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" id="seq-body"></div>
+    </div>
+    <div class="cpanel"><div class="cpanel-hdr"><span class="cpanel-hdr-title">Two truths & a lie</span><button class="reveal-btn" data-revealed="0" onclick="revealTT(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" id="tt-body"></div>
+    </div>
+  `;
+  renderSequenceMini();
+  renderTwoTruthsMini();
+}
+function makeBlanks(word,cls){
+  return word.split('').map(()=>`<div class="${cls}"></div>`).join('');
+}
+function shuffleWord(w){return w.split('').sort(()=>Math.random()-0.5).join('');}
+function revealAnagram(btn){
+  const cp=document.getElementById('combined-panel');
+  const mainBlanks=cp.querySelectorAll('.ana-blanks .ana-blank');
+  if(btn.dataset.revealed==='1'){
+    mainBlanks.forEach(b=>{b.textContent='';b.classList.remove('filled');});
+    const bonusBlanks=cp.querySelectorAll('.ana-bonus-blank');
+    bonusBlanks.forEach(b=>{b.textContent='';b.classList.remove('filled');});
+    btn.textContent='👁 Reveal';
+    btn.dataset.revealed='0';
+  }else{
+    [...cur.anaSet.main].forEach((ch,i)=>{if(mainBlanks[i]){mainBlanks[i].textContent=ch.toUpperCase();mainBlanks[i].classList.add('filled');}});
+    cur.anaSet.bonus.forEach((b,bi)=>{
+      const row=cp.querySelectorAll('.ana-bonus-row')[bi];
+      if(row){
+        const blanks=row.querySelectorAll('.ana-bonus-blank');
+        [...b.w].forEach((ch,i)=>{if(blanks[i]){blanks[i].textContent=ch.toUpperCase();blanks[i].classList.add('filled');}});
+      }
+    });
+    btn.textContent='👁 Hide';
+    btn.dataset.revealed='1';
+  }
+}
+function revealSeq(btn){
+  const seqBody=document.getElementById('seq-body');
+  if(btn.dataset.revealed==='1'){
+    seqBody.querySelectorAll('.seq-n.q').forEach(n=>{n.textContent='?';n.classList.add('q');});
+    btn.textContent='👁 Reveal';
+    btn.dataset.revealed='0';
+  }else{
+    seqBody.querySelectorAll('.seq-n.q').forEach(n=>{n.textContent=cur.seq.answer;n.classList.remove('q');});
+    btn.textContent='👁 Hide';
+    btn.dataset.revealed='1';
+  }
+}
+function revealTT(btn){
+  const ttBody=document.getElementById('tt-body');
+  if(btn.dataset.revealed==='1'){
+    ttBody.querySelectorAll('.tt-item').forEach((item,i)=>{item.classList.remove('tt-lie');const label=item.querySelector('.tt-lie-label');if(label)label.remove();});
+    btn.textContent='👁 Reveal';
+    btn.dataset.revealed='0';
+  }else{
+    ttBody.querySelectorAll('.tt-item').forEach((item,i)=>{
+      if(i+1===cur.ttSet.lie){
+        item.classList.add('tt-lie');
+        const label=document.createElement('div');label.className='tt-lie-label';label.textContent='Lie';item.appendChild(label);
+      }
+    });
+    btn.textContent='👁 Hide';
+    btn.dataset.revealed='1';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// MINI PUZZLES
+// ═══════════════════════════════════════════════════════════
+function renderSequenceMini(){
+  const seq=SEQUENCE_DATA[Math.floor(Math.random()*SEQUENCE_DATA.length)];
+  cur={...cur,seq:seq};
+  const seqBody=document.getElementById('seq-body');
+  seqBody.innerHTML=`
+    <div class="seq-instr">What comes next?</div>
+    <div class="seq-row">${seq.nums.map(n=>`<div class="seq-n">${n}</div>`).join('')}<div class="seq-arr">→</div><div class="seq-n q">?</div></div>
+    <div class="seq-rule">${seq.rule}</div>
+  `;
+}
+function renderTwoTruthsMini(){
+  const set=override.ttStmts&&override.ttStmts.topic?override.ttStmts:ttBank[Math.floor(Math.random()*ttBank.length)];
+  cur={...cur,ttSet:set};
+  const ttBody=document.getElementById('tt-body');
+  ttBody.innerHTML=`
+    <div class="tt-topic">${set.topic}</div>
+    ${set.stmts.map((s,i)=>`<div class="tt-item"><div class="tt-num">${i+1}</div><div class="tt-text">${s}</div></div>`).join('')}
+    <div class="tt-instr">Which one is the lie?</div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════
+// STANDALONE PUZZLES
+// ═══════════════════════════════════════════════════════════
+function renderSequence(){
+  const seq=SEQUENCE_DATA[Math.floor(Math.random()*SEQUENCE_DATA.length)];
+  cur={type:'sequence',seq:seq};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Number Sequence</div>
+    <div class="seq-row">${seq.nums.map(n=>`<div class="seq-n">${n}</div>`).join('')}<div class="seq-arr">→</div><div class="seq-n q">?</div></div>
+    <div class="seq-rule">${seq.rule}</div>
+    <button class="stm-btn" onclick="showSeqAns()">Reveal answer</button>
+  `;
+}
+function showSeqAns(){
+  const q=document.querySelector('.seq-n.q');
+  if(q){q.textContent=cur.seq.answer;q.classList.remove('q');}
+}
+
+function renderTwoTruths(){
+  const set=override.ttStmts&&override.ttStmts.topic?override.ttStmts:ttBank[Math.floor(Math.random()*ttBank.length)];
+  cur={type:'twoTruths',ttSet:set};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Two Truths & a Lie</div>
+    <div class="tt-topic">${set.topic}</div>
+    ${set.stmts.map((s,i)=>`<div class="tt-item"><div class="tt-num">${i+1}</div><div class="tt-text">${s}</div></div>`).join('')}
+    <div class="tt-instr">Which one is the lie?</div>
+    <button class="stm-btn" onclick="showTTAns()">Reveal answer</button>
+  `;
+}
+function showTTAns(){
+  const items=document.querySelectorAll('.tt-item');
+  items.forEach((item,i)=>{
+    if(i+1===cur.ttSet.lie){
+      item.classList.add('tt-lie');
+      const label=document.createElement('div');label.className='tt-lie-label';label.textContent='Lie';item.appendChild(label);
+    }
+  });
+}
+
+function renderOddOneOut(){
+  const set=ODD_ONE_OUT_DATA[Math.floor(Math.random()*ODD_ONE_OUT_DATA.length)];
+  cur={type:'oddOneOut',oooSet:set};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Odd One Out</div>
+    <div class="ooo-set">
+      <div class="ooo-grid">${set.items.map(item=>`<div class="ooo-item">${item}</div>`).join('')}</div>
+    </div>
+    <div class="ooo-instr">Which one doesn't belong? Why?</div>
+    <button class="ooo-btn" onclick="showOOOAns()">Reveal answer</button>
+  `;
+}
+function showOOOAns(){
+  const items=document.querySelectorAll('.ooo-item');
+  items.forEach(item=>{
+    if(item.textContent.toLowerCase()===cur.oooSet.odd.toLowerCase()){
+      item.classList.add('ooo-odd');
+    }
+  });
+  const set=document.querySelector('.ooo-set');
+  const reason=document.createElement('div');reason.className='ooo-reason';reason.textContent=cur.oooSet.reason;
+  set.appendChild(reason);
+}
+
+function renderSpotMistake(){
+  const set=SPOT_MISTAKE[Math.floor(Math.random()*SPOT_MISTAKE.length)];
+  cur={type:'spotMistake',smSet:set};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Spot the Mistake</div>
+    <div class="stm-para">${set.para}</div>
+    <div class="stm-count">Find ${set.count} mistake${set.count>1?'s':''}.</div>
+    <button class="stm-btn" onclick="showSMAns()">Show answers</button>
+  `;
+}
+function showSMAns(){
+  const para=document.querySelector('.stm-para');
+  let html=cur.smSet.para;
+  cur.smSet.errors.forEach(e=>{
+    html=html.replace(e.wrong,`<span class="stm-err">${e.wrong}</span>`);
+  });
+  para.innerHTML=html;
+  const count=document.querySelector('.stm-count');
+  const ansList=document.createElement('div');ansList.className='stm-ans-list';
+  cur.smSet.errors.forEach(e=>{
+    ansList.innerHTML+=`<div class="stm-ans-item"><b>${e.wrong}</b> → ${e.correct}: ${e.exp}</div>`;
+  });
+  count.insertAdjacentElement('afterend',ansList);
+}
+
+function renderWordOfDay(){
+  const w=WORD_OF_DAY[Math.floor(Math.random()*WORD_OF_DAY.length)];
+  cur={type:'wod',wod:w};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Word of the Day</div>
+    <div class="wod-word">${w.word}</div>
+    <div class="wod-class">${w.cls}</div>
+    <div class="wod-def">${w.def}</div>
+    <div class="wod-example">${w.example}</div>
+    <div class="wod-etymology">${w.origin}</div>
+    <div class="wod-qs">${w.syns.length>0?`Synonyms: ${w.syns.join(', ')}`:''}${w.syns.length>0&&w.ants.length>0?' | ':''}${w.ants.length>0?`Antonyms: ${w.ants.join(', ')}`:''}</div>
+  `;
+}
+
+function renderSynAnt(){
+  const w=SYN_ANT[Math.floor(Math.random()*SYN_ANT.length)];
+  cur={type:'synAnt',synAnt:w};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Synonyms & Antonyms</div>
+    <div class="sna-word">${w.word}</div>
+    <div class="sna-instr">Can you think of synonyms and antonyms?</div>
+    <div class="sna-cols">
+      <div><div class="sna-col-hdr syn">Synonyms</div><div class="sna-col-body" id="syn-body"></div></div>
+      <div><div class="sna-col-hdr ant">Antonyms</div><div class="sna-col-body" id="ant-body"></div></div>
+    </div>
+    <button class="sna-btn" onclick="showSynAntAns()">Reveal</button>
+  `;
+}
+function showSynAntAns(){
+  document.getElementById('syn-body').textContent=cur.synAnt.syns.join(', ');
+  document.getElementById('ant-body').textContent=cur.synAnt.ants.join(', ');
+}
+
+function renderMagicNum(){
+  const m=MAGIC_NUMBER_CLEAN[Math.floor(Math.random()*MAGIC_NUMBER_CLEAN.length)];
+  cur={type:'magicNum',magic:m};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Magic Number</div>
+    <div class="mn-clues">${m.clues.map((c,i)=>`<div class="mn-clue"><div class="mn-clue-num">${i+1}</div><div>${c}</div></div>`).join('')}</div>
+    <button class="mn-btn" onclick="showMagicAns()">Reveal answer</button>
+    <div class="mn-answer" id="magic-ans">${m.answer}</div>
+  `;
+}
+function showMagicAns(){document.getElementById('magic-ans').style.display='block';}
+
+function renderShape(){
+  const s=SHAPES[Math.floor(Math.random()*SHAPES.length)];
+  cur={type:'shape',shape:s};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Shape of the Day</div>
+    <div class="shp-name">${s.name}</div>
+    <div class="shp-type">${s.type}</div>
+    <div class="shp-qs">${s.questions.map(q=>`<div class="shp-q">${q}</div>`).join('')}</div>
+    <button class="shp-btn" onclick="showShapeAns()">Reveal properties</button>
+    <div class="shp-props" id="shape-props">${s.properties.join('<br>')}</div>
+  `;
+}
+function showShapeAns(){document.getElementById('shape-props').style.display='block';}
+
+function renderEstimation(){
+  const e=ESTIMATION[Math.floor(Math.random()*ESTIMATION.length)];
+  cur={type:'estimation',est:e};
+  const pp=document.getElementById('puzzle-panel');
+  pp.innerHTML=`
+    <div class="ptitle">Estimation Station</div>
+    <div class="est-q">${e.question}</div>
+    <div class="est-instr">Have a guess!</div>
+    <button class="est-btn" onclick="showEstAns()">Reveal answer</button>
+    <div class="est-ans" id="est-ans"><strong>${e.answer}</strong><br>${e.explanation}</div>
+  `;
+}
+function showEstAns(){document.getElementById('est-ans').style.display='block';}
+
+// ═══════════════════════════════════════════════════════════
+// SOLUTIONS
+// ═══════════════════════════════════════════════════════════
+function toggleSols(){document.getElementById('sol-ov').classList.toggle('on');}
+function closeSols(){document.getElementById('sol-ov').classList.remove('on');}
+
+// ═══════════════════════════════════════════════════════════
+// OVERRIDE
+// ═══════════════════════════════════════════════════════════
+function openOverride(){
+  document.getElementById('ov-meal1').value=override.meal1||'';
+  document.getElementById('ov-meal2').value=override.meal2||'';
+  document.getElementById('ov-msg').value=override.msg||'';
+  if(override.ttStmts){
+    document.getElementById('ov-tt-topic').value=override.ttStmts.topic||'';
+    document.getElementById('ov-tt-1').value=override.ttStmts.stmts[0]||'';
+    document.getElementById('ov-tt-2').value=override.ttStmts.stmts[1]||'';
+    document.getElementById('ov-tt-3').value=override.ttStmts.stmts[2]||'';
+    document.getElementById('ov-tt-lie').value=override.ttStmts.lie||'1';
+  }else{
+    document.getElementById('ov-tt-topic').value='';
+    document.getElementById('ov-tt-1').value='';
+    document.getElementById('ov-tt-2').value='';
+    document.getElementById('ov-tt-3').value='';
+    document.getElementById('ov-tt-lie').value='1';
+  }
+  document.getElementById('ov-overlay').classList.add('on');
+}
+function closeOverride(){document.getElementById('ov-overlay').classList.remove('on');}
+function saveOverride(){
+  override.meal1=document.getElementById('ov-meal1').value;
+  override.meal2=document.getElementById('ov-meal2').value;
+  override.msg=document.getElementById('ov-msg').value;
+  const topic=document.getElementById('ov-tt-topic').value.trim();
+  if(topic){
+    override.ttStmts={
+      topic:topic,
+      stmts:[
+        document.getElementById('ov-tt-1').value.trim(),
+        document.getElementById('ov-tt-2').value.trim(),
+        document.getElementById('ov-tt-3').value.trim()
+      ],
+      lie:parseInt(document.getElementById('ov-tt-lie').value)
+    };
+  }else{
+    delete override.ttStmts;
+  }
+  saveOverride();
+  closeOverride();
+  setDate();
+}
+function clearOverride(){
+  override={};
+  saveOverride();
+  closeOverride();
+  setDate();
+}
+
+// ═══════════════════════════════════════════════════════════
+// SETUP (MENU + TWO TRUTHS BANK)
+// ═══════════════════════════════════════════════════════════
+function openSetup(){
+  renderMenuForm();
+  renderTTBankList();
+  document.getElementById('setup-ov').classList.add('on');
+}
+function closeSetup(){document.getElementById('setup-ov').classList.remove('on');}
+function renderMenuForm(){
+  const mf=document.getElementById('menu-form');
+  const weeks=Object.keys(MENU_BY_WEEK).sort();
+  let html='';
+  let wi=1;
+  weeks.forEach(wk=>{
+    const days=MENU_BY_WEEK[wk];
+    html+=`<div class="menu-wk">Week ${wi}</div>`;
+    ['Mon','Tue','Wed','Thu','Fri'].forEach(d=>{
+      const m=menu[wk]&&menu[wk][d]?menu[wk][d]:days[d];
+      html+=`<div class="mrow"><label>${d}</label><input type="text" value="${m[0]||(m[0]||'')}" data-wk="${wk}" data-day="${d}" data-opt="0"><input type="text" value="${m[1]||(m[1]||'')}" data-wk="${wk}" data-day="${d}" data-opt="1"></div>`;
+    });
+    wi++;
+    if(wi>3)return;
+  });
+  mf.innerHTML=html;
+}
+function renderTTBankList(){
+  const tl=document.getElementById('tt-bank-list');
+  tl.innerHTML=ttBank.map((t,i)=>`
+    <div class="tt-bank-item">
+      <button class="tt-bank-del" onclick="delTTSet(${i})">×</button>
+      <div class="tt-bank-topic">${t.topic}</div>
+      <div class="tt-bank-stmts">${t.stmts.map((s,j)=>(j+1===t.lie?`<span class="tt-bank-lie">${s}</span>`:s)).join(' • ')}</div>
+    </div>
+  `).join('');
+}
+function delTTSet(i){
+  ttBank.splice(i,1);
+  renderTTBankList();
+}
+function addTTSet(){
+  const topic=document.getElementById('tt-new-topic').value.trim();
+  const s1=document.getElementById('tt-new-1').value.trim();
+  const s2=document.getElementById('tt-new-2').value.trim();
+  const s3=document.getElementById('tt-new-3').value.trim();
+  const lie=parseInt(document.getElementById('tt-new-lie').value);
+  if(!topic||!s1||!s2||!s3)return alert('Please fill in all fields');
+  ttBank.push({topic:topic,stmts:[s1,s2,s3],lie:lie});
+  document.getElementById('tt-new-topic').value='';
+  document.getElementById('tt-new-1').value='';
+  document.getElementById('tt-new-2').value='';
+  document.getElementById('tt-new-3').value='';
+  document.getElementById('tt-new-lie').value='1';
+  renderTTBankList();
+}
+function saveSetup(){
+  const inputs=document.querySelectorAll('#menu-form input');
+  inputs.forEach(inp=>{
+    const wk=inp.dataset.wk;
+    const day=inp.dataset.day;
+    const opt=parseInt(inp.dataset.opt);
+    if(!menu[wk])menu[wk]={};
+    if(!menu[wk][day])menu[wk][day]=['',''];
+    menu[wk][day][opt]=inp.value;
+  });
+  saveMenu();
+  saveTTBank();
+  closeSetup();
+  setDate();
+}
+
+// ═══════════════════════════════════════════════════════════
+// IMAGE HANDLING
+// ═══════════════════════════════════════════════════════════
+function openImgOverlay(){document.getElementById('img-overlay').classList.add('on');}
+function closeImgOverlay(){document.getElementById('img-overlay').classList.remove('on');}
+function handleImgFile(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    imgState.data=ev.target.result;
+    imgState.url=null;
+    saveImgState();
+    document.getElementById('img-el').src=imgState.data;
+    document.getElementById('img-pane').classList.add('visible');
+    closeImgOverlay();
+  };
+  reader.readAsDataURL(file);
+}
+function handleImgUrl(){
+  const url=document.getElementById('img-url-input').value.trim();
+  if(!url)return;
+  imgState.data=url;
+  imgState.url=url;
+  saveImgState();
+  document.getElementById('img-el').src=url;
+  document.getElementById('img-pane').classList.add('visible');
+  closeImgOverlay();
+}
+function removeImg(){
+  imgState.data=null;
+  imgState.url=null;
+  saveImgState();
+  document.getElementById('img-pane').classList.remove('visible');
+}
+
+// ═══════════════════════════════════════════════════════════
+// START
+// ═══════════════════════════════════════════════════════════
+init();
+</script>
+</body>
+</html>
