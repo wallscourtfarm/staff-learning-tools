@@ -8,12 +8,12 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'Nunito',sans-serif}
-#app{width:100%;height:100%;display:flex;flex-direction:column;outline:5px solid #9B59B6;outline-offset:-2px}
+#app{width:100%;height:100%;display:flex;flex-direction:column;outline:5px solid #E91E8C;outline-offset:-2px}
 
 #date-hdr{display:flex;align-items:center;justify-content:space-between;padding:0.06em 0.5em;border-bottom:3px solid #111;flex-shrink:0;line-height:1.05}
 #date-logo{height:clamp(48px,7vh,80px);width:auto;object-fit:contain;flex-shrink:0}
 #date-text{font-size:clamp(2.8rem,8vh,6rem);font-weight:700;color:#111;letter-spacing:0.01em;flex:1;text-align:center}
-#class-name{font-size:clamp(2rem,5vh,4rem);font-weight:900;color:#9B59B6;flex-shrink:0;padding-right:0.2em}
+#class-name{font-size:clamp(2rem,5vh,4rem);font-weight:900;color:#E91E8C;flex-shrink:0;padding-right:0.2em}
 
 #lunch-bar{display:grid;grid-template-columns:2fr 2fr 1.5fr 1.5fr 1fr;border-bottom:3px solid #111;flex-shrink:0}
 .lc{display:flex;align-items:center;justify-content:center;font-weight:900;font-size:clamp(1.3rem,3.2vh,2.2rem);padding:0.4em 0.6em;text-align:center;line-height:1.2;min-height:clamp(60px,9.5vh,100px)}
@@ -38,7 +38,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
 .cpanel{display:flex;flex-direction:column;padding:0.5vh 0.8vw;border-right:2.5px solid #EEE;border-bottom:2.5px solid #EEE;overflow:hidden;min-height:0}
 .cpanel:nth-child(2),.cpanel:nth-child(4){border-right:none}
 .cpanel:nth-child(3),.cpanel:nth-child(4){border-bottom:none}
-.cpanel-hdr{font-size:clamp(0.9rem,2vh,1.3rem);font-weight:900;color:#fff;background:#9B59B6;border-radius:5px 5px 0 0;padding:0.18em 0.7em;text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:0.4em}
+.cpanel-hdr{font-size:clamp(0.9rem,2vh,1.3rem);font-weight:900;color:#fff;background:#E91E8C;border-radius:5px 5px 0 0;padding:0.18em 0.7em;text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:0.4em}
 .cpanel-hdr-title{flex:1;text-align:center}
 .reveal-btn{background:rgba(255,255,255,0.22);color:#fff;border:1.5px solid rgba(255,255,255,0.55);border-radius:4px;padding:0.08em 0.55em;font-size:clamp(0.65rem,1.4vh,0.9rem);font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;text-transform:none;letter-spacing:0;flex-shrink:0;white-space:nowrap}
 .reveal-btn:hover{background:rgba(255,255,255,0.4)}
@@ -66,28 +66,28 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
 /* two truths */
 .tt-topic{font-size:clamp(0.85rem,1.9vh,1.3rem);font-weight:900;color:#888;text-transform:uppercase;letter-spacing:0.06em;text-align:center}
 .tt-item{display:flex;gap:8px;align-items:flex-start;width:100%;padding:0.55vh 0.6vw;border:2px solid #E8E8E8;border-radius:7px}
-.tt-num{width:clamp(20px,3vh,32px);height:clamp(20px,3vh,32px);border-radius:50%;background:#9B59B6;color:#fff;font-size:clamp(0.72rem,1.6vh,1.1rem);font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.tt-num{width:clamp(20px,3vh,32px);height:clamp(20px,3vh,32px);border-radius:50%;background:#E91E8C;color:#fff;font-size:clamp(0.72rem,1.6vh,1.1rem);font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
 .tt-text{font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:700;color:#111;line-height:1.3}
 .tt-instr{font-size:clamp(0.75rem,1.7vh,1.1rem);color:#AAA;font-style:italic;font-weight:700;text-align:center}
 
 /* odd one out */
 .ooo-set{width:100%;display:flex;flex-direction:column;gap:0.35vh}
-.ooo-set+.ooo-set{border-top:3px solid #9B59B6;padding-top:0.6vh;margin-top:0.3vh}
+.ooo-set+.ooo-set{border-top:3px solid #E91E8C;padding-top:0.6vh;margin-top:0.3vh}
 .ooo-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
 .ooo-item{border:2px solid #E0E0E0;border-radius:6px;padding:0.45vh 0.5vw;font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:700;color:#111;text-align:center;line-height:1.25}
 .ooo-instr{font-size:clamp(0.75rem,1.7vh,1.1rem);color:#AAA;font-style:italic;font-weight:700;text-align:center}
 .tt-lie{border-color:#E03030!important;background:#FFEEEE!important}
 .tt-lie-label{font-size:clamp(0.72rem,1.6vh,1.05rem);color:#C00;font-weight:800;padding:0.2vh 0.5vw;margin-top:0.2vh;background:#FFDDDD;border-radius:4px;text-align:center;width:100%}
-.ooo-odd{border-color:#9B59B6!important;background:#E8F4FD!important;color:#0A558C!important;font-weight:900!important}
-.ooo-reason{font-size:clamp(0.7rem,1.55vh,1rem);color:#9B59B6;font-weight:700;font-style:italic;padding:0.15vh 0;text-align:center}
+.ooo-odd{border-color:#E91E8C!important;background:#E8F4FD!important;color:#0A558C!important;font-weight:900!important}
+.ooo-reason{font-size:clamp(0.7rem,1.55vh,1rem);color:#E91E8C;font-weight:700;font-style:italic;padding:0.15vh 0;text-align:center}
 .seq-rule{font-size:clamp(0.7rem,1.55vh,1rem);color:#888;font-weight:700;font-style:italic;text-align:center;margin:-0.1vh 0 0.3vh}
-.ana-blank.filled{display:flex;align-items:center;justify-content:center;font-size:clamp(1rem,2.5vh,1.8rem);font-weight:900;color:#9B59B6;border-bottom-color:#9B59B6}
-.ana-bonus-blank.filled{display:flex;align-items:center;justify-content:center;font-size:clamp(0.75rem,1.9vh,1.3rem);font-weight:900;color:#9B59B6;border-bottom-color:#9B59B6}
+.ana-blank.filled{display:flex;align-items:center;justify-content:center;font-size:clamp(1rem,2.5vh,1.8rem);font-weight:900;color:#E91E8C;border-bottom-color:#E91E8C}
+.ana-bonus-blank.filled{display:flex;align-items:center;justify-content:center;font-size:clamp(0.75rem,1.9vh,1.3rem);font-weight:900;color:#E91E8C;border-bottom-color:#E91E8C}
 
 /* RIGHT PANEL */
 #right-panel{border-left:3px solid #E0E0E0;display:flex;flex-direction:column;padding:1.2vh 1.4vw 0.8vh;gap:0;min-height:0;overflow:hidden}
-.msg-hdr{background:#9B59B6;color:#fff;font-size:clamp(1.2rem,3vh,2rem);font-weight:700;padding:0.22em 0.8em;border-radius:6px 6px 0 0;flex-shrink:0;line-height:1.3}
-#msg-img-wrap{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;border:2.5px solid #9B59B6;border-top:none;border-radius:0 0 6px 6px}
+.msg-hdr{background:#E91E8C;color:#fff;font-size:clamp(1.2rem,3vh,2rem);font-weight:700;padding:0.22em 0.8em;border-radius:6px 6px 0 0;flex-shrink:0;line-height:1.3}
+#msg-img-wrap{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;border:2.5px solid #E91E8C;border-top:none;border-radius:0 0 6px 6px}
 #msg-body{flex:0 0 auto;padding:0.8vh 1vw;font-size:clamp(1.6rem,3.8vh,2.6rem);font-weight:700;outline:none;overflow-y:auto;color:#111;line-height:1.5;width:100%;min-height:2em}
 #msg-body:empty::before{content:attr(data-ph);color:#ccc;font-style:italic;font-weight:400;font-size:0.85em}
 #img-pane{display:none;flex:1;border-top:2px solid #E8E8E8;position:relative;overflow:hidden;align-items:center;justify-content:center;min-height:0}
@@ -110,7 +110,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
 .obox h2{font-size:1.3rem;font-weight:800;margin-bottom:0.8rem;color:#111}
 .obox h3{font-size:1rem;font-weight:800;margin:1rem 0 0.5rem;color:#333}
 .oclose{padding:7px 18px;background:#eee;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
-.osave{padding:7px 18px;background:#9B59B6;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.osave{padding:7px 18px;background:#E91E8C;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
 .odanger{padding:7px 18px;background:#E03030;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
 .oadd{padding:7px 18px;background:#3A9922;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
 .ov-field{margin-bottom:11px}
@@ -133,7 +133,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
 /* ── SPOT THE MISTAKE ──────────────────────────────────── */
 .stm-para{background:#FFF8E7;border:2.5px solid #F0C040;border-radius:9px;padding:1.2vh 1.4vw;font-size:clamp(1.1rem,2.8vh,1.9rem);font-weight:600;line-height:1.7;color:#111;margin-bottom:1vh}
 .stm-count{font-size:clamp(1rem,2.4vh,1.6rem);font-weight:700;color:#555;text-align:center;margin-bottom:1vh}
-.stm-btn{padding:0.5em 1.4em;background:#9B59B6;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer}
+.stm-btn{padding:0.5em 1.4em;background:#E91E8C;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer}
 .stm-btn:hover{background:#1280b8}
 .stm-err{background:#FFDDDD;border-radius:4px;padding:0 3px;text-decoration:underline wavy #E03030}
 .stm-ans-list{margin-top:1.2vh;font-size:clamp(0.85rem,1.9vh,1.25rem);line-height:1.9;color:#333}
@@ -141,7 +141,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
 .stm-ans-item b{color:#E03030}
 
 /* ── WORD OF THE DAY ───────────────────────────────────── */
-.wod-word{font-size:clamp(2.2rem,7vh,5rem);font-weight:900;color:#9B59B6;text-align:center;letter-spacing:0.02em;line-height:1}
+.wod-word{font-size:clamp(2.2rem,7vh,5rem);font-weight:900;color:#E91E8C;text-align:center;letter-spacing:0.02em;line-height:1}
 .wod-class{font-size:clamp(0.85rem,2vh,1.3rem);font-weight:800;color:#fff;background:#555;border-radius:20px;padding:0.15em 0.8em;display:inline-block;margin:0.5vh auto 0.8vh;text-align:center}
 .wod-def{font-size:clamp(1rem,2.5vh,1.7rem);font-weight:700;color:#333;text-align:center;line-height:1.4;margin-bottom:0.6vh}
 .wod-example{font-size:clamp(0.85rem,2vh,1.35rem);color:#666;font-style:italic;text-align:center;margin-bottom:0.5vh;line-height:1.4}
@@ -156,30 +156,30 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
 .sna-col-hdr.ant{background:#E03030}
 .sna-col-body{border:2px solid #DDD;border-top:none;border-radius:0 0 6px 6px;padding:0.5vh 0.6vw;min-height:10vh;font-size:clamp(0.85rem,2vh,1.3rem);font-weight:700;color:#333;line-height:1.9;text-align:center}
 .sna-instr{font-size:clamp(0.8rem,1.8vh,1.2rem);color:#AAA;font-style:italic;font-weight:700;text-align:center;margin-bottom:0.5vh}
-.sna-btn{padding:0.45em 1.2em;background:#9B59B6;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.85rem,1.9vh,1.25rem);font-weight:800;cursor:pointer}
+.sna-btn{padding:0.45em 1.2em;background:#E91E8C;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.85rem,1.9vh,1.25rem);font-weight:800;cursor:pointer}
 .sna-btn:hover{background:#1280b8}
 
 /* ── MAGIC NUMBER ──────────────────────────────────────── */
 .mn-clues{width:100%;display:flex;flex-direction:column;gap:0.5vh}
 .mn-clue{display:flex;align-items:center;gap:0.7vw;padding:0.55vh 0.8vw;border:2px solid #E8E8E8;border-radius:7px;font-size:clamp(0.95rem,2.3vh,1.55rem);font-weight:700;color:#333}
-.mn-clue-num{min-width:clamp(24px,3.5vh,36px);height:clamp(24px,3.5vh,36px);border-radius:50%;background:#9B59B6;color:#fff;font-size:clamp(0.75rem,1.7vh,1.1rem);font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.mn-answer{font-size:clamp(3rem,9vh,6rem);font-weight:900;color:#9B59B6;text-align:center;display:none}
-.mn-btn{padding:0.5em 1.4em;background:#9B59B6;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer;margin-top:1vh}
+.mn-clue-num{min-width:clamp(24px,3.5vh,36px);height:clamp(24px,3.5vh,36px);border-radius:50%;background:#E91E8C;color:#fff;font-size:clamp(0.75rem,1.7vh,1.1rem);font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mn-answer{font-size:clamp(3rem,9vh,6rem);font-weight:900;color:#E91E8C;text-align:center;display:none}
+.mn-btn{padding:0.5em 1.4em;background:#E91E8C;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer;margin-top:1vh}
 .mn-btn:hover{background:#1280b8}
 
 /* ── SHAPE OF THE DAY ──────────────────────────────────── */
 .shp-name{font-size:clamp(2rem,6.5vh,4.5rem);font-weight:900;color:#111;text-align:center;margin-bottom:0.5vh}
-.shp-type{font-size:clamp(0.85rem,2vh,1.3rem);font-weight:800;color:#fff;background:#9B59B6;border-radius:20px;padding:0.15em 0.9em;display:inline-block;margin-bottom:1vh}
+.shp-type{font-size:clamp(0.85rem,2vh,1.3rem);font-weight:800;color:#fff;background:#E91E8C;border-radius:20px;padding:0.15em 0.9em;display:inline-block;margin-bottom:1vh}
 .shp-qs{display:flex;flex-direction:column;gap:0.5vh;width:100%;margin-bottom:1vh}
 .shp-q{padding:0.5vh 0.8vw;background:#F8F8F8;border:1.5px solid #E0E0E0;border-radius:6px;font-size:clamp(0.88rem,2vh,1.35rem);font-weight:700;color:#444;line-height:1.4}
-.shp-btn{padding:0.45em 1.2em;background:#9B59B6;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.85rem,1.9vh,1.25rem);font-weight:800;cursor:pointer}
+.shp-btn{padding:0.45em 1.2em;background:#E91E8C;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.85rem,1.9vh,1.25rem);font-weight:800;cursor:pointer}
 .shp-btn:hover{background:#1280b8}
 .shp-props{display:none;width:100%;background:#EBF5FB;border:2px solid #AED6F1;border-radius:8px;padding:0.8vh 1vw;font-size:clamp(0.85rem,1.9vh,1.3rem);font-weight:700;color:#1A5276;line-height:1.9;margin-top:0.5vh}
 
 /* ── ESTIMATION STATION ────────────────────────────────── */
 .est-q{background:#FFF0E0;border:2.5px solid #F0A050;border-radius:9px;padding:1.2vh 1.4vw;font-size:clamp(1.2rem,3.2vh,2.2rem);font-weight:800;color:#111;text-align:center;line-height:1.5;margin-bottom:1vh}
 .est-instr{font-size:clamp(0.9rem,2.1vh,1.4rem);font-weight:700;color:#777;text-align:center;margin-bottom:1vh}
-.est-btn{padding:0.5em 1.4em;background:#9B59B6;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer}
+.est-btn{padding:0.5em 1.4em;background:#E91E8C;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer}
 .est-btn:hover{background:#1280b8}
 .est-ans{display:none;margin-top:1vh;background:#E8F8EE;border:2px solid #A9DFBF;border-radius:8px;padding:1vh 1.2vw;font-size:clamp(1rem,2.5vh,1.7rem);font-weight:800;color:#145A32;text-align:center;line-height:1.5}
 
@@ -187,7 +187,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
 .map-country{font-size:clamp(2rem,6vh,4rem);font-weight:900;color:#111;text-align:center;margin-bottom:0.6vh}
 .map-facts{background:#F0FFF0;border:2px solid #A9DFBF;border-radius:8px;padding:0.8vh 1vw;margin-bottom:0.8vh;font-size:clamp(0.88rem,2vh,1.35rem);font-weight:700;color:#145A32;line-height:1.9}
 .map-qs{font-size:clamp(0.88rem,2vh,1.35rem);font-weight:700;color:#333;line-height:2;margin-bottom:0.8vh}
-.map-btn{padding:0.45em 1.2em;background:#9B59B6;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.85rem,1.9vh,1.25rem);font-weight:800;cursor:pointer}
+.map-btn{padding:0.45em 1.2em;background:#E91E8C;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.85rem,1.9vh,1.25rem);font-weight:800;cursor:pointer}
 .map-btn:hover{background:#1280b8}
 .map-ans{display:none;background:#EBF5FB;border:2px solid #AED6F1;border-radius:8px;padding:0.8vh 1vw;font-size:clamp(0.88rem,2vh,1.35rem);font-weight:800;color:#1A5276;line-height:1.9;margin-top:0.5vh}
 
@@ -197,18 +197,18 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
 .tl-event{display:flex;align-items:center;gap:0.8vw;padding:0.55vh 0.8vw;border:2px solid #E8E8E8;border-radius:7px;background:#FAFAFA}
 .tl-event-num{min-width:clamp(24px,3.5vh,36px);height:clamp(24px,3.5vh,36px);border-radius:50%;background:#FAD7A0;border:2px solid #F0A500;color:#784212;font-size:clamp(0.75rem,1.7vh,1.1rem);font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .tl-event-text{font-size:clamp(0.9rem,2.1vh,1.4rem);font-weight:700;color:#333;line-height:1.3}
-.tl-btn{padding:0.45em 1.2em;background:#9B59B6;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.85rem,1.9vh,1.25rem);font-weight:800;cursor:pointer}
+.tl-btn{padding:0.45em 1.2em;background:#E91E8C;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.85rem,1.9vh,1.25rem);font-weight:800;cursor:pointer}
 .tl-btn:hover{background:#1280b8}
 .tl-sorted{display:none;width:100%;margin-top:0.5vh;display:none}
-.tl-sorted-item{display:flex;align-items:center;gap:0.8vw;padding:0.45vh 0.8vw;border-left:4px solid #9B59B6;margin-bottom:0.35vh;font-size:clamp(0.85rem,1.9vh,1.3rem);font-weight:700;color:#111}
-.tl-year{min-width:4em;font-weight:900;color:#9B59B6}
+.tl-sorted-item{display:flex;align-items:center;gap:0.8vw;padding:0.45vh 0.8vw;border-left:4px solid #E91E8C;margin-bottom:0.35vh;font-size:clamp(0.85rem,1.9vh,1.3rem);font-weight:700;color:#111}
+.tl-year{min-width:4em;font-weight:900;color:#E91E8C}
 
 /* ── WOULD YOU RATHER ──────────────────────────────────── */
 .wyr-q{font-size:clamp(1.1rem,3vh,2rem);font-weight:800;color:#111;text-align:center;line-height:1.4;margin-bottom:0.8vh}
 .wyr-opts{display:grid;grid-template-columns:1fr auto 1fr;gap:0.8vw;align-items:center;margin-bottom:1vh;width:100%}
 .wyr-opt{background:#F8F8F8;border:2.5px solid #DDD;border-radius:9px;padding:0.8vh 0.8vw;font-size:clamp(0.9rem,2.2vh,1.5rem);font-weight:800;color:#333;text-align:center;line-height:1.4}
-.wyr-or{font-size:clamp(1rem,2.5vh,1.7rem);font-weight:900;color:#9B59B6;text-align:center}
-.wyr-btn{padding:0.5em 1.4em;background:#9B59B6;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer}
+.wyr-or{font-size:clamp(1rem,2.5vh,1.7rem);font-weight:900;color:#E91E8C;text-align:center}
+.wyr-btn{padding:0.5em 1.4em;background:#E91E8C;color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:clamp(0.9rem,2vh,1.3rem);font-weight:800;cursor:pointer}
 .wyr-btn:hover{background:#1280b8}
 .wyr-working{display:none;margin-top:1vh;width:100%;background:#EBF5FB;border:2px solid #AED6F1;border-radius:9px;padding:1vh 1.2vw;font-size:clamp(0.88rem,2vh,1.35rem);font-weight:700;color:#1A5276;line-height:1.9}
 
@@ -221,7 +221,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
 .pair-cell .stm-para,.pair-cell .est-q,.pair-cell .wyr-q,.pair-cell .map-country,.pair-cell .sna-word,.pair-cell .mn-clue,.pair-cell .shp-name{font-size:clamp(0.9rem,2vh,1.4rem)!important}
 /* TWO TRUTHS EDITOR */
 .tt-bank-item{border:1.5px solid #EEE;border-radius:8px;padding:10px 14px;margin-bottom:8px;position:relative}
-.tt-bank-topic{font-size:0.8rem;font-weight:800;color:#9B59B6;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em}
+.tt-bank-topic{font-size:0.8rem;font-weight:800;color:#E91E8C;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em}
 .tt-bank-stmts{font-size:0.82rem;color:#333;line-height:1.6}
 .tt-bank-lie{color:#E03030}
 .tt-bank-del{position:absolute;top:8px;right:10px;background:none;border:none;color:#CCC;cursor:pointer;font-size:1.1rem;font-family:'Nunito',sans-serif;font-weight:700}
@@ -1045,7 +1045,7 @@ const TIMELINE_SETS=[
   {title:'Bronze Age Britain',events:[{year:-2500,text:'Bronze Age begins in Britain'},{year:-2000,text:'Stonehenge is built'},{year:-1600,text:'Bronze tools and weapons common'},{year:-1200,text:'Hillforts start to be built'},{year:-800,text:'Bronze Age ends'}]},
   {title:'Iron Age Britain',events:[{year:-800,text:'Iron Age begins in Britain'},{year:-500,text:'Celtic people arrive'},{year:-300,text:'Hillforts become larger'},{year:-55,text:'Julius Caesar invades Britain'},{year:43,text:'Romans conquer Britain'}]},
   // ── ROMAN BRITAIN (Y3 History) ──────────────────────────────
-  {title:'Roman Conquest',events:[{year:43,text:'Romans invade Britain'},{year:60,text:'Boudica leads revolt against Romans'},{year:75,text:'Romans build Hadrian\'s Wall'},{year:122:text:'Hadrian\'s Wall completed'},{year:410,text:'Romans leave Britain'}]},
+  {title:'Roman Conquest',events:[{year:43,text:'Romans invade Britain'},{year:60,text:'Boudica leads revolt against Romans'},{year:75,text:'Romans build Hadrian\'s Wall'},{year:122,text:'Hadrian\'s Wall completed'},{year:410,text:'Romans leave Britain'}]},
   {title:'Roman Britain',events:[{year:43,text:'Claudius conquers Britain'},{year:60,text:'Boudica rebels against Roman rule'},{year:70,text:'Romans build roads and towns'},{year:122,text:'Hadrian\'s Wall is built'},{year:410,text:'Romans withdraw from Britain'}]},
   {title:'Roman Life',events:[{year:43,text:'Romans bring writing to Britain'},{year:50,text:'First Roman towns built'},{year:75,text:'Roman baths and amphitheatres'},{year:100,text:'Roman villas built across Britain'},{year:200,text:'Christianity spreads in Britain'}]},
   // ── THE TUDORS & STUARTS (Y3 History) ──────────────────────
@@ -1906,7 +1906,7 @@ function renderWouldYouRather(e){
       <div style="margin-left:1em;color:#3A9922">${e.workingA}</div>
       <div style="margin-top:0.4vh"><strong>Option B:</strong> ${e.optB}</div>
       <div style="margin-left:1em;color:#3A9922">${e.workingB}</div>
-      <div style="margin-top:0.6vh;border-top:2px solid #AED6F1;padding-top:0.4vh;color:#9B59B6"><strong>Answer:</strong> ${e.answer}</div>
+      <div style="margin-top:0.6vh;border-top:2px solid #AED6F1;padding-top:0.4vh;color:#E91E8C"><strong>Answer:</strong> ${e.answer}</div>
     </div>`;
 }
 function revealWouldYouRather(){
@@ -2002,7 +2002,7 @@ function renderPairMathsReason(eA,eB){
     <div class="wyr-working" id="wyr-working" style="width:100%">
       <div><strong>A:</strong> ${eB.workingA}</div>
       <div><strong>B:</strong> ${eB.workingB}</div>
-      <div style="margin-top:0.4vh;border-top:2px solid #AED6F1;padding-top:0.4vh;color:#9B59B6"><strong>Answer:</strong> ${eB.answer}</div>
+      <div style="margin-top:0.4vh;border-top:2px solid #AED6F1;padding-top:0.4vh;color:#E91E8C"><strong>Answer:</strong> ${eB.answer}</div>
     </div>`;
 }
 
@@ -2109,11 +2109,11 @@ function toggleSols(){
   } else if(cur.type==='magicnumber'){
     const e=cur.data;
     t.textContent='Magic Number — answer';
-    c.innerHTML=`<p style="font-size:1.1rem;font-weight:800">The magic number is <span style="font-size:2rem;color:#9B59B6">${e.answer}</span></p><p style="font-size:0.9rem;margin-top:8px">Clues given: ${e.clues.join(' — ')}</p>`;
+    c.innerHTML=`<p style="font-size:1.1rem;font-weight:800">The magic number is <span style="font-size:2rem;color:#E91E8C">${e.answer}</span></p><p style="font-size:0.9rem;margin-top:8px">Clues given: ${e.clues.join(' — ')}</p>`;
   } else if(cur.type==='shapeday'){
     const e=cur.data;
     t.textContent=`Shape of the Day — ${e.name}`;
-    c.innerHTML=`<p style="font-size:0.88rem;font-weight:800;color:#9B59B6;margin-bottom:6px">${e.name} (${e.type})</p>`+
+    c.innerHTML=`<p style="font-size:0.88rem;font-weight:800;color:#E91E8C;margin-bottom:6px">${e.name} (${e.type})</p>`+
       e.questions.map((q,i)=>`<p style="font-size:0.88rem;margin-bottom:6px;line-height:1.5"><b>${q}</b><br>${e.properties[i]}</p>`).join('');
   } else if(cur.type==='estimation'){
     const e=cur.data;
@@ -2128,13 +2128,13 @@ function toggleSols(){
     t.textContent=`Timeline — ${e.title}`;
     const sorted=[...e.events].sort((a,b)=>a.year-b.year);
     c.innerHTML=`<p style="font-size:0.9rem;margin-bottom:8px;font-weight:800">Correct chronological order:</p>`+
-      sorted.map((ev,i)=>`<p style="font-size:0.9rem;margin-bottom:4px"><b>${i+1}.</b> <span style="color:#9B59B6;font-weight:800">${ev.year<0?Math.abs(ev.year)+' BC':ev.year+' AD'}</span> — ${ev.text}</p>`).join('');
+      sorted.map((ev,i)=>`<p style="font-size:0.9rem;margin-bottom:4px"><b>${i+1}.</b> <span style="color:#E91E8C;font-weight:800">${ev.year<0?Math.abs(ev.year)+' BC':ev.year+' AD'}</span> — ${ev.text}</p>`).join('');
   } else if(cur.type==='wouldyourather'){
     const e=cur.data;
     t.textContent='Would You Rather — working';
     c.innerHTML=`<p style="font-size:0.88rem;margin-bottom:6px"><b>Option A:</b> ${e.optA}<br><span style="color:#3A9922">${e.workingA}</span></p>
       <p style="font-size:0.88rem;margin-bottom:6px"><b>Option B:</b> ${e.optB}<br><span style="color:#3A9922">${e.workingB}</span></p>
-      <p style="font-size:0.95rem;font-weight:800;color:#9B59B6;border-top:2px solid #EEE;padding-top:8px;margin-top:4px">${e.answer}</p>`;
+      <p style="font-size:0.95rem;font-weight:800;color:#E91E8C;border-top:2px solid #EEE;padding-top:8px;margin-top:4px">${e.answer}</p>`;
   } else if(cur.type==='literacy'){
     t.textContent='Literacy — Word of the Day + Spot the Mistake';
     c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Word of the Day: ${cur.dataA.word}</p>
@@ -2149,17 +2149,17 @@ function toggleSols(){
       <p style="font-size:0.9rem;line-height:1.8"><b>Synonyms:</b> ${cur.dataB.syns.join(', ')}<br><b>Antonyms:</b> ${cur.dataB.ants.join(', ')}</p>`;
   } else if(cur.type==='mathsreason'){
     t.textContent='Maths Reasoning — Magic Number + Would You Rather';
-    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Magic Number: <span style="font-size:1.6rem;color:#9B59B6">${cur.dataA.answer}</span></p>
+    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Magic Number: <span style="font-size:1.6rem;color:#E91E8C">${cur.dataA.answer}</span></p>
       <p style="font-size:0.88rem;margin-bottom:12px">Clues: ${cur.dataA.clues.join(' / ')}</p>
       <p style="font-weight:800;margin-bottom:4px">Would You Rather</p>
       <p style="font-size:0.88rem;margin-bottom:4px;line-height:1.8"><b>A:</b> ${cur.dataB.workingA}<br><b>B:</b> ${cur.dataB.workingB}</p>
-      <p style="font-size:0.95rem;font-weight:800;color:#9B59B6">${cur.dataB.answer}</p>`;
+      <p style="font-size:0.95rem;font-weight:800;color:#E91E8C">${cur.dataB.answer}</p>`;
   } else if(cur.type==='mathsshape'){
     t.textContent='Maths — Shape of the Day + Estimation';
     c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Shape: ${cur.dataA.name}</p>
       <p style="font-size:0.88rem;margin-bottom:12px;line-height:1.8">${cur.dataA.properties.map((p,i)=>cur.dataA.questions[i]+': '+p).join('<br>')}</p>
       <p style="font-weight:800;margin-bottom:4px">Estimation Answer</p>
-      <p style="font-size:0.95rem;font-weight:800;color:#9B59B6">${cur.dataB.answer}</p>
+      <p style="font-size:0.95rem;font-weight:800;color:#E91E8C">${cur.dataB.answer}</p>
       <p style="font-size:0.88rem">${cur.dataB.explanation}</p>`;
   } else if(cur.type==='humanities'){
     t.textContent='Humanities — Map Challenge + Timeline';
