@@ -906,26 +906,18 @@ const MAP_CHALLENGE=[
 // Each entry: events array (shuffled for display), events sorted for answer
 // ═══════════════════════════════════════════════════════════
 const TIMELINE_SETS=[
-  // ── ANGLO-SAXONS & VIKINGS (Y4 History core) ──────────────
-  {title:'Anglo-Saxon Britain',events:[{year:410,text:'Romans leave Britain — Anglo-Saxon tribes begin to settle'},{year:597,text:'St Augustine arrives — Christianity introduced to England'},{year:793,text:'Vikings raid Lindisfarne monastery — start of Viking Age in Britain'},{year:871,text:'Alfred the Great becomes King of Wessex'},{year:1066,text:'Battle of Hastings — Normans defeat Anglo-Saxons'}]},
-  {title:'The Viking Age in Britain',events:[{year:793,text:'First Viking raid on Lindisfarne'},{year:865,text:'The Great Heathen Army of Vikings invades Britain'},{year:878,text:'Alfred the Great defeats the Vikings at Battle of Edington'},{year:937,text:'Athelstan becomes first King of all England'},{year:1016,text:'Canute the Great — first Viking King of England'}]},
-  {title:'Saxon Kings',events:[{year:802,text:'Egbert — first recognised King of all England'},{year:871,text:'Alfred the Great begins his reign (871–899 AD)'},{year:899,text:'Death of Alfred the Great'},{year:954,text:'Eric Bloodaxe (last Viking King of York) defeated — England unified'},{year:1013,text:'King Ethelred the Unready flees to Normandy'}]},
-  {title:'Road to the Norman Conquest',events:[{year:1013,text:'Sweyn Forkbeard becomes King of England — briefly'},{year:1016,text:'Canute becomes King of England'},{year:1042,text:'Edward the Confessor becomes King of England'},{year:1065,text:'Westminster Abbey consecrated (built by Edward the Confessor)'},{year:1066,text:'Battle of Hastings — William the Conqueror defeats King Harold'}]},
-  // ── MAYAN CIVILISATION (Y4 History contrast unit) ─────────
-  {title:'The Maya Civilisation',events:[{year:-700,text:'The Maya develop one of the world\'s first writing systems'},{year:-400,text:'The Maya develop the concept of zero in mathematics'},{year:100,text:'First great Maya pyramids and cities are built'},{year:600,text:'Height of the Classic Maya period — magnificent cities flourish'},{year:900,text:'The Classic Maya period ends — many cities abandoned'}]},
-  {title:'Maya Achievements',events:[{year:-3114,text:'Start of the Maya Long Count calendar'},{year:-700,text:'Maya develop a hieroglyphic writing system (one of only five ever invented independently)'},{year:-400,text:'Maya concept of zero — centuries before Europe uses it'},{year:100,text:'Teotihuacan — one of the earliest great cities in the Americas — is built'},{year:683,text:'Death of Ahau Pacal Votan — great Maya ruler buried in his famous pyramid'}]},
-  // ── THE TUDORS & STUARTS (Y3 cross-link / general knowledge) ──
-  {title:'The Tudors',events:[{year:1485,text:'Henry VII — first Tudor king'},{year:1509,text:'Henry VIII becomes king'},{year:1533,text:'Henry VIII marries Anne Boleyn'},{year:1558,text:'Elizabeth I becomes queen'},{year:1603,text:'Death of Elizabeth I — end of Tudor period'}]},
-  {title:'The Tudors & Stuarts',events:[{year:1485,text:'Henry VII becomes first Tudor king'},{year:1534,text:'Henry VIII breaks with the Church of Rome'},{year:1588,text:'Spanish Armada defeated by England'},{year:1605,text:'Gunpowder Plot (Guy Fawkes)'},{year:1666,text:'Great Fire of London'}]},
-  // ── SCIENCE & INVENTION (general knowledge) ───────────────
-  {title:'Science & Invention',events:[{year:1608,text:'Telescope invented (Lippershey)'},{year:1687,text:'Newton publishes his laws of gravity and motion'},{year:1796,text:'Jenner develops smallpox vaccine'},{year:1879,text:'Edison invents practical electric light bulb'},{year:1928,text:'Fleming discovers penicillin'}]},
-  {title:'Inventions',events:[{year:1440,text:'Gutenberg invents the printing press'},{year:1769,text:'James Watt improves the steam engine'},{year:1876,text:'Alexander Graham Bell patents the telephone'},{year:1903,text:'First powered aeroplane flight (Wright Brothers)'},{year:1945,text:'First computer (ENIAC) built'}]},
-  // ── 20th CENTURY & MODERN (general knowledge) ─────────────
-  {title:'20th Century',events:[{year:1939,text:'World War Two begins'},{year:1945,text:'World War Two ends'},{year:1953,text:'Edmund Hillary and Tenzing Norgay reach the summit of Everest'},{year:1969,text:'Neil Armstrong walks on the Moon'},{year:1989,text:'Fall of the Berlin Wall'}]},
-  {title:'Modern World',events:[{year:1948,text:'NHS (National Health Service) founded in Britain'},{year:1957,text:'Sputnik — first artificial satellite launched'},{year:1990,text:'World Wide Web invented by Tim Berners-Lee'},{year:2004,text:'Facebook launched'},{year:2020,text:'COVID-19 pandemic begins'}]},
-  {title:'Space Race',events:[{year:1957,text:'Sputnik 1 — first satellite in space (USSR)'},{year:1961,text:'Yuri Gagarin — first human in space'},{year:1963,text:'Valentina Tereshkova — first woman in space'},{year:1969,text:'Apollo 11 — first Moon landing'},{year:1971,text:'First space station (Salyut 1) launched'}]},
-  {title:'Rights & Milestones',events:[{year:1807,text:'Slave trade abolished in the British Empire'},{year:1918,text:'Some women get the vote in Britain'},{year:1948,text:'Universal Declaration of Human Rights adopted by the UN'},{year:1948,text:'NHS founded — free healthcare for everyone in Britain'},{year:1969,text:'First humans walk on the Moon'}]},
-  {title:'19th & Early 20th Century',events:[{year:1805,text:'Battle of Trafalgar — Nelson defeats French and Spanish fleets'},{year:1863,text:'London Underground opens (first metro system in the world)'},{year:1903,text:'Wright Brothers make first powered flight'},{year:1912,text:'Titanic sinks'},{year:1914,text:'World War One begins'}]}
+  // ── CHANGES WITHIN LIVING MEMORY (Y1 History) ─────────────
+  {title:'Toys Through Time',events:[{year:1900,text:'Wooden toys and dolls are common'},{year:1950,text:'Plastic toys become popular'},{year:1980,text:'Electronic toys and video games arrive'},{year:2000,text:'Computers and internet games'},{year:2020,text:'Tablets and smartphones for games'}]},
+  {title:'Homes Long Ago',events:[{year:1900,text:'No electricity in most homes'},{year:1950,text:'Most homes have electricity'},{year:1980,text:'Computers start coming into homes'},{year:2000,text:'Internet connects homes'},{year:2020:text:'Smart homes with voice assistants'}]},
+  {title:'Transport Changes',events:[{year:1900,text:'Horses and early cars'},{year:1950,text:'More families own cars'},{year:1960,text:'Steam trains to diesel trains'},{year:2000,text:'Electric cars appear'},{year:2020,text:'Self-driving cars being tested'}]},
+  // ── SIGNIFICANT INDIVIDUALS (Y1 History) ──────────────────
+  {title:'Florence Nightingale',events:[{year:1820,text:'Florence Nightingale is born'},{year:1854,text:'Florence goes to Crimea to help soldiers'},{year:1855,text:'Florence improves hospital conditions'},{year:1860,text:'Florence starts a nursing school'},{year:1910,text:'Florence Nightingale dies'}]},
+  {title:'Mary Seacole',events:[{year:1805,text:'Mary Seacole is born in Jamaica'},{year:1854,text:'Mary goes to Crimea to help soldiers'},{year:1855,text:'Mary sets up the British Hotel'},{year:1856,text:'Mary returns to Britain'},{year:1881:text:'Mary Seacole dies'}]},
+  // ── EVENTS BEYOND LIVING MEMORY (Y1 History) ───────────────
+  {title:'Great Fire of London',events:[{year:1666,text:'Fire starts in a bakery on Pudding Lane'},{year:1666,text:'Fire spreads across London'},{year:1666,text:'Fire is put out after 4 days'},{year:1667,text:'London starts to rebuild'},{year:1675,text:'St Paul\'s Cathedral rebuilt'}]},
+  // ── GENERAL KNOWLEDGE (age-appropriate) ──────────────────
+  {title:'Space Exploration',events:[{year:1961,text:'First person goes to space'},{year:1969,text:'First person walks on the Moon'},{year:1990,text:'Hubble Space Telescope launched'},{year:2012,text:'Curiosity rover lands on Mars'},{year:2020,text:'New spacecraft sent to Mars'}]},
+  {title:'Communication',events:[{year:1876,text:'First telephone invented'},{year:1927,text:'First television broadcast'},{year:1990,text:'World Wide Web invented'},{year:2007,text:'First iPhone released'},{year:2020,text:'Video calls become normal'}]}
 ];
 
 // ═══════════════════════════════════════════════════════════
@@ -1014,12 +1006,20 @@ function getOOOSets(){
 // SEQUENCE GENERATOR
 // ═══════════════════════════════════════════════════════════
 function genSequences(){
+  // Y1-appropriate: numbers to 20, counting in 2s/5s/10s, simple doubling
   const types=[
-    ()=>{const s=rnd(2,8),m=rnd(2,4);return{nums:[s,s*m,s*m*m,s*m*m*m],next:s*m*m*m*m,rule:`× ${m}`}},
-    ()=>{const s=rnd(2,15),d=rnd(3,9);return{nums:[s,s+d,s+2*d,s+3*d],next:s+4*d,rule:`+ ${d}`}},
-    ()=>{const s=rnd(50,120),d=rnd(5,15);return{nums:[s,s-d,s-2*d,s-3*d],next:s-4*d,rule:`− ${d}`}},
-    ()=>{const s=rnd(1,4);const inc=rnd(2,4);return{nums:[s,s+inc,s+inc+(inc+2),s+inc+(inc+2)+(inc+4)],next:s+inc+(inc+2)+(inc+4)+(inc+6),rule:`add increasing amounts`}},
-    ()=>{const b=rnd(2,5);const ns=[b*b,(b+1)*(b+1),(b+2)*(b+2),(b+3)*(b+3)];return{nums:ns,next:(b+4)*(b+4),rule:`square numbers`}},
+    // Counting in 2s (stays within 20)
+    ()=>{const s=rnd(0,2)*2;return{nums:[s,s+2,s+4,s+6],next:s+8,rule:`count in 2s`}},
+    // Counting in 5s (stays within 20)
+    ()=>{return{nums:[0,5,10,15],next:20,rule:`count in 5s`}},
+    // Counting in 10s (stays within 20)
+    ()=>{return{nums:[0,10,20,30],next:40,rule:`count in 10s`}},
+    // One more pattern (within 20)
+    ()=>{const s=rnd(0,12);return{nums:[s,s+1,s+2,s+3],next:s+4,rule:`one more`}},
+    // Two more pattern (within 20)
+    ()=>{const s=rnd(0,8);return{nums:[s,s+2,s+4,s+6],next:s+8,rule:`two more`}},
+    // Simple doubling (within 10)
+    ()=>{const s=rnd(1,4);return{nums:[s,s+s,s+s+s,s+s+s+s],next:s*5,rule:`doubling`}},
   ];
   const used=new Set();const seqs=[];
   while(seqs.length<3){const i=Math.floor(Math.random()*types.length);if(used.has(i))continue;used.add(i);seqs.push(types[i]())}
