@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Year 1 Beech — Morning Learning</title>
+<title>Year 1 & 2 — Morning Learning</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23e67e22'/%3E%3Crect x='6' y='8' width='20' height='16' rx='2' fill='white'/%3E%3Crect x='8' y='4' width='16' height='4' rx='1' fill='%23d35400'/%3E%3C/svg%3E">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'Nunito',sans-serif}
@@ -230,6 +230,154 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
 .tt-add-form input{width:100%;padding:6px 9px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.85rem;margin-bottom:6px}
 .tt-lie-label{display:flex;align-items:center;gap:6px;font-size:0.8rem;font-weight:700;color:#666;margin-bottom:6px}
 .tt-lie-label select{padding:4px 7px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.82rem}
+
+/* Grapheme picker (Sound it Out filter) */
+.gp-section{margin-bottom:14px}
+.gp-section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:10px}
+.gp-section-title{font-weight:800;font-size:0.9rem;color:#444}
+.gp-quick{padding:3px 11px;border:1.5px solid #999;border-radius:14px;background:#fff;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.78rem;cursor:pointer;color:#444;flex-shrink:0}
+.gp-quick:hover{background:#eee}
+.gp-pills{display:flex;flex-wrap:wrap;gap:5px}
+.gp-pill{padding:5px 13px;border:2px solid #ccc;border-radius:14px;background:#fff;font-family:'Fredoka One',cursive;font-weight:400;font-size:0.95rem;cursor:pointer;color:#999;letter-spacing:0.02em;transition:all 0.12s;min-width:2em;text-align:center}
+.gp-pill:hover{border-color:#e67e22;color:#e67e22}
+.gp-pill.selected{background:#e67e22;border-color:#c66610;color:#fff;box-shadow:0 2px 0 #c66610}
+.gp-summary{font-size:0.78rem;color:#888;font-weight:700;margin-top:4px}
+.gp-mode{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.gp-mode-btn{padding:6px 16px;border:2px solid #ccc;border-radius:14px;background:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.85rem;cursor:pointer;color:#666;transition:all 0.12s}
+.gp-mode-btn:hover{border-color:#e67e22;color:#e67e22}
+.gp-mode-btn.active{background:#e67e22;border-color:#c66610;color:#fff;box-shadow:0 2px 0 #c66610}
+.gp-mode-btn.alien.active{background:#7B3F9E;border-color:#5A2D77;box-shadow:0 2px 0 #5A2D77}
+.gp-mode-btn.alien:hover{border-color:#7B3F9E;color:#7B3F9E}
+.gp-mode-btn.mixed.active{background:#1798d3;border-color:#0d6e9b;box-shadow:0 2px 0 #0d6e9b}
+.gp-mode-btn.mixed:hover{border-color:#1798d3;color:#1798d3}
+
+/* Alien card variant — purple accents */
+.y1cd-pb-card.alien{border-color:#9B59B6;box-shadow:0 3px 0 #6C3483,0 6px 14px rgba(0,0,0,0.06);background:linear-gradient(135deg,#F5EAF8 0%,#FCFAFF 100%)}
+.y1cd-pb-card.alien .y1cd-pb-focus-badge{background:#9B59B6;box-shadow:0 2px 0 #6C3483}
+
+/* SUBITISE */
+.sub-card{background:#FFF8EC;border:5px solid #e67e22;border-radius:18px;padding:2vh 3vw;display:flex;flex-direction:column;align-items:center;gap:1.2vh;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+.sub-svg{width:clamp(220px,42vh,420px);height:clamp(220px,42vh,420px)}
+.sub-q{font-size:clamp(1.6rem,4.5vh,3rem);font-weight:900;color:#111;text-align:center}
+.sub-reveal{font-size:clamp(3rem,9vh,6rem);font-weight:900;color:#e67e22;text-align:center;background:#FFF;border:4px dashed #e67e22;border-radius:14px;padding:0.3em 0.8em;display:none}
+.sub-reveal.show{display:block}
+.sub-btn{background:#e67e22;color:#fff;border:none;border-radius:8px;padding:0.4em 1.4em;font-family:'Nunito',sans-serif;font-size:clamp(1rem,2.4vh,1.5rem);font-weight:800;cursor:pointer}
+.sub-btn:hover{background:#c66610}
+
+/* PHONICS BLEND */
+.pb-card{display:flex;flex-direction:column;align-items:center;gap:1.4vh;padding:1.5vh 3vw}
+.pb-title{font-size:clamp(1.1rem,2.6vh,1.6rem);font-weight:800;color:#888;text-transform:uppercase;letter-spacing:0.1em}
+.pb-sounds{display:flex;align-items:center;gap:clamp(8px,1.8vw,28px);justify-content:center;flex-wrap:wrap}
+.pb-sound{background:#FFF8EC;border:4px solid #e67e22;border-radius:14px;padding:0.4em 0.8em;font-size:clamp(2.2rem,7vh,5rem);font-weight:900;color:#111;font-family:'Nunito',sans-serif;min-width:1.4em;text-align:center}
+.pb-arrow{font-size:clamp(2rem,5vh,3rem);color:#e67e22;font-weight:900}
+.pb-blend{font-size:clamp(2.6rem,8vh,5.5rem);font-weight:900;color:#e67e22;background:#FFF;border:4px dashed #e67e22;border-radius:14px;padding:0.15em 0.6em;display:none;letter-spacing:0.05em}
+.pb-blend.show{display:block}
+.pb-hint{font-size:clamp(1rem,2.5vh,1.6rem);color:#666;font-style:italic;text-align:center}
+
+/* RHYME */
+.rh-card{display:flex;flex-direction:column;align-items:center;gap:1.5vh;padding:1.5vh 3vw}
+.rh-title{font-size:clamp(1.1rem,2.6vh,1.6rem);font-weight:800;color:#888;text-transform:uppercase;letter-spacing:0.1em}
+.rh-q{font-size:clamp(1.4rem,3.5vh,2.4rem);color:#111;font-weight:700;text-align:center}
+.rh-target{font-size:clamp(2.8rem,8vh,5rem);font-weight:900;color:#e67e22;background:#FFF8EC;border:4px solid #e67e22;border-radius:14px;padding:0.15em 0.7em}
+.rh-options{display:grid;grid-template-columns:1fr 1fr;gap:1.5vh 2vw;width:80%;max-width:600px}
+.rh-opt{background:#FFF;border:3px solid #DDD;border-radius:12px;padding:0.5em 0.8em;font-size:clamp(1.5rem,4vh,2.6rem);font-weight:800;color:#111;text-align:center;transition:all 0.2s}
+.rh-opt.correct{background:#DEF5E0;border-color:#3A9922;color:#145A32}
+.rh-opt.correct::after{content:' ✓';color:#3A9922;font-weight:900}
+
+/* CLOCK */
+.ck-card{display:flex;flex-direction:column;align-items:center;gap:1.4vh;padding:1.5vh 2vw}
+.ck-title{font-size:clamp(1.1rem,2.6vh,1.6rem);font-weight:800;color:#888;text-transform:uppercase;letter-spacing:0.1em}
+.ck-svg{width:clamp(220px,40vh,380px);height:clamp(220px,40vh,380px)}
+.ck-q{font-size:clamp(1.3rem,3.4vh,2.2rem);font-weight:800;color:#111;text-align:center}
+.ck-reveal{font-size:clamp(2rem,5.5vh,3.6rem);font-weight:900;color:#e67e22;background:#FFF;border:4px dashed #e67e22;border-radius:14px;padding:0.2em 0.7em;display:none;text-transform:lowercase}
+.ck-reveal.show{display:block}
+
+/* Y1/Y2 DENSE COMBINED — 6 subitise + 6 phonics + 3 rhymes + 4 clocks per panel */
+/* Subitise: 3×2 grid of mini cards */
+.y1cd-sub-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:0.7vh 0.7vw;width:100%;flex:1;min-height:0;padding:0.2vh}
+.y1cd-sub-card{background:linear-gradient(135deg,#FFF8EC 0%,#FFFCF5 100%);border:3px solid #F4A935;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0.3vh 0.4vw;gap:0.5vh;min-height:0;overflow:hidden;box-shadow:0 3px 0 #D4881A,0 6px 14px rgba(0,0,0,0.06)}
+.y1cd-sub-card svg{height:clamp(60px,11vh,120px);width:auto;display:block;max-width:95%}
+.y1cd-sub-ans{font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,2.8vh,1.9rem);background:#fff;border:3px solid #ccc;border-radius:8px;padding:0.05em 0.7em;color:transparent;min-width:1.6em;text-align:center;line-height:1.1;letter-spacing:0.02em;transition:all 0.15s}
+.cpanel.revealed .y1cd-sub-ans{color:#e67e22;border-color:#e67e22;background:#FFF8EC;box-shadow:0 2px 0 #c66610}
+
+/* Phonics: 2×3 word cards — chunky word + focus grapheme chip + character (matches the alien-word tool look) */
+.y1cd-pb-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:0.7vh 0.7vw;width:100%;flex:1;min-height:0;padding:0.2vh}
+.y1cd-pb-card{position:relative;background:linear-gradient(135deg,#FFF8EC 0%,#FFFCF5 100%);border:3px solid #F4A935;border-radius:14px;display:flex;align-items:center;justify-content:space-between;padding:2.6vh 1vw 0.6vh 1.2vw;gap:0.6vw;min-height:0;overflow:hidden;box-shadow:0 3px 0 #D4881A,0 6px 14px rgba(0,0,0,0.06)}
+.y1cd-pb-focus-badge{position:absolute;top:6px;left:6px;background:#e67e22;color:#fff;font-family:'Fredoka One',cursive;font-size:clamp(0.7rem,1.6vh,1.05rem);padding:0.12em 0.7em;border-radius:999px;box-shadow:0 2px 0 #c66610;letter-spacing:0.02em;line-height:1.2;z-index:2;display:inline-flex;align-items:center;gap:0.3em}
+.y1cd-pb-word{font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,4.8vh,2.8rem);color:#1a1a1a;letter-spacing:0.02em;line-height:1;flex:1;text-align:left;padding-left:0.4em}
+.y1cd-pb-char{font-size:clamp(1.6rem,4.5vh,2.6rem);flex-shrink:0;line-height:1}
+
+/* Rhyme: 3 chunky stacked rows */
+.y1cd-rh-list{display:flex;flex-direction:column;gap:0.7vh;width:100%;flex:1;justify-content:space-around;padding:0.4vh 0.6vw;min-height:0}
+.y1cd-rh-row{display:flex;align-items:center;gap:0.8vw;flex-wrap:wrap}
+.y1cd-rh-target{font-family:'Fredoka One',cursive;font-size:clamp(1.2rem,3vh,1.95rem);color:#1a1a1a;background:#FFF8EC;border:3px solid #e67e22;border-radius:10px;padding:0.1em 0.7em;flex-shrink:0;text-align:center;min-width:3em;box-shadow:0 2px 0 #c66610;letter-spacing:0.02em;line-height:1.15}
+.y1cd-rh-arrow{color:#999;font-weight:900;flex-shrink:0;font-size:clamp(1rem,2.5vh,1.5rem);font-family:'Nunito',sans-serif}
+.y1cd-rh-opts{display:flex;gap:7px;flex-wrap:wrap;flex:1}
+.y1cd-rh-opt{font-family:'Fredoka One',cursive;background:#FFF;border:2.5px solid #DDD;border-radius:8px;padding:0.1em 0.55em;font-size:clamp(1rem,2.4vh,1.55rem);color:#1a1a1a;letter-spacing:0.02em;line-height:1.15;transition:all 0.15s}
+.cpanel.revealed .y1cd-rh-opt.correct{background:#DEF5E0;border-color:#3A9922;color:#145A32;box-shadow:0 2px 0 #2A7818}
+
+/* Clock: 2×2 grid, bigger clocks */
+.y1cd-ck-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:0.5vh 0.7vw;width:100%;flex:1;min-height:0;padding:0.2vh}
+.y1cd-ck-card{background:linear-gradient(135deg,#FFF8EC 0%,#FFFCF5 100%);border:3px solid #F4A935;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4vh;padding:0.3vh 0.3vw;min-height:0;overflow:hidden;box-shadow:0 3px 0 #D4881A,0 6px 14px rgba(0,0,0,0.06)}
+.y1cd-ck-card svg{height:clamp(75px,13vh,140px);width:auto;display:block;max-width:95%}
+.y1cd-ck-ans{font-family:'Fredoka One',cursive;font-size:clamp(0.95rem,2.3vh,1.5rem);background:#fff;border:2.5px solid #ccc;border-radius:8px;padding:0.05em 0.75em;color:transparent;text-align:center;line-height:1.15;text-transform:lowercase;letter-spacing:0.02em;transition:all 0.15s}
+.cpanel.revealed .y1cd-ck-ans{color:#e67e22;border-color:#e67e22;background:#FFF8EC;box-shadow:0 2px 0 #c66610}
+
+/* Reveal toggle for cpanels (now using opacity transitions for SVG shadows) */
+
+/* Y1 MATHS DENSE — Bonds + Doubles + 5-and-a-Bit + Odd/Even (2×2) */
+.y1m-list{display:flex;flex-direction:column;gap:0.6vh;width:100%;flex:1;justify-content:space-around;padding:0.4vh 0.5vw;min-height:0}
+.y1m-row{display:flex;align-items:center;justify-content:center;gap:0.5vw;flex-wrap:wrap}
+.y1m-tile{font-family:'Fredoka One',cursive;background:#fff;border:2.5px solid #e67e22;border-radius:7px;padding:0.05em 0.45em;font-size:clamp(1.1rem,2.7vh,1.85rem);color:#1a1a1a;line-height:1.1;letter-spacing:0.02em;box-shadow:0 2px 0 #c66610;min-width:1.4em;text-align:center}
+.y1m-tile-q{color:transparent;border-style:dashed;border-color:#ccc;box-shadow:none;background:#FAFAFA;transition:all 0.15s}
+.cpanel.revealed .y1m-tile-q{color:#e67e22;border-style:solid;border-color:#e67e22;box-shadow:0 2px 0 #c66610;background:#FFF8EC}
+.y1m-tile-total{background:#FFF8EC;color:#e67e22;border-color:#e67e22}
+.y1m-op{font-family:'Nunito',sans-serif;font-weight:900;font-size:clamp(0.95rem,2.4vh,1.55rem);color:#888;flex-shrink:0}
+.y1m-text{font-family:'Fredoka One',cursive;font-size:clamp(1rem,2.4vh,1.5rem);color:#444;line-height:1.1;flex-shrink:0}
+/* 5 and a Bit ten-frame (compact) */
+.y1m-fab{display:flex;align-items:center;justify-content:center;gap:0.7vw;flex-wrap:wrap}
+.y1m-fab-frame{display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:1fr 1fr;gap:2px;flex-shrink:0}
+.y1m-fab-cell{width:clamp(14px,2.4vh,22px);height:clamp(14px,2.4vh,22px);border:1.5px solid #555;border-radius:3px;background:#fff}
+.y1m-fab-cell.five{background:#1798d3;border-color:#1280b3}
+.y1m-fab-cell.bit{background:#F4A935;border-color:#D4881A}
+.y1m-fab-eq{display:flex;align-items:center;gap:0.4vw;flex-shrink:0}
+/* Odd/Even pair dots */
+.y1m-oe{display:flex;align-items:center;justify-content:center;gap:0.7vw;flex-wrap:wrap}
+.y1m-oe-dots{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.y1m-oe-pair{display:flex;gap:2px}
+.y1m-oe-dot{width:clamp(10px,2vh,16px);height:clamp(10px,2vh,16px);border-radius:50%;background:#1798d3;border:1.5px solid #0d6e9b}
+.y1m-oe-dot.lone{background:#F4A935;border-color:#D4881A}
+.y1m-oe-num{font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,2.7vh,1.7rem);color:#1a1a1a;line-height:1.1;flex-shrink:0;min-width:1.2em;text-align:center}
+.y1m-oe-tile{font-family:'Fredoka One',cursive;background:#fff;border:2.5px solid #ccc;border-style:dashed;border-radius:7px;padding:0.05em 0.55em;font-size:clamp(0.95rem,2.3vh,1.45rem);color:transparent;line-height:1.1;text-transform:lowercase;letter-spacing:0.02em;background:#FAFAFA;min-width:3em;text-align:center;transition:all 0.15s}
+.cpanel.revealed .y1m-oe-tile{color:#e67e22;border-color:#e67e22;border-style:solid;background:#FFF8EC;box-shadow:0 2px 0 #c66610}
+
+
+#combined-panel.dense2{grid-template-rows:1fr}
+#combined-panel.dense2 .cpanel{border-bottom:none}
+#combined-panel.dense2 .cpanel:first-child{border-right:2.5px solid #EEE}
+#combined-panel.dense2 .cpanel:last-child{border-right:none}
+.y1lit-list{display:flex;flex-direction:column;gap:0.8vh;width:100%;flex:1;justify-content:space-around;padding:0.5vh 0.7vw;min-height:0;overflow:hidden}
+.y1lit-wod{background:linear-gradient(135deg,#FFF8EC 0%,#FFFCF5 100%);border:3px solid #F4A935;border-radius:12px;padding:0.7vh 1vw;display:flex;flex-direction:column;gap:0.5vh;flex:1;justify-content:center;min-height:0;box-shadow:0 3px 0 #D4881A,0 6px 14px rgba(0,0,0,0.06)}
+.y1lit-wod-head{display:flex;align-items:baseline;gap:0.7vw;flex-wrap:wrap}
+.y1lit-wod-word{font-family:'Fredoka One',cursive;font-size:clamp(1.7rem,4.2vh,2.9rem);color:#e67e22;line-height:1.05;letter-spacing:0.02em}
+.y1lit-wod-class{font-size:clamp(0.85rem,1.9vh,1.25rem);font-style:italic;color:#888;font-weight:700}
+.y1lit-wod-def{font-size:clamp(1rem,2.4vh,1.45rem);color:transparent;font-weight:600;line-height:1.3;border-bottom:2.5px dashed #ccc;padding-bottom:0.15em;transition:all 0.15s}
+.y1lit-wod-eg{font-size:clamp(0.9rem,2.1vh,1.3rem);color:transparent;font-weight:600;font-style:italic;line-height:1.3;border-bottom:2.5px dashed #ccc;padding-bottom:0.15em;transition:all 0.15s}
+.cpanel.revealed .y1lit-wod-def{color:#111;border-bottom-color:#e67e22}
+.cpanel.revealed .y1lit-wod-eg{color:#666;border-bottom-color:#e67e22}
+.y1lit-stm{background:#FFF;border:3px solid #DDD;border-radius:12px;padding:0.7vh 1vw;display:flex;flex-direction:column;gap:0.4vh;flex:1;justify-content:center;min-height:0;box-shadow:0 3px 0 #BBB,0 6px 14px rgba(0,0,0,0.06)}
+.y1lit-stm-head{display:flex;align-items:center;gap:0.7vw;flex-wrap:wrap}
+.y1lit-stm-badge{font-family:'Fredoka One',cursive;background:#FFF8EC;border:2.5px solid #e67e22;border-radius:8px;padding:0.05em 0.55em;font-size:clamp(0.85rem,2vh,1.25rem);color:#e67e22;line-height:1.15;letter-spacing:0.02em;box-shadow:0 2px 0 #c66610;flex-shrink:0}
+.y1lit-stm-para{font-size:clamp(1.05rem,2.6vh,1.65rem);font-weight:700;color:#111;line-height:1.35}
+.y1lit-stm-fix{font-size:clamp(0.9rem,2.05vh,1.25rem);color:transparent;font-weight:700;line-height:1.4;border-top:2.5px dashed #ccc;padding-top:0.4vh;transition:all 0.15s}
+.y1lit-stm-fix mark,.y1lit-stm-fix del{background:transparent;color:transparent;padding:0 4px;border-radius:4px;text-decoration:none}
+.cpanel.revealed .y1lit-stm-fix{color:#145A32;border-top-color:#3A9922}
+.cpanel.revealed .y1lit-stm-fix mark{background:#DDFFDD;color:#145A32}
+.cpanel.revealed .y1lit-stm-fix del{background:#FFDDDD;color:#900;text-decoration:line-through}
+
+/* Instruction prompt at top of literacy panels */
+.y1lit-instr{font-size:clamp(0.78rem,1.75vh,1.1rem);color:#666;font-weight:700;text-align:center;padding:0.4vh 0.6vw 0.2vh;font-style:italic;flex-shrink:0;line-height:1.3}
+.y1lit-instr strong{color:#e67e22;font-style:normal}
 </style>
 </head>
 <body>
@@ -333,6 +481,16 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
     <p style="font-size:0.82rem;color:#666;margin-bottom:10px">Tomato Pasta, Jacket Potato and Packed Lunch are fixed.</p>
     <div id="menu-form"></div>
 
+    <h3 style="margin-top:1.5rem">Phonics Focus — Sound it Out</h3>
+    <p style="font-size:0.82rem;color:#666;margin-bottom:10px">Choose word type and tick which graphemes children should practise. Tick none to use all sounds.</p>
+    <div class="gp-mode" id="gp-mode-row">
+      <button class="gp-mode-btn" data-mode="real" onclick="setPhonicsMode('real')">Real words</button>
+      <button class="gp-mode-btn alien" data-mode="alien" onclick="setPhonicsMode('alien')">👾 Alien words</button>
+      <button class="gp-mode-btn mixed" data-mode="mixed" onclick="setPhonicsMode('mixed')">Mixed</button>
+    </div>
+    <div id="gp-picker"></div>
+    <div class="gp-summary" id="gp-summary"></div>
+
     <h3 style="margin-top:1.5rem">Two Truths &amp; a Lie — question bank</h3>
     <p style="font-size:0.82rem;color:#666;margin-bottom:10px">Add your own sets. The game picks randomly from this bank. Mark which statement is the lie — the lie is shown in solutions but not to pupils.</p>
     <div id="tt-bank-list"></div>
@@ -399,95 +557,19 @@ const MONTHS=['January','February','March','April','May','June','July','August',
 // BOGGLE BANK
 // ═══════════════════════════════════════════════════════════
 const BOGGLE=[
-  {w:'ADVENTURE',s:['an','at','ant','are','art','ate','ear','eat','end','era','eve','net','nut','ran','rat','red','run','rut','tan','tar','tea','ten','van','aunt','dare','dart','date','dear','deer','dent','dune','earn','even','ever','neat','need','rate','read','reed','rent','tear','tend','tree','true','tune','turn','vane','enter','event','nerve','never','rated','trade','tread','trend','under','advert','avenue','earned','nature','tender','turned','venture','veteran']},
-  {w:'AFTERNOON',s:['an','at','no','of','on','or','to','ant','are','art','ate','ear','eat','era','fan','fat','for','net','nor','not','one','ran','rat','rot','tan','tar','tea','ten','toe','ton','earn','fare','fate','fear','feat','fern','foot','fort','neat','none','noon','note','rate','rent','roof','tear','tore','torn','after','front','often']},
-  {w:'ALONGSIDE',s:['an','as','do','go','in','is','no','on','so','age','ago','aid','ale','dig','dog','ego','end','gas','gel','gin','god','ion','lag','led','leg','lid','log','nag','nod','oil','old','one','sad','sag','sea','sin','son','also','dale','deal','dial','dine','done','gain','gale','gild','glad','glen','goal','gold','gone','idea','idle','land','lane','lead','lean','lend','line','lion','load','loan','lone','long','lose','nail','node','nose','sage','sail','sale','sand','sane','sang','seal','side','sign','sing','slid','soil','sold','sole','song','agile','alien','align','alone','along','angel','angle','aside','deals','doing','gland','goals','ideas','laden','lands','lanes','leads','lines','lions','loads','loans','lodge','nails','nodes','noise','oiled','salon','slide','solid','angels','denial','design','gained','golden','island','ladies','losing','signal','signed','single','dealing','leading','loading','dealings','diagnose','gasoline','sidelong']},
-  {w:'ANSWERING',s:['an','as','in','is','we','age','air','are','ear','era','gas','gin','inn','nag','rag','ran','raw','rig','sag','saw','sea','sew','sin','sir','wag','war','was','wig','win','earn','gain','gear','grew','grin','news','nine','rage','rain','rang','rein','ring','rise','sage','sane','sang','sign','sing','swan','wage','warn','wean','wine','wing','wire','wise','wren','anger','arise','inner','raise','range','reign','resin','rings','risen','siren','swear','swing','wages','wines','wings','wires','answer','awning','ranges','sewing','singer','winner','earning','warning','wearing','winners','earnings','grannies','swearing','warnings']},
-  {w:'BEAUTIFUL',s:['at','be','if','it','ale','ate','bat','bet','bit','but','eat','elf','fat','fit','let','lit','tab','tea','tie','tub','able','beat','belt','bite','blue','fail','fate','feat','felt','file','flat','fuel','late','leaf','left','life','lift','tail','tale','tube','built','table']},
-  {w:'BEGINNING',s:['be','in','beg','big','egg','gin','inn','nine','begin','being']},
-  {w:'BELIEVING',s:['be','in','beg','big','eve','gel','gin','leg','been','even','evil','glee','glen','line','live','veil','vein','vine','begin','being','given','living']},
-  {w:'BREAKFAST',s:['as','at','be','are','ark','art','ask','ate','bar','bat','bet','ear','eat','era','fat','rat','sat','sea','set','tab','tar','tea','area','bake','bare','bark','base','beak','bear','beat','best','east','fare','fast','fate','fear','feat','rake','rate','rest','safe','sake','star','task','tear','after','break','feast','safer','stark','tears']},
-  {w:'BREATHING',s:['an','at','be','he','hi','in','it','age','air','ant','are','art','ate','bag','ban','bar','bat','beg','bet','big','bit','ear','eat','era','gin','hat','hen','her','hit','nag','net','rag','ran','rat','rig','tab','tan','tar','tea','ten','tie','tin','bang','bare','barn','bath','bean','bear','beat','bite','earn','gain','gate','gear','grab','grin','hair','hang','hare','hear','heat','herb','hint','hire','neat','rage','rain','rang','rate','rein','rent','ring','tear','than','then','thin','anger','began','begin','being','brain','bring','earth','eight','giant','grant','great','habit','heart','hinge','night','range','reign','right','thing','tiger','train','tribe','breath','bright','eating','gather','hearing']},
-  {w:'BUTTERFLY',s:['be','by','bet','but','elf','fly','fry','fur','let','rub','rut','try','tub','belt','blue','felt','fuel','left','rely','rule','true','tube','turf','butter']},
-  {w:'CAREFULLY',s:['ace','ale','arc','are','aye','car','cry','ear','elf','era','fly','fry','fur','lay','ray','call','care','cell','clay','cure','curl','face','fall','fare','fear','fell','fuel','full','lace','leaf','real','rely','rule','year','yell','alley','clear','cruel','early','fully','relay']},
-  {w:'CELEBRATE',s:['at','be','ace','ale','arc','are','art','ate','bar','bat','bet','cab','car','cat','ear','eat','era','let','rat','tab','tar','tea','able','bare','bear','beat','belt','care','lace','late','rate','real','reel','tale','tear','tree','alert','clear','rebel','table','trace','create']},
-  {w:'CHALLENGE',s:['an','he','ace','age','ale','can','gel','hen','lag','leg','nag','ache','cage','call','cane','cell','each','gale','glee','glen','hall','hang','heal','heel','lace','lane','lean','angel','angle','clean','eagle','legal','change']},
-  {w:'CHOCOLATE',s:['at','he','oh','to','ace','ale','ate','cat','cot','eat','hat','hot','let','lot','tea','toe','ache','coal','coat','cool','each','halt','heal','heat','hole','lace','late','tale','tool','catch','cloth','coach','hotel','teach']},
-  {w:'CLASSICAL',s:['as','is','ill','call','sail','class']},
-  {w:'CLASSROOM',s:['am','as','or','so','arc','arm','car','ram','also','calm','coal','cool','loss','roam','room','slam','class','coral','cross','moral']},
-  {w:'COLLECTED',s:['do','to','cod','cot','dot','led','let','lot','old','toe','cell','code','cold','dell','tell','told','toll']},
-  {w:'COLOURFUL',s:['of','or','for','fur','our','cool','curl','foul','full','roll','roof','floor','flour','colour']},
-  {w:'COMMUNITY',s:['in','it','my','no','on','to','cot','cut','ion','not','nut','out','tin','ton','toy','you','into','mint','unit','count','mount']},
-  {w:'COMPLETED',s:['do','me','to','cod','cot','dot','elm','led','let','lot','met','mop','old','pet','pod','pot','toe','top','code','cold','come','cope','deep','dome','meet','melt','mode','mole','peel','plot','pole','told','model']},
-  {w:'COMPUTING',s:['go','in','it','no','on','to','up','cot','cup','cut','gin','got','gum','gun','gut','ion','mop','mug','nip','not','nut','out','pig','pin','pit','pot','pun','put','tin','tip','ton','top','tug','into','mint','unit','upon','count','mount','point']},
-  {w:'CONNECTED',s:['do','no','on','to','cod','cot','dot','end','net','nod','not','one','ten','toe','ton','cent','code','cone','dent','done','need','node','none','note','once','tend','noted','connect']},
-  {w:'CONTINUED',s:['do','in','it','no','on','to','cod','cot','cut','dot','end','ice','inn','ion','net','nod','not','nun','nut','one','out','ten','tie','tin','toe','ton','cent','code','cone','dent','dice','diet','dine','done','dune','into','nice','nine','node','none','note','once','tend','tide','tune','unit','count','noted','union','notice','noticed']},
-  {w:'CREATURES',s:['as','at','us','ace','arc','are','art','ate','car','cat','cut','ear','eat','era','rat','rut','sat','sea','set','tar','tea','use','care','case','cast','cure','east','rate','rest','star','sure','tear','tree','true','acute','cause','cease','scare','steer','tears','trace','career','create','treasure']},
-  {w:'DANGEROUS',s:['an','as','do','go','no','on','or','so','us','age','ago','are','dog','dug','ear','ego','end','era','gas','god','gun','nag','nod','nor','one','our','rag','ran','red','rod','rug','run','sad','sag','sea','son','sun','use','dare','dear','done','drag','dune','earn','gear','gone','node','nose','rage','rang','read','road','rode','rose','sage','sand','sane','sang','song','sore','sour','sung','sure','used','anger','grade','grand','groan','nodes','nurse','organ','range','round','sugar','surge','under','usage','around','danger','dragon','garden','orange','ranges','reason','gardens']},
-  {w:'DEPARTURE',s:['at','up','ape','are','art','ate','ear','eat','era','pad','pat','pea','pet','put','rap','rat','red','rut','tap','tar','tea','dare','dart','date','dear','deep','deer','part','pure','rate','read','reap','reed','tape','tear','trap','tree','true','rated','trade','tread']},
-  {w:'DIFFERENT',s:['if','in','it','end','fin','fit','net','red','ten','tie','tin','deer','dent','diet','dine','dirt','feet','fern','find','fine','fire','free','need','reed','rein','rent','ride','tend','tide','tree','drift','enter','tired','trend','tried','define','differ','entire','tender']},
-  {w:'DIRECTION',s:['do','in','it','no','on','or','to','cod','cot','dot','end','ice','ion','net','nod','nor','not','one','red','rod','rot','ten','tie','tin','toe','ton','cent','code','cone','cord','core','corn','dent','dice','diet','dine','dirt','done','into','nice','node','note','once','rein','rent','rice','ride','rode','tend','tide','tore','torn','trod','noted','tired','trend','tried','credit','direct','notice','noticed']},
-  {w:'DISCOVERY',s:['do','is','or','so','cod','cry','dye','ice','ivy','red','rod','sir','code','cord','core','cosy','dice','dove','over','rice','ride','rise','rode','rose','side','sore','very','void','cover','drive','drove','score','video','voice']},
-  {w:'EDUCATION',s:['an','at','do','in','it','no','on','to','ace','aid','ant','ate','can','cat','cod','cot','cut','dot','eat','end','ice','ion','net','nod','not','nut','one','out','tan','tea','ten','tie','tin','toe','ton','aunt','cane','cent','coat','code','cone','date','dent','dice','diet','dine','done','dune','idea','into','neat','nice','node','note','once','tend','tide','toad','tune','unit','acute','count','dance','noted','ocean','notice','noticed']},
-  {w:'EMERGENCY',s:['me','my','cry','gem','men','grey','enemy','green','mercy']},
-  {w:'EVERYBODY',s:['be','by','do','or','bed','boy','dye','eve','red','rob','rod','body','bore','deer','dove','ever','over','reed','robe','rode','very','drove','every']},
-  {w:'EXCELLENT',s:['let','net','ten','cell','cent','tell']},
-  {w:'EXPLAINED',s:['an','in','aid','ale','ape','axe','dip','end','lap','led','lid','lip','nap','nip','pad','pan','pea','pen','pie','pin','dale','deal','deep','dial','dine','idea','idle','land','lane','lead','lean','leap','lend','line','nail','need','pain','pale','peel','pile','pine','plan','alien','laden','plain','plane','denial','explain']},
-  {w:'EXPLORING',s:['go','in','no','on','or','ox','ego','gel','gin','ion','leg','lip','log','nip','nor','oil','one','peg','pen','pie','pig','pin','rig','rip','glen','gone','grin','grip','line','lion','lone','long','open','pile','pine','pole','rein','ring','role','rope','reign','region']},
-  {w:'FAVOURITE',s:['at','if','it','of','or','to','air','are','art','ate','ear','eat','era','fat','fit','for','fur','our','out','rat','rot','rut','tar','tea','tie','toe','via','fair','fare','fate','fear','feat','fire','fort','over','rate','tear','tore','true','turf','after','fruit','outer','route','voter']},
-  {w:'FOLLOWING',s:['go','if','in','no','of','on','fig','fin','fog','gin','ill','ion','log','low','now','oil','owl','own','wig','win','won','woo','fill','flow','glow','golf','gown','lion','long','will','wing','wolf','wool']},
-  {w:'FORGOTTEN',s:['go','no','of','on','or','to','ego','fog','for','got','net','nor','not','one','rot','ten','toe','ton','fern','foot','fort','gone','note','rent','roof','tent','tore','torn','front','often']},
-  {w:'GEOGRAPHY',s:['go','he','oh','or','age','ago','ape','are','aye','ear','egg','ego','era','gap','hay','her','hog','hop','pay','pea','peg','rag','rap','ray','gear','grey','hare','harp','heap','hear','hope','page','prey','rage','reap','rope','year','grape','opera']},
-  {w:'GRADUALLY',s:['dug','guy','lag','lay','rag','ray','rug','drag','dull','glad','yard']},
-  {w:'HALLOWEEN',s:['an','he','no','oh','on','we','ale','hen','how','low','now','one','owe','owl','own','woe','won','hall','heal','heel','hole','lane','lean','loan','lone','wall','wean','well','when','allow','alone','hello','whale','wheel','whole']},
-  {w:'HAPPENING',s:['an','he','hi','in','age','ape','gap','gin','hen','hip','inn','nag','nap','nip','pan','pea','peg','pen','pie','pig','pin','gain','hang','heap','nine','page','pain','pine','pipe','hinge','happen']},
-  {w:'HAPPINESS',s:['an','as','he','hi','in','is','ape','ash','has','hen','hip','his','nap','nip','pan','pea','pen','pie','pin','sap','sea','sin','sip','heap','pain','pass','pine','pipe','sane','shin','ship','snap','span','spin','phase','shape','shine','spine','happen']},
-  {w:'HIBERNATE',s:['an','at','be','he','hi','in','it','air','ant','are','art','ate','ban','bar','bat','bet','bit','ear','eat','era','hat','hen','her','hit','net','ran','rat','tab','tan','tar','tea','ten','tie','tin','bare','barn','bath','bean','bear','beat','been','bite','earn','hair','hare','hear','heat','herb','here','hint','hire','neat','rain','rate','rein','rent','tear','than','then','thin','tree','brain','earth','enter','habit','heart','there','three','train','tribe','breath','either','entire']},
-  {w:'IMAGINING',s:['am','an','in','aim','gin','inn','man','nag','gain','main','gaining']},
-  {w:'IMPROVING',s:['go','in','no','on','or','gin','ion','mop','nip','nor','pig','pin','rig','rip','grin','grip','ring','moving']},
-  {w:'INCLUDING',s:['in','dig','dug','gin','gun','inn','lid','nun','gild','lung','guild']},
-  {w:'INVISIBLE',s:['be','in','is','sin','evil','line','live','veil','vein','vine','lines','visible']},
-  {w:'KNOWLEDGE',s:['do','go','no','on','we','dog','ego','end','gel','god','led','leg','log','low','nod','now','old','one','owe','owl','own','wed','woe','won','done','down','edge','glee','glen','glow','gold','gone','gown','keen','knee','knew','know','lend','lone','long','need','node','weld','lodge','owned','golden','legend']},
-  {w:'LANDSCAPE',s:['an','as','ace','ale','ape','can','cap','end','lap','led','nap','pad','pan','pea','pen','sad','sap','sea','cane','case','dale','deal','lace','land','lane','lead','lean','leap','lend','pace','pale','plan','sale','sand','sane','seal','slap','snap','span','clean','dance','deals','laden','lands','lanes','leads','place','plane','scale','space','spend','palace']},
-  {w:'LANGUAGES',s:['an','as','us','age','ale','egg','gas','gel','gun','lag','leg','nag','sag','sea','sun','use','gale','glen','glue','lane','lean','lung','sage','sale','sane','sang','seal','sung','angel','angle','lanes','usage','angels']},
-  {w:'LISTENING',s:['in','is','it','gel','gin','inn','leg','let','lit','net','set','sin','sit','ten','tie','tin','glen','line','list','nest','nine','sign','sing','site','lines','sting','single']},
-  {w:'LUNCHTIME',s:['he','hi','in','it','me','cut','elm','hen','him','hit','hum','ice','let','lit','men','met','net','nut','ten','tie','tin','cent','hint','hunt','inch','lime','line','melt','mile','mine','mint','much','nice','them','then','thin','time','tune','unit','until']},
-  {w:'MATERIALS',s:['am','as','at','is','it','me','aim','air','ale','are','arm','art','ate','ear','eat','elm','era','let','lit','mat','met','ram','rat','sat','sea','set','sir','sit','tar','tea','tie','area','east','last','late','lime','list','mail','male','mast','meal','meat','melt','mile','mist','rail','rate','real','rest','rise','sail','sale','salt','same','seal','site','slam','slim','star','stem','stir','tail','tale','tame','tear','term','time','alarm','alert','arise','mails','merit','metal','raise','smart','smile','steal','steam','tears','trail','trial','aerial','master','stream']},
-  {w:'MENTIONED',s:['do','in','it','me','no','on','to','dim','dot','end','inn','ion','men','met','net','nod','not','one','ten','tie','tin','toe','ton','dent','diet','dine','dome','done','into','meet','mind','mine','mint','mode','need','nine','node','none','note','tend','tide','time','noted']},
-  {w:'MOONLIGHT',s:['go','hi','in','it','no','oh','on','to','gin','got','him','hit','hog','hot','ion','lit','log','lot','not','oil','tin','ton','hint','into','lion','long','mint','moon','moth','thin','tool','gloom','light','might','month','night','thing']},
-  {w:'MOUNTAINS',s:['am','an','as','at','in','is','it','no','on','so','to','us','aim','ant','inn','ion','man','mat','not','nun','nut','out','sat','sin','sit','son','sum','sun','tan','tin','ton','aunt','into','main','mast','mint','mist','most','must','suit','unit','mount','saint','stain','union','nation']},
-  {w:'MOVEMENTS',s:['me','no','on','so','to','eve','men','met','net','not','one','set','son','ten','toe','ton','even','meet','most','move','nest','nose','note','oven','seem','seen','some','stem','event','seven','stone','stove','tense','events','moment','movement']},
-  {w:'MYSTERIES',s:['is','it','me','my','met','set','sir','sit','tie','try','meet','miss','mist','rest','rise','seem','site','stem','stir','term','time','tree','merit','steer','sister','system']},
-  {w:'NATURALLY',s:['an','at','ant','art','lay','nut','ran','rat','ray','run','rut','tan','tar','try','aunt','tall','tray','turn','yarn']},
-  {w:'NIGHTMARE',s:['am','an','at','he','hi','in','it','me','age','aim','air','ant','are','arm','art','ate','ear','eat','era','gem','gin','ham','hat','hen','her','him','hit','man','mat','men','met','nag','net','rag','ram','ran','rat','rig','tan','tar','tea','ten','tie','tin','earn','gain','game','gate','gear','grin','hair','hang','hare','harm','hear','heat','hint','hire','main','mean','meat','mine','mint','name','neat','rage','rain','rang','rate','rein','rent','ring','tame','tear','term','than','them','then','thin','time','anger','earth','eight','giant','grant','great','heart','hinge','image','merit','might','night','range','reign','right','thing','tiger','train','eating','gather','remain','hearing']},
-  {w:'NIGHTTIME',s:['he','hi','in','it','me','gem','gin','hen','him','hit','men','met','net','ten','tie','tin','hint','mine','mint','tent','them','then','thin','time','eight','hinge','might','night','thing','tight','timing']},
-  {w:'OBVIOUSLY',s:['by','is','so','us','boy','bus','ivy','oil','sob','sub','you','boil','busy','soil','soul']},
-  {w:'ORGANISED',s:['an','as','do','go','in','is','no','on','or','so','age','ago','aid','air','are','dig','dog','ear','ego','end','era','gas','gin','god','ion','nag','nod','nor','one','rag','ran','red','rig','rod','sad','sag','sea','sin','sir','son','dare','dear','dine','done','drag','earn','gain','gear','gone','grid','grin','idea','node','nose','rage','raid','rain','rang','read','rein','ride','ring','rise','road','rode','rose','sage','sand','sane','sang','side','sign','sing','song','sore','anger','arise','aside','doing','drain','grade','grand','grind','groan','ideas','nodes','noise','organ','radio','raise','range','reign','resin','ridge','rings','risen','siren','danger','design','dragon','gained','garden','orange','ranges','reason','region','signed','singer','gardens','reading','diagnose']},
-  {w:'OTHERWISE',s:['he','hi','is','it','oh','or','so','to','we','her','his','hit','hot','how','owe','rot','row','set','sew','sir','sit','sow','tie','toe','tow','two','wit','woe','here','hire','hose','rest','rise','rose','shoe','shot','show','site','sore','sort','stir','this','tore','tree','were','west','wire','wise','wish','with','wore','horse','other','shore','short','steer','sweet','there','these','those','three','threw','throw','tower','where','white','wires','worse','worst','worth','either','others']},
-  {w:'PAINTINGS',s:['an','as','at','in','is','it','ant','gap','gas','gin','inn','nag','nap','nip','pan','pat','pig','pin','pit','sag','sap','sat','sin','sip','sit','tan','tap','tin','tip','gain','pain','past','sang','sign','sing','snap','span','spin','spit','giant','paint','saint','stain','sting']},
-  {w:'PERFECTLY',s:['cry','elf','fly','fry','let','pet','try','feel','feet','felt','free','left','peel','prey','reel','rely','tree','type','reply','perfect']},
-  {w:'PLAYFULLY',s:['up','fly','lap','lay','pay','fall','full','play','pull','fully']},
-  {w:'PLENTIFUL',s:['if','in','it','up','elf','fin','fit','fun','ill','let','lip','lit','net','nip','nut','pen','pet','pie','pin','pit','pun','put','ten','tie','tin','tip','fell','felt','file','fill','fine','fuel','full','left','life','lift','line','pile','pine','pull','tell','till','tune','unit','until']},
-  {w:'POISONOUS',s:['in','is','no','on','so','up','us','ion','nip','pin','pun','sin','sip','son','sun','soon','soup','spin','upon','spoon']},
-  {w:'PRACTISED',s:['as','at','is','it','ace','aid','air','ape','arc','are','art','ate','cap','car','cat','dip','ear','eat','era','ice','pad','pat','pea','pet','pie','pit','rap','rat','red','rip','sad','sap','sat','sea','set','sip','sir','sit','tap','tar','tea','tie','tip','care','case','cast','dare','dart','date','dear','dice','diet','dirt','drip','east','idea','pace','pair','part','past','raid','rate','read','reap','rest','rice','ride','rise','side','site','spit','star','step','stir','tape','tear','tide','trap','trip','arise','aside','crisp','ideas','price','pride','raise','rapid','rated','scare','space','spare','spice','strip','tears','tired','trace','trade','tread','tried','credit','direct']},
-  {w:'PRINCIPAL',s:['an','in','air','arc','can','cap','car','lap','lip','nap','nip','pan','pin','ran','rap','rip','clip','nail','pain','pair','plan','rail','rain','panic','plain']},
-  {w:'QUESTIONS',s:['in','is','it','no','on','so','to','us','ion','net','not','nut','one','out','set','sin','sit','son','sun','ten','tie','tin','toe','ton','use','into','nest','nose','note','site','suit','tune','unit','noise','stone','question']},
-  {w:'RECYCLING',s:['in','cry','gel','gin','ice','leg','rig','glen','grey','grin','line','nice','rein','rely','rice','ring','reign','circle']},
-  {w:'REMAINDER',s:['am','an','in','me','aid','aim','air','are','arm','dam','dim','ear','end','era','mad','man','men','ram','ran','red','dare','dear','deer','dine','earn','idea','made','main','mean','mind','mine','name','need','raid','rain','read','reed','rein','ride','drain','dream','media','rider','earned','remain']},
-  {w:'RETURNING',s:['in','it','gin','gun','gut','inn','net','nun','nut','rig','rug','run','rut','ten','tie','tin','tug','grin','nine','rein','rent','ring','ruin','true','tune','turn','unit','inner','reign','tiger','return','turning']},
-  {w:'SATISFIED',s:['as','at','if','is','it','aid','ate','eat','fat','fit','sad','sat','sea','set','sit','tea','tie','date','diet','east','fast','fate','feat','fist','idea','safe','side','site','tide','aside','feast','ideas']},
-  {w:'SEARCHING',s:['an','as','he','hi','in','is','ace','age','air','arc','are','ash','can','car','ear','era','gas','gin','has','hen','her','his','ice','nag','rag','ran','rig','sag','sea','sin','sir','ache','arch','cage','cane','care','case','cash','each','earn','gain','gear','grin','hair','hang','hare','hear','hire','inch','nice','rage','rain','rang','rein','rice','rich','ring','rise','sage','sane','sang','shin','sigh','sign','sing','anger','arise','chain','chair','chase','crane','crash','grace','hinge','raise','range','reach','reign','resin','rings','risen','scare','share','shine','since','siren','change','charge','racing','ranges','singer','changes','hearing','reaching']},
-  {w:'SEPTEMBER',s:['be','me','bet','met','pet','set','best','meet','rest','seem','stem','step','term','tree','steep','steer']},
-  {w:'SOMETHING',s:['go','he','hi','in','is','it','me','no','oh','on','so','to','ego','gem','gin','got','hen','him','his','hit','hog','hot','ion','men','met','net','not','one','set','sin','sit','son','ten','tie','tin','toe','ton','gone','hint','home','hose','into','mine','mint','mist','most','moth','nest','nose','note','shin','shoe','shot','sigh','sign','sing','site','some','song','stem','them','then','thin','this','time','eight','ghost','hinge','might','month','night','noise','shine','sight','sting','stone','thing','those']},
-  {w:'SOMETIMES',s:['is','it','me','so','to','met','set','sit','tie','toe','meet','miss','mist','most','seem','site','some','stem','time']},
-  {w:'SOMEWHERE',s:['he','me','oh','or','so','we','her','how','owe','row','sew','sow','woe','here','home','hose','more','rose','seem','shoe','show','some','sore','were','wore','worm','horse','shore','where','worse']},
-  {w:'SURPRISED',s:['is','up','us','dip','pie','red','rip','sip','sir','use','drip','pure','ride','rise','side','sure','used','dress','press','pride','rider','super','surprise']},
-  {w:'UNCERTAIN',s:['an','at','in','it','ace','air','ant','arc','are','art','ate','can','car','cat','cut','ear','eat','era','ice','inn','net','nun','nut','ran','rat','run','rut','tan','tar','tea','ten','tie','tin','aunt','cane','care','cent','cure','earn','neat','nice','nine','rain','rate','rein','rent','rice','ruin','tear','true','tune','turn','unit','acute','crane','inner','trace','train','nature','ancient','certain']},
-  {w:'UNIVERSAL',s:['an','as','in','is','us','air','ale','are','ear','era','ran','run','sea','sin','sir','sun','use','van','via','earn','evil','lane','lean','line','live','nail','rail','rain','real','rein','rise','ruin','rule','sail','sale','sane','save','seal','sure','vale','vane','veil','vein','vine','alien','alive','arise','lanes','learn','lines','nails','nurse','raise','resin','risen','rival','siren','slave','value','viral','virus']},
-  {w:'VEGETABLE',s:['at','be','age','ale','ate','bag','bat','beg','bet','eat','eve','gel','lag','leg','let','tab','tea','able','beat','belt','gale','gate','gave','glee','late','tale','vale','eagle','leave','table']},
-  {w:'WONDERFUL',s:['do','no','of','on','or','we','elf','end','few','for','fun','fur','led','low','nod','nor','now','old','one','our','owe','owl','own','red','rod','row','run','wed','woe','won','done','down','dune','fern','flew','flow','fold','fond','ford','foul','fuel','fund','lend','lone','lord','loud','node','rode','role','rule','weld','wolf','word','wore','worn','wren','drown','flour','found','lower','owned','owner','round','under','world','wound','wonder']},
-  {w:'WORLDWIDE',s:['do','or','we','led','lid','low','odd','oil','old','owe','owl','red','rod','row','wed','woe','idle','lord','ride','rode','role','weld','wild','wire','word','wore','lower','oiled','weird','world']},
-  {w:'YESTERDAY',s:['as','at','are','art','ate','aye','dye','ear','eat','era','rat','ray','red','sad','sat','sea','set','tar','tea','try','dare','dart','date','dear','deer','east','rate','read','reed','rest','seed','star','stay','tear','tray','tree','yard','year','rated','steer','tears','trade','tread','steady']}
+  // Y1/Y2 friendly: 6-letter source words → fill a 3×2 grid cleanly with no empty squares.
+  // Solutions are 2-4 letter words 5-7 year olds can read. Letters in solutions only use
+  // letters present in the source word (counting duplicates).
+  {w:'GARDEN',s:['an','ad','age','are','ear','ran','red','dare','dear','gear','near','read']},
+  {w:'WINTER',s:['in','it','we','net','ten','tin','win','wet','wit','tie','wine','went','twin']},
+  {w:'BASKET',s:['as','at','be','ask','ate','bat','bet','eat','sat','set','tab','tea','sea','bake','base','beak','beat','take','task','seat']},
+  {w:'MOTHER',s:['me','oh','or','to','her','hot','hem','met','the','home','more','term','tore','hero','them']},
+  {w:'PLANET',s:['an','at','ant','ate','eat','lap','let','nap','net','pan','pat','pen','pet','tan','tap','ten','tea','late','lane','neat','pant','plan','tale','tape']},
+  {w:'POCKET',s:['to','cop','cot','pet','pot','top','opt','toe','cope','kept','peck','poke','poet']},
+  {w:'SPRING',s:['in','is','gin','nip','pin','pig','rip','sin','sip','rig','sing','grin','ring','sign','snip','spin']},
+  {w:'STRING',s:['in','is','it','gin','nit','rig','sin','sit','tin','grin','grit','ring','sign','sing','stir']},
+  {w:'ANIMAL',s:['am','an','in','aim','lam','man','nil','lain','mail','main','nail']},
+  {w:'ROCKET',s:['or','to','cot','ore','toe','roe','core','rock','rote']}
 ];
 
 // ═══════════════════════════════════════════════════════════
@@ -647,19 +729,19 @@ const SPOT_MISTAKE=[
   {para:"we go to school on monday.",count:2,errors:[{wrong:"we go",correct:"We go",exp:"Sentences start with a capital letter."},{wrong:"on monday",correct:"on Monday",exp:"Days of the week need capital letters."}]},
   {para:"my birthday is in july.",count:2,errors:[{wrong:"my birthday",correct:"My birthday",exp:"Sentences start with a capital letter."},{wrong:"in july",correct:"in July",exp:"Months need capital letters."}]},
   {para:"I live in england.",count:1,errors:[{wrong:"in england",correct:"in England",exp:"Country names need capital letters."}]},
-  {para:"can I have a apple?",count:1,errors:[{wrong:"a apple",correct:"an apple",exp:"We use 'an' before words starting with a vowel sound like 'a', 'e', 'i', 'o', 'u'."}]},
-  {para:"the dog run fast.",count:1,errors:[{wrong:"the dog",correct:"The dog",exp:"Sentences start with a capital letter."}]},
+  {para:"can I have a apple?",count:2,errors:[{wrong:"can I",correct:"Can I",exp:"Sentences start with a capital letter."},{wrong:"a apple",correct:"an apple",exp:"We use 'an' before words starting with a vowel sound."}]},
+  {para:"the dog run fast.",count:2,errors:[{wrong:"the dog",correct:"The dog",exp:"Sentences start with a capital letter."},{wrong:"dog run",correct:"dog runs",exp:"Add 's' for he, she or it: 'the dog runs'."}]},
   {para:"I can see a catt.",count:1,errors:[{wrong:"a catt",correct:"a cat",exp:"The word 'cat' is spelled with one 't'."}]},
   {para:"i like to play with my frend.",count:2,errors:[{wrong:"i like",correct:"I like",exp:"We always use a capital letter for 'I'."},{wrong:"my frend",correct:"my friend",exp:"'Friend' has 'i' before 'e'."}]},
   {para:"she has too cats.",count:2,errors:[{wrong:"she has",correct:"She has",exp:"Sentences start with a capital letter."},{wrong:"too cats",correct:"two cats",exp:"'Two' is the number. 'Too' means 'also' or 'very'."}]},
   {para:"The sun is verry hot.",count:1,errors:[{wrong:"verry",correct:"very",exp:"'Very' has only one 'r'."}]},
   {para:"i am six yeers old.",count:2,errors:[{wrong:"i am",correct:"I am",exp:"We always use a capital letter for 'I'."},{wrong:"yeers",correct:"years",exp:"'Years' is spelled with 'ea'."}]},
-  {para:"we play football on sanday.",count:2,errors:[{wrong:"we play",correct:"We play",exp:"Sentences start with a capital letter."},{wrong:"on sanday",correct:"on Sunday",exp:"Days need capital letters and 'Sunday' is spelled 'Sun' + 'day'."}]},
-  {para:"My mum is nise.",count:1,errors:[{wrong:"nise",correct:"nice",exp:"'Nice' is spelled with 'i' before 'c'."}]},
-  {para:"i reed a book.",count:2,errors:[{wrong:"i reed",correct:"I read",exp:"We always use a capital letter for 'I'. 'Read' is spelled with 'ea'."}]},
+  {para:"we play football on sanday.",count:2,errors:[{wrong:"we play",correct:"We play",exp:"Sentences start with a capital letter."},{wrong:"on sanday",correct:"on Sunday",exp:"Days need capital letters and 'Sunday' starts with 'Sun'."}]},
+  {para:"My mum is nise.",count:1,errors:[{wrong:"nise",correct:"nice",exp:"'Nice' is spelled with 'ice' at the end."}]},
+  {para:"i reed a book.",count:2,errors:[{wrong:"i",correct:"I",exp:"We always use a capital letter for 'I'."},{wrong:"reed",correct:"read",exp:"'Read' is spelled with 'ea'."}]},
   {para:"The brid is blue.",count:1,errors:[{wrong:"brid",correct:"bird",exp:"'Bird' has 'i' before 'r'."}]},
-  {para:"she eat a apple.",count:2,errors:[{wrong:"she eat",correct:"She eats",exp:"Sentences start with a capital letter. 'She' needs 'eats' (add 's')."},{wrong:"a apple",correct:"an apple",exp:"We use 'an' before words starting with a vowel."}]},
-  {para:"i hav a red pen.",count:2,errors:[{wrong:"i hav",correct:"I have",exp:"We always use a capital letter for 'I'. 'Have' has an 'e' at the end."}]},
+  {para:"she eat a apple.",count:3,errors:[{wrong:"she",correct:"She",exp:"Sentences start with a capital letter."},{wrong:"eat",correct:"eats",exp:"Add 's' for he, she or it: 'she eats'."},{wrong:"a apple",correct:"an apple",exp:"We use 'an' before words starting with a vowel sound."}]},
+  {para:"i hav a red pen.",count:2,errors:[{wrong:"i",correct:"I",exp:"We always use a capital letter for 'I'."},{wrong:"hav",correct:"have",exp:"'Have' is spelled with an 'e' at the end."}]},
   {para:"the big dog ranned.",count:2,errors:[{wrong:"the big",correct:"The big",exp:"Sentences start with a capital letter."},{wrong:"ranned",correct:"ran",exp:"The past tense of 'run' is 'ran', not 'ranned'."}]}
 ];
 
@@ -956,14 +1038,680 @@ const WOULD_YOU_RATHER=[
 ];
 
 // ═══════════════════════════════════════════════════════════
-// NUMBER PUZZLE ENGINE
+// SUBITISE BANK — quick number recognition (Y1/Y2 maths)
+// Each entry: {n, pattern: 'dice'|'tens'|'random', label}
+// Children look at the dots and say how many (without counting one by one)
+// ═══════════════════════════════════════════════════════════
+const SUBITISE=[
+  // Dice patterns (familiar from games — most children can subitise these)
+  {n:1,pattern:'dice'},{n:2,pattern:'dice'},{n:3,pattern:'dice'},
+  {n:4,pattern:'dice'},{n:5,pattern:'dice'},{n:6,pattern:'dice'},
+  // Tens frames (Y1/Y2 number sense — see the structure of 10)
+  {n:3,pattern:'tens'},{n:4,pattern:'tens'},{n:5,pattern:'tens'},
+  {n:6,pattern:'tens'},{n:7,pattern:'tens'},{n:8,pattern:'tens'},{n:9,pattern:'tens'},{n:10,pattern:'tens'},
+  // Random arrangements — capped at 7, since true subitising of unstructured dots stops working past that
+  {n:3,pattern:'random'},{n:4,pattern:'random'},{n:5,pattern:'random'},
+  {n:6,pattern:'random'},{n:7,pattern:'random'}
+];
+
+// ═══════════════════════════════════════════════════════════
+// PHONICS BLEND BANK — sound out the phonemes to make a word
+// Y1 phonics focus: blend phonemes to read words (Phases 2-5)
+// Each entry: {sounds:[phoneme list], word, hint}
+// ═══════════════════════════════════════════════════════════
+const PHONICS_BLEND=[
+  // Phase 2 CVC — short 'a'
+  {sounds:['c','a','t'],word:'cat',hint:'a furry pet that purrs'},
+  {sounds:['h','a','t'],word:'hat',hint:'you wear it on your head'},
+  {sounds:['b','a','t'],word:'bat',hint:'used to hit a ball'},
+  {sounds:['m','a','t'],word:'mat',hint:'you wipe your feet on it'},
+  {sounds:['j','a','m'],word:'jam',hint:'sweet spread on toast'},
+  {sounds:['p','a','n'],word:'pan',hint:'you cook food in it'},
+  // Phase 2 CVC — short 'e'
+  {sounds:['h','e','n'],word:'hen',hint:'a mother chicken'},
+  {sounds:['l','e','g'],word:'leg',hint:'you walk on these'},
+  {sounds:['b','e','d'],word:'bed',hint:'you sleep in it'},
+  {sounds:['p','e','t'],word:'pet',hint:'an animal you keep at home'},
+  {sounds:['w','e','t'],word:'wet',hint:'opposite of dry'},
+  {sounds:['t','e','n'],word:'ten',hint:'two more than eight'},
+  // Phase 2 CVC — short 'i'
+  {sounds:['p','i','g'],word:'pig',hint:'a pink farm animal'},
+  {sounds:['s','i','t'],word:'sit',hint:'rest on a chair'},
+  {sounds:['b','i','g'],word:'big',hint:'large in size'},
+  {sounds:['l','i','p'],word:'lip',hint:'around your mouth'},
+  {sounds:['h','i','t'],word:'hit',hint:'tap something hard'},
+  {sounds:['l','i','d'],word:'lid',hint:'top of a pot'},
+  // Phase 2 CVC — short 'o'
+  {sounds:['d','o','g'],word:'dog',hint:'it wags its tail'},
+  {sounds:['h','o','t'],word:'hot',hint:'opposite of cold'},
+  {sounds:['p','o','t'],word:'pot',hint:'used for cooking'},
+  {sounds:['t','o','p'],word:'top',hint:'highest part'},
+  {sounds:['l','o','g'],word:'log',hint:'piece of a tree'},
+  {sounds:['m','o','p'],word:'mop',hint:'cleans the floor'},
+  // Phase 2 CVC — short 'u'
+  {sounds:['b','u','s'],word:'bus',hint:'it takes you to school'},
+  {sounds:['s','u','n'],word:'sun',hint:'it shines in the sky'},
+  {sounds:['f','u','n'],word:'fun',hint:'enjoyable'},
+  {sounds:['c','u','p'],word:'cup',hint:'you drink from it'},
+  {sounds:['j','u','g'],word:'jug',hint:'you pour from it'},
+  {sounds:['m','u','m'],word:'mum',hint:'one of your parents'},
+  // Phase 3 — sh
+  {sounds:['sh','i','p'],word:'ship',hint:'a big boat'},
+  {sounds:['sh','o','p'],word:'shop',hint:'where you buy things'},
+  {sounds:['sh','e','d'],word:'shed',hint:'a small wooden hut'},
+  {sounds:['f','i','sh'],word:'fish',hint:'it swims in the sea'},
+  {sounds:['d','i','sh'],word:'dish',hint:'a flat plate'},
+  {sounds:['w','i','sh'],word:'wish',hint:'something you want'},
+  // Phase 3 — ch
+  {sounds:['ch','i','n'],word:'chin',hint:'below your mouth'},
+  {sounds:['ch','o','p'],word:'chop',hint:'cut with a knife'},
+  {sounds:['ch','i','p'],word:'chip',hint:'a thin fried potato'},
+  {sounds:['m','u','ch'],word:'much',hint:'a lot'},
+  {sounds:['r','i','ch'],word:'rich',hint:'has lots of money'},
+  {sounds:['s','u','ch'],word:'such',hint:'a way of comparing things'},
+  // Phase 3 — th
+  {sounds:['th','i','s'],word:'this',hint:'opposite of that'},
+  {sounds:['th','a','t'],word:'that',hint:'opposite of this'},
+  {sounds:['w','i','th'],word:'with',hint:'next to or together'},
+  {sounds:['th','e','n'],word:'then',hint:'after that'},
+  {sounds:['th','i','n'],word:'thin',hint:'opposite of thick'},
+  {sounds:['p','a','th'],word:'path',hint:'a way to walk'},
+  // Phase 3 — ng
+  {sounds:['r','i','ng'],word:'ring',hint:'jewellery for your finger'},
+  {sounds:['s','o','ng'],word:'song',hint:'music with words'},
+  {sounds:['s','i','ng'],word:'sing',hint:'make music with your voice'},
+  {sounds:['k','i','ng'],word:'king',hint:'a male royal ruler'},
+  {sounds:['l','o','ng'],word:'long',hint:'opposite of short'},
+  {sounds:['w','i','ng'],word:'wing',hint:'birds use these to fly'},
+  // Phase 4 CVCC/CCVC blends
+  {sounds:['j','u','m','p'],word:'jump',hint:'spring up with your legs'},
+  {sounds:['l','a','m','p'],word:'lamp',hint:'gives light'},
+  {sounds:['n','e','s','t'],word:'nest',hint:'where birds lay eggs'},
+  {sounds:['m','i','l','k'],word:'milk',hint:'cows make it'},
+  {sounds:['s','t','o','p'],word:'stop',hint:'opposite of go'},
+  {sounds:['f','r','o','g'],word:'frog',hint:'a green hopping animal'},
+  {sounds:['s','w','i','m'],word:'swim',hint:'move through water'},
+  // Phase 5 — ai
+  {sounds:['r','ai','n'],word:'rain',hint:'water from the sky'},
+  {sounds:['p','ai','n','t'],word:'paint',hint:'used to colour walls'},
+  {sounds:['t','r','ai','n'],word:'train',hint:'runs on tracks'},
+  {sounds:['s','n','ai','l'],word:'snail',hint:'slow with a shell'},
+  {sounds:['s','ai','l'],word:'sail',hint:'cloth on a boat'},
+  {sounds:['m','ai','l'],word:'mail',hint:'letters and parcels'},
+  // Phase 5 — ay
+  {sounds:['p','l','ay'],word:'play',hint:'have fun'},
+  {sounds:['d','ay'],word:'day',hint:'opposite of night'},
+  {sounds:['t','r','ay'],word:'tray',hint:'flat thing for carrying'},
+  {sounds:['s','t','ay'],word:'stay',hint:'do not leave'},
+  {sounds:['w','ay'],word:'way',hint:'a route or path'},
+  // Phase 5 — ee
+  {sounds:['s','ee','d'],word:'seed',hint:'grows into a plant'},
+  {sounds:['f','ee','t'],word:'feet',hint:'you stand on these'},
+  {sounds:['w','ee','k'],word:'week',hint:'seven days'},
+  {sounds:['s','l','ee','p'],word:'sleep',hint:'rest at night'},
+  {sounds:['t','r','ee'],word:'tree',hint:'has leaves and a trunk'},
+  {sounds:['g','r','ee','n'],word:'green',hint:'colour of grass'},
+  // Phase 5 — igh
+  {sounds:['l','igh','t'],word:'light',hint:'opposite of dark'},
+  {sounds:['n','igh','t'],word:'night',hint:'when it is dark'},
+  {sounds:['s','igh','t'],word:'sight',hint:'what you see'},
+  {sounds:['r','igh','t'],word:'right',hint:'opposite of left'},
+  {sounds:['b','r','igh','t'],word:'bright',hint:'lots of light'},
+  {sounds:['h','igh'],word:'high',hint:'up in the sky'},
+  // Phase 5 — oa
+  {sounds:['b','oa','t'],word:'boat',hint:'floats on water'},
+  {sounds:['c','oa','t'],word:'coat',hint:'wear when cold'},
+  {sounds:['g','oa','t'],word:'goat',hint:'farm animal with horns'},
+  {sounds:['r','oa','d'],word:'road',hint:'cars drive on it'},
+  {sounds:['s','oa','p'],word:'soap',hint:'used to wash hands'},
+  {sounds:['f','oa','m'],word:'foam',hint:'bubbles in the bath'},
+  // Phase 5 — oo (long)
+  {sounds:['m','oo','n'],word:'moon',hint:'shines in the night sky'},
+  {sounds:['p','oo','l'],word:'pool',hint:'where you swim'},
+  {sounds:['f','oo','d'],word:'food',hint:'what you eat'},
+  {sounds:['r','oo','m'],word:'room',hint:'space inside a house'},
+  {sounds:['s','p','oo','n'],word:'spoon',hint:'used to eat soup'},
+  {sounds:['z','oo'],word:'zoo',hint:'where animals live for visitors'},
+  // 'k' grapheme (kit, kid, kick)
+  {sounds:['k','i','t'],word:'kit',hint:'a set of things'},
+  {sounds:['k','i','d'],word:'kid',hint:'a child or young goat'},
+  {sounds:['k','i','ng'],word:'king',hint:'male royal ruler'},
+  {sounds:['k','i','ck'],word:'kick',hint:'hit with your foot'},
+  {sounds:['s','i','n','k'],word:'sink',hint:'where you wash your hands'},
+  {sounds:['p','i','n','k'],word:'pink',hint:'pale red colour'},
+  // 'v' grapheme
+  {sounds:['v','a','n'],word:'van',hint:'small lorry'},
+  {sounds:['v','e','t'],word:'vet',hint:'an animal doctor'},
+  {sounds:['v','e','s','t'],word:'vest',hint:'worn under a shirt'},
+  {sounds:['v','e','r','y'],word:'very',hint:'a lot'},
+  {sounds:['g','i','v'],word:'give',hint:'hand something over'},
+  // Phase 3 — qu
+  {sounds:['qu','i','ck'],word:'quick',hint:'fast'},
+  {sounds:['qu','ee','n'],word:'queen',hint:'female royal ruler'},
+  {sounds:['qu','i','z'],word:'quiz',hint:'a test of questions'},
+  {sounds:['qu','a','ck'],word:'quack',hint:'sound a duck makes'},
+  {sounds:['qu','i','t'],word:'quit',hint:'stop doing something'},
+  // Phase 5 r-controlled — ar
+  {sounds:['c','ar'],word:'car',hint:'four wheels and an engine'},
+  {sounds:['s','t','ar'],word:'star',hint:'shines in the sky at night'},
+  {sounds:['f','ar'],word:'far',hint:'a long way away'},
+  {sounds:['j','ar'],word:'jar',hint:'glass container with a lid'},
+  {sounds:['p','ar','k'],word:'park',hint:'green space with grass and trees'},
+  {sounds:['d','ar','k'],word:'dark',hint:'opposite of light'},
+  // Phase 5 r-controlled — or
+  {sounds:['f','or'],word:'for',hint:'in support of'},
+  {sounds:['f','or','k'],word:'fork',hint:'tool with prongs to eat with'},
+  {sounds:['s','p','or','t'],word:'sport',hint:'a physical game'},
+  {sounds:['b','or','n'],word:'born',hint:'when you started life'},
+  {sounds:['h','or','n'],word:'horn',hint:'on a goat or a car'},
+  {sounds:['s','or','t'],word:'sort',hint:'put things in order'},
+  // Phase 5 r-controlled — er
+  {sounds:['h','er'],word:'her',hint:'belonging to a girl'},
+  {sounds:['l','e','t','er'],word:'letter',hint:'A, B or C is one'},
+  {sounds:['af','t','er'],word:'after',hint:'opposite of before'},
+  {sounds:['s','i','s','t','er'],word:'sister',hint:'a female sibling'},
+  {sounds:['w','a','t','er'],word:'water',hint:'what you drink when thirsty'},
+  // Phase 5 r-controlled — ir
+  {sounds:['b','ir','d'],word:'bird',hint:'has wings and feathers'},
+  {sounds:['g','ir','l'],word:'girl',hint:'a young female'},
+  {sounds:['th','ir','d'],word:'third',hint:'after first and second'},
+  {sounds:['d','ir','t'],word:'dirt',hint:'bits of earth or muck'},
+  {sounds:['f','ir','m'],word:'firm',hint:'not soft'},
+  // Phase 5 r-controlled — ur
+  {sounds:['t','ur','n'],word:'turn',hint:'change direction'},
+  {sounds:['h','ur','t'],word:'hurt',hint:'feel pain'},
+  {sounds:['b','ur','n'],word:'burn',hint:'damaged by heat'},
+  {sounds:['s','ur','f'],word:'surf',hint:'ride waves on a board'},
+  {sounds:['f','ur'],word:'fur',hint:'soft hair on an animal'},
+  // Phase 2 double-letter endings — ck
+  {sounds:['k','i','ck'],word:'kick',hint:'hit with your foot'},
+  {sounds:['s','o','ck'],word:'sock',hint:'goes on your foot'},
+  {sounds:['b','a','ck'],word:'back',hint:'opposite of front'},
+  {sounds:['l','o','ck'],word:'lock',hint:'keeps a door closed'},
+  {sounds:['d','u','ck'],word:'duck',hint:'a bird that swims'},
+  {sounds:['n','e','ck'],word:'neck',hint:'between head and shoulders'},
+  // Phase 2 — ff
+  {sounds:['o','ff'],word:'off',hint:'opposite of on'},
+  {sounds:['p','u','ff'],word:'puff',hint:'a small burst of air'},
+  {sounds:['c','l','i','ff'],word:'cliff',hint:'a steep rock face'},
+  {sounds:['s','t','u','ff'],word:'stuff',hint:'things in general'},
+  {sounds:['c','u','ff'],word:'cuff',hint:'edge of a sleeve'},
+  {sounds:['s','n','i','ff'],word:'sniff',hint:'breathe in through your nose'},
+  // Phase 2 — ll
+  {sounds:['b','e','ll'],word:'bell',hint:'rings to make a sound'},
+  {sounds:['w','i','ll'],word:'will',hint:'going to'},
+  {sounds:['h','i','ll'],word:'hill',hint:'a small mountain'},
+  {sounds:['d','o','ll'],word:'doll',hint:'a toy person'},
+  {sounds:['f','i','ll'],word:'fill',hint:'put something in until full'},
+  {sounds:['b','a','ll'],word:'ball',hint:'round thing you throw'},
+  // Phase 2 — ss
+  {sounds:['l','e','ss'],word:'less',hint:'a smaller amount'},
+  {sounds:['m','i','ss'],word:'miss',hint:'fail to catch'},
+  {sounds:['k','i','ss'],word:'kiss',hint:'press lips on a cheek'},
+  {sounds:['g','l','a','ss'],word:'glass',hint:'made of clear stuff you drink from'},
+  {sounds:['p','a','ss'],word:'pass',hint:'go past or hand over'},
+  // Phase 2 — zz
+  {sounds:['b','u','zz'],word:'buzz',hint:'sound a bee makes'},
+  {sounds:['f','i','zz'],word:'fizz',hint:'bubbles in fizzy drinks'},
+  {sounds:['j','a','zz'],word:'jazz',hint:'a kind of music'},
+  {sounds:['f','u','zz'],word:'fuzz',hint:'soft fluffy bits'},
+  // Phase 3 — x
+  {sounds:['b','o','x'],word:'box',hint:'a container with a lid'},
+  {sounds:['s','i','x'],word:'six',hint:'half of twelve'},
+  {sounds:['f','o','x'],word:'fox',hint:'red wild animal with a bushy tail'},
+  {sounds:['m','i','x'],word:'mix',hint:'stir together'},
+  {sounds:['f','i','x'],word:'fix',hint:'mend or repair'},
+  {sounds:['t','a','x','i'],word:'taxi',hint:'a car you pay to ride in'},
+  // Phase 3 — y (consonant)
+  {sounds:['y','e','s'],word:'yes',hint:'opposite of no'},
+  {sounds:['y','e','t'],word:'yet',hint:'so far'},
+  {sounds:['y','u','m'],word:'yum',hint:'tastes good'},
+  {sounds:['y','e','ll'],word:'yell',hint:'shout loudly'},
+  {sounds:['y','a','m'],word:'yam',hint:'a kind of root vegetable'},
+  // Phase 5 — ea (long /ee/)
+  {sounds:['s','ea'],word:'sea',hint:'salty water at the beach'},
+  {sounds:['t','ea'],word:'tea',hint:'a hot drink with leaves'},
+  {sounds:['l','ea','f'],word:'leaf',hint:'green part of a tree'},
+  {sounds:['m','ea','l'],word:'meal',hint:'food eaten at one time'},
+  {sounds:['r','ea','d'],word:'read',hint:'look at words'},
+  {sounds:['b','ea','ch'],word:'beach',hint:'sand by the sea'},
+  // Phase 5 — ie
+  {sounds:['t','ie'],word:'tie',hint:'fasten with string'},
+  {sounds:['p','ie'],word:'pie',hint:'pastry filled with something'},
+  {sounds:['l','ie'],word:'lie',hint:'something untrue'},
+  {sounds:['d','ie'],word:'die',hint:'stop living'},
+  {sounds:['c','r','ie','d'],word:'cried',hint:'shed tears'},
+  // Phase 5 — oe
+  {sounds:['t','oe'],word:'toe',hint:'on the end of your foot'},
+  {sounds:['h','oe'],word:'hoe',hint:'a garden tool'},
+  {sounds:['d','oe'],word:'doe',hint:'a female deer'},
+  {sounds:['g','oe','s'],word:'goes',hint:'is moving towards'},
+  // Phase 5 — ue
+  {sounds:['b','l','ue'],word:'blue',hint:'colour of the sky'},
+  {sounds:['t','r','ue'],word:'true',hint:'opposite of false'},
+  {sounds:['g','l','ue'],word:'glue',hint:'sticks things together'},
+  {sounds:['c','l','ue'],word:'clue',hint:'a hint to solve a puzzle'},
+  {sounds:['d','ue'],word:'due',hint:'expected to come'},
+  // Phase 5 — ew
+  {sounds:['n','ew'],word:'new',hint:'opposite of old'},
+  {sounds:['d','ew'],word:'dew',hint:'tiny drops on grass in the morning'},
+  {sounds:['f','ew'],word:'few',hint:'a small number'},
+  {sounds:['b','l','ew'],word:'blew',hint:'past of blow'},
+  {sounds:['d','r','ew'],word:'drew',hint:'past of draw'},
+  {sounds:['g','r','ew'],word:'grew',hint:'past of grow'},
+  // Phase 5 — ow (cow sound)
+  {sounds:['c','ow'],word:'cow',hint:'farm animal that gives milk'},
+  {sounds:['n','ow'],word:'now',hint:'at this moment'},
+  {sounds:['h','ow'],word:'how',hint:'in what way'},
+  {sounds:['d','ow','n'],word:'down',hint:'opposite of up'},
+  {sounds:['t','ow','n'],word:'town',hint:'larger than a village'},
+  {sounds:['b','r','ow','n'],word:'brown',hint:'colour of mud'},
+  // Phase 5 — ou
+  {sounds:['ou','t'],word:'out',hint:'opposite of in'},
+  {sounds:['l','ou','d'],word:'loud',hint:'opposite of quiet'},
+  {sounds:['f','ou','n','d'],word:'found',hint:'past of find'},
+  {sounds:['m','ou','th'],word:'mouth',hint:'where your teeth are'},
+  {sounds:['c','l','ou','d'],word:'cloud',hint:'fluffy white in the sky'},
+  // Phase 5 — oi
+  {sounds:['b','oi','l'],word:'boil',hint:'water at one hundred degrees'},
+  {sounds:['c','oi','n'],word:'coin',hint:'round metal money'},
+  {sounds:['f','oi','l'],word:'foil',hint:'thin shiny metal sheet'},
+  {sounds:['j','oi','n'],word:'join',hint:'put together'},
+  {sounds:['p','oi','n','t'],word:'point',hint:'sharp end'},
+  {sounds:['oi','l'],word:'oil',hint:'slippery liquid'},
+  // Phase 5 — oy
+  {sounds:['b','oy'],word:'boy',hint:'a young male'},
+  {sounds:['t','oy'],word:'toy',hint:'something to play with'},
+  {sounds:['j','oy'],word:'joy',hint:'great happiness'},
+  {sounds:['e','n','j','oy'],word:'enjoy',hint:'have fun with'},
+  // Phase 5 — aw
+  {sounds:['s','aw'],word:'saw',hint:'past of see'},
+  {sounds:['p','aw'],word:'paw',hint:'animal foot with claws'},
+  {sounds:['j','aw'],word:'jaw',hint:'bottom part of your face'},
+  {sounds:['c','l','aw'],word:'claw',hint:'sharp nail on an animal'},
+  {sounds:['d','r','aw'],word:'draw',hint:'make a picture'},
+  {sounds:['l','aw','n'],word:'lawn',hint:'short grass in a garden'},
+  // Phase 5 — au
+  {sounds:['h','au','l'],word:'haul',hint:'pull something heavy'},
+  {sounds:['s','au','c','e'],word:'sauce',hint:'wet topping for food'},
+  {sounds:['au','t','u','m','n'],word:'autumn',hint:'season after summer'},
+  // Phase 5 r-controlled — ear
+  {sounds:['h','ear'],word:'hear',hint:'use your ears'},
+  {sounds:['n','ear'],word:'near',hint:'close to'},
+  {sounds:['y','ear'],word:'year',hint:'twelve months'},
+  {sounds:['d','ear'],word:'dear',hint:'much loved'},
+  {sounds:['f','ear'],word:'fear',hint:'feeling afraid'},
+  // Phase 5 r-controlled — air
+  {sounds:['h','air'],word:'hair',hint:'grows on your head'},
+  {sounds:['f','air'],word:'fair',hint:'just or rides at a fairground'},
+  {sounds:['p','air'],word:'pair',hint:'two of something'},
+  {sounds:['ch','air'],word:'chair',hint:'something to sit on'},
+  {sounds:['s','t','air'],word:'stair',hint:'one step in a flight'},
+  // Phase 5 r-controlled — ure
+  {sounds:['s','ure'],word:'sure',hint:'certain'},
+  {sounds:['p','ure'],word:'pure',hint:'completely clean'},
+  {sounds:['c','ure'],word:'cure',hint:'make better when sick'},
+  // Alternative spellings — ph
+  {sounds:['ph','o','n','e'],word:'phone',hint:'used to make calls'},
+  {sounds:['ph','o','t','o'],word:'photo',hint:'a picture from a camera'},
+  {sounds:['d','o','l','ph','i','n'],word:'dolphin',hint:'a friendly sea mammal'},
+  {sounds:['g','r','a','ph'],word:'graph',hint:'a chart that shows numbers'},
+  // Alternative spellings — wh
+  {sounds:['wh','e','n'],word:'when',hint:'at what time'},
+  {sounds:['wh','a','t'],word:'what',hint:'asking which thing'},
+  {sounds:['wh','y'],word:'why',hint:'asking the reason'},
+  {sounds:['wh','i','t','e'],word:'white',hint:'colour of snow'},
+  {sounds:['wh','ee','l'],word:'wheel',hint:'round thing on a car'},
+  // Phase 4 — adjacent consonants (CCVC / CVCC / CCVCC)
+  {sounds:['s','t','a','m','p'],word:'stamp',hint:'goes on a letter'},
+  {sounds:['b','l','i','n','k'],word:'blink',hint:'shut your eyes quickly'},
+  {sounds:['t','w','i','n'],word:'twin',hint:'one of two children born together'},
+  {sounds:['s','n','i','p'],word:'snip',hint:'cut with scissors'},
+  {sounds:['p','l','u','g'],word:'plug',hint:'goes into a socket'},
+  {sounds:['d','r','i','n','k'],word:'drink',hint:'swallow liquid'},
+  {sounds:['b','l','a','n','k'],word:'blank',hint:'empty page'},
+  {sounds:['p','o','n','d'],word:'pond',hint:'small pool of water'},
+  {sounds:['s','e','n','d'],word:'send',hint:'make something go'},
+  {sounds:['l','a','s','t'],word:'last',hint:'after all others'},
+  {sounds:['h','a','n','d'],word:'hand',hint:'on the end of your arm'},
+  {sounds:['l','i','f','t'],word:'lift',hint:'pick up'},
+  {sounds:['w','i','n','d'],word:'wind',hint:'moving air'},
+  {sounds:['f','r','o','s','t'],word:'frost',hint:'icy bits on cold mornings'},
+  {sounds:['t','w','i','s','t'],word:'twist',hint:'turn round and round'},
+  {sounds:['c','r','i','s','p'],word:'crisp',hint:'crunchy snack'},
+  // Phase 4 — polysyllabic (two syllables with break)
+  {sounds:['s','u','n','s','e','t'],word:'sunset',hint:'when the sun goes down',syllableBreaks:[3]},
+  {sounds:['p','i','c','n','i','c'],word:'picnic',hint:'a meal eaten outside',syllableBreaks:[3]},
+  {sounds:['c','a','t','f','i','sh'],word:'catfish',hint:'a fish with whiskers',syllableBreaks:[3]},
+  {sounds:['m','a','g','n','e','t'],word:'magnet',hint:'sticks to metal',syllableBreaks:[3]},
+  {sounds:['b','e','d','r','oo','m'],word:'bedroom',hint:'where you sleep',syllableBreaks:[3]},
+  {sounds:['b','a','ck','p','a','ck'],word:'backpack',hint:'a bag for your back',syllableBreaks:[3]},
+  {sounds:['s','a','n','d','p','i','t'],word:'sandpit',hint:'a play area filled with sand',syllableBreaks:[4]},
+  {sounds:['c','o','b','w','e','b'],word:'cobweb',hint:'a spider makes one',syllableBreaks:[3]},
+  // Phase 5 — split digraphs (Set 15) — letters + link indices for jump-arc render
+  {letters:['c','a','k','e'],sounds:['c','a-e','k'],splitDigraph:'a-e',link:[1,3],word:'cake',hint:'a sweet treat for birthdays'},
+  {letters:['b','a','k','e'],sounds:['b','a-e','k'],splitDigraph:'a-e',link:[1,3],word:'bake',hint:'cook in an oven'},
+  {letters:['m','a','d','e'],sounds:['m','a-e','d'],splitDigraph:'a-e',link:[1,3],word:'made',hint:'past of make'},
+  {letters:['n','a','m','e'],sounds:['n','a-e','m'],splitDigraph:'a-e',link:[1,3],word:'name',hint:'what you are called'},
+  {letters:['s','a','v','e'],sounds:['s','a-e','v'],splitDigraph:'a-e',link:[1,3],word:'save',hint:'rescue or keep for later'},
+  {letters:['l','a','t','e'],sounds:['l','a-e','t'],splitDigraph:'a-e',link:[1,3],word:'late',hint:'after the right time'},
+  {letters:['g','a','t','e'],sounds:['g','a-e','t'],splitDigraph:'a-e',link:[1,3],word:'gate',hint:'a door in a fence'},
+  {letters:['t','h','e','s','e'],sounds:['th','e-e','s'],splitDigraph:'e-e',link:[2,4],word:'these',hint:'these things here'},
+  {letters:['e','v','e','n'],sounds:['e-e','v','n'],splitDigraph:'e-e',link:[0,2],word:'even',hint:'opposite of odd numbers'},
+  {letters:['h','e','r','e'],sounds:['h','e-e','r'],splitDigraph:'e-e',link:[1,3],word:'here',hint:'in this place'},
+  {letters:['b','i','k','e'],sounds:['b','i-e','k'],splitDigraph:'i-e',link:[1,3],word:'bike',hint:'two wheels and pedals'},
+  {letters:['l','i','k','e'],sounds:['l','i-e','k'],splitDigraph:'i-e',link:[1,3],word:'like',hint:'enjoy'},
+  {letters:['t','i','m','e'],sounds:['t','i-e','m'],splitDigraph:'i-e',link:[1,3],word:'time',hint:'measured in minutes'},
+  {letters:['k','i','t','e'],sounds:['k','i-e','t'],splitDigraph:'i-e',link:[1,3],word:'kite',hint:'flies on a string in the wind'},
+  {letters:['l','i','n','e'],sounds:['l','i-e','n'],splitDigraph:'i-e',link:[1,3],word:'line',hint:'a long thin mark'},
+  {letters:['r','i','d','e'],sounds:['r','i-e','d'],splitDigraph:'i-e',link:[1,3],word:'ride',hint:'travel on a bike or horse'},
+  {letters:['h','o','m','e'],sounds:['h','o-e','m'],splitDigraph:'o-e',link:[1,3],word:'home',hint:'where you live'},
+  {letters:['b','o','n','e'],sounds:['b','o-e','n'],splitDigraph:'o-e',link:[1,3],word:'bone',hint:'inside your body'},
+  {letters:['h','o','l','e'],sounds:['h','o-e','l'],splitDigraph:'o-e',link:[1,3],word:'hole',hint:'a gap or opening'},
+  {letters:['h','o','p','e'],sounds:['h','o-e','p'],splitDigraph:'o-e',link:[1,3],word:'hope',hint:'wish for something good'},
+  {letters:['j','o','k','e'],sounds:['j','o-e','k'],splitDigraph:'o-e',link:[1,3],word:'joke',hint:'something funny'},
+  {letters:['r','o','s','e'],sounds:['r','o-e','s'],splitDigraph:'o-e',link:[1,3],word:'rose',hint:'a flower with thorns'},
+  {letters:['c','u','t','e'],sounds:['c','u-e','t'],splitDigraph:'u-e',link:[1,3],word:'cute',hint:'very pretty'},
+  {letters:['t','u','b','e'],sounds:['t','u-e','b'],splitDigraph:'u-e',link:[1,3],word:'tube',hint:'a long round shape'},
+  {letters:['u','s','e'],sounds:['u-e','s'],splitDigraph:'u-e',link:[0,2],word:'use',hint:'put to a job'},
+  {letters:['c','u','b','e'],sounds:['c','u-e','b'],splitDigraph:'u-e',link:[1,3],word:'cube',hint:'a 3D shape with six square faces'},
+  {letters:['h','u','g','e'],sounds:['h','u-e','g'],splitDigraph:'u-e',link:[1,3],word:'huge',hint:'very big'},
+  {letters:['r','u','l','e'],sounds:['r','u-e','l'],splitDigraph:'u-e',link:[1,3],word:'rule',hint:'something you must follow'}
+];
+
+// ═══════════════════════════════════════════════════════════
+// ALIEN WORD BANK — pseudo-words for phonics screening practice
+// All are decodable but not real English words
+// Tagged with phonemes so the grapheme picker filters them too
+// ═══════════════════════════════════════════════════════════
+const ALIEN_BLEND=[
+  // Short 'a'
+  {sounds:['d','a','p'],word:'dap'},{sounds:['f','a','m'],word:'fam'},
+  {sounds:['k','a','b'],word:'kab'},{sounds:['j','a','v'],word:'jav'},
+  {sounds:['n','a','f'],word:'naf'},{sounds:['z','a','f'],word:'zaf'},
+  // Short 'e'
+  {sounds:['b','e','p'],word:'bep'},{sounds:['d','e','v'],word:'dev'},
+  {sounds:['l','e','v'],word:'lev'},{sounds:['n','e','f'],word:'nef'},
+  {sounds:['z','e','b'],word:'zeb'},{sounds:['v','e','p'],word:'vep'},
+  // Short 'i'
+  {sounds:['b','i','f'],word:'bif'},{sounds:['k','i','v'],word:'kiv'},
+  {sounds:['n','i','p'],word:'nip'},{sounds:['v','i','d'],word:'vid'},
+  {sounds:['z','i','n'],word:'zin'},{sounds:['j','i','m'],word:'jim'},
+  // Short 'o'
+  {sounds:['d','o','p'],word:'dop'},{sounds:['f','o','z'],word:'foz'},
+  {sounds:['k','o','b'],word:'kob'},{sounds:['n','o','z'],word:'noz'},
+  {sounds:['v','o','p'],word:'vop'},{sounds:['z','o','b'],word:'zob'},
+  // Short 'u'
+  {sounds:['b','u','p'],word:'bup'},{sounds:['d','u','f'],word:'duf'},
+  {sounds:['j','u','m'],word:'jum'},{sounds:['k','u','b'],word:'kub'},
+  {sounds:['v','u','m'],word:'vum'},{sounds:['z','u','p'],word:'zup'},
+  // Phase 3 — sh
+  {sounds:['sh','a','p'],word:'shap'},{sounds:['sh','e','b'],word:'sheb'},
+  {sounds:['sh','i','k'],word:'shik'},{sounds:['sh','o','f'],word:'shof'},
+  {sounds:['sh','u','m'],word:'shum'},{sounds:['v','i','sh'],word:'vish'},
+  // Phase 3 — ch
+  {sounds:['ch','a','b'],word:'chab'},{sounds:['ch','e','p'],word:'chep'},
+  {sounds:['ch','i','g'],word:'chig'},{sounds:['ch','o','b'],word:'chob'},
+  {sounds:['ch','u','p'],word:'chup'},{sounds:['ch','u','v'],word:'chuv'},
+  // Phase 3 — th
+  {sounds:['th','a','b'],word:'thab'},{sounds:['th','e','p'],word:'thep'},
+  {sounds:['th','i','g'],word:'thig'},{sounds:['th','o','m'],word:'thom'},
+  {sounds:['th','u','x'],word:'thux'},{sounds:['th','e','v'],word:'thev'},
+  // Phase 3 — ng
+  {sounds:['v','a','ng'],word:'vang'},{sounds:['f','i','ng'],word:'fing'},
+  {sounds:['z','o','ng'],word:'zong'},{sounds:['p','u','ng'],word:'pung'},
+  {sounds:['j','i','ng'],word:'jing'},{sounds:['n','o','ng'],word:'nong'},
+  // Phase 3 — qu
+  {sounds:['qu','a','p'],word:'quap'},{sounds:['qu','e','b'],word:'queb'},
+  {sounds:['qu','i','f'],word:'quif'},{sounds:['qu','o','m'],word:'quom'},
+  {sounds:['qu','u','b'],word:'quub'},
+  // Phase 5 — ai
+  {sounds:['d','ai','l'],word:'dail'},{sounds:['f','ai','b'],word:'faib'},
+  {sounds:['j','ai','m'],word:'jaim'},{sounds:['n','ai','f'],word:'naif'},
+  {sounds:['v','ai','z'],word:'vaiz'},{sounds:['z','ai','l'],word:'zail'},
+  // Phase 5 — ay
+  {sounds:['v','ay'],word:'vay'},{sounds:['z','ay'],word:'zay'},
+  {sounds:['m','ay'],word:'may'},{sounds:['k','r','ay'],word:'kray'},
+  {sounds:['p','l','ay','f'],word:'playf'},
+  // Phase 5 — ee
+  {sounds:['z','ee','m'],word:'zeem'},{sounds:['v','ee','b'],word:'veeb'},
+  {sounds:['j','ee','d'],word:'jeed'},{sounds:['f','ee','p'],word:'feep'},
+  {sounds:['n','ee','z'],word:'neez'},{sounds:['k','ee','v'],word:'keev'},
+  // Phase 5 — igh
+  {sounds:['z','igh'],word:'zigh'},{sounds:['v','igh'],word:'vigh'},
+  {sounds:['t','igh','b'],word:'tighb'},{sounds:['p','igh','m'],word:'pighm'},
+  {sounds:['b','igh','f'],word:'bighf'},
+  // Phase 5 — oa
+  {sounds:['z','oa','b'],word:'zoab'},{sounds:['v','oa','d'],word:'voad'},
+  {sounds:['f','oa','z'],word:'foaz'},{sounds:['j','oa','m'],word:'joam'},
+  {sounds:['t','oa','b'],word:'toab'},{sounds:['b','oa','x'],word:'boax'},
+  // Phase 5 — oo
+  {sounds:['z','oo','b'],word:'zoob'},{sounds:['v','oo','m'],word:'voom'},
+  {sounds:['j','oo','f'],word:'joof'},{sounds:['f','oo','p'],word:'foop'},
+  {sounds:['n','oo','d'],word:'nood'},{sounds:['p','oo','z'],word:'pooz'},
+  // R-controlled — ar
+  {sounds:['z','ar'],word:'zar'},{sounds:['v','ar','f'],word:'varf'},
+  {sounds:['j','ar','b'],word:'jarb'},{sounds:['m','ar','p'],word:'marp'},
+  {sounds:['n','ar','z'],word:'narz'},
+  // R-controlled — or
+  {sounds:['z','or'],word:'zor'},{sounds:['v','or','f'],word:'vorf'},
+  {sounds:['j','or','b'],word:'jorb'},{sounds:['m','or','p'],word:'morp'},
+  {sounds:['n','or','z'],word:'norz'},
+  // R-controlled — er
+  {sounds:['z','er'],word:'zer'},{sounds:['f','er','b'],word:'ferb'},
+  {sounds:['j','er','p'],word:'jerp'},{sounds:['m','er','f'],word:'merf'},
+  {sounds:['v','er','t'],word:'vert'},
+  // R-controlled — ir
+  {sounds:['z','ir'],word:'zir'},{sounds:['v','ir','f'],word:'virf'},
+  {sounds:['j','ir','b'],word:'jirb'},{sounds:['m','ir','p'],word:'mirp'},
+  {sounds:['n','ir','t'],word:'nirt'},
+  // R-controlled — ur
+  {sounds:['z','ur'],word:'zur'},{sounds:['v','ur','f'],word:'vurf'},
+  {sounds:['j','ur','b'],word:'jurb'},{sounds:['m','ur','p'],word:'murp'},
+  {sounds:['n','ur','t'],word:'nurt'},
+  // Double-letter endings — ck
+  {sounds:['b','o','ck'],word:'bock'},{sounds:['d','a','ck'],word:'dack'},
+  {sounds:['j','e','ck'],word:'jeck'},{sounds:['v','i','ck'],word:'vick'},
+  {sounds:['m','u','ck'],word:'muck'},{sounds:['z','o','ck'],word:'zock'},
+  // Double-letter endings — ff
+  {sounds:['z','o','ff'],word:'zoff'},{sounds:['v','a','ff'],word:'vaff'},
+  {sounds:['j','e','ff'],word:'jeff'},{sounds:['n','i','ff'],word:'niff'},
+  {sounds:['p','u','ff','m'],word:'puffm'},
+  // Double-letter endings — ll
+  {sounds:['v','o','ll'],word:'voll'},{sounds:['z','e','ll'],word:'zell'},
+  {sounds:['j','a','ll'],word:'jall'},{sounds:['m','i','ll'],word:'mill'},
+  {sounds:['n','u','ll'],word:'null'},
+  // Double-letter endings — ss
+  {sounds:['v','o','ss'],word:'voss'},{sounds:['z','a','ss'],word:'zass'},
+  {sounds:['j','i','ss'],word:'jiss'},{sounds:['n','u','ss'],word:'nuss'},
+  {sounds:['p','e','ss','t'],word:'pesst'},
+  // Double-letter endings — zz
+  {sounds:['v','a','zz'],word:'vazz'},{sounds:['j','e','zz'],word:'jezz'},
+  {sounds:['d','o','zz'],word:'dozz'},{sounds:['n','u','zz'],word:'nuzz'},
+  // Phase 3 — x
+  {sounds:['v','a','x'],word:'vax'},{sounds:['z','i','x'],word:'zix'},
+  {sounds:['j','o','x'],word:'jox'},{sounds:['d','e','x'],word:'dex'},
+  {sounds:['f','u','x'],word:'fux'},
+  // Phase 3 — y
+  {sounds:['y','a','b'],word:'yab'},{sounds:['y','i','b'],word:'yib'},
+  {sounds:['y','o','m'],word:'yom'},{sounds:['y','e','v'],word:'yev'},
+  {sounds:['y','u','p'],word:'yup'},
+  // Phase 5 — ea
+  {sounds:['v','ea'],word:'vea'},{sounds:['j','ea','m'],word:'jeam'},
+  {sounds:['n','ea','z'],word:'neaz'},{sounds:['z','ea','b'],word:'zeab'},
+  {sounds:['p','l','ea','f'],word:'pleaf'},
+  // Phase 5 — ie
+  {sounds:['z','ie'],word:'zie'},{sounds:['j','ie','d'],word:'jied'},
+  {sounds:['n','ie','m'],word:'niem'},{sounds:['v','ie','p'],word:'viep'},
+  {sounds:['d','ie','f'],word:'dief'},
+  // Phase 5 — oe
+  {sounds:['v','oe'],word:'voe'},{sounds:['z','oe','d'],word:'zoed'},
+  {sounds:['j','oe','n'],word:'joen'},{sounds:['m','oe','b'],word:'moeb'},
+  // Phase 5 — ue
+  {sounds:['v','ue'],word:'vue'},{sounds:['z','ue'],word:'zue'},
+  {sounds:['j','ue','d'],word:'jued'},{sounds:['p','l','ue'],word:'plue'},
+  // Phase 5 — ew
+  {sounds:['v','ew'],word:'vew'},{sounds:['z','ew'],word:'zew'},
+  {sounds:['m','ew','p'],word:'mewp'},{sounds:['p','l','ew','b'],word:'plewb'},
+  // Phase 5 — ow (cow)
+  {sounds:['v','ow'],word:'vow'},{sounds:['j','ow'],word:'jow'},
+  {sounds:['z','ow','n'],word:'zown'},{sounds:['p','l','ow','m'],word:'plowm'},
+  {sounds:['d','ow','b'],word:'dowb'},
+  // Phase 5 — ou
+  {sounds:['v','ou','d'],word:'voud'},{sounds:['j','ou','m'],word:'joum'},
+  {sounds:['z','ou','b'],word:'zoub'},{sounds:['p','l','ou','f'],word:'plouf'},
+  // Phase 5 — oi
+  {sounds:['v','oi','b'],word:'voib'},{sounds:['z','oi','d'],word:'zoid'},
+  {sounds:['j','oi','m'],word:'joim'},{sounds:['n','oi','p'],word:'noip'},
+  {sounds:['f','oi','n'],word:'foin'},
+  // Phase 5 — oy
+  {sounds:['v','oy'],word:'voy'},{sounds:['z','oy'],word:'zoy'},
+  {sounds:['m','oy','b'],word:'moyb'},{sounds:['p','l','oy','f'],word:'ployf'},
+  // Phase 5 — aw
+  {sounds:['v','aw'],word:'vaw'},{sounds:['z','aw'],word:'zaw'},
+  {sounds:['m','aw','b'],word:'mawb'},{sounds:['p','l','aw','f'],word:'plawf'},
+  // Phase 5 — au
+  {sounds:['v','au','l'],word:'vaul'},{sounds:['j','au','d'],word:'jaud'},
+  {sounds:['z','au','m'],word:'zaum'},{sounds:['n','au','b'],word:'naub'},
+  // R-controlled — ear
+  {sounds:['v','ear'],word:'vear'},{sounds:['z','ear','n'],word:'zearn'},
+  {sounds:['j','ear','d'],word:'jeard'},{sounds:['m','ear','p'],word:'mearp'},
+  // R-controlled — air
+  {sounds:['v','air'],word:'vair'},{sounds:['z','air','n'],word:'zairn'},
+  {sounds:['j','air','b'],word:'jairb'},{sounds:['m','air','p'],word:'mairp'},
+  // R-controlled — ure
+  {sounds:['v','ure'],word:'vure'},{sounds:['z','ure','m'],word:'zurem'},
+  {sounds:['j','ure','p'],word:'jurep'},{sounds:['n','ure','b'],word:'nureb'},
+  // Alternative — ph
+  {sounds:['ph','a','b'],word:'phab'},{sounds:['ph','e','p'],word:'phep'},
+  {sounds:['ph','i','g'],word:'phig'},{sounds:['ph','o','d'],word:'phod'},
+  {sounds:['ph','u','m','p'],word:'phump'},
+  // Alternative — wh
+  {sounds:['wh','a','b'],word:'whab'},{sounds:['wh','e','p'],word:'whep'},
+  {sounds:['wh','i','g'],word:'whig'},{sounds:['wh','o','d'],word:'whod'},
+  {sounds:['wh','u','m','p'],word:'whump'}
+];
+
+// ═══════════════════════════════════════════════════════════
+// GRAPHEME GROUPS — for the Sound it Out filter in Setup
+// Comprehensive UK Phase 2-5 GPC coverage (excluding split digraphs)
+// Empty selection = use all (default behaviour)
+// ═══════════════════════════════════════════════════════════
+const GRAPHEME_GROUPS=[
+  {label:'Short vowels',graphemes:['a','e','i','o','u']},
+  {label:'Consonants',graphemes:['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','y','z']},
+  {label:'Double-letter endings',graphemes:['ck','ff','ll','ss','zz']},
+  {label:'Phase 3 digraphs',graphemes:['sh','ch','th','ng','qu']},
+  {label:'Long vowel digraphs',graphemes:['ai','ay','ee','ea','ie','igh','oa','oe','oo','ue','ew']},
+  {label:'Split digraphs',graphemes:['a-e','e-e','i-e','o-e','u-e']},
+  {label:'Other vowel sounds',graphemes:['ow','ou','oi','oy','aw','au']},
+  {label:'R-controlled vowels',graphemes:['ar','or','er','ir','ur','ear','air','ure']},
+  {label:'Alternative spellings',graphemes:['ph','wh']}
+];
+function getFilteredPhonics(){
+  const sel=JSON.parse(localStorage.getItem('y1_graphemes')||'[]');
+  const mode=localStorage.getItem('y1_phonics_mode')||'real';  // 'real' | 'alien' | 'mixed'
+  let pool;
+  if(mode==='alien') pool=ALIEN_BLEND.map(x=>({...x,isAlien:true}));
+  else if(mode==='mixed') pool=[...PHONICS_BLEND.map(x=>({...x,isAlien:false})),...ALIEN_BLEND.map(x=>({...x,isAlien:true}))];
+  else pool=PHONICS_BLEND.map(x=>({...x,isAlien:false}));
+  if(sel.length===0) return pool;
+  const selSet=new Set(sel);
+  const filtered=pool.filter(item=>item.sounds.some(s=>selSet.has(s)));
+  return filtered.length>0 ? filtered : pool;
+}
+
+// ═══════════════════════════════════════════════════════════
+// RHYME TIME BANK — phonological awareness (Y1 foundational)
+// Each entry: {target, options:[4 words], correct: index 0-3}
+// Children find which word rhymes with the target
+// ═══════════════════════════════════════════════════════════
+const RHYME_BANK=[
+  {target:'cat',options:['dog','hat','tree','sun'],correct:1},
+  {target:'sun',options:['rain','moon','run','star'],correct:2},
+  {target:'pig',options:['cow','big','duck','horse'],correct:1},
+  {target:'frog',options:['fish','bird','dog','cat'],correct:2},
+  {target:'hen',options:['cow','pig','ten','duck'],correct:2},
+  {target:'star',options:['moon','car','tree','rain'],correct:1},
+  {target:'fish',options:['cat','dog','dish','bird'],correct:2},
+  {target:'bee',options:['fly','tree','wasp','ant'],correct:1},
+  {target:'hop',options:['jump','run','top','skip'],correct:2},
+  {target:'red',options:['blue','green','bed','black'],correct:2},
+  {target:'cake',options:['bread','snake','jelly','pie'],correct:1},
+  {target:'ball',options:['kick','tall','throw','catch'],correct:1},
+  {target:'house',options:['flat','mouse','room','door'],correct:1},
+  {target:'snail',options:['slug','tail','shell','slow'],correct:1},
+  {target:'duck',options:['swim','bird','truck','quack'],correct:2},
+  {target:'sheep',options:['lamb','wool','sleep','farm'],correct:2},
+  {target:'goat',options:['horn','farm','boat','grass'],correct:2},
+  {target:'tree',options:['leaf','wood','bee','branch'],correct:2},
+  {target:'sand',options:['beach','hand','sea','wave'],correct:1},
+  {target:'rain',options:['cloud','wet','train','storm'],correct:2}
+];
+
+// ═══════════════════════════════════════════════════════════
+// CLOCK BANK — telling the time (Y1 o'clock & half past, Y2 quarters & 5-minutes)
+// Each entry: {h, m, label}
+// h: hour 1-12, m: minutes past the hour 0-55
+// ═══════════════════════════════════════════════════════════
+const CLOCK_BANK=[
+  // Y1: o'clock
+  {h:3,m:0,label:"3 o'clock"},
+  {h:6,m:0,label:"6 o'clock"},
+  {h:9,m:0,label:"9 o'clock"},
+  {h:12,m:0,label:"12 o'clock"},
+  {h:1,m:0,label:"1 o'clock"},
+  {h:7,m:0,label:"7 o'clock"},
+  // Y1: half past
+  {h:2,m:30,label:"half past 2"},
+  {h:5,m:30,label:"half past 5"},
+  {h:8,m:30,label:"half past 8"},
+  {h:11,m:30,label:"half past 11"},
+  {h:4,m:30,label:"half past 4"},
+  {h:10,m:30,label:"half past 10"},
+  // Y2: quarter past
+  {h:1,m:15,label:"quarter past 1"},
+  {h:6,m:15,label:"quarter past 6"},
+  {h:9,m:15,label:"quarter past 9"},
+  {h:3,m:15,label:"quarter past 3"},
+  // Y2: quarter to
+  {h:5,m:45,label:"quarter to 6"},
+  {h:8,m:45,label:"quarter to 9"},
+  {h:11,m:45,label:"quarter to 12"},
+  {h:2,m:45,label:"quarter to 3"},
+  // Y2: 5-minute intervals
+  {h:4,m:5,label:"5 past 4"},
+  {h:7,m:10,label:"10 past 7"},
+  {h:2,m:20,label:"20 past 2"},
+  {h:9,m:25,label:"25 past 9"},
+  {h:3,m:35,label:"25 to 4"},
+  {h:6,m:40,label:"20 to 7"},
+  {h:10,m:50,label:"10 to 11"},
+  {h:5,m:55,label:"5 to 6"}
+];
+
+// ═══════════════════════════════════════════════════════════
+// NUMBER PUZZLE ENGINE — Y1/Y2: pool 1-9, only + and -, small targets
 // ═══════════════════════════════════════════════════════════
 function combos(a,k){if(!k)return[[]];if(a.length<k)return[];const[h,...t]=a;return[...combos(t,k-1).map(c=>[h,...c]),...combos(t,k)]}
-function reach(n){if(n.length===1)return new Set([n[0]]);const o=new Set();for(let i=0;i<n.length;i++)for(let j=0;j<n.length;j++){if(i===j)continue;const a=n[i],b=n[j],r=n.filter((_,x)=>x!==i&&x!==j),p=v=>r.length?reach([v,...r]).forEach(x=>o.add(x)):o.add(v);p(a+b);p(a-b);p(a*b);if(b!==0&&Number.isInteger(a/b))p(a/b)}return o}
-function fexpr(it,tgt){if(it.length===1)return it[0].val===tgt?it[0]:null;for(let i=0;i<it.length;i++)for(let j=0;j<it.length;j++){if(i===j)continue;const a=it[i],b=it[j],rest=it.filter((_,x)=>x!==i&&x!==j),ops=[['+',a.val+b.val],['−',a.val-b.val],['×',a.val*b.val],...(b.val!==0&&Number.isInteger(a.val/b.val)?[['÷',a.val/b.val]]:[])];for(const[op,v]of ops){if(!Number.isFinite(v)||!Number.isInteger(v))continue;const ni={val:v,tree:{op,l:a.tree,r:b.tree}};const f=rest.length?fexpr([ni,...rest],tgt):(v===tgt?ni:null);if(f)return f}}return null}
+function reach(n){if(n.length===1)return new Set([n[0]]);const o=new Set();for(let i=0;i<n.length;i++)for(let j=0;j<n.length;j++){if(i===j)continue;const a=n[i],b=n[j],r=n.filter((_,x)=>x!==i&&x!==j),p=v=>{if(v<0)return;r.length?reach([v,...r]).forEach(x=>o.add(x)):o.add(v)};p(a+b);p(a-b)}return o}
+function fexpr(it,tgt){if(it.length===1)return it[0].val===tgt?it[0]:null;for(let i=0;i<it.length;i++)for(let j=0;j<it.length;j++){if(i===j)continue;const a=it[i],b=it[j],rest=it.filter((_,x)=>x!==i&&x!==j),ops=[['+',a.val+b.val],['−',a.val-b.val]];for(const[op,v]of ops){if(v<0||!Number.isFinite(v)||!Number.isInteger(v))continue;const ni={val:v,tree:{op,l:a.tree,r:b.tree}};const f=rest.length?fexpr([ni,...rest],tgt):(v===tgt?ni:null);if(f)return f}}return null}
 function estr(t){if(typeof t==='number')return''+t;const w=x=>typeof x==='number'?''+x:'('+estr(x)+')';return w(t.l)+' '+t.op+' '+w(t.r)}
 function solveNum(g,tgt,k){for(const c of combos(g,k)){const r=fexpr(c.map(n=>({val:n,tree:n})),tgt);if(r)return estr(r.tree)+' = '+tgt}return'—'}
-function genNum(tr=0){if(tr>50)return null;const pool=Array.from({length:14},(_,i)=>i+2);for(let i=pool.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[pool[i],pool[j]]=[pool[j],pool[i]]}const g=pool.slice(0,9);const s={2:new Set(),3:new Set(),4:new Set()},cap={2:80,3:150,4:300};for(const k of[2,3,4])for(const c of combos(g,k))reach(c).forEach(v=>{if(v>0&&Number.isInteger(v)&&v<=cap[k])s[k].add(v)});if(s[2].size<5||s[3].size<5||s[4].size<2)return genNum(tr+1);const pick=(set,n)=>[...set].sort(()=>Math.random()-.5).slice(0,n).sort((a,b)=>a-b);return{grid:g,targets:{two:pick(s[2],5),three:pick(s[3],5),four:pick(s[4],2)}}}
+function genNum(tr=0){
+  if(tr>50)return null;
+  // Y1/Y2: pool is 1-9 (numbers children know well)
+  const pool=Array.from({length:9},(_,i)=>i+1);
+  for(let i=pool.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[pool[i],pool[j]]=[pool[j],pool[i]]}
+  const g=pool.slice(0,9);
+  const s={2:new Set(),3:new Set(),4:new Set()};
+  // Y1 caps: small targets — 2-num up to 12, 3-num up to 18, 4-num up to 22
+  const cap={2:12,3:18,4:22};
+  for(const k of[2,3,4])for(const c of combos(g,k))reach(c).forEach(v=>{if(v>0&&Number.isInteger(v)&&v<=cap[k])s[k].add(v)});
+  if(s[2].size<4||s[3].size<4||s[4].size<2)return genNum(tr+1);
+  const pick=(set,n)=>[...set].sort(()=>Math.random()-.5).slice(0,n).sort((a,b)=>a-b);
+  return{grid:g,targets:{two:pick(s[2],4),three:pick(s[3],4),four:pick(s[4],2)}};
+}
 
 // ═══════════════════════════════════════════════════════════
 // ODD ONE OUT BANK
@@ -1067,12 +1815,12 @@ function getTTSet(){
 // STATE & INIT
 // ═══════════════════════════════════════════════════════════
 let pType='boggle',cur=null,solsOpen=false;
-const ALL_TYPES=['boggle','number','combined','literacy','vocab','mathsreason','mathsshape','humanities'];
+const ALL_TYPES=['y1combined','y1maths','y1literacy','boggle','number'];
 
 function init(){
   renderDate();renderLunch();renderMsg();loadImg();
-  // Always show combined view (4 puzzles at once)
-  pType='combined';
+  // Y1/Y2 combined view: 4 mini-panels (Subitise / Sound it Out / Rhyme / Clock)
+  pType='y1combined';
   newPuzzle();updateDot();
 }
 
@@ -1158,6 +1906,24 @@ function newPuzzle(){
     const eA=MAP_CHALLENGE[Math.floor(Math.random()*MAP_CHALLENGE.length)];
     const eB=TIMELINE_SETS[Math.floor(Math.random()*TIMELINE_SETS.length)];
     cur={type:'humanities',dataA:eA,dataB:eB};renderPairHumanities(eA,eB);
+  } else if(pType==='subitise'){
+    const e=SUBITISE[Math.floor(Math.random()*SUBITISE.length)];
+    cur={type:'subitise',data:e};renderSubitise(e);
+  } else if(pType==='phonics'){
+    const e=PHONICS_BLEND[Math.floor(Math.random()*PHONICS_BLEND.length)];
+    cur={type:'phonics',data:e};renderPhonicsBlend(e);
+  } else if(pType==='rhyme'){
+    const e=RHYME_BANK[Math.floor(Math.random()*RHYME_BANK.length)];
+    cur={type:'rhyme',data:e};renderRhyme(e);
+  } else if(pType==='clock'){
+    const e=CLOCK_BANK[Math.floor(Math.random()*CLOCK_BANK.length)];
+    cur={type:'clock',data:e};renderClock(e);
+  } else if(pType==='y1combined'){
+    cur={type:'y1combined'};renderY1Combined();
+  } else if(pType==='y1literacy'){
+    cur={type:'y1literacy'};renderY1Literacy();
+  } else if(pType==='y1maths'){
+    cur={type:'y1maths'};renderY1Maths();
   }
   closeSols();
 }
@@ -1749,6 +2515,432 @@ function renderPairHumanities(eA,eB){
 }
 
 // ═══════════════════════════════════════════════════════════
+// SUBITISE — quick number recognition (Y1/Y2)
+// Renders a dot pattern; reveal shows the number
+// ═══════════════════════════════════════════════════════════
+function buildDicePattern(n){
+  // Standard dice positions (1-6)
+  const positions={
+    1:[[3,3]],
+    2:[[1.5,1.5],[4.5,4.5]],
+    3:[[1.5,1.5],[3,3],[4.5,4.5]],
+    4:[[1.5,1.5],[4.5,1.5],[1.5,4.5],[4.5,4.5]],
+    5:[[1.5,1.5],[4.5,1.5],[3,3],[1.5,4.5],[4.5,4.5]],
+    6:[[1.5,1.5],[4.5,1.5],[1.5,3],[4.5,3],[1.5,4.5],[4.5,4.5]]
+  };
+  const dots=(positions[n]||[]).map(([cx,cy])=>`<circle cx="${cx*60}" cy="${cy*60}" r="34" fill="#e67e22"/>`).join('');
+  return `<svg viewBox="0 0 360 360"><rect x="20" y="20" width="320" height="320" rx="40" fill="#fff" stroke="#111" stroke-width="6"/>${dots}</svg>`;
+}
+function buildTensFrame(n){
+  // 2x5 grid; fill first n cells
+  let cells='';
+  for(let r=0;r<2;r++){
+    for(let c=0;c<5;c++){
+      const idx=r*5+c;
+      const x=30+c*60,y=80+r*60;
+      cells+=`<rect x="${x}" y="${y}" width="60" height="60" fill="#fff" stroke="#111" stroke-width="3.5"/>`;
+      if(idx<n) cells+=`<circle cx="${x+30}" cy="${y+30}" r="24" fill="#e67e22"/>`;
+    }
+  }
+  return `<svg viewBox="0 0 360 280">${cells}</svg>`;
+}
+function buildRandomDots(n){
+  // Pseudo-random arrangement (deterministic per n so same display each render)
+  const seed=n*73+17;
+  let s=seed; const rnd=()=>{s=(s*9301+49297)%233280; return s/233280};
+  const dots=[];
+  for(let i=0;i<n;i++){
+    let cx,cy,ok;
+    let tries=0;
+    do{
+      cx=50+rnd()*260;cy=50+rnd()*260;
+      ok=dots.every(([x,y])=>Math.hypot(x-cx,y-cy)>64);
+      tries++;
+    } while(!ok && tries<60);
+    dots.push([cx,cy]);
+  }
+  const circles=dots.map(([cx,cy])=>`<circle cx="${cx}" cy="${cy}" r="28" fill="#e67e22"/>`).join('');
+  return `<svg viewBox="0 0 360 360"><rect x="20" y="20" width="320" height="320" rx="20" fill="#fff" stroke="#111" stroke-width="4"/>${circles}</svg>`;
+}
+function renderSubitise(e){
+  const pp=document.getElementById('puzzle-panel');
+  pp.style.cssText='display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5vh 2vw;gap:1vh;height:100%';
+  let svg='';
+  if(e.pattern==='dice') svg=buildDicePattern(e.n);
+  else if(e.pattern==='tens') svg=buildTensFrame(e.n);
+  else svg=buildRandomDots(e.n);
+  pp.innerHTML=`
+    <div class="ptitle" style="font-size:clamp(1rem,2.4vh,1.5rem);color:#888;text-transform:uppercase;letter-spacing:0.1em">Subitise — How Many?</div>
+    <div class="sub-card">
+      ${svg}
+      <div class="sub-q">How many dots can you see?</div>
+      <div class="sub-reveal" id="sub-reveal">${e.n}</div>
+      <button class="sub-btn" id="sub-btn" onclick="toggleSubReveal()">Reveal</button>
+    </div>`;
+}
+function toggleSubReveal(){
+  const r=document.getElementById('sub-reveal'),b=document.getElementById('sub-btn');
+  if(r.classList.contains('show')){r.classList.remove('show');b.textContent='Reveal'}
+  else{r.classList.add('show');b.textContent='Hide'}
+}
+
+// ═══════════════════════════════════════════════════════════
+// PHONICS BLEND — sound out the phonemes (Y1)
+// ═══════════════════════════════════════════════════════════
+function renderPhonicsBlend(e){
+  const pp=document.getElementById('puzzle-panel');
+  pp.style.cssText='display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5vh 2vw;gap:1.5vh;height:100%';
+  const sounds=e.sounds.map(s=>`<div class="pb-sound">${s}</div>`).join('<div class="pb-arrow">+</div>');
+  pp.innerHTML=`
+    <div class="pb-card">
+      <div class="pb-title">Sound it Out</div>
+      <div class="pb-sounds">${sounds}</div>
+      <div class="pb-arrow" style="font-size:clamp(2.5rem,7vh,4rem)">↓</div>
+      <div class="pb-blend" id="pb-blend">${e.word}</div>
+      <div class="pb-hint">${e.hint}</div>
+      <button class="sub-btn" id="pb-btn" onclick="togglePbReveal()">Blend it!</button>
+    </div>`;
+}
+function togglePbReveal(){
+  const r=document.getElementById('pb-blend'),b=document.getElementById('pb-btn');
+  if(r.classList.contains('show')){r.classList.remove('show');b.textContent='Blend it!'}
+  else{r.classList.add('show');b.textContent='Hide'}
+}
+
+// ═══════════════════════════════════════════════════════════
+// RHYME — find the rhyming word (Y1 phonological awareness)
+// ═══════════════════════════════════════════════════════════
+function renderRhyme(e){
+  const pp=document.getElementById('puzzle-panel');
+  pp.style.cssText='display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5vh 2vw;gap:1.5vh;height:100%';
+  const opts=e.options.map((w,i)=>`<div class="rh-opt" data-i="${i}">${w}</div>`).join('');
+  pp.innerHTML=`
+    <div class="rh-card">
+      <div class="rh-title">Rhyme Time</div>
+      <div class="rh-q">Which one rhymes with…</div>
+      <div class="rh-target">${e.target}</div>
+      <div class="rh-options">${opts}</div>
+      <button class="sub-btn" id="rh-btn" onclick="toggleRhReveal()">Reveal</button>
+    </div>`;
+}
+function toggleRhReveal(){
+  const opts=document.querySelectorAll('.rh-opt'),b=document.getElementById('rh-btn');
+  const correct=cur.data.correct;
+  if(b.dataset.shown==='1'){
+    opts.forEach(o=>o.classList.remove('correct'));
+    b.dataset.shown='0';b.textContent='Reveal';
+  } else {
+    opts.forEach((o,i)=>{ if(i===correct) o.classList.add('correct'); });
+    b.dataset.shown='1';b.textContent='Hide';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// CLOCK — read the analogue time (Y1 o'clock & half past, Y2 quarters & 5-min)
+// ═══════════════════════════════════════════════════════════
+function buildClock(h,m){
+  // Centre 180,180. Radius 150. Hour numbers 1-12.
+  const r=150,cx=180,cy=180;
+  // Numbers 1-12
+  let nums='';
+  for(let i=1;i<=12;i++){
+    const ang=(i-3)*Math.PI/6;
+    const nx=cx+Math.cos(ang)*(r-26);
+    const ny=cy+Math.sin(ang)*(r-26)+11;
+    nums+=`<text x="${nx}" y="${ny}" text-anchor="middle" font-size="34" font-weight="900" fill="#111" font-family="Nunito">${i}</text>`;
+  }
+  // Minute ticks
+  let ticks='';
+  for(let i=0;i<60;i++){
+    const ang=(i-15)*Math.PI/30;
+    const x1=cx+Math.cos(ang)*(r-2);
+    const y1=cy+Math.sin(ang)*(r-2);
+    const x2=cx+Math.cos(ang)*(r-(i%5===0?14:8));
+    const y2=cy+Math.sin(ang)*(r-(i%5===0?14:8));
+    ticks+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#111" stroke-width="${i%5===0?3:1.5}"/>`;
+  }
+  // Hands. Hour hand moves with minutes (e.g. half past 3 has hour hand between 3 and 4)
+  const hourAng=((h%12)+m/60-3)*Math.PI/6;
+  const minAng=(m-15)*Math.PI/30;
+  const hx=cx+Math.cos(hourAng)*(r*0.55);
+  const hy=cy+Math.sin(hourAng)*(r*0.55);
+  const mx=cx+Math.cos(minAng)*(r*0.82);
+  const my=cy+Math.sin(minAng)*(r*0.82);
+  return `<svg viewBox="0 0 360 360">
+    <circle cx="${cx}" cy="${cy}" r="${r+10}" fill="#fff" stroke="#111" stroke-width="6"/>
+    ${ticks}
+    ${nums}
+    <line x1="${cx}" y1="${cy}" x2="${hx}" y2="${hy}" stroke="#111" stroke-width="10" stroke-linecap="round"/>
+    <line x1="${cx}" y1="${cy}" x2="${mx}" y2="${my}" stroke="#e67e22" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="${cx}" cy="${cy}" r="9" fill="#111"/>
+  </svg>`;
+}
+function renderClock(e){
+  const pp=document.getElementById('puzzle-panel');
+  pp.style.cssText='display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5vh 2vw;gap:1.2vh;height:100%';
+  pp.innerHTML=`
+    <div class="ck-card">
+      <div class="ck-title">What's the Time?</div>
+      ${buildClock(e.h,e.m)}
+      <div class="ck-q">Read the time on the clock</div>
+      <div class="ck-reveal" id="ck-reveal">${e.label}</div>
+      <button class="sub-btn" id="ck-btn" onclick="toggleCkReveal()">Reveal</button>
+    </div>`;
+}
+function toggleCkReveal(){
+  const r=document.getElementById('ck-reveal'),b=document.getElementById('ck-btn');
+  if(r.classList.contains('show')){r.classList.remove('show');b.textContent='Reveal'}
+  else{r.classList.add('show');b.textContent='Hide'}
+}
+
+// ═══════════════════════════════════════════════════════════
+// Y1/Y2 DENSE COMBINED — 6 subitise + 6 phonics + 3 rhymes + 4 clocks
+// Each panel has its own Reveal button toggling .revealed on the .cpanel
+// ═══════════════════════════════════════════════════════════
+function pickN(arr,n,keyFn){
+  const shuffled=[...arr].sort(()=>Math.random()-0.5);
+  if(!keyFn) return shuffled.slice(0,n);
+  const seen=new Set(), picked=[];
+  for(const item of shuffled){
+    const key=keyFn(item);
+    if(!seen.has(key)){seen.add(key);picked.push(item);if(picked.length>=n)break;}
+  }
+  if(picked.length<n){
+    for(const item of shuffled){
+      if(!picked.includes(item)){picked.push(item);if(picked.length>=n)break;}
+    }
+  }
+  return picked;
+}
+function revealY1Panel(btn){
+  const panel=btn.closest('.cpanel');
+  panel.classList.toggle('revealed');
+  btn.textContent=panel.classList.contains('revealed')?'👁 Hide':'👁 Reveal';
+}
+function renderY1Combined(){
+  const pp=document.getElementById('puzzle-panel');
+  pp.style.display='none';
+  let cp=document.getElementById('combined-panel');
+  if(!cp){cp=document.createElement('div');cp.id='combined-panel';pp.parentNode.insertBefore(cp,pp);}
+  cp.className='';
+
+  const subs=pickN(SUBITISE,6,x=>x.n);
+  const filteredPhonics=getFilteredPhonics();
+  const phs=pickN(filteredPhonics,Math.min(6,filteredPhonics.length),x=>x.word);
+  const rhs=pickN(RHYME_BANK,3,x=>x.target);
+  // Y1: only o'clock and half past
+  const ckBank=CLOCK_BANK.filter(c=>c.m===0||c.m===30);
+  const cks=pickN(ckBank,4,x=>x.h+':'+x.m);
+  cur.subs=subs;cur.phs=phs;cur.rhs=rhs;cur.cks=cks;
+
+  const subHtml=subs.map(s=>{
+    let svg;
+    if(s.pattern==='dice') svg=buildDicePattern(s.n);
+    else if(s.pattern==='tens') svg=buildTensFrame(s.n);
+    else svg=buildRandomDots(s.n);
+    return `<div class="y1cd-sub-card">${svg}<div class="y1cd-sub-ans">${s.n}</div></div>`;
+  }).join('');
+
+  // Read the active grapheme filter once so we can pick a meaningful focus chip per card
+  let selectedGraphemes;
+  try{const arr=JSON.parse(localStorage.getItem('y1_graphemes')||'[]');selectedGraphemes=new Set(arr);}
+  catch(e){selectedGraphemes=new Set();}
+
+  const phHtml=phs.map(p=>{
+    const isAlien=p.isAlien;
+    const cardCls=isAlien?' alien':'';
+    const badgeIcon=isAlien?'👽':'✓';
+    const charIcon=isAlien?'👾':'📖';
+
+    // Pick the focus grapheme to show in the chip:
+    // 1. Split digraph entries always show their split digraph code (a-e, u-e etc)
+    // 2. If the user has filtered by graphemes, prefer the first one that matches this word
+    // 3. Otherwise fall back to the longest sound (favours digraphs/trigraphs over single letters)
+    let focus='';
+    if(p.splitDigraph){
+      focus=p.splitDigraph;
+    }else if(p.sounds&&p.sounds.length){
+      const filterMatch=selectedGraphemes.size?p.sounds.find(s=>selectedGraphemes.has(s)):null;
+      focus=filterMatch||p.sounds.reduce((b,s)=>s.length>b.length?s:b,p.sounds[0]);
+    }
+
+    return `<div class="y1cd-pb-card${cardCls}"><div class="y1cd-pb-focus-badge">${badgeIcon} ${focus}</div><div class="y1cd-pb-word">${p.word}</div><div class="y1cd-pb-char">${charIcon}</div></div>`;
+  }).join('');
+
+  const rhHtml=rhs.map(r=>{
+    const opts=r.options.map((w,i)=>`<div class="y1cd-rh-opt${i===r.correct?' correct':''}">${w}</div>`).join('');
+    return `<div class="y1cd-rh-row"><div class="y1cd-rh-target">${r.target}</div><span class="y1cd-rh-arrow">→</span><div class="y1cd-rh-opts">${opts}</div></div>`;
+  }).join('');
+
+  const ckHtml=cks.map(c=>`<div class="y1cd-ck-card">${buildClock(c.h,c.m)}<div class="y1cd-ck-ans">${c.label}</div></div>`).join('');
+
+  cp.innerHTML=`
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Subitise — How Many?</span><button class="reveal-btn" onclick="revealY1Panel(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" style="padding:0.4vh 0.4vw"><div class="y1cd-sub-grid">${subHtml}</div></div>
+    </div>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Sound it Out — Blend</span></div>
+      <div class="cpanel-body" style="padding:0.4vh 0.4vw"><div class="y1cd-pb-grid">${phHtml}</div></div>
+    </div>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Rhyme Time</span><button class="reveal-btn" onclick="revealY1Panel(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" style="padding:0.4vh 0.4vw"><div class="y1cd-rh-list">${rhHtml}</div></div>
+    </div>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">What's the Time?</span><button class="reveal-btn" onclick="revealY1Panel(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" style="padding:0.4vh 0.4vw"><div class="y1cd-ck-grid">${ckHtml}</div></div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Y1 LITERACY DENSE — 3 Word of the Day + 3 Spot the Mistake (1×2 layout)
+// ═══════════════════════════════════════════════════════════
+function renderY1Literacy(){
+  const pp=document.getElementById('puzzle-panel');
+  pp.style.display='none';
+  let cp=document.getElementById('combined-panel');
+  if(!cp){cp=document.createElement('div');cp.id='combined-panel';pp.parentNode.insertBefore(cp,pp);}
+  cp.className='dense2';
+
+  const wods=pickN(WORD_OF_DAY,3,x=>x.word);
+  const stms=pickN(SPOT_MISTAKE,3,x=>x.para);
+  cur.wods=wods;cur.stms=stms;
+
+  const wodHtml=wods.map(w=>`
+    <div class="y1lit-wod">
+      <div class="y1lit-wod-head"><span class="y1lit-wod-word">${w.word}</span><span class="y1lit-wod-class">${w.cls}</span></div>
+      <div class="y1lit-wod-def">${w.def}</div>
+      <div class="y1lit-wod-eg">"${w.example}"</div>
+    </div>`).join('');
+
+  const stmHtml=stms.map(s=>{
+    const fixHtml=s.errors.map(er=>`<del>${er.wrong}</del> → <mark>${er.correct}</mark>`).join(' &nbsp; ');
+    return `
+    <div class="y1lit-stm">
+      <div class="y1lit-stm-head"><div class="y1lit-stm-badge">${s.count} ${s.count===1?'mistake':'mistakes'}</div></div>
+      <div class="y1lit-stm-para">${s.para}</div>
+      <div class="y1lit-stm-fix">${fixHtml}</div>
+    </div>`;
+  }).join('');
+
+  cp.innerHTML=`
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Words of the Day</span><button class="reveal-btn" onclick="revealY1Panel(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" style="padding:0.5vh 0.6vw"><div class="y1lit-instr">Read each word. Do you know what it means? Can you use it in a sentence?</div><div class="y1lit-list">${wodHtml}</div></div>
+    </div>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Spot the Mistake</span><button class="reveal-btn" onclick="revealY1Panel(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" style="padding:0.5vh 0.6vw"><div class="y1lit-instr">Read the sentence. Can you find the mistakes? How would you fix them?</div><div class="y1lit-list">${stmHtml}</div></div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Y1 MATHS DENSE — Bonds + Doubles + 5-and-a-Bit + Odd/Even (2×2)
+// ═══════════════════════════════════════════════════════════
+function genBonds(n){
+  const items=[],used=new Set();
+  while(items.length<n){
+    const a=Math.floor(Math.random()*9)+1;  // 1-9 (avoid 0+10 trivial)
+    if(used.has(a))continue;
+    used.add(a);
+    items.push({a,b:10-a,total:10,hideFirst:Math.random()<0.5});
+  }
+  return items;
+}
+function genDoubles(n){
+  const items=[],used=new Set();
+  while(items.length<n){
+    const v=Math.floor(Math.random()*5)+1;  // double 1 to 5
+    if(used.has(v))continue;
+    used.add(v);
+    items.push({n:v,doubled:v*2});
+  }
+  return items;
+}
+function genFiveAndBit(n){
+  const items=[],used=new Set();
+  while(items.length<n){
+    const bit=Math.floor(Math.random()*5)+1;  // 1-5
+    if(used.has(bit))continue;
+    used.add(bit);
+    items.push({bit,total:5+bit});
+  }
+  return items;
+}
+function genOddEven(n){
+  const items=[],used=new Set();
+  while(items.length<n){
+    const v=Math.floor(Math.random()*9)+2;  // 2-10
+    if(used.has(v))continue;
+    used.add(v);
+    items.push({n:v,isOdd:v%2===1});
+  }
+  return items;
+}
+function renderY1Maths(){
+  const pp=document.getElementById('puzzle-panel');
+  pp.style.display='none';
+  let cp=document.getElementById('combined-panel');
+  if(!cp){cp=document.createElement('div');cp.id='combined-panel';pp.parentNode.insertBefore(cp,pp);}
+  cp.className='';
+
+  const bonds=genBonds(3);
+  const doubles=genDoubles(3);
+  const fab=genFiveAndBit(2);
+  const oe=genOddEven(3);
+  cur.bonds=bonds;cur.doubles=doubles;cur.fab=fab;cur.oe=oe;
+
+  // Bonds: ?+4=10 etc.
+  const bondsHtml=bonds.map(b=>{
+    const aTile=b.hideFirst?`<span class="y1m-tile y1m-tile-q">${b.a}</span>`:`<span class="y1m-tile">${b.a}</span>`;
+    const bTile=b.hideFirst?`<span class="y1m-tile">${b.b}</span>`:`<span class="y1m-tile y1m-tile-q">${b.b}</span>`;
+    return `<div class="y1m-row">${aTile}<span class="y1m-op">+</span>${bTile}<span class="y1m-op">=</span><span class="y1m-tile y1m-tile-total">10</span></div>`;
+  }).join('');
+
+  // Doubles
+  const doublesHtml=doubles.map(d=>`<div class="y1m-row"><span class="y1m-text">Double</span><span class="y1m-tile">${d.n}</span><span class="y1m-op">=</span><span class="y1m-tile y1m-tile-q">${d.doubled}</span></div>`).join('');
+
+  // 5 and a Bit: tens-frame (5 blue + n orange) + "5 + ? = ?"
+  const fabHtml=fab.map(f=>{
+    let cells='';
+    // Top row: 5 blue
+    for(let i=0;i<5;i++) cells+='<div class="y1m-fab-cell five"></div>';
+    // Bottom row: f.bit orange + (5-f.bit) empty
+    for(let i=0;i<5;i++) cells+=`<div class="y1m-fab-cell ${i<f.bit?'bit':''}"></div>`;
+    return `<div class="y1m-row y1m-fab"><div class="y1m-fab-frame">${cells}</div><div class="y1m-fab-eq"><span class="y1m-tile">5</span><span class="y1m-op">+</span><span class="y1m-tile y1m-tile-q">${f.bit}</span><span class="y1m-op">=</span><span class="y1m-tile y1m-tile-q">${f.total}</span></div></div>`;
+  }).join('');
+
+  // Odd or Even: pairs of dots + numeral + odd/even tile
+  const oeHtml=oe.map(o=>{
+    const pairs=Math.floor(o.n/2);
+    const lone=o.n%2;
+    let dots='';
+    for(let i=0;i<pairs;i++) dots+='<div class="y1m-oe-pair"><div class="y1m-oe-dot"></div><div class="y1m-oe-dot"></div></div>';
+    if(lone) dots+='<div class="y1m-oe-pair"><div class="y1m-oe-dot lone"></div></div>';
+    return `<div class="y1m-row y1m-oe"><div class="y1m-oe-dots">${dots}</div><span class="y1m-oe-num">${o.n}</span><span class="y1m-oe-tile">${o.isOdd?'odd':'even'}</span></div>`;
+  }).join('');
+
+  cp.innerHTML=`
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Bonds to 10</span><button class="reveal-btn" onclick="revealY1Panel(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" style="padding:0.4vh 0.4vw"><div class="y1m-list">${bondsHtml}</div></div>
+    </div>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Doubles</span><button class="reveal-btn" onclick="revealY1Panel(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" style="padding:0.4vh 0.4vw"><div class="y1m-list">${doublesHtml}</div></div>
+    </div>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">5 and a Bit</span><button class="reveal-btn" onclick="revealY1Panel(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" style="padding:0.4vh 0.4vw"><div class="y1m-list">${fabHtml}</div></div>
+    </div>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Odd or Even?</span><button class="reveal-btn" onclick="revealY1Panel(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" style="padding:0.4vh 0.4vw"><div class="y1m-list">${oeHtml}</div></div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
 // SOLUTIONS
 // ═══════════════════════════════════════════════════════════
 function toggleSols(){
@@ -1851,6 +3043,66 @@ function toggleSols(){
       <p style="font-size:0.88rem;margin-bottom:12px;line-height:1.8">${cur.dataA.answers.map((a,i)=>cur.dataA.questions[i]+': '+a).join('<br>')}</p>
       <p style="font-weight:800;margin-bottom:4px">Timeline: ${cur.dataB.title}</p>
       <p style="font-size:0.88rem;line-height:1.8">${[...cur.dataB.events].sort((a,b)=>a.year-b.year).map((ev,i)=>`${i+1}. ${ev.year<0?Math.abs(ev.year)+' BC':ev.year+' AD'} — ${ev.text}`).join('<br>')}</p>`;
+  } else if(cur.type==='subitise'){
+    const e=cur.data;
+    t.textContent='Subitise — answer';
+    const desc={dice:'dice pattern',tens:'tens frame',random:'random arrangement'}[e.pattern]||e.pattern;
+    c.innerHTML=`<p style="font-size:1.1rem;margin-bottom:8px">The pattern shows <span style="font-size:2rem;color:#e67e22;font-weight:900">${e.n}</span> dots.</p><p style="font-size:0.9rem;color:#555">Pattern type: ${desc}.</p>`;
+  } else if(cur.type==='phonics'){
+    const e=cur.data;
+    t.textContent='Sound it Out — answer';
+    c.innerHTML=`<p style="font-size:1rem;margin-bottom:6px">Phonemes: <strong>${e.sounds.join(' — ')}</strong></p><p style="font-size:1.4rem;font-weight:900;color:#e67e22;margin-bottom:8px">${e.word}</p><p style="font-size:0.9rem;color:#555">Hint: ${e.hint}</p>`;
+  } else if(cur.type==='rhyme'){
+    const e=cur.data;
+    t.textContent='Rhyme Time — answer';
+    c.innerHTML=`<p style="font-size:1rem;margin-bottom:6px">Target word: <strong>${e.target}</strong></p><p style="font-size:1.2rem;font-weight:800;margin-bottom:6px">Rhymes with: <span style="color:#3A9922">${e.options[e.correct]}</span></p><p style="font-size:0.85rem;color:#555">Both words end with the same sound.</p>`;
+  } else if(cur.type==='clock'){
+    const e=cur.data;
+    t.textContent="What's the Time? — answer";
+    c.innerHTML=`<p style="font-size:1.5rem;font-weight:900;color:#e67e22;margin-bottom:6px">${e.label}</p><p style="font-size:0.9rem;color:#555">Hour hand points to ${e.h}; minute hand at ${e.m===0?'12':e.m+' minutes'}.</p>`;
+  } else if(cur.type==='y1combined'){
+    t.textContent='Y1/Y2 Morning Combined — solutions';
+    const subDesc={dice:'dice',tens:'tens frame',random:'scattered'};
+    const subAns=cur.subs.map(s=>`${s.n} <span style="color:#888">(${subDesc[s.pattern]||s.pattern})</span>`).join(', ');
+    const phAns=cur.phs.map(p=>`${p.sounds.join('-')} → <strong>${p.word}</strong>`).join('<br>');
+    const rhAns=cur.rhs.map(r=>`<strong>${r.target}</strong> rhymes with <span style="color:#3A9922;font-weight:900">${r.options[r.correct]}</span>`).join('<br>');
+    const ckAns=cur.cks.map(c=>c.label).join(' &nbsp; · &nbsp; ');
+    c.innerHTML=`
+      <p style="font-weight:800;margin-bottom:4px">Subitise</p>
+      <p style="font-size:0.9rem;margin-bottom:12px;line-height:1.5">${subAns}</p>
+      <p style="font-weight:800;margin-bottom:4px">Sound it Out</p>
+      <p style="font-size:0.9rem;margin-bottom:12px;line-height:1.7">${phAns}</p>
+      <p style="font-weight:800;margin-bottom:4px">Rhyme Time</p>
+      <p style="font-size:0.9rem;margin-bottom:12px;line-height:1.7">${rhAns}</p>
+      <p style="font-weight:800;margin-bottom:4px">What's the Time?</p>
+      <p style="font-size:0.9rem;line-height:1.6">${ckAns}</p>`;
+  } else if(cur.type==='y1literacy'){
+    t.textContent='Y1 Literacy Combined — solutions';
+    const wodAns=cur.wods.map(w=>`<strong style="color:#e67e22">${w.word}</strong> <span style="color:#888;font-style:italic">(${w.cls})</span> — ${w.def}`).join('<br>');
+    const stmAns=cur.stms.map(s=>{
+      const fixes=s.errors.map(er=>`"${er.wrong}" → "${er.correct}"`).join('; ');
+      return `<strong>${s.para}</strong><br><span style="color:#145A32">${fixes}</span>`;
+    }).join('<br><br>');
+    c.innerHTML=`
+      <p style="font-weight:800;margin-bottom:4px">Words of the Day</p>
+      <p style="font-size:0.9rem;margin-bottom:14px;line-height:1.7">${wodAns}</p>
+      <p style="font-weight:800;margin-bottom:4px">Spot the Mistake</p>
+      <p style="font-size:0.88rem;line-height:1.6">${stmAns}</p>`;
+  } else if(cur.type==='y1maths'){
+    t.textContent='Y1 Maths Combined — solutions';
+    const bondsAns=cur.bonds.map(b=>`${b.a} + ${b.b} = 10`).join(' &nbsp; · &nbsp; ');
+    const doublesAns=cur.doubles.map(d=>`Double ${d.n} = <strong>${d.doubled}</strong>`).join(' &nbsp; · &nbsp; ');
+    const fabAns=cur.fab.map(f=>`5 + <strong>${f.bit}</strong> = <strong>${f.total}</strong>`).join(' &nbsp; · &nbsp; ');
+    const oeAns=cur.oe.map(o=>`<strong>${o.n}</strong> is <span style="color:${o.isOdd?'#900':'#145A32'}">${o.isOdd?'odd':'even'}</span>`).join(' &nbsp; · &nbsp; ');
+    c.innerHTML=`
+      <p style="font-weight:800;margin-bottom:4px">Bonds to 10</p>
+      <p style="font-size:0.9rem;margin-bottom:12px;line-height:1.6">${bondsAns}</p>
+      <p style="font-weight:800;margin-bottom:4px">Doubles</p>
+      <p style="font-size:0.9rem;margin-bottom:12px;line-height:1.6">${doublesAns}</p>
+      <p style="font-weight:800;margin-bottom:4px">5 and a Bit</p>
+      <p style="font-size:0.9rem;margin-bottom:12px;line-height:1.6">${fabAns}</p>
+      <p style="font-weight:800;margin-bottom:4px">Odd or Even?</p>
+      <p style="font-size:0.9rem;line-height:1.6">${oeAns}</p>`;
   }
   document.getElementById('sol-ov').classList.add('on');
   document.getElementById('solbtn').textContent='Hide solutions';solsOpen=true;
@@ -1926,11 +3178,77 @@ function openSetup(){
     }
   }
   document.getElementById('menu-form').innerHTML=html;
+  // Load grapheme picker state and mode
+  pendingGraphemes=new Set(JSON.parse(localStorage.getItem('y1_graphemes')||'[]'));
+  pendingPhonicsMode=localStorage.getItem('y1_phonics_mode')||'real';
+  renderPhonicsModeButtons();
+  renderGraphemePicker();
   pendingTTBank=JSON.parse(JSON.stringify(JSON.parse(localStorage.getItem('y1_tt_bank')||'[]')));
   renderTTBank();
   document.getElementById('setup-ov').classList.add('on');
 }
 function closeSetup(){document.getElementById('setup-ov').classList.remove('on')}
+
+let pendingGraphemes=new Set();
+let pendingPhonicsMode='real';
+function setPhonicsMode(mode){
+  pendingPhonicsMode=mode;
+  renderPhonicsModeButtons();
+  updateGraphemeSummary();
+}
+function renderPhonicsModeButtons(){
+  document.querySelectorAll('#gp-mode-row .gp-mode-btn').forEach(btn=>{
+    if(btn.dataset.mode===pendingPhonicsMode) btn.classList.add('active');
+    else btn.classList.remove('active');
+  });
+}
+function renderGraphemePicker(){
+  const container=document.getElementById('gp-picker');
+  container.innerHTML=GRAPHEME_GROUPS.map(g=>{
+    const allSel=g.graphemes.every(p=>pendingGraphemes.has(p));
+    return `
+      <div class="gp-section">
+        <div class="gp-section-hdr">
+          <div class="gp-section-title">${g.label}</div>
+          <button class="gp-quick" onclick="toggleGraphemeGroup('${g.label.replace(/'/g,"\\'")}')">${allSel?'Clear all':'Select all'}</button>
+        </div>
+        <div class="gp-pills">
+          ${g.graphemes.map(p=>`<button class="gp-pill${pendingGraphemes.has(p)?' selected':''}" onclick="toggleGrapheme('${p}')">${p}</button>`).join('')}
+        </div>
+      </div>`;
+  }).join('');
+  updateGraphemeSummary();
+}
+function updateGraphemeSummary(){
+  const el=document.getElementById('gp-summary');
+  if(!el) return;
+  const n=pendingGraphemes.size;
+  // build the pool the same way getFilteredPhonics does
+  let pool;
+  if(pendingPhonicsMode==='alien') pool=ALIEN_BLEND;
+  else if(pendingPhonicsMode==='mixed') pool=[...PHONICS_BLEND,...ALIEN_BLEND];
+  else pool=PHONICS_BLEND;
+  const modeLabel=pendingPhonicsMode==='alien'?'alien words':pendingPhonicsMode==='mixed'?'real + alien words':'real words';
+  if(n===0){el.textContent=`No graphemes ticked → all ${pool.length} ${modeLabel} in use (default).`;el.style.color='#888';}
+  else{
+    const matches=pool.filter(item=>item.sounds.some(s=>pendingGraphemes.has(s))).length;
+    el.textContent=`${n} grapheme${n===1?'':'s'} ticked → ${matches} ${modeLabel} available.`;
+    el.style.color=matches<6?'#C00':'#888';
+  }
+}
+function toggleGrapheme(p){
+  if(pendingGraphemes.has(p)) pendingGraphemes.delete(p);
+  else pendingGraphemes.add(p);
+  renderGraphemePicker();
+}
+function toggleGraphemeGroup(label){
+  const grp=GRAPHEME_GROUPS.find(g=>g.label===label);
+  if(!grp) return;
+  const allSel=grp.graphemes.every(p=>pendingGraphemes.has(p));
+  if(allSel) grp.graphemes.forEach(p=>pendingGraphemes.delete(p));
+  else grp.graphemes.forEach(p=>pendingGraphemes.add(p));
+  renderGraphemePicker();
+}
 
 function renderTTBank(){
   const el=document.getElementById('tt-bank-list');
@@ -1972,6 +3290,8 @@ function saveSetup(){
   }
   localStorage.setItem('y1_menu',JSON.stringify(saved));
   localStorage.setItem('y1_tt_bank',JSON.stringify(pendingTTBank));
+  localStorage.setItem('y1_graphemes',JSON.stringify([...pendingGraphemes]));
+  localStorage.setItem('y1_phonics_mode',pendingPhonicsMode);
   closeSetup();renderLunch();
 }
 
