@@ -268,8 +268,8 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
 .stmc-para{background:#FFF8E7;border:2.5px solid #F0C040;border-radius:9px;padding:1vh 1.2vw;font-size:clamp(0.95rem,2.3vh,1.45rem);font-weight:600;line-height:1.55;color:#111;margin-bottom:0.5vh;width:100%}
 .stmc-instr{font-size:clamp(0.85rem,2vh,1.25rem);font-weight:800;color:#444;text-align:center;background:#F0F8FF;border:2px solid #AED6F1;border-radius:7px;padding:0.5vh 1vw;margin-bottom:0.4vh}
 .stmc-instr-num{color:#1798d3;font-weight:900}
-.stmc-ans{display:none;margin-top:0.4vh;background:#fff;border:2px solid #ddd;border-radius:7px;padding:0.6vh 1vw;font-size:clamp(0.85rem,1.85vh,1.2rem);line-height:1.55;color:#333}
-.stmc-ans .stm-ans-item{margin-bottom:0.4vh}
+.stmc-ans{display:none;margin-top:0.3vh;background:#fff;border:2px solid #ddd;border-radius:7px;padding:0.4vh 0.9vw;font-size:clamp(0.78rem,1.7vh,1.1rem);line-height:1.4;color:#333;overflow-y:auto;max-height:100%}
+.stmc-ans .stm-ans-item{margin-bottom:0.25vh}
 .wl-rung{display:flex;align-items:center;gap:0.5vw;margin-bottom:0.3vh;justify-content:center}
 .wl-letter-box{width:clamp(22px,3.2vh,32px);height:clamp(22px,3.2vh,32px);border:2px solid #1798d3;border-radius:5px;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:clamp(0.85rem,2vh,1.25rem);color:#0d4a6b}
 .wl-letter-box.blank{background:#F8F8F8;border-style:dashed;color:transparent}
@@ -278,9 +278,71 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
 .wl-clue{font-size:clamp(0.78rem,1.75vh,1.1rem);color:#555;font-style:italic;text-align:center;margin-top:0.3vh;padding:0 0.5vw}
 .wl-clue strong{color:#1798d3;font-weight:900;font-style:normal}
 .wl-instr{font-size:clamp(0.7rem,1.55vh,1rem);font-weight:700;color:#888;text-align:center;margin-top:0.3vh}
-.ks-pair{display:flex;flex-direction:column;gap:0.5vh;width:100%;align-items:center}
-.ks-word{font-size:clamp(1.4rem,4vh,2.4rem);font-weight:900;color:#1798d3;letter-spacing:0.02em;text-align:center;background:#F0F8FF;border:2.5px solid #AED6F1;border-radius:8px;padding:0.3vh 1vw;width:auto;min-width:60%}
+.ks-pair{display:flex;flex-direction:column;gap:1.6vh;width:100%;align-items:center}
+.ks-word{font-size:clamp(1.4rem,4vh,2.4rem);font-weight:900;color:#1798d3;letter-spacing:0.02em;text-align:center;background:#F0F8FF;border:2.5px solid #AED6F1;border-radius:8px;padding:0.4vh 1vw;width:auto;min-width:60%}
 .ks-instr{font-size:clamp(0.78rem,1.75vh,1.1rem);font-weight:700;color:#444;text-align:center;line-height:1.4;margin-top:0.3vh;padding:0 0.4vw}
+
+/* ─── Prefix & Suffix (stmcombo bottom-right) ─── */
+.ps-grid{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:0.4vw;width:100%;align-items:start;margin-top:0.2vh}
+.ps-col{display:flex;flex-direction:column;gap:0.25vh;align-items:stretch;min-width:0}
+.ps-col-hdr{font-size:clamp(0.65rem,1.45vh,0.9rem);font-weight:900;color:#fff;text-align:center;border-radius:4px;padding:0.1em 0.3em;text-transform:uppercase;letter-spacing:0.04em}
+.ps-col-hdr.pref{background:#27AE60}
+.ps-col-hdr.suf{background:#8E44AD}
+.ps-chip{background:#F0F8FF;border:2px solid #AED6F1;border-radius:5px;padding:0.15vh 0.3vw;font-size:clamp(0.78rem,1.7vh,1.1rem);font-weight:800;color:#1A5276;text-align:center}
+.ps-empty{font-size:clamp(0.7rem,1.55vh,1rem);color:#999;font-style:italic;text-align:center}
+.ps-base{display:flex;align-items:center;justify-content:center;min-height:6vh}
+.ps-base-word{font-size:clamp(1.3rem,3.6vh,2.2rem);font-weight:900;color:#1798d3;letter-spacing:0.02em;text-align:center;background:#fff;border:3px solid #1798d3;border-radius:9px;padding:0.3vh 0.8vw;width:auto;min-width:80%}
+.ps-instr{font-size:clamp(0.7rem,1.55vh,1rem);font-weight:700;color:#888;text-align:center;margin-top:0.4vh}
+.ps-examples{display:none;flex-wrap:wrap;gap:0.3vw 0.5vw;justify-content:center;margin-top:0.4vh;padding:0.3vh 0.4vw;background:#FFF8E0;border:2px solid #F0C040;border-radius:7px}
+.ps-ex{font-size:clamp(0.72rem,1.6vh,1rem);font-weight:700;color:#7A4F00;background:#fff;border-radius:4px;padding:1px 6px}
+
+/* ─── Maths Quad ─── */
+#maths-panel{width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;min-height:0;overflow:hidden}
+#maths-panel .cpanel-body{overflow-y:auto}
+.mq-mn-instr{font-size:clamp(0.72rem,1.6vh,1rem);color:#888;font-weight:700;text-align:center;margin-bottom:0.3vh}
+.mq-mn-clues{display:flex;flex-direction:column;gap:0.25vh;width:100%}
+.mq-mn-answer{font-size:clamp(2.2rem,6vh,3.5rem);font-weight:900;color:#27AE60;text-align:center;margin-top:0.5vh}
+.mq-cmp-q{font-size:clamp(0.95rem,2.3vh,1.5rem);font-weight:800;color:#111;text-align:center;margin-bottom:0.4vh;line-height:1.2}
+.mq-cmp-opts{display:flex;align-items:center;gap:0.6vw;width:100%;justify-content:center;margin:0.3vh 0}
+.mq-cmp-opt{flex:1;background:#F0F8FF;border:2.5px solid #AED6F1;border-radius:8px;padding:0.6vh 0.7vw;font-size:clamp(0.8rem,1.85vh,1.2rem);font-weight:700;color:#1A5276;line-height:1.35;text-align:center;position:relative;min-width:0}
+.mq-cmp-label{display:inline-block;background:#1798d3;color:#fff;font-weight:900;border-radius:50%;width:1.4em;height:1.4em;line-height:1.4em;text-align:center;margin-right:0.3em;font-size:0.85em}
+.mq-cmp-or{font-size:clamp(0.85rem,2vh,1.3rem);font-weight:900;color:#1798d3}
+.mq-cmp-working{margin-top:0.5vh;background:#fff;border:2px solid #ddd;border-radius:7px;padding:0.4vh 0.7vw;font-size:clamp(0.78rem,1.7vh,1.05rem);line-height:1.5;color:#333;width:100%}
+.mq-cmp-answer{margin-top:0.4vh;padding-top:0.4vh;border-top:2px solid #AED6F1;color:#1798d3;font-weight:800;font-size:clamp(0.85rem,1.85vh,1.15rem)}
+.mq-shp-name{font-size:clamp(1.1rem,3vh,1.9rem);font-weight:900;color:#111;text-align:center;line-height:1}
+.mq-shp-type{font-size:clamp(0.7rem,1.6vh,1rem);font-weight:800;color:#fff;background:#1798d3;border-radius:18px;padding:0.1em 0.7em;display:inline-block;margin:0.2vh auto 0.4vh;text-align:center}
+.mq-shp-q{background:#F8F8F8;border-radius:5px;padding:0.2vh 0.5vw;font-size:clamp(0.72rem,1.6vh,1rem);font-weight:700;color:#444;margin-bottom:0.2vh}
+.mq-shp-qs{width:100%}
+.mq-shp-props{display:none;width:100%;background:#E8F8E8;border:2px solid #98D098;border-radius:7px;padding:0.4vh 0.7vw;font-size:clamp(0.72rem,1.55vh,0.95rem);line-height:1.45;color:#1A5C1A}
+.mq-est-q{background:#FFF8E7;border:2.5px solid #F0C040;border-radius:9px;padding:0.6vh 0.8vw;font-size:clamp(0.85rem,2vh,1.25rem);font-weight:700;text-align:center;color:#111;line-height:1.4;width:100%}
+.mq-est-instr{font-size:clamp(0.72rem,1.6vh,1rem);color:#888;font-weight:700;text-align:center;margin-top:0.4vh}
+.mq-est-ans{display:none;width:100%;background:#E8F8E8;border:2px solid #98D098;border-radius:7px;padding:0.4vh 0.7vw;text-align:center;margin-top:0.4vh}
+.mq-est-answer{font-size:clamp(1rem,2.5vh,1.6rem);font-weight:900;color:#1A5C1A}
+.mq-est-exp{font-size:clamp(0.72rem,1.55vh,0.95rem);color:#555;font-weight:600;line-height:1.4;margin-top:0.2vh}
+
+/* ─── Humanities Quad ─── */
+#humanities-panel{width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;min-height:0;overflow:hidden}
+#humanities-panel .cpanel-body{overflow-y:auto}
+.hq-map-country{font-size:clamp(1.1rem,3vh,1.9rem);font-weight:900;color:#1798d3;text-align:center;margin-bottom:0.3vh}
+.hq-map-fact{font-size:clamp(0.72rem,1.6vh,1rem);color:#333;line-height:1.45;margin-bottom:0.15vh}
+.hq-map-q{background:#F8F8F8;border-radius:5px;padding:0.15vh 0.5vw;font-size:clamp(0.72rem,1.55vh,0.95rem);font-weight:700;color:#444;margin-top:0.15vh}
+.hq-map-qs{width:100%;margin-top:0.3vh}
+.hq-map-ans{display:none;width:100%;background:#E8F8E8;border:2px solid #98D098;border-radius:7px;padding:0.4vh 0.7vw;font-size:clamp(0.72rem,1.55vh,0.95rem);line-height:1.5;color:#1A5C1A;margin-top:0.3vh}
+.hq-tl-instr{font-size:clamp(0.7rem,1.55vh,1rem);font-weight:700;color:#888;text-align:center;margin-bottom:0.3vh}
+.hq-tl-list{width:100%}
+.hq-tl-item{font-size:clamp(0.78rem,1.7vh,1.05rem);color:#333;font-weight:700;background:#F0F8FF;border-left:4px solid #AED6F1;border-radius:4px;padding:0.2vh 0.6vw;margin-bottom:0.2vh;line-height:1.4}
+.hq-tl-sorted-list{display:none;width:100%}
+.hq-tl-sorted{font-size:clamp(0.78rem,1.7vh,1.05rem);color:#333;font-weight:700;background:#E8F8E8;border-left:4px solid #27AE60;border-radius:4px;padding:0.2vh 0.6vw;margin-bottom:0.2vh;display:flex;gap:0.5vw;line-height:1.4}
+.hq-tl-year{font-weight:900;color:#1798d3;min-width:5em;flex-shrink:0}
+.hq-kq-subject{font-size:clamp(0.7rem,1.5vh,0.95rem);font-weight:900;color:#fff;background:#8E44AD;border-radius:14px;padding:0.1em 0.7em;display:inline-block;margin:0 auto 0.4vh;text-transform:uppercase;letter-spacing:0.04em;text-align:center}
+.hq-kq-q{font-size:clamp(0.95rem,2.2vh,1.4rem);font-weight:800;color:#111;text-align:center;line-height:1.35;padding:0 0.4vw}
+.hq-kq-ans{display:none;background:#E8F8E8;border:2px solid #98D098;border-radius:8px;padding:0.5vh 0.8vw;width:100%;text-align:center;margin-top:0.5vh}
+.hq-kq-answer{font-size:clamp(1rem,2.4vh,1.5rem);font-weight:900;color:#1A5C1A;line-height:1.3}
+.hq-kq-exp{font-size:clamp(0.72rem,1.55vh,0.95rem);color:#555;font-weight:600;line-height:1.4;margin-top:0.3vh}
+.hq-gq-q{font-size:clamp(0.95rem,2.2vh,1.4rem);font-weight:800;color:#111;text-align:center;line-height:1.35;padding:0 0.4vw}
+.hq-gq-ans{display:none;background:#E8F8E8;border:2px solid #98D098;border-radius:8px;padding:0.5vh 0.8vw;width:100%;text-align:center;margin-top:0.5vh}
+.hq-gq-answer{font-size:clamp(1rem,2.4vh,1.5rem);font-weight:900;color:#1A5C1A;line-height:1.3}
+.hq-gq-exp{font-size:clamp(0.72rem,1.55vh,0.95rem);color:#555;font-weight:600;line-height:1.4;margin-top:0.3vh}
 </style>
 </head>
 <body>
@@ -833,33 +895,174 @@ const DEFAULT_TT=[
 // The paragraph uses |wrong| markers — displayed as-is, revealed on Show Answers
 // ═══════════════════════════════════════════════════════════
 const SPOT_MISTAKE=[
-  {para:"Last weekend, my family went too the zoo. We saw lions, tigers and bears — their was even a baby elephant! I could not believe how big it's ears were. Me and my sister wanted to stay all day, but dad said we had to go home for tea.",count:4,errors:[{wrong:"too the zoo",correct:"to the zoo",exp:"'Too' means 'as well' or 'excessively'. The correct word here is 'to'."},  {wrong:"their was",correct:"there was",exp:"'Their' shows belonging. 'There was' is the correct phrase for a place/existence."},{wrong:"it's ears",correct:"its ears",exp:"'It's' means 'it is'. 'Its' (no apostrophe) shows belonging."},{wrong:"Me and my sister",correct:"My sister and I",exp:"When talking about yourself and someone else, put the other person first and use 'I', not 'me'."}]},
-  {para:"The ancient egyptians built huge pyramids to bury there pharaohs. The pyramids took thousands of years to build and required alot of workers. Scientists have discovered that the workers was treated well and given food and medicine. It is one of the most amazing achievments in history.",count:4,errors:[{wrong:"ancient egyptians",correct:"ancient Egyptians",exp:"'Egyptians' is a proper noun (name of a people) and needs a capital letter."},{wrong:"bury there pharaohs",correct:"bury their pharaohs",exp:"'There' refers to a place. 'Their' shows belonging."},{wrong:"alot",correct:"a lot",exp:"'Alot' is not a word — 'a lot' is always written as two separate words."},{wrong:"the workers was",correct:"the workers were",exp:"'Workers' is plural, so the verb must be 'were', not 'was'."}]},
-  {para:"On Saturday, Jake and his friends decided to go for a bike ride. They cycled too the park and then along the river. Jake's bike had a puncture, so he couldn't of carried on without help. Luckily, his friend Tom brung a puncture repair kit.",count:3,errors:[{wrong:"cycled too the park",correct:"cycled to the park",exp:"'Too' means 'also' or 'excessively'. The correct word here is 'to'."},{wrong:"couldn't of",correct:"couldn't have",exp:"'Of' is never used after a modal verb. You hear 'could've' (could have) and mistake it for 'of'."},{wrong:"brung",correct:"brought",exp:"'Brung' is not a standard English word. The past tense of 'bring' is 'brought'."}]},
-  {para:"Space is an incredible place. there are billions of stars in our galaxy alone, and scientists believe there are even more galaxy's beyond our own. The sun is a medium-sized star — it is not as big as people often think. One day, humans might travel too other planets to live.",count:3,errors:[{wrong:"there are billions",correct:"There are billions",exp:"A sentence must begin with a capital letter."},{wrong:"galaxy's",correct:"galaxies",exp:"'Galaxy's' uses an apostrophe, which shows possession. To make a plural, add 'ies' (galaxies)."},{wrong:"travel too other planets",correct:"travel to other planets",exp:"'Too' means 'also' or 'excessively'. The correct word here is 'to'."}]},
-  {para:"The football match was the most exciting game of the season. Both teams played brilliantly but it was City who scored the winning goal in the final minute. The croud went wild! Everybody was cheering and waving they're scarves in the air. It was a day nobody would never forget.",count:3,errors:[{wrong:"croud",correct:"crowd",exp:"Misspelling: the correct spelling is 'crowd'."},{wrong:"they're scarves",correct:"their scarves",exp:"'They're' means 'they are'. 'Their' shows belonging — it is the correct word here."},{wrong:"would never forget",correct:"would ever forget",exp:"'Would never forget' is a double negative with 'nobody'. Correct: 'nobody would ever forget'."}]},
-  {para:"My nan makes the most delicious cakes in the world. Last sunday she baked a huge chocolate cake for my birthday. The recipe used flower, eggs, butter and sugar. Me and my brother ate three slices each — we couldn't stop ourselfs! I hope she make it again next year.",count:4,errors:[{wrong:"Last sunday",correct:"Last Sunday",exp:"Days of the week are proper nouns and always need a capital letter."},{wrong:"used flower",correct:"used flour",exp:"'Flower' is a plant. 'Flour' is the baking ingredient."},{wrong:"Me and my brother",correct:"My brother and I",exp:"Put the other person first and use 'I' when it is the subject of the sentence."},{wrong:"she make it",correct:"she makes it",exp:"The subject 'she' requires 'makes' (third person singular present tense)."}]},
-  {para:"Wolves are fascinating animals. They live in packs and work together to hunt their pray. The leader of the pack is called the alpha wolf. Wolfs communicate using howls, growls and body language. A wolf's howl can be herd from up to ten kilometres away.",count:3,errors:[{wrong:"hunt their pray",correct:"hunt their prey",exp:"'Pray' means to speak to a god. 'Prey' is an animal hunted for food."},{wrong:"Wolfs",correct:"Wolves",exp:"The plural of 'wolf' is 'wolves' — words ending in 'f' often change to 'ves' in the plural."},{wrong:"can be herd",correct:"can be heard",exp:"'Herd' is a group of animals. 'Heard' is the past tense of 'hear'."}]},
-  {para:"The rainforest is home to more then half of all the world's species. It is found near the equater, where it is hot and wet all year round. Every year, huge areas of rainforest is being destroyed by humans. Scientists say that if we dont act now, many animals will become extinct.",count:4,errors:[{wrong:"more then half",correct:"more than half",exp:"'Then' relates to time. 'Than' is used in comparisons."},{wrong:"the equater",correct:"the equator",exp:"Misspelling: the correct spelling is 'equator'."},{wrong:"huge areas of rainforest is",correct:"huge areas of rainforest are",exp:"'Areas' is plural so the verb should be 'are', not 'is'."},{wrong:"if we dont",correct:"if we don't",exp:"'Dont' is missing its apostrophe. It should be 'don't' (short for 'do not')."}]},
-  {para:"Yesterday, our class went on a trip to a local farm. We seed lots of animals including cows, sheep and chickens. The farmer told us that cows produce milk witch is used to make cheese and butter. It was a really educational day and everyone enjoyed theirselves.",count:3,errors:[{wrong:"We seed lots",correct:"We saw lots",exp:"'Seed' is not a past tense verb here. 'Saw' is the past tense of 'see'."},{wrong:"milk witch",correct:"milk which",exp:"'Witch' is a magical person. 'Which' is the relative pronoun needed here."},{wrong:"enjoyed theirselves",correct:"enjoyed themselves",exp:"'Theirselves' is not a word. The correct reflexive pronoun is 'themselves'."}]},
-  {para:"Mount everest is the highest mountain in the world. It is located in the himalayas on the border between Nepal and Tibet. The first people to reach the summit was Edmund Hillary and Tenzing Norgay in 1953. Climbing Everest is extremly dangerous due to the freezing temperatures and lack of oxygen.",count:4,errors:[{wrong:"Mount everest",correct:"Mount Everest",exp:"'Everest' is a proper noun (name of a specific place) and needs a capital letter."},{wrong:"the himalayas",correct:"the Himalayas",exp:"'Himalayas' is a proper noun (name of a mountain range) and needs a capital letter."},{wrong:"The first people to reach the summit was",correct:"The first people to reach the summit were",exp:"'People' is plural so the verb must be 'were', not 'was'."},{wrong:"extremly",correct:"extremely",exp:"Misspelling: the correct spelling is 'extremely'."}]},
-  {para:"My favourite book is about a young girl who discovers she has magical powers. In the story, she have to defeat an evil sorcerer who wants to take over the kingdom. The girl's friends help's her on her journey. At the end, good triumphs over evil and everyone lives hapily ever after.",count:3,errors:[{wrong:"she have to defeat",correct:"she has to defeat",exp:"The subject 'she' is third person singular — the correct verb form is 'has'."},{wrong:"friend's help's her",correct:"friends help her",exp:"'Friends' needs no apostrophe (it is a simple plural). 'Helps' only needs an apostrophe if showing possession — here it is just a verb."},{wrong:"lives hapily",correct:"lives happily",exp:"Misspelling: the correct spelling is 'happily' (double 'p', then '-ily')."}]},
-  {para:"Penguins are fascinating creatures that live in the southern hemisphere. Contrary to popular belief, not all penguins live in Antartica — some species are found in warmer climates. Penguins cannot fly but they're flippers make them excellent swimmers. A group of penguins on land is called a waddle.",count:3,errors:[{wrong:"in Antartica",correct:"in Antarctica",exp:"Misspelling: the correct spelling is 'Antarctica'."},{wrong:"they're flippers",correct:"their flippers",exp:"'They're' means 'they are'. 'Their' shows belonging and is correct here."},{wrong:"A group of penguins on land is called a waddle",correct:"A group of penguins on land is called a waddle — correct!",exp:"Actually 'waddle' IS correct — this is not a mistake! (It is also called a 'rookery' or 'colony'.) Check your other answers again."}]},
-  {para:"Last summer, our family traveled to france for our holiday. We visited Paris and saw the eifel tower, which was even more impressive in real life than in photos. My mum said it was builded in 1889 for a world exhibition. We also ate croissants everyday for breakfast — they was delicious!",count:5,errors:[{wrong:"traveled to france",correct:"travelled to France",exp:"'France' is a proper noun needing a capital. Also, British English uses 'travelled' (double 'l')."},{wrong:"the eifel tower",correct:"the Eiffel Tower",exp:"'Eiffel Tower' is a proper noun and needs capital letters. Also the correct spelling is 'Eiffel'."},{wrong:"it was builded",correct:"it was built",exp:"'Builded' is not a word. The irregular past tense of 'build' is 'built'."},{wrong:"ate croissants everyday",correct:"ate croissants every day",exp:"'Everyday' (one word) is an adjective meaning 'ordinary'. 'Every day' (two words) means 'each day'."},{wrong:"they was delicious",correct:"they were delicious",exp:"'They' is plural so the correct verb is 'were', not 'was'."}]},
-  {para:"Did you know that bees are one of the most important insects on earth? Without bees, many plants couldn't reproduce because they rely on bees for pollination. Sadly, bee populations is declining around the world due to habitat loss and pesticides. We all need to do are part to protect them.",count:3,errors:[{wrong:"insects on earth",correct:"insects on Earth",exp:"'Earth' (our planet) is a proper noun and needs a capital letter."},{wrong:"bee populations is declining",correct:"bee populations are declining",exp:"'Populations' is plural so the verb must be 'are', not 'is'."},{wrong:"do are part",correct:"do our part",exp:"'Are' is a verb. The possessive pronoun needed here is 'our'."}]},
-  {para:"The great fire of london started on the 2nd of September 1666 in a bakery on pudding Lane. It spreaded quickly because many of the buildings were made of wood. The fire destroyed over 13,000 houses and 87 churches. Amazingly, very few people actually died, but thousands became homeless. The fire lead to new building regulations in London.",count:4,errors:[{wrong:"The great fire of london",correct:"The Great Fire of London",exp:"'Great Fire of London' is a proper noun (name of a specific historical event and place) — all key words need capitals."},{wrong:"on pudding Lane",correct:"on Pudding Lane",exp:"'Pudding Lane' is a proper noun (name of a specific street) and needs capital letters."},{wrong:"It spreaded quickly",correct:"It spread quickly",exp:"'Spreaded' is not a word. The past tense of 'spread' is 'spread' (no change)."},{wrong:"The fire lead to",correct:"The fire led to",exp:"'Lead' (present tense / the metal) is different from 'led' (past tense of 'lead' as in 'to lead')."}]},
-
-  {para:"The Anglo-Saxon's arrived in Britain after the Romans left in 410 AD. They came from what is now germany, denmark and the netherlands. The saxons settled across the country, whether they were farmers or warriors. Over time, they set up seven kingdoms, each with their own king's and laws.",count:4,errors:[{wrong:"Anglo-Saxon's arrived",correct:"Anglo-Saxons arrived",exp:"'Anglo-Saxons' is just a plural here — no apostrophe is needed. An apostrophe would show possession (the Anglo-Saxons' village)."},{wrong:"germany, denmark and the netherlands",correct:"Germany, Denmark and the Netherlands",exp:"These are proper nouns (names of countries) and always need capital letters."},{wrong:"whether they were farmers",correct:"whether they were farmers — actually this could be correct depending on context, BUT here 'whether' is fine. Check your other answers.",exp:"Trick question — 'whether' is correct here. Don't let it distract you from the real mistakes!"},{wrong:"their own king's",correct:"their own kings",exp:"'Kings' here is just a plural (more than one king) — no apostrophe needed. For possession it would be 'the kings' laws'."}]},
-
-  {para:"In science, we have been learning about sound. Sound is created when objects vibrate, which causes particles in the air to move. The faster the vibrations, the higher the pitch of the sound. You're ears detect these vibrations when they reach your ear drum. Loud sounds have larger vibrations then quiet ones.",count:3,errors:[{wrong:"You're ears",correct:"Your ears",exp:"'You're' means 'you are'. 'Your' shows belonging — it is the correct word here."},{wrong:"larger vibrations then quiet",correct:"larger vibrations than quiet",exp:"'Then' relates to time or sequence. 'Than' is used in comparisons."},{wrong:"Your ear drum",correct:"your eardrum — no error here, check again",exp:"Actually this is not an error — look more carefully at the other parts of the sentence."}]},
-
-  {para:"Last term, our class studdied the Anglo-Saxons. We found out that Alfred the Great was one of the most important rulers in english history. He defended his kingdom against the vikings and helped create a system of laws. The childrens books we read were full of fascinating facts about life in saxon villages.",count:4,errors:[{wrong:"studdied",correct:"studied",exp:"Misspelling: the correct spelling is 'studied'. The root word is 'study' — drop the 'y' and add '-ied'."},{wrong:"english history",correct:"English history",exp:"'English' is a proper adjective (relating to England) and needs a capital letter."},{wrong:"the vikings",correct:"the Vikings",exp:"'Vikings' is a proper noun (name of a specific group of people) and needs a capital letter."},{wrong:"The childrens books",correct:"The children's books",exp:"'Children's' needs an apostrophe before the 's' to show that the books belong to the children. 'Children' is already plural, so it's children's (not childrens')."}]},
-
-  {para:"Brazil is a fasinating country in South America. It is home to the amazon rainforest, witch covers more than half of the country. The forests plants and animals are incredibly diverse. Scientists are worried, however that deforestation is destroying these habitats at an alarming rate.",count:4,errors:[{wrong:"fasinating",correct:"fascinating",exp:"Misspelling: the correct spelling is 'fascinating'."},{wrong:"the amazon rainforest",correct:"the Amazon rainforest",exp:"'Amazon' is a proper noun (name of a specific river/region) and needs a capital letter."},{wrong:"witch covers",correct:"which covers",exp:"'Witch' is a magical person. 'Which' is the relative pronoun needed here."},{wrong:"however that deforestation",correct:"however, that deforestation",exp:"A comma is needed after 'however' to demarcate the fronted adverbial/connective from the rest of the clause."}]},
-
-  {para:"The learners bags were left scattered across the Learning Zone floor. The teachers were not happy because the schools rules were very clear about keeping the corridors tidy. Despite the warnings however the childrens coats were also left on the floor rather than hung on the pegs.",count:4,errors:[{wrong:"The learners bags",correct:"The learners' bags",exp:"'Learners' is already plural, so the apostrophe goes AFTER the s to show belonging: learners' bags."},{wrong:"the schools rules",correct:"the school's rules",exp:"The rules belong to the school (singular), so the apostrophe goes before the s: school's rules."},{wrong:"warnings however the",correct:"warnings, however, the",exp:"'However' used in the middle of a sentence needs commas on both sides to demarcate the clause."},{wrong:"the childrens coats",correct:"the children's coats",exp:"'Children' is already an irregular plural (no 's'), so the apostrophe goes before the 's': children's coats."}]},
-
-  {para:"We learnt in science that vertebrates are animals with a backbone. Fish, amphibians, reptiles, birds and mammals are all vertebrates — accept insects, spiders and worms, which are invertebrates. Mammals are warm-blooded and give birth to live young; birds however lay eggs and are covered in feathers.",count:2,errors:[{wrong:"accept insects",correct:"except insects",exp:"'Accept' means to receive or agree to something. 'Except' means 'not including' — that is the correct word here."},{wrong:"birds however lay",correct:"birds, however, lay",exp:"'However' used in the middle of a sentence needs commas on both sides to demarcate it from the surrounding clauses."}]}
+  // 1
+  {para:"last weekend our class went on a trip to the science museum in london. we were really excited because we had never been before. The musem was huge and full of fasinating exhibits about space and machines. me and my best friend wanted to stay all day but we was running out of time.",count:6,errors:[
+    {wrong:"last weekend our class",correct:"Last weekend, our class",exp:"Capital letter at the start of a sentence; comma after the fronted adverbial 'Last weekend'.",type:"punctuation"},
+    {wrong:"in london",correct:"in London",exp:"'London' is a proper noun (a place name) and needs a capital letter.",type:"punctuation"},
+    {wrong:"musem",correct:"museum",exp:"Spelling: 'museum' has an 'e' before the 'u'.",type:"spelling"},
+    {wrong:"fasinating",correct:"fascinating",exp:"Spelling: 'fascinating' has 'sc' in the middle.",type:"spelling"},
+    {wrong:"me and my best friend",correct:"My best friend and I",exp:"Put the other person first and use 'I' as the subject of the sentence.",type:"grammar"},
+    {wrong:"we was",correct:"we were",exp:"'We' is plural so the verb must be 'were', not 'was'.",type:"grammar"}]},
+  // 2
+  {para:"on saturday morning my dad took me to a football match in bristol. the stadium was packed and the atmosphere was incredible. There was a real exiting moment when our team scored the winning goal in the last minute. me and my dad jumped up and shouted but the away fans was very disapointed.",count:6,errors:[
+    {wrong:"on saturday morning",correct:"On Saturday morning,",exp:"Capital letter at sentence start; capital 'S' for the day; comma after fronted adverbial.",type:"punctuation"},
+    {wrong:"in bristol",correct:"in Bristol",exp:"'Bristol' is a proper noun (place name) and needs a capital letter.",type:"punctuation"},
+    {wrong:"exiting",correct:"exciting",exp:"Spelling: 'exciting' has 'c' before the 'i'.",type:"spelling"},
+    {wrong:"disapointed",correct:"disappointed",exp:"Spelling: 'disappointed' has double 'p'.",type:"spelling"},
+    {wrong:"me and my dad",correct:"My dad and I",exp:"Put the other person first and use 'I' as the subject.",type:"grammar"},
+    {wrong:"the away fans was",correct:"the away fans were",exp:"'Fans' is plural so the verb must be 'were', not 'was'.",type:"grammar"}]},
+  // 3
+  {para:"the ancient egyptians built huge pyramids to bury there pharaohs. the pyramids took thousands of years to build and required alot of workers. Scientists believe that the workers was treated well and given food and medicine. it is one of the most amazing achievments in history.",count:6,errors:[
+    {wrong:"the ancient egyptians",correct:"The ancient Egyptians",exp:"Capital letter at sentence start; 'Egyptians' is a proper noun (people from a country).",type:"punctuation"},
+    {wrong:"it is one",correct:"It is one",exp:"Capital letter at the start of a sentence.",type:"punctuation"},
+    {wrong:"alot",correct:"a lot",exp:"Spelling: 'a lot' is always written as two separate words.",type:"spelling"},
+    {wrong:"achievments",correct:"achievements",exp:"Spelling: 'achievements' has an 'e' after the 'v'.",type:"spelling"},
+    {wrong:"bury there pharaohs",correct:"bury their pharaohs",exp:"'There' refers to a place. 'Their' shows belonging.",type:"grammar"},
+    {wrong:"the workers was treated",correct:"the workers were treated",exp:"'Workers' is plural so the verb must be 'were', not 'was'.",type:"grammar"}]},
+  // 4
+  {para:"the great fire of london started on the 2nd of september 1666 in a bakery on pudding lane. it spread quickly because many of the buildings were made of wood. The fire destroyed over 13,000 houses and 87 churches. Amazingly, very few people actually died, but thousands becamed homeless and they was left with nothing.",count:6,errors:[
+    {wrong:"the great fire of london",correct:"The Great Fire of London",exp:"Capital letter at sentence start; 'Great Fire of London' is a proper noun (specific historic event).",type:"punctuation"},
+    {wrong:"on pudding lane",correct:"on Pudding Lane",exp:"'Pudding Lane' is a proper noun (street name) and needs capitals.",type:"punctuation"},
+    {wrong:"becamed",correct:"became",exp:"Spelling: the past tense of 'become' is 'became', not 'becamed'.",type:"spelling"},
+    {wrong:"september",correct:"September",exp:"Spelling/capital: months are proper nouns and start with a capital letter.",type:"spelling"},
+    {wrong:"it spread quickly",correct:"It spread quickly",exp:"Capital letter at the start of a sentence.",type:"grammar"},
+    {wrong:"they was left",correct:"they were left",exp:"'They' is plural so the verb must be 'were', not 'was'.",type:"grammar"}]},
+  // 5
+  {para:"yesterday afternoon our class visited a local farm to learn about animals. we seed cows, sheep, pigs and chickens all living together. The farmer told us that cows produce milk witch is used to make cheese and butter. it was a really educational day and everyone enjoyed theirselves so much that we didnt want to leave.",count:6,errors:[
+    {wrong:"yesterday afternoon our class",correct:"Yesterday afternoon, our class",exp:"Capital letter at sentence start; comma after fronted adverbial.",type:"punctuation"},
+    {wrong:"it was a really",correct:"It was a really",exp:"Capital letter at the start of a sentence.",type:"punctuation"},
+    {wrong:"witch",correct:"which",exp:"Spelling/homophone: 'witch' is a magical person; 'which' is the relative pronoun.",type:"spelling"},
+    {wrong:"didnt",correct:"didn't",exp:"Spelling: 'didn't' needs an apostrophe to show the missing 'o' in 'did not'.",type:"spelling"},
+    {wrong:"we seed",correct:"we saw",exp:"'Seed' is not a verb here. The past tense of 'see' is 'saw'.",type:"grammar"},
+    {wrong:"enjoyed theirselves",correct:"enjoyed themselves",exp:"'Theirselves' is not a word. The reflexive pronoun is 'themselves'.",type:"grammar"}]},
+  // 6
+  {para:"the rainforest is home to more then half of all the worlds species. it is found near the equater, where it is hot and wet all year round. Every year, huge areas of rainforest is being destroyed by humans. Scientists say that if we dont act now, many animals will become extinct and that would be a tragedy.",count:6,errors:[
+    {wrong:"the rainforest is",correct:"The rainforest is",exp:"Capital letter at the start of a sentence.",type:"punctuation"},
+    {wrong:"the worlds species",correct:"the world's species",exp:"Apostrophe needed in 'world's' to show the species belong to the world.",type:"punctuation"},
+    {wrong:"more then",correct:"more than",exp:"Spelling: 'than' is used in comparisons; 'then' relates to time.",type:"spelling"},
+    {wrong:"equater",correct:"equator",exp:"Spelling: the correct spelling is 'equator' with an 'o'.",type:"spelling"},
+    {wrong:"huge areas of rainforest is",correct:"huge areas of rainforest are",exp:"'Areas' is plural so the verb must be 'are', not 'is'.",type:"grammar"},
+    {wrong:"if we dont",correct:"if we don't",exp:"'Dont' needs an apostrophe to show the missing 'o' in 'do not'.",type:"grammar"}]},
+  // 7
+  {para:"my favourite book is about a young girl who discovers she has magical powers. in the story, she have to defeat an evil sorcerer who wants to take over the kingdom. The girls friends helps her on her dangrous journey. At the end, good triumphs over evil and everyone lives hapily ever after.",count:6,errors:[
+    {wrong:"in the story",correct:"In the story",exp:"Capital letter at the start of a sentence.",type:"punctuation"},
+    {wrong:"The girls friends",correct:"The girl's friends",exp:"Apostrophe needed in 'girl's' to show the friends belong to one girl.",type:"punctuation"},
+    {wrong:"dangrous",correct:"dangerous",exp:"Spelling: 'dangerous' has an 'e' between 'g' and 'r'.",type:"spelling"},
+    {wrong:"hapily",correct:"happily",exp:"Spelling: 'happily' has double 'p' before '-ily'.",type:"spelling"},
+    {wrong:"she have to defeat",correct:"she has to defeat",exp:"'She' is third person singular — the correct verb is 'has', not 'have'.",type:"grammar"},
+    {wrong:"friends helps her",correct:"friends help her",exp:"'Friends' is plural so the verb must be 'help', not 'helps'.",type:"grammar"}]},
+  // 8
+  {para:"on tuesday evening i went to the cinema with my older brother to see a new adventure film. the film was incredibly excting and the special effects were amazing. there was a part where the heros had to escape from a collapsing buildng — it was so tense! when the film ended me and my brother both agreed it was the best one we had ever saw.",count:6,errors:[
+    {wrong:"on tuesday evening i",correct:"On Tuesday evening, I",exp:"Capital letter at sentence start; capital 'T' for Tuesday; capital 'I'; comma after fronted adverbial.",type:"punctuation"},
+    {wrong:"there was a part",correct:"There was a part",exp:"Capital letter at the start of a sentence.",type:"punctuation"},
+    {wrong:"excting",correct:"exciting",exp:"Spelling: 'exciting' has an 'i' before the 'ting'.",type:"spelling"},
+    {wrong:"buildng",correct:"building",exp:"Spelling: 'building' has 'di' before the 'ng'.",type:"spelling"},
+    {wrong:"me and my brother",correct:"my brother and I",exp:"Put the other person first and use 'I' as the subject.",type:"grammar"},
+    {wrong:"we had ever saw",correct:"we had ever seen",exp:"After 'had ever' use the past participle 'seen', not 'saw'.",type:"grammar"}]},
+  // 9
+  {para:"penguins are fasinating creatures that live mostly in the southern hemisphere. contrary to popular belief, not all penguins live in antarctica — some species are found in warmer places. Penguins cannot fly but they're flippers makes them excellent swimmers. A group of penguins on land is called a waddle, which is a really brillant word.",count:6,errors:[
+    {wrong:"contrary to popular belief",correct:"Contrary to popular belief,",exp:"Capital letter at the start of a sentence.",type:"punctuation"},
+    {wrong:"in antarctica",correct:"in Antarctica",exp:"'Antarctica' is a proper noun (continent) and needs a capital letter.",type:"punctuation"},
+    {wrong:"fasinating",correct:"fascinating",exp:"Spelling: 'fascinating' has 'sc' in the middle.",type:"spelling"},
+    {wrong:"brillant",correct:"brilliant",exp:"Spelling: 'brilliant' has double 'l' and an 'i' before the 'ant'.",type:"spelling"},
+    {wrong:"they're flippers",correct:"their flippers",exp:"'They're' means 'they are'. 'Their' shows belonging.",type:"grammar"},
+    {wrong:"flippers makes",correct:"flippers make",exp:"'Flippers' is plural so the verb must be 'make', not 'makes'.",type:"grammar"}]},
+  // 10
+  {para:"my nan makes the most delicious cakes in the world. last sunday she baked a huge chocolate cake for my birthday. The recipe used flower, eggs, butter and sugar — i love watching her bake. Me and my brother ate three slices each and we couldnt stop ourselves because the cake was so amazng.",count:6,errors:[
+    {wrong:"last sunday she",correct:"Last Sunday, she",exp:"Capital letter at sentence start; capital 'S' for Sunday; comma after fronted adverbial.",type:"punctuation"},
+    {wrong:"i love",correct:"I love",exp:"The pronoun 'I' is always capitalised.",type:"punctuation"},
+    {wrong:"flower",correct:"flour",exp:"Spelling/homophone: 'flower' grows in a garden; 'flour' is for baking.",type:"spelling"},
+    {wrong:"amazng",correct:"amazing",exp:"Spelling: 'amazing' has an 'i' before the 'ng'.",type:"spelling"},
+    {wrong:"Me and my brother",correct:"My brother and I",exp:"Put the other person first and use 'I' as the subject.",type:"grammar"},
+    {wrong:"we couldnt",correct:"we couldn't",exp:"'Couldnt' needs an apostrophe for the missing 'o' in 'could not'.",type:"grammar"}]},
+  // 11
+  {para:"wolves are fasinating animals that live in packs and hunt together. they live in cold parts of the world like canada and russia. The leader of the pack is called the alpha wolf and they protect the others. Wolfs communicate using howls, growls and body language and a wolfs howl can be herd from up to ten kilometres away.",count:6,errors:[
+    {wrong:"wolves are",correct:"Wolves are",exp:"Capital letter at the start of a sentence.",type:"punctuation"},
+    {wrong:"like canada and russia",correct:"like Canada and Russia",exp:"'Canada' and 'Russia' are proper nouns (countries) and need capital letters.",type:"punctuation"},
+    {wrong:"fasinating",correct:"fascinating",exp:"Spelling: 'fascinating' has 'sc' in the middle.",type:"spelling"},
+    {wrong:"herd",correct:"heard",exp:"Spelling/homophone: 'herd' is a group of animals; 'heard' is the past tense of 'hear'.",type:"spelling"},
+    {wrong:"Wolfs",correct:"Wolves",exp:"The plural of 'wolf' is 'wolves' — words ending in 'f' often change to 'ves' in the plural.",type:"grammar"},
+    {wrong:"a wolfs howl",correct:"a wolf's howl",exp:"Apostrophe needed in 'wolf's' to show the howl belongs to one wolf.",type:"grammar"}]},
+  // 12
+  {para:"last summer my family travelled to france for a two-week holiday. we visited paris and saw the eifel tower, which was even more impressive in real life. My mum said it was builded in 1889 for a world exhibition. We also ate croissants every day for breakfast — they was absolutely delicous.",count:6,errors:[
+    {wrong:"last summer my family",correct:"Last summer, my family",exp:"Capital letter at sentence start; comma after fronted adverbial.",type:"punctuation"},
+    {wrong:"to france",correct:"to France",exp:"'France' is a proper noun (country) and needs a capital letter.",type:"punctuation"},
+    {wrong:"the eifel tower",correct:"the Eiffel Tower",exp:"Spelling: 'Eiffel' has double 'f'. Also a proper noun needing capitals.",type:"spelling"},
+    {wrong:"delicous",correct:"delicious",exp:"Spelling: 'delicious' has 'ci' before the 'ous'.",type:"spelling"},
+    {wrong:"it was builded",correct:"it was built",exp:"'Builded' is not a word. The past tense of 'build' is 'built'.",type:"grammar"},
+    {wrong:"they was",correct:"they were",exp:"'They' is plural so the verb must be 'were', not 'was'.",type:"grammar"}]},
+  // 13
+  {para:"the tudors ruled england from 1485 to 1603 and there were twelve tudor monarchs. henry the eighth was famous for having six wives. Some of his wifes were beheaded which was incredible cruel. Elizabeth the first was henrys daughter and she ruled for 45 years which is the longest of any tudor monarch.",count:6,errors:[
+    {wrong:"the tudors",correct:"The Tudors",exp:"Capital letter at sentence start; 'Tudors' is a proper noun.",type:"punctuation"},
+    {wrong:"henry the eighth was famous",correct:"Henry the Eighth was famous",exp:"Capital letter at sentence start; 'Henry the Eighth' is a proper noun.",type:"punctuation"},
+    {wrong:"incredible cruel",correct:"incredibly cruel",exp:"Use the adverb 'incredibly' (with -ly) to describe how cruel.",type:"spelling"},
+    {wrong:"henrys daughter",correct:"Henry's daughter",exp:"Apostrophe needed in 'Henry's' to show the daughter belongs to Henry; capital for proper noun.",type:"spelling"},
+    {wrong:"his wifes",correct:"his wives",exp:"The plural of 'wife' is 'wives' — words ending in 'f' or 'fe' often change to 'ves' in the plural.",type:"grammar"},
+    {wrong:"the longest of any tudor",correct:"the longest of any Tudor",exp:"'Tudor' is a proper noun and needs a capital letter.",type:"grammar"}]},
+  // 14
+  {para:"bees are one of the most important insects on earth. without bees, many plants couldnt reproduce because they rely on bees for pollination. Sadly, bee populations is declining around the world due to habitat loss and pestcides. We all need to do are part to protect them before it becomes to late.",count:6,errors:[
+    {wrong:"bees are",correct:"Bees are",exp:"Capital letter at the start of a sentence.",type:"punctuation"},
+    {wrong:"without bees",correct:"Without bees,",exp:"Capital letter at sentence start.",type:"punctuation"},
+    {wrong:"pestcides",correct:"pesticides",exp:"Spelling: 'pesticides' has an 'i' between 'pest' and 'cides'.",type:"spelling"},
+    {wrong:"to late",correct:"too late",exp:"Spelling/homophone: 'too' means 'excessively'; 'to' is a preposition.",type:"spelling"},
+    {wrong:"couldnt",correct:"couldn't",exp:"'Couldnt' needs an apostrophe for the missing 'o' in 'could not'.",type:"grammar"},
+    {wrong:"bee populations is",correct:"bee populations are",exp:"'Populations' is plural so the verb must be 'are', not 'is'.",type:"grammar"}]},
+  // 15
+  {para:"on monday morning our teacher brought a strange object into class. she said it was an artefact from the victorian era and asked us to make observations. There were lots of intresting features to look at including rust marks and decoraton. me and my partner thought it might of been used for cooking but we wasnt sure.",count:6,errors:[
+    {wrong:"on monday morning",correct:"On Monday morning,",exp:"Capital letter at sentence start; capital 'M' for Monday; comma after fronted adverbial.",type:"punctuation"},
+    {wrong:"victorian era",correct:"Victorian era",exp:"'Victorian' is a proper adjective (from 'Victoria') and needs a capital letter.",type:"punctuation"},
+    {wrong:"intresting",correct:"interesting",exp:"Spelling: 'interesting' has an 'e' between 'inter' and 'sting'.",type:"spelling"},
+    {wrong:"decoraton",correct:"decoration",exp:"Spelling: 'decoration' has 'ti' before the 'on'.",type:"spelling"},
+    {wrong:"me and my partner",correct:"my partner and I",exp:"Put the other person first and use 'I' as the subject.",type:"grammar"},
+    {wrong:"might of been",correct:"might have been",exp:"'Of' is never used after a modal verb. Use 'have' instead.",type:"grammar"}]},
+  // 16
+  {para:"mount everest is the tallest mountain in the world and it stands at 8,849 metres. it is found in the himalayas on the border between nepal and tibet. The first people to reach the summit was Edmund Hillary and Tenzing Norgay in 1953. Climbing Everest is extremly dangerous due to the freezing temperatures and lack of oxygen — many climbers have unfortunatly lost there lives trying.",count:6,errors:[
+    {wrong:"mount everest",correct:"Mount Everest",exp:"Capital letter at sentence start; 'Mount Everest' is a proper noun (mountain name).",type:"punctuation"},
+    {wrong:"it is found in the himalayas on the border between nepal and tibet",correct:"It is found in the Himalayas on the border between Nepal and Tibet",exp:"Capital letter at sentence start; 'Himalayas', 'Nepal' and 'Tibet' are proper nouns and need capitals.",type:"punctuation"},
+    {wrong:"extremly",correct:"extremely",exp:"Spelling: 'extremely' has an 'e' before the 'ly'.",type:"spelling"},
+    {wrong:"unfortunatly",correct:"unfortunately",exp:"Spelling: 'unfortunately' has 'te' before the 'ly'.",type:"spelling"},
+    {wrong:"the summit was Edmund Hillary and Tenzing Norgay",correct:"the summit were Edmund Hillary and Tenzing Norgay",exp:"Two people, so the verb must be 'were', not 'was'.",type:"grammar"},
+    {wrong:"lost there lives",correct:"lost their lives",exp:"'There' refers to a place. 'Their' shows belonging.",type:"grammar"}]},
+  // 17
+  {para:"on the 5th of november people across the uk celebrate bonfire night. it is a tradition that goes back to the gunpowder plot of 1605 when guy fawkes tried to blow up parliament. each year, families gather to watch fireworks and roast marshmellows over bonfires. me and my friends absolutly love bonfire night and we couldnt wait for it to come round again.",count:6,errors:[
+    {wrong:"on the 5th of november people across the uk",correct:"On the 5th of November, people across the UK",exp:"Capital letter at sentence start; capital 'N' for November; capitals for 'UK'; comma after fronted adverbial.",type:"punctuation"},
+    {wrong:"it is a tradition that goes back to the gunpowder plot of 1605 when guy fawkes",correct:"It is a tradition that goes back to the Gunpowder Plot of 1605 when Guy Fawkes",exp:"Capital letter at sentence start; 'Gunpowder Plot' and 'Guy Fawkes' are proper nouns.",type:"punctuation"},
+    {wrong:"marshmellows",correct:"marshmallows",exp:"Spelling: 'marshmallows' has 'a' (not 'e') in the middle.",type:"spelling"},
+    {wrong:"absolutly",correct:"absolutely",exp:"Spelling: 'absolutely' has 'te' before the 'ly'.",type:"spelling"},
+    {wrong:"me and my friends",correct:"my friends and I",exp:"Put the others first and use 'I' as the subject.",type:"grammar"},
+    {wrong:"we couldnt",correct:"we couldn't",exp:"'Couldnt' needs an apostrophe for the missing 'o' in 'could not'.",type:"grammar"}]},
+  // 18
+  {para:"sharks are some of the most fasinating creatures in the ocean. they have been around for over 400 million years which is older than dinosaurs. Most sharks is harmless to humans and only a few species attack people. Despite there scary reputation, sharks is actually shy and tends to avoid humans whenever posible.",count:6,errors:[
+    {wrong:"sharks are",correct:"Sharks are",exp:"Capital letter at the start of a sentence.",type:"punctuation"},
+    {wrong:"they have been around for over 400 million years",correct:"They have been around for over 400 million years,",exp:"Capital letter at sentence start.",type:"punctuation"},
+    {wrong:"fasinating",correct:"fascinating",exp:"Spelling: 'fascinating' has 'sc' in the middle.",type:"spelling"},
+    {wrong:"posible",correct:"possible",exp:"Spelling: 'possible' has double 's'.",type:"spelling"},
+    {wrong:"Most sharks is",correct:"Most sharks are",exp:"'Sharks' is plural so the verb must be 'are', not 'is'.",type:"grammar"},
+    {wrong:"there scary reputation",correct:"their scary reputation",exp:"'There' refers to a place. 'Their' shows belonging.",type:"grammar"}]},
+  // 19
+  {para:"on friday afternoon we had a class spelling bee in the hall. the whole of year four took part and the atmosphere was absolutly buzzing. Each pupil had to spell three words and the words gradually got harder. Me and my friend made it to the final round but we didnt win because the last word was emarrassingly difficult.",count:6,errors:[
+    {wrong:"on friday afternoon",correct:"On Friday afternoon,",exp:"Capital letter at sentence start; capital 'F' for Friday; comma after fronted adverbial.",type:"punctuation"},
+    {wrong:"we didnt win",correct:"we didn't win",exp:"'Didnt' needs an apostrophe to show the missing 'o' in 'did not'.",type:"punctuation"},
+    {wrong:"absolutly",correct:"absolutely",exp:"Spelling: 'absolutely' has 'te' before the 'ly'.",type:"spelling"},
+    {wrong:"emarrassingly",correct:"embarrassingly",exp:"Spelling: 'embarrassingly' has 'mb', double 'r' and double 's'.",type:"spelling"},
+    {wrong:"the whole of year four",correct:"The whole of Year Four",exp:"Capital letter at sentence start; 'Year Four' (the school year group) is treated as a proper noun.",type:"grammar"},
+    {wrong:"Me and my friend made it",correct:"My friend and I made it",exp:"Put the other person first and use 'I' as the subject.",type:"grammar"}]},
+  // 20
+  {para:"on a hot summers day in july our class went to the local park for sports day. we had races, jumping events and a giant tug of war competition. The team i was on was unstopable and we won almost every event. Me and my best friend was the fastest runners and we couldnt of been more proud — it was definately the best day ever.",count:6,errors:[
+    {wrong:"on a hot summers day in july",correct:"On a hot summer's day in July,",exp:"Capital letter at sentence start; capital 'J' for July; apostrophe in 'summer's'; comma after fronted adverbial.",type:"punctuation"},
+    {wrong:"The team i was on",correct:"The team I was on",exp:"The pronoun 'I' is always capitalised.",type:"punctuation"},
+    {wrong:"unstopable",correct:"unstoppable",exp:"Spelling: 'unstoppable' has double 'p'.",type:"spelling"},
+    {wrong:"definately",correct:"definitely",exp:"Spelling: 'definitely' has 'ite' before the 'ly'.",type:"spelling"},
+    {wrong:"Me and my best friend was",correct:"My best friend and I were",exp:"Put the other person first and use 'I' as the subject; 'were' for plural subject.",type:"grammar"},
+    {wrong:"we couldnt of been",correct:"we couldn't have been",exp:"'Couldnt' needs an apostrophe; 'of' is never used after a modal verb — use 'have' instead.",type:"grammar"}]},
+  // 21
+  {para:"on saturday i went into bristol with my mum and my older sister. we visited the ss great britain which was builded by isambard kingdom brunel. it was an absolutly amazing experience and we learnt so much about victorian engineering. Me and my sister thought it was the best ship we had ever saw and we couldnt stop talking about it.",count:6,errors:[
+    {wrong:"on saturday i went into bristol",correct:"On Saturday, I went into Bristol",exp:"Capital letter at sentence start; capital 'S' for Saturday; capital 'I'; capital 'B' for Bristol; comma after fronted adverbial.",type:"punctuation"},
+    {wrong:"the ss great britain which was builded by isambard kingdom brunel",correct:"the SS Great Britain, which was built by Isambard Kingdom Brunel",exp:"Capitals for 'SS Great Britain' and 'Isambard Kingdom Brunel' (proper nouns); comma before relative clause.",type:"punctuation"},
+    {wrong:"absolutly",correct:"absolutely",exp:"Spelling: 'absolutely' has 'te' before the 'ly'.",type:"spelling"},
+    {wrong:"victorian engineering",correct:"Victorian engineering",exp:"'Victorian' is a proper adjective (from 'Victoria') and needs a capital letter.",type:"spelling"},
+    {wrong:"was builded",correct:"was built",exp:"'Builded' is not a word. The past tense of 'build' is 'built'.",type:"grammar"},
+    {wrong:"Me and my sister thought it was the best ship we had ever saw",correct:"My sister and I thought it was the best ship we had ever seen",exp:"Put the other person first and use 'I'. After 'had ever' use 'seen' (past participle), not 'saw'.",type:"grammar"}]}
 ];
 
 // ═══════════════════════════════════════════════════════════
@@ -1075,6 +1278,162 @@ const WORD_LADDER=[
 // then partner-test.
 // ═══════════════════════════════════════════════════════════
 const KEY_SPELLING_LIST=['accident','accidentally','actual','actually','address','answer','appear','arrive','believe','bicycle','breath','breathe','build','busy','business','calendar','caught','centre','century','certain','circle','complete','consider','continue','decide','describe','different','difficult','disappear','early','earth','eight','eighth','enough','exercise','experience','experiment','extreme','famous','favourite','February','forward','forwards','fruit','grammar','group','guard','guide','heard','heart','height','history','imagine','increase','important','interest','island','knowledge','learn','length','library','material','medicine','mention','minute','natural','naughty','notice','occasion','occasionally','often','opposite','ordinary','particular','peculiar','perhaps','popular','position','possess','possession','possible','potatoes','pressure','probably','promise','purpose','quarter','question','recent','regular','reign','remember','sentence','separate','special','straight','strange','strength','suppose','surprise','therefore','though','although','thought','through','various','weight','woman','women'];
+
+// ═══════════════════════════════════════════════════════════
+// KNOWLEDGE QUIZ — CLF Y2/Y3/Y4 recap
+// Cross-curricular history, geography, science. Pulled from the
+// CLF Curriculum Progression Summary so questions match what
+// pupils have actually been taught.
+// Each entry: subject, q (question), a (answer), exp (brief explanation/extension)
+// ═══════════════════════════════════════════════════════════
+const KNOWLEDGE_QUIZ=[
+  // === Y2 HISTORY: Victorian Era + Great Fire ===
+  {subject:'Y2 History',q:'In which year did the Great Fire of London start?',a:'1666',exp:'It started on 2nd September 1666 in a bakery on Pudding Lane and lasted five days.'},
+  {subject:'Y2 History',q:'Whose diary is one of the most important sources we have about the Great Fire of London?',a:"Samuel Pepys'",exp:"Samuel Pepys was alive in London during the fire and wrote about it in his diary."},
+  {subject:'Y2 History',q:'Which famous Victorian engineer designed the Clifton Suspension Bridge in Bristol?',a:'Isambard Kingdom Brunel',exp:'Brunel was a Victorian engineer who also designed the SS Great Britain and the Great Western Railway.'},
+  {subject:'Y2 History',q:'Who was queen during the Victorian era?',a:'Queen Victoria',exp:'Queen Victoria reigned from 1837 to 1901 — the period is named after her.'},
+  {subject:'Y2 History',q:'In what century did the Industrial Revolution begin in Britain?',a:'The 18th century (around 1760)',exp:'The Industrial Revolution made Britain one of the most powerful nations in the world.'},
+  // === Y2 GEOGRAPHY ===
+  {subject:'Y2 Geography',q:'How many continents are there?',a:'7',exp:"Africa, Antarctica, Asia, Australia (Oceania), Europe, North America and South America."},
+  {subject:'Y2 Geography',q:'Name the five oceans.',a:'Pacific, Atlantic, Indian, Southern (Antarctic), Arctic',exp:"The Pacific is the largest; the Arctic is the smallest and coldest."},
+  {subject:'Y2 Geography',q:'What is the difference between weather and climate?',a:'Weather is what happens day to day. Climate is the average weather over many years.',exp:'Bristol\'s weather changes daily, but Bristol\'s climate is described as "temperate".'},
+  {subject:'Y2 Geography',q:'On which continent is China located?',a:'Asia',exp:'China is in south-east Asia and is the third-largest country by area.'},
+  // === Y2 SCIENCE ===
+  {subject:'Y2 Science',q:'What are the three states of matter?',a:'Solid, liquid and gas',exp:'Water can change between all three: ice (solid), water (liquid) and steam (gas).'},
+  {subject:'Y2 Science',q:'What is everything in the universe made of, including you?',a:'Atoms',exp:'Atoms are too small to see — there are about 100 different kinds of atom.'},
+  {subject:'Y2 Science',q:'What do we call an animal\'s natural home?',a:'A habitat',exp:'Different animals live in different habitats — woodland, ocean, desert, polar regions.'},
+
+  // === Y3 HISTORY: Tudors, Stuarts, Explorers ===
+  {subject:'Y3 History',q:'How many wives did Henry VIII have?',a:'Six',exp:'Catherine of Aragon, Anne Boleyn, Jane Seymour, Anne of Cleves, Katherine Howard and Katherine Parr.'},
+  {subject:'Y3 History',q:'In which year did the Gunpowder Plot take place?',a:'1605',exp:'Guy Fawkes and others tried to blow up Parliament. We remember it on 5th November (Bonfire Night).'},
+  {subject:'Y3 History',q:'Which Tudor queen ruled for 45 years and never married?',a:'Elizabeth I',exp:'Elizabeth I (1558–1603) was the daughter of Henry VIII and Anne Boleyn.'},
+  {subject:'Y3 History',q:'Which Bristol-linked explorer reached Newfoundland in 1497?',a:'John Cabot',exp:'John Cabot sailed from Bristol — there is a memorial to him on the harbour today.'},
+  {subject:'Y3 History',q:'Who is famous for completing the first voyage around the whole world?',a:'Ferdinand Magellan',exp:"Magellan's expedition (1519–1522) circumnavigated the globe — though Magellan himself died on the way."},
+  // === Y3 GEOGRAPHY ===
+  {subject:'Y3 Geography',q:'What is the capital city of Spain?',a:'Madrid',exp:'Spain is in southern Europe and is part of the Mediterranean region.'},
+  {subject:'Y3 Geography',q:'What is the capital city of Italy?',a:'Rome',exp:'Rome is the capital of Italy. It was the centre of the Roman Empire.'},
+  {subject:'Y3 Geography',q:'What is the capital city of France?',a:'Paris',exp:'Paris is famous for the Eiffel Tower and the River Seine.'},
+  {subject:'Y3 Geography',q:'Which county is Bristol in?',a:"It's a county itself (City of Bristol)",exp:'Bristol is a unitary authority and ceremonial county. Around it are Somerset, North Somerset, South Gloucestershire and Gloucestershire.'},
+  // === Y3 SCIENCE ===
+  {subject:'Y3 Science',q:'What are the four stages of the water cycle?',a:'Evaporation, condensation, precipitation and collection',exp:'Water evaporates from oceans, condenses into clouds, falls as rain or snow, then collects in rivers and seas.'},
+  {subject:'Y3 Science',q:'Name the three types of rock.',a:'Igneous, sedimentary and metamorphic',exp:'Igneous = formed from cooled lava; sedimentary = layers of pressed material; metamorphic = changed by heat or pressure.'},
+  {subject:'Y3 Science',q:'What does a magnet do to objects made of iron?',a:'It attracts (pulls) them',exp:'Magnets attract iron, steel, nickel and cobalt — but not most other metals like aluminium or copper.'},
+  {subject:'Y3 Science',q:'What does a plant need to make its own food?',a:'Sunlight, water, carbon dioxide and a leaf',exp:'This is called photosynthesis. Plants use the energy from sunlight to make sugar in their leaves.'},
+
+  // === Y4 RECAP (current year, recap-able)===
+  {subject:'Y4 History',q:'In which year did the Romans leave Britain?',a:'410 AD',exp:'After the Romans left, Saxon tribes invaded and created seven kingdoms.'},
+  {subject:'Y4 History',q:'Who was the famous Anglo-Saxon king who fought the Vikings?',a:'Alfred the Great',exp:'Alfred ruled Wessex from 871–899 AD and made an agreement with the Vikings.'},
+  {subject:'Y4 History',q:'Which battle in 1066 ended Anglo-Saxon rule in England?',a:'The Battle of Hastings',exp:'William of Normandy defeated King Harold and became William the Conqueror.'},
+  {subject:'Y4 Science',q:'What changes when a sound is louder?',a:'The size of the vibration (the amplitude)',exp:'Louder sounds have bigger vibrations; quieter sounds have smaller vibrations.'},
+  {subject:'Y4 Science',q:'What changes when a sound is higher in pitch?',a:'The speed of the vibration (the frequency)',exp:'Faster vibrations make higher pitches; slower vibrations make lower pitches.'},
+  {subject:'Y4 Geography',q:'What is a biome?',a:'A large area with a particular climate, plants and animals',exp:'Examples include desert, rainforest, tundra, and temperate forest.'}
+];
+
+// ═══════════════════════════════════════════════════════════
+// GEOGRAPHY QUICK — UK / Europe / world quick-recall
+// Each entry: q (question), a (answer), exp (brief context)
+// ═══════════════════════════════════════════════════════════
+const GEOGRAPHY_QUICK=[
+  // UK countries and capitals
+  {q:'Name the four countries of the UK.',a:'England, Scotland, Wales and Northern Ireland',exp:'Together they make up the United Kingdom of Great Britain and Northern Ireland.'},
+  {q:'What is the capital of Scotland?',a:'Edinburgh',exp:'Edinburgh is famous for its castle and the annual Festival.'},
+  {q:'What is the capital of Wales?',a:'Cardiff',exp:"Cardiff is on the south coast of Wales near the Bristol Channel."},
+  {q:'What is the capital of Northern Ireland?',a:'Belfast',exp:'Belfast is famous for shipbuilding — the Titanic was built there.'},
+  {q:'What is the capital of England?',a:'London',exp:'London sits on the River Thames and is the largest city in the UK.'},
+  // Continents
+  {q:'How many continents are there?',a:'7',exp:'Africa, Antarctica, Asia, Australia (Oceania), Europe, North America, South America.'},
+  {q:'Which is the largest continent by area?',a:'Asia',exp:'Asia covers about 30% of the world\'s land area.'},
+  {q:'Which is the smallest continent?',a:'Australia (Oceania)',exp:'Australia is also the only continent that is a single country.'},
+  // Oceans and seas
+  {q:'Name the five oceans.',a:'Pacific, Atlantic, Indian, Southern, Arctic',exp:'The Pacific is the largest; the Arctic is the smallest.'},
+  {q:'Which is the largest ocean?',a:'The Pacific Ocean',exp:'It covers about a third of the entire surface of the Earth.'},
+  {q:'Which sea lies between England and France?',a:'The English Channel',exp:'It is about 32 km across at its narrowest point (the Strait of Dover).'},
+  {q:'Which sea lies between Great Britain and Ireland?',a:'The Irish Sea',exp:'It separates the islands of Great Britain and Ireland.'},
+  {q:'Which sea lies to the east of England?',a:'The North Sea',exp:'It separates Britain from Norway, Denmark, Germany and the Netherlands.'},
+  // European countries and capitals (Y3 spec)
+  {q:'What is the capital of France?',a:'Paris',exp:'Paris sits on the River Seine and is famous for the Eiffel Tower.'},
+  {q:'What is the capital of Germany?',a:'Berlin',exp:'Berlin is in the north-east of Germany.'},
+  {q:'What is the capital of Spain?',a:'Madrid',exp:'Madrid is roughly in the centre of Spain.'},
+  {q:'What is the capital of Italy?',a:'Rome',exp:'Rome was the centre of the ancient Roman Empire.'},
+  {q:'What is the capital of Greece?',a:'Athens',exp:'Athens is one of the oldest cities in the world.'},
+  {q:'What is the capital of Ireland?',a:'Dublin',exp:'Dublin is on the east coast of Ireland.'},
+  {q:'What is the capital of Portugal?',a:'Lisbon',exp:'Lisbon is on the Atlantic coast of Portugal.'},
+  {q:'What is the capital of the Netherlands?',a:'Amsterdam',exp:'Amsterdam is famous for its canals and bicycles.'},
+  // World facts
+  {q:'What is the longest river in the world?',a:'The Nile',exp:'The Nile flows through Egypt and Sudan in north-east Africa. About 6,650 km long.'},
+  {q:'What is the largest desert in the world?',a:'The Antarctic Desert (or Sahara, if hot deserts only)',exp:'Antarctica is technically a desert — very dry. The Sahara is the largest hot desert.'},
+  {q:'What is the highest mountain in the world?',a:'Mount Everest',exp:'Everest is in the Himalayas on the border between Nepal and Tibet — 8,849 metres.'},
+  {q:'What is the highest mountain in the UK?',a:'Ben Nevis',exp:'Ben Nevis is in Scotland and is 1,345 metres high.'},
+  // UK rivers and physical features
+  {q:'Which river flows through London?',a:'The River Thames',exp:'The Thames flows through southern England into the North Sea.'},
+  {q:'Which river flows through Bristol?',a:'The River Avon',exp:'The Bristol Avon meets the River Severn at Avonmouth.'},
+  {q:'Which is the longest river in the UK?',a:'The River Severn',exp:'The Severn is about 354 km long. The Thames is the second longest.'},
+  // South-west England (Y3)
+  {q:'Name three counties in the South-West of England.',a:"Bristol, Somerset, Devon (also Cornwall, Dorset, Gloucestershire, Wiltshire)",exp:'The South-West is one of nine regions of England.'},
+  {q:'Which famous landmark in Wiltshire is over 4,500 years old?',a:'Stonehenge',exp:'Stonehenge is a prehistoric stone circle on Salisbury Plain.'}
+];
+
+// ═══════════════════════════════════════════════════════════
+// PREFIX & SUFFIX — Y4 pitch
+// Each entry: a base word + array of prefixes + array of suffixes.
+// The reveal shows example combinations (real words only).
+// ═══════════════════════════════════════════════════════════
+const PREFIX_SUFFIX=[
+  {base:'play',prefixes:['re','dis','over'],suffixes:['ed','ing','er','ful'],examples:['replay','played','playing','player','playful','overplay','displayed']},
+  {base:'happy',prefixes:['un'],suffixes:['ly','ness','er','est'],examples:['unhappy','happily','happiness','happier','happiest']},
+  {base:'help',prefixes:['un'],suffixes:['ed','ing','er','ful','less'],examples:['helped','helping','helper','helpful','helpless','unhelpful']},
+  {base:'do',prefixes:['un','re','over','out'],suffixes:['ing','er'],examples:['undo','redo','overdo','outdo','doing','doer']},
+  {base:'kind',prefixes:['un'],suffixes:['ly','ness','er','est'],examples:['unkind','kindly','kindness','kinder','kindest']},
+  {base:'use',prefixes:['re','mis','over'],suffixes:['ed','ing','er','ful','less','able'],examples:['reuse','misuse','overuse','used','useful','useless','usable','user']},
+  {base:'care',prefixes:[],suffixes:['ed','ing','ful','less','er'],examples:['cared','caring','careful','careless','carer']},
+  {base:'sure',prefixes:['un','en','re'],suffixes:['ly'],examples:['unsure','ensure','reassure','surely']},
+  {base:'fair',prefixes:['un'],suffixes:['ly','ness','er','est'],examples:['unfair','fairly','fairness','fairer','fairest']},
+  {base:'hope',prefixes:[],suffixes:['ed','ing','ful','less'],examples:['hoped','hoping','hopeful','hopeless']},
+  {base:'lock',prefixes:['un','re'],suffixes:['ed','ing','er','able'],examples:['unlock','relock','locked','locking','locker','lockable']},
+  {base:'agree',prefixes:['dis','re'],suffixes:['ing','able','ment','d'],examples:['disagree','disagreed','agreeing','agreeable','agreement']},
+  {base:'wind',prefixes:['re','un'],suffixes:['ing','er','y'],examples:['rewind','unwind','winding','winder','windy']},
+  {base:'pack',prefixes:['un','re'],suffixes:['ed','ing','er','age'],examples:['unpack','repack','packed','packing','packer','package']},
+  {base:'true',prefixes:['un'],suffixes:['ly','th'],examples:['untrue','truly','truth']},
+  {base:'cover',prefixes:['un','re','dis'],suffixes:['ed','ing'],examples:['uncover','recover','discover','covered','covering','discovered']},
+  {base:'arm',prefixes:['un','dis','re'],suffixes:['ed','ing','y','our'],examples:['unarm','disarm','rearm','armed','arming','army','armour']},
+  {base:'fold',prefixes:['un','re'],suffixes:['ed','ing','er'],examples:['unfold','refold','folded','folding','folder']},
+  {base:'pay',prefixes:['re','over','under','pre'],suffixes:['ing','able','ment'],examples:['repay','overpay','underpay','prepay','paying','payable','payment']},
+  {base:'place',prefixes:['re','dis','mis'],suffixes:['ed','ing','ment'],examples:['replace','displace','misplace','placed','placing','placement']}
+];
+
+// ═══════════════════════════════════════════════════════════
+// COMPARE IT — replaces WOULD_YOU_RATHER
+// Comparison-only questions: "Which is larger / heavier / more / longer?"
+// Each entry: q (question), optA, optB, workingA, workingB, answer
+// Existing WYR entries that were genuine comparisons have been kept,
+// rephrased to "Which is X?" framing. WYR entries that depended on
+// preference (e.g. "Would you rather travel twice as fast for half as long")
+// have been dropped.
+// ═══════════════════════════════════════════════════════════
+const COMPARE_IT=[
+  {q:'Which is bigger?',optA:'£5 a day for 10 days',optB:'£1 doubled each day for 6 days',workingA:'£5 × 10 = £50',workingB:'£1, £2, £4, £8, £16, £32. Total = £63',answer:'B is bigger — £63 beats £50.'},
+  {q:'Which is more?',optA:'10% of £200',optB:'25% of £80',workingA:'10% of £200 = £20',workingB:'25% of £80 = £80 ÷ 4 = £20',answer:'They are equal — both give £20.'},
+  {q:'Which has the bigger area?',optA:'A square with sides of 8 cm',optB:'A rectangle 12 cm × 5 cm',workingA:'8 × 8 = 64 cm²',workingB:'12 × 5 = 60 cm²',answer:'A is bigger — 64 cm² vs 60 cm².'},
+  {q:'Which is more?',optA:'½ of 120',optB:'⅔ of 90',workingA:'½ of 120 = 60',workingB:'⅔ of 90 = 60',answer:'They are equal — both give 60.'},
+  {q:'Which is shorter?',optA:'8 laps of a 400 m track',optB:'3.5 km',workingA:'8 × 400 m = 3,200 m = 3.2 km',workingB:'3.5 km = 3,500 m',answer:'A is shorter — 3,200 m vs 3,500 m.'},
+  {q:'Which is more money?',optA:'20p every day for a year (365 days)',optB:'£60 in one go',workingA:'20p × 365 = 7,300p = £73.00',workingB:'£60',answer:'A is more — £73 beats £60.'},
+  {q:'Which has the bigger perimeter?',optA:'A square with sides of 9 cm',optB:'A rectangle 14 cm × 3 cm',workingA:'4 × 9 = 36 cm',workingB:'2 × (14 + 3) = 34 cm',answer:'A is bigger — 36 cm vs 34 cm.'},
+  {q:'Which is more?',optA:'30% of £90',optB:'¼ of £100',workingA:'30% of £90 = £27',workingB:'¼ of £100 = £25',answer:'A is more — £27 vs £25.'},
+  {q:'Which is the bigger amount?',optA:'¾ of a 400 g pizza',optB:'⅔ of a 450 g pizza',workingA:'¾ of 400 g = 300 g',workingB:'⅔ of 450 g = 300 g',answer:'They are equal — both give 300 g.'},
+  {q:'Which is more money?',optA:'£3.50 per week for 12 weeks',optB:'£3 per week for 13 weeks',workingA:'£3.50 × 12 = £42',workingB:'£3 × 13 = £39',answer:'A is more — £42 vs £39.'},
+  {q:'Which stack is taller?',optA:'12 books each 2.5 cm thick',optB:'8 books each 4 cm thick',workingA:'12 × 2.5 = 30 cm',workingB:'8 × 4 = 32 cm',answer:'B is taller — 32 cm vs 30 cm.'},
+  {q:'Which is more?',optA:'50% of 144',optB:'¾ of 100',workingA:'50% of 144 = 72',workingB:'¾ of 100 = 75',answer:'B is more — 75 vs 72.'},
+  {q:'Which is more per person?',optA:'£72 shared between 9 people',optB:'£56 shared between 7 people',workingA:'£72 ÷ 9 = £8 each',workingB:'£56 ÷ 7 = £8 each',answer:'They are equal — both give £8 per person.'},
+  {q:'Which is heavier?',optA:'1.5 kg',optB:'1500 g',workingA:'1.5 kg = 1,500 g',workingB:'1,500 g',answer:'They are equal — 1.5 kg = 1,500 g.'},
+  {q:'Which is longer?',optA:'2 m 30 cm',optB:'225 cm',workingA:'2 m 30 cm = 230 cm',workingB:'225 cm',answer:'A is longer — 230 cm vs 225 cm.'},
+  {q:'Which holds more liquid?',optA:'2.5 litres',optB:'2,400 ml',workingA:'2.5 L = 2,500 ml',workingB:'2,400 ml',answer:'A holds more — 2,500 ml vs 2,400 ml.'},
+  {q:'Which is colder?',optA:'−4 °C',optB:'−9 °C',workingA:'Above −9 °C',workingB:'Lower on the number line',answer:'B is colder — −9 °C is lower than −4 °C.'},
+  {q:'Which is bigger?',optA:'¾',optB:'⅖',workingA:'¾ = 0.75',workingB:'⅖ = 0.4',answer:'A is bigger — ¾ > ⅖.'},
+  {q:'Which is bigger?',optA:'⅗ of 50',optB:'½ of 60',workingA:'⅗ of 50 = 30',workingB:'½ of 60 = 30',answer:'They are equal — both give 30.'},
+  {q:'Which lasts longer?',optA:'1 hour 25 minutes',optB:'80 minutes',workingA:'1 h 25 m = 85 minutes',workingB:'80 minutes',answer:'A lasts longer — 85 min vs 80 min.'},
+  {q:'Which is faster?',optA:'Running 200 m in 40 seconds',optB:'Running 100 m in 18 seconds',workingA:'200 ÷ 40 = 5 m/s',workingB:'100 ÷ 18 ≈ 5.56 m/s',answer:'B is faster — about 5.56 m/s vs 5 m/s.'},
+  {q:'Which is bigger?',optA:'A square of side 6 cm (perimeter)',optB:'A rectangle 7 cm × 4 cm (perimeter)',workingA:'4 × 6 = 24 cm',workingB:'2 × (7 + 4) = 22 cm',answer:'A is bigger — 24 cm vs 22 cm.'}
+];
 
 // ═══════════════════════════════════════════════════════════
 // SHAPE OF THE DAY BANK
@@ -1493,7 +1852,7 @@ function getTTSet(){
 // STATE & INIT
 // ═══════════════════════════════════════════════════════════
 let pType='boggle',cur=null,solsOpen=false;
-const ALL_TYPES=['boggle','number','combined','literacy','spotmistakecombo','vocab','mathsreason','mathsshape','humanities'];
+const ALL_TYPES=['boggle','number','combined','literacy','spotmistakecombo','maths','humanities'];
 
 
 // ═══════════════════════════════════════════════════════════
@@ -1587,37 +1946,35 @@ function newPuzzle(){
     const e=WOULD_YOU_RATHER[Math.floor(Math.random()*WOULD_YOU_RATHER.length)];
     cur={type:'wouldyourather',data:e};renderWouldYouRather(e);
   } else if(pType==='literacy'){
-    const eWod=WORD_OF_DAY[Math.floor(Math.random()*WORD_OF_DAY.length)];
-    const eSyn=SYN_ANT[Math.floor(Math.random()*SYN_ANT.length)];
-    const ePunc=PUNCTUATION_FIX[Math.floor(Math.random()*PUNCTUATION_FIX.length)];
-    const eWc=WORD_CLASS[Math.floor(Math.random()*WORD_CLASS.length)];
-    cur={type:'literacy',wod:eWod,syn:eSyn,punc:ePunc,wc:eWc};
-    renderLiteracyQuad(eWod,eSyn,ePunc,eWc);
-  } else if(pType==='spotmistakecombo'){
-    const eStm=SPOT_MISTAKE[Math.floor(Math.random()*SPOT_MISTAKE.length)];
-    const eLad=WORD_LADDER[Math.floor(Math.random()*WORD_LADDER.length)];
-    // pick 2 distinct spelling words
+    // Pick 2 distinct spelling words for the top-left cell
     const pool=KEY_SPELLING_LIST.slice();
     const w1=pool.splice(Math.floor(Math.random()*pool.length),1)[0];
     const w2=pool.splice(Math.floor(Math.random()*pool.length),1)[0];
-    cur={type:'spotmistakecombo',stm:eStm,ladder:eLad,spellings:[w1,w2]};
-    renderSpotMistakeCombo(eStm,eLad,[w1,w2]);
-  } else if(pType==='vocab'){
-    const eA=WORD_OF_DAY[Math.floor(Math.random()*WORD_OF_DAY.length)];
-    const eB=SYN_ANT[Math.floor(Math.random()*SYN_ANT.length)];
-    cur={type:'vocab',dataA:eA,dataB:eB};renderPairVocab(eA,eB);
-  } else if(pType==='mathsreason'){
-    const eA=MAGIC_NUMBER_CLEAN[Math.floor(Math.random()*MAGIC_NUMBER_CLEAN.length)];
-    const eB=WOULD_YOU_RATHER[Math.floor(Math.random()*WOULD_YOU_RATHER.length)];
-    cur={type:'mathsreason',dataA:eA,dataB:eB};renderPairMathsReason(eA,eB);
-  } else if(pType==='mathsshape'){
-    const eA=SHAPES[Math.floor(Math.random()*SHAPES.length)];
-    const eB=ESTIMATION[Math.floor(Math.random()*ESTIMATION.length)];
-    cur={type:'mathsshape',dataA:eA,dataB:eB};renderPairMathsShape(eA,eB);
+    const eSyn=SYN_ANT[Math.floor(Math.random()*SYN_ANT.length)];
+    const ePunc=PUNCTUATION_FIX[Math.floor(Math.random()*PUNCTUATION_FIX.length)];
+    const eWc=WORD_CLASS[Math.floor(Math.random()*WORD_CLASS.length)];
+    cur={type:'literacy',spellings:[w1,w2],syn:eSyn,punc:ePunc,wc:eWc};
+    renderLiteracyQuad([w1,w2],eSyn,ePunc,eWc);
+  } else if(pType==='spotmistakecombo'){
+    const eStm=SPOT_MISTAKE[Math.floor(Math.random()*SPOT_MISTAKE.length)];
+    const eLad=WORD_LADDER[Math.floor(Math.random()*WORD_LADDER.length)];
+    const ePs=PREFIX_SUFFIX[Math.floor(Math.random()*PREFIX_SUFFIX.length)];
+    cur={type:'spotmistakecombo',stm:eStm,ladder:eLad,ps:ePs};
+    renderSpotMistakeCombo(eStm,eLad,ePs);
+  } else if(pType==='maths'){
+    const eMn=MAGIC_NUMBER_CLEAN[Math.floor(Math.random()*MAGIC_NUMBER_CLEAN.length)];
+    const eCmp=COMPARE_IT[Math.floor(Math.random()*COMPARE_IT.length)];
+    const eShp=SHAPES[Math.floor(Math.random()*SHAPES.length)];
+    const eEst=ESTIMATION[Math.floor(Math.random()*ESTIMATION.length)];
+    cur={type:'maths',mn:eMn,cmp:eCmp,shp:eShp,est:eEst};
+    renderMathsQuad(eMn,eCmp,eShp,eEst);
   } else if(pType==='humanities'){
-    const eA=MAP_CHALLENGE[Math.floor(Math.random()*MAP_CHALLENGE.length)];
-    const eB=TIMELINE_SETS[Math.floor(Math.random()*TIMELINE_SETS.length)];
-    cur={type:'humanities',dataA:eA,dataB:eB};renderPairHumanities(eA,eB);
+    const eMap=MAP_CHALLENGE[Math.floor(Math.random()*MAP_CHALLENGE.length)];
+    const eTl=TIMELINE_SETS[Math.floor(Math.random()*TIMELINE_SETS.length)];
+    const eKq=KNOWLEDGE_QUIZ[Math.floor(Math.random()*KNOWLEDGE_QUIZ.length)];
+    const eGq=GEOGRAPHY_QUICK[Math.floor(Math.random()*GEOGRAPHY_QUICK.length)];
+    cur={type:'humanities',map:eMap,tl:eTl,kq:eKq,gq:eGq};
+    renderHumanitiesQuad(eMap,eTl,eKq,eGq);
   }
   closeSols();
 }
@@ -1628,6 +1985,8 @@ function clearPuzzlePanel(){
   const cp=document.getElementById('combined-panel');if(cp)cp.remove();
   const lp=document.getElementById('literacy-panel');if(lp)lp.remove();
   const sp=document.getElementById('stmcombo-panel');if(sp)sp.remove();
+  const mp=document.getElementById('maths-panel');if(mp)mp.remove();
+  const hp=document.getElementById('humanities-panel');if(hp)hp.remove();
 }
 function toggleType(){
   pType=ALL_TYPES[(ALL_TYPES.indexOf(pType)+1)%ALL_TYPES.length];
@@ -2073,7 +2432,7 @@ function pairShell(){
   return [a,b];
 }
 
-function renderLiteracyQuad(eWod,eSyn,ePunc,eWc){
+function renderLiteracyQuad(spellings,eSyn,ePunc,eWc){
   const pp=document.getElementById('puzzle-panel');
   pp.style.display='none';
   let lp=document.getElementById('literacy-panel');
@@ -2082,14 +2441,15 @@ function renderLiteracyQuad(eWod,eSyn,ePunc,eWc){
   // Build word-class chips with hidden class labels
   const wcHtml=eWc.words.map((w,i)=>`<div class="lq-wc-item" data-idx="${i}"><span class="lq-wc-word">${w}</span><span class="lq-wc-class" style="display:none">${eWc.answers[i]}</span></div>`).join('');
 
+  // Build key spelling pair (vertically separated)
+  const ksHtml=spellings.map(w=>`<div class="ks-word">${w}</div>`).join('');
+
   lp.innerHTML=`
     <div class="cpanel">
-      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Word of the Day</span></div>
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Key Spelling</span></div>
       <div class="cpanel-body">
-        <div class="lq-wod-word">${eWod.word}</div>
-        <div class="lq-wod-class">${eWod.cls}</div>
-        <div class="lq-wod-def">${eWod.def}</div>
-        <div class="lq-wod-example">"${eWod.example}"</div>
+        <div class="ks-pair">${ksHtml}</div>
+        <div class="ks-instr">Write each word <strong>5 times</strong>, then ask another learner to test you.</div>
       </div>
     </div>
     <div class="cpanel">
@@ -2160,7 +2520,7 @@ function revealLqWc(btn){
   }
 }
 
-function renderSpotMistakeCombo(eStm,eLad,spellings){
+function renderSpotMistakeCombo(eStm,eLad,ePs){
   const pp=document.getElementById('puzzle-panel');
   pp.style.display='none';
   let sp=document.getElementById('stmcombo-panel');
@@ -2181,14 +2541,19 @@ function renderSpotMistakeCombo(eStm,eLad,spellings){
   const clueRung=eLad.path[eLad.clue_idx];
   const clueText=`💡 Clue for rung ${eLad.clue_idx+1} (${clueRung.length} letters): <strong>${eLad.clue}</strong>`;
 
-  // Key spelling — two words shown
-  const ksHtml=spellings.map(w=>`<div class="ks-word">${w}</div>`).join('');
+  // Prefix & Suffix display
+  const prefixCol = ePs.prefixes.length
+    ? ePs.prefixes.map(p=>`<div class="ps-chip">${p}</div>`).join('')
+    : '<div class="ps-empty">(none)</div>';
+  const suffixCol = ePs.suffixes.length
+    ? ePs.suffixes.map(s=>`<div class="ps-chip">${s}</div>`).join('')
+    : '<div class="ps-empty">(none)</div>';
 
   sp.innerHTML=`
     <div class="cpanel stm-full">
       <div class="cpanel-hdr"><span class="cpanel-hdr-title">Spot the Mistake</span><button class="reveal-btn" onclick="revealStmcAns(this)">👁 Reveal</button></div>
       <div class="cpanel-body" style="justify-content:flex-start;align-items:stretch">
-        <div class="stmc-instr">There are <span class="stmc-instr-num">${eStm.count}</span> mistakes hidden in this paragraph. Find them all and rewrite the paragraph correctly.</div>
+        <div class="stmc-instr">There are <span class="stmc-instr-num">${eStm.count}</span> mistakes hidden in this paragraph (2 spelling, 2 punctuation, 2 grammar). Find them all and rewrite the paragraph correctly.</div>
         <div class="stmc-para">${eStm.para}</div>
         <div class="stmc-ans" id="stmc-ans">${stmAnswerHtml(eStm)}</div>
       </div>
@@ -2202,10 +2567,15 @@ function renderSpotMistakeCombo(eStm,eLad,spellings){
       </div>
     </div>
     <div class="cpanel ks-cell">
-      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Key Spelling</span></div>
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Prefix &amp; Suffix</span><button class="reveal-btn" onclick="revealPs(this)">👁 Reveal</button></div>
       <div class="cpanel-body">
-        <div class="ks-pair">${ksHtml}</div>
-        <div class="ks-instr">Write each word <strong>5 times</strong>, then ask another learner to test you.</div>
+        <div class="ps-grid">
+          <div class="ps-col"><div class="ps-col-hdr pref">Prefix</div>${prefixCol}</div>
+          <div class="ps-base"><div class="ps-base-word">${ePs.base}</div></div>
+          <div class="ps-col"><div class="ps-col-hdr suf">Suffix</div>${suffixCol}</div>
+        </div>
+        <div class="ps-instr">How many real words can you make using the base word?</div>
+        <div class="ps-examples" id="ps-examples" style="display:none">${ePs.examples.map(e=>`<span class="ps-ex">${e}</span>`).join('')}</div>
       </div>
     </div>`;
 }
@@ -2238,6 +2608,190 @@ function revealWlPath(btn){
     blanks.forEach(b=>{b.classList.add('revealed');b.textContent=b.dataset.letter;});
     btn.textContent='👁 Hide';btn.dataset.revealed='1';
   }
+}
+
+function revealPs(btn){
+  const sp=document.getElementById('stmcombo-panel');
+  const ex=sp.querySelector('#ps-examples');
+  if(btn.dataset.revealed==='1'){
+    ex.style.display='none';
+    btn.textContent='👁 Reveal';btn.dataset.revealed='0';
+  } else {
+    ex.style.display='flex';
+    btn.textContent='👁 Hide';btn.dataset.revealed='1';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// MATHS QUAD: Magic Number, Compare It, Shape of the Day, Estimation
+// ═══════════════════════════════════════════════════════════
+function renderMathsQuad(eMn,eCmp,eShp,eEst){
+  const pp=document.getElementById('puzzle-panel');
+  pp.style.display='none';
+  let mp=document.getElementById('maths-panel');
+  if(!mp){mp=document.createElement('div');mp.id='maths-panel';pp.parentNode.insertBefore(mp,pp);}
+
+  const mnCluesHtml=eMn.clues.map((c,i)=>`<div class="mn-clue"><div class="mn-clue-num">${i+1}</div>${c}</div>`).join('');
+  const shpQsHtml=eShp.questions.map(q=>`<div class="mq-shp-q">❓ ${q}</div>`).join('');
+  const shpPropsHtml=eShp.properties.map((p,i)=>`<div><strong>${eShp.questions[i]}</strong><br>${p}</div>`).join('<hr style="border:none;border-top:1px solid #AED6F1;margin:0.25vh 0">');
+
+  mp.innerHTML=`
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Magic Number</span><button class="reveal-btn" onclick="revealMqMn(this)">👁 Reveal</button></div>
+      <div class="cpanel-body">
+        <div class="mq-mn-instr">Read the clues — what is the mystery number?</div>
+        <div class="mq-mn-clues">${mnCluesHtml}</div>
+        <div class="mq-mn-answer" id="mq-mn-answer" style="display:none">${eMn.answer}</div>
+      </div>
+    </div>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Compare It</span><button class="reveal-btn" onclick="revealMqCmp(this)">👁 Reveal</button></div>
+      <div class="cpanel-body">
+        <div class="mq-cmp-q">${eCmp.q}</div>
+        <div class="mq-cmp-opts">
+          <div class="mq-cmp-opt"><span class="mq-cmp-label">A</span>${eCmp.optA}</div>
+          <div class="mq-cmp-or">vs</div>
+          <div class="mq-cmp-opt"><span class="mq-cmp-label">B</span>${eCmp.optB}</div>
+        </div>
+        <div class="mq-cmp-working" id="mq-cmp-working" style="display:none">
+          <div><strong>A:</strong> ${eCmp.workingA}</div>
+          <div><strong>B:</strong> ${eCmp.workingB}</div>
+          <div class="mq-cmp-answer">${eCmp.answer}</div>
+        </div>
+      </div>
+    </div>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Shape of the Day</span><button class="reveal-btn" onclick="revealMqShp(this)">👁 Reveal</button></div>
+      <div class="cpanel-body">
+        <div class="mq-shp-name">${eShp.name}</div>
+        <div class="mq-shp-type">${eShp.type}</div>
+        <div class="mq-shp-qs" id="mq-shp-qs">${shpQsHtml}</div>
+        <div class="mq-shp-props" id="mq-shp-props" style="display:none">${shpPropsHtml}</div>
+      </div>
+    </div>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Estimation Station</span><button class="reveal-btn" onclick="revealMqEst(this)">👁 Reveal</button></div>
+      <div class="cpanel-body">
+        <div class="mq-est-q">${eEst.question}</div>
+        <div class="mq-est-instr">Think — then share your estimate.</div>
+        <div class="mq-est-ans" id="mq-est-ans" style="display:none">
+          <div class="mq-est-answer">${eEst.answer}</div>
+          <div class="mq-est-exp">${eEst.explanation}</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function revealMqMn(btn){
+  const mp=document.getElementById('maths-panel');
+  const a=mp.querySelector('#mq-mn-answer');
+  if(btn.dataset.revealed==='1'){a.style.display='none';btn.textContent='👁 Reveal';btn.dataset.revealed='0';}
+  else {a.style.display='block';btn.textContent='👁 Hide';btn.dataset.revealed='1';}
+}
+function revealMqCmp(btn){
+  const mp=document.getElementById('maths-panel');
+  const w=mp.querySelector('#mq-cmp-working');
+  if(btn.dataset.revealed==='1'){w.style.display='none';btn.textContent='👁 Reveal';btn.dataset.revealed='0';}
+  else {w.style.display='block';btn.textContent='👁 Hide';btn.dataset.revealed='1';}
+}
+function revealMqShp(btn){
+  const mp=document.getElementById('maths-panel');
+  const qs=mp.querySelector('#mq-shp-qs');
+  const props=mp.querySelector('#mq-shp-props');
+  if(btn.dataset.revealed==='1'){qs.style.display='block';props.style.display='none';btn.textContent='👁 Reveal';btn.dataset.revealed='0';}
+  else {qs.style.display='none';props.style.display='block';btn.textContent='👁 Hide';btn.dataset.revealed='1';}
+}
+function revealMqEst(btn){
+  const mp=document.getElementById('maths-panel');
+  const a=mp.querySelector('#mq-est-ans');
+  if(btn.dataset.revealed==='1'){a.style.display='none';btn.textContent='👁 Reveal';btn.dataset.revealed='0';}
+  else {a.style.display='block';btn.textContent='👁 Hide';btn.dataset.revealed='1';}
+}
+
+// ═══════════════════════════════════════════════════════════
+// HUMANITIES QUAD: Map Challenge, Timeline, Knowledge Quiz, Geography Quick
+// ═══════════════════════════════════════════════════════════
+function renderHumanitiesQuad(eMap,eTl,eKq,eGq){
+  const pp=document.getElementById('puzzle-panel');
+  pp.style.display='none';
+  let hp=document.getElementById('humanities-panel');
+  if(!hp){hp=document.createElement('div');hp.id='humanities-panel';pp.parentNode.insertBefore(hp,pp);}
+
+  const mapFactsHtml=eMap.facts.map(f=>`<div class="hq-map-fact">🌍 ${f}</div>`).join('');
+  const mapQsHtml=eMap.questions.map(q=>`<div class="hq-map-q">❓ ${q}</div>`).join('');
+  const mapAnsHtml=eMap.answers.map((a,i)=>`<div><strong>${eMap.questions[i]}</strong> ${a}</div>`).join('');
+  // Timeline shuffled (so children sort it themselves)
+  const tlShuffled=[...eTl.events].sort(()=>Math.random()-0.5);
+  const tlListHtml=tlShuffled.map(e=>`<div class="hq-tl-item">📜 ${e.text}</div>`).join('');
+  const tlSorted=[...eTl.events].sort((a,b)=>a.year-b.year);
+  const tlSortedHtml=tlSorted.map((e,i)=>`<div class="hq-tl-sorted"><span class="hq-tl-year">${e.year<0?Math.abs(e.year)+' BC':e.year+' AD'}</span> ${e.text}</div>`).join('');
+
+  hp.innerHTML=`
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Map Challenge</span><button class="reveal-btn" onclick="revealHqMap(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" style="justify-content:flex-start">
+        <div class="hq-map-country">${eMap.country}</div>
+        <div class="hq-map-facts">${mapFactsHtml}</div>
+        <div class="hq-map-qs" id="hq-map-qs">${mapQsHtml}</div>
+        <div class="hq-map-ans" id="hq-map-ans" style="display:none">${mapAnsHtml}</div>
+      </div>
+    </div>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Timeline: ${eTl.title}</span><button class="reveal-btn" onclick="revealHqTl(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" style="justify-content:flex-start">
+        <div class="hq-tl-instr">Put these events in order from earliest to most recent</div>
+        <div class="hq-tl-list" id="hq-tl-list">${tlListHtml}</div>
+        <div class="hq-tl-sorted-list" id="hq-tl-sorted" style="display:none">${tlSortedHtml}</div>
+      </div>
+    </div>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Knowledge Quiz</span><button class="reveal-btn" onclick="revealHqKq(this)">👁 Reveal</button></div>
+      <div class="cpanel-body">
+        <div class="hq-kq-subject">${eKq.subject}</div>
+        <div class="hq-kq-q">${eKq.q}</div>
+        <div class="hq-kq-ans" id="hq-kq-ans" style="display:none">
+          <div class="hq-kq-answer">${eKq.a}</div>
+          <div class="hq-kq-exp">${eKq.exp}</div>
+        </div>
+      </div>
+    </div>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Geography Quick</span><button class="reveal-btn" onclick="revealHqGq(this)">👁 Reveal</button></div>
+      <div class="cpanel-body">
+        <div class="hq-gq-q">${eGq.q}</div>
+        <div class="hq-gq-ans" id="hq-gq-ans" style="display:none">
+          <div class="hq-gq-answer">${eGq.a}</div>
+          <div class="hq-gq-exp">${eGq.exp}</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function revealHqMap(btn){
+  const hp=document.getElementById('humanities-panel');
+  const qs=hp.querySelector('#hq-map-qs');
+  const ans=hp.querySelector('#hq-map-ans');
+  if(btn.dataset.revealed==='1'){qs.style.display='block';ans.style.display='none';btn.textContent='👁 Reveal';btn.dataset.revealed='0';}
+  else {qs.style.display='none';ans.style.display='block';btn.textContent='👁 Hide';btn.dataset.revealed='1';}
+}
+function revealHqTl(btn){
+  const hp=document.getElementById('humanities-panel');
+  const lst=hp.querySelector('#hq-tl-list');
+  const srt=hp.querySelector('#hq-tl-sorted');
+  if(btn.dataset.revealed==='1'){lst.style.display='block';srt.style.display='none';btn.textContent='👁 Reveal';btn.dataset.revealed='0';}
+  else {lst.style.display='none';srt.style.display='block';btn.textContent='👁 Hide';btn.dataset.revealed='1';}
+}
+function revealHqKq(btn){
+  const hp=document.getElementById('humanities-panel');
+  const a=hp.querySelector('#hq-kq-ans');
+  if(btn.dataset.revealed==='1'){a.style.display='none';btn.textContent='👁 Reveal';btn.dataset.revealed='0';}
+  else {a.style.display='block';btn.textContent='👁 Hide';btn.dataset.revealed='1';}
+}
+function revealHqGq(btn){
+  const hp=document.getElementById('humanities-panel');
+  const a=hp.querySelector('#hq-gq-ans');
+  if(btn.dataset.revealed==='1'){a.style.display='none';btn.textContent='👁 Reveal';btn.dataset.revealed='0';}
+  else {a.style.display='block';btn.textContent='👁 Hide';btn.dataset.revealed='1';}
 }
 
 function renderPairVocab(eA,eB){
@@ -2420,10 +2974,10 @@ function toggleSols(){
       <p style="font-size:0.88rem;margin-bottom:6px"><b>Option B:</b> ${e.optB}<br><span style="color:#3A9922">${e.workingB}</span></p>
       <p style="font-size:0.95rem;font-weight:800;color:#1798d3;border-top:2px solid #EEE;padding-top:8px;margin-top:4px">${e.answer}</p>`;
   } else if(cur.type==='literacy'){
-    t.textContent='Literacy — Word of the Day · Synonym & Antonym · Punctuation Fix · Word Class';
+    t.textContent='Literacy — Key Spelling · Synonym & Antonym · Punctuation Fix · Word Class';
     const wcRows=cur.wc.words.map((w,i)=>`<span style="display:inline-block;margin-right:10px"><b>${w}</b> <span style="color:#888;font-size:0.85em">(${cur.wc.answers[i]})</span></span>`).join('');
-    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Word of the Day: ${cur.wod.word}</p>
-      <p style="font-size:0.9rem;margin-bottom:12px;line-height:1.8"><b>Class:</b> ${cur.wod.cls} — ${cur.wod.def}<br><b>Example:</b> "${cur.wod.example}"</p>
+    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Key Spelling</p>
+      <p style="font-size:0.95rem;font-weight:700;color:#1798d3;margin-bottom:12px">${cur.spellings.join(' &nbsp;·&nbsp; ')}</p>
       <p style="font-weight:800;margin-bottom:4px">Synonym & Antonym — ${cur.syn.word}</p>
       <p style="font-size:0.9rem;margin-bottom:12px;line-height:1.8"><b>Synonyms:</b> ${cur.syn.syns.join(', ')}<br><b>Antonyms:</b> ${cur.syn.ants.join(', ')}</p>
       <p style="font-weight:800;margin-bottom:4px">Punctuation Fix</p>
@@ -2431,42 +2985,37 @@ function toggleSols(){
       <p style="font-weight:800;margin-bottom:4px">Word Class</p>
       <p style="font-size:0.9rem;line-height:1.8">${wcRows}</p>`;
   } else if(cur.type==='spotmistakecombo'){
-    t.textContent='Literacy 2 — Spot the Mistake · Word Ladder · Key Spelling';
+    t.textContent='Literacy 2 — Spot the Mistake · Word Ladder · Prefix & Suffix';
     const ladPath=cur.ladder.path.join(' → ');
-    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Spot the Mistake — ${cur.stm.count} errors</p>
-      ${cur.stm.errors.map((er,i)=>`<p style="font-size:0.88rem;margin-bottom:6px;line-height:1.6"><b>${i+1}.</b> "${er.wrong}" → "${er.correct}"<br><span style="color:#555">${er.exp}</span></p>`).join('')}
+    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Spot the Mistake — ${cur.stm.count} errors (2 spelling, 2 punctuation, 2 grammar)</p>
+      ${cur.stm.errors.map((er,i)=>`<p style="font-size:0.88rem;margin-bottom:6px;line-height:1.6"><b>${i+1}.</b> [${er.type||'-'}] "${er.wrong}" → "${er.correct}"<br><span style="color:#555">${er.exp}</span></p>`).join('')}
       <p style="font-weight:800;margin-top:14px;margin-bottom:4px">Word Ladder</p>
       <p style="font-size:0.95rem;font-weight:700;color:#1798d3;margin-bottom:6px">${ladPath}</p>
       <p style="font-size:0.88rem;color:#555;margin-bottom:12px"><b>Clue rung:</b> ${cur.ladder.path[cur.ladder.clue_idx]} — ${cur.ladder.clue}</p>
-      <p style="font-weight:800;margin-bottom:4px">Key Spelling</p>
-      <p style="font-size:0.95rem;font-weight:700;color:#1798d3">${cur.spellings.join(' &nbsp;·&nbsp; ')}</p>
-      <p style="font-size:0.85rem;color:#555">Pupils write each word 5 times, then partner-test.</p>`;
-  } else if(cur.type==='vocab'){
-    t.textContent='Vocab — Word of the Day + Synonyms & Antonyms';
-    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Word of the Day: ${cur.dataA.word}</p>
-      <p style="font-size:0.9rem;margin-bottom:12px;line-height:1.8">${cur.dataA.def}<br>"${cur.dataA.example}"</p>
-      <p style="font-weight:800;margin-bottom:4px">Synonyms & Antonyms — ${cur.dataB.word}</p>
-      <p style="font-size:0.9rem;line-height:1.8"><b>Synonyms:</b> ${cur.dataB.syns.join(', ')}<br><b>Antonyms:</b> ${cur.dataB.ants.join(', ')}</p>`;
-  } else if(cur.type==='mathsreason'){
-    t.textContent='Maths Reasoning — Magic Number + Would You Rather';
-    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Magic Number: <span style="font-size:1.6rem;color:#1798d3">${cur.dataA.answer}</span></p>
-      <p style="font-size:0.88rem;margin-bottom:12px">Clues: ${cur.dataA.clues.join(' / ')}</p>
-      <p style="font-weight:800;margin-bottom:4px">Would You Rather</p>
-      <p style="font-size:0.88rem;margin-bottom:4px;line-height:1.8"><b>A:</b> ${cur.dataB.workingA}<br><b>B:</b> ${cur.dataB.workingB}</p>
-      <p style="font-size:0.95rem;font-weight:800;color:#1798d3">${cur.dataB.answer}</p>`;
-  } else if(cur.type==='mathsshape'){
-    t.textContent='Maths — Shape of the Day + Estimation';
-    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Shape: ${cur.dataA.name}</p>
-      <p style="font-size:0.88rem;margin-bottom:12px;line-height:1.8">${cur.dataA.properties.map((p,i)=>cur.dataA.questions[i]+': '+p).join('<br>')}</p>
-      <p style="font-weight:800;margin-bottom:4px">Estimation Answer</p>
-      <p style="font-size:0.95rem;font-weight:800;color:#1798d3">${cur.dataB.answer}</p>
-      <p style="font-size:0.88rem">${cur.dataB.explanation}</p>`;
+      <p style="font-weight:800;margin-bottom:4px">Prefix & Suffix — base word: ${cur.ps.base}</p>
+      <p style="font-size:0.88rem;line-height:1.7"><b>Prefixes:</b> ${cur.ps.prefixes.join(', ')||'(none)'}<br><b>Suffixes:</b> ${cur.ps.suffixes.join(', ')||'(none)'}<br><b>Examples:</b> ${cur.ps.examples.join(', ')}</p>`;
+  } else if(cur.type==='maths'){
+    t.textContent='Maths — Magic Number · Compare It · Shape of the Day · Estimation Station';
+    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Magic Number: <span style="font-size:1.6rem;color:#1798d3">${cur.mn.answer}</span></p>
+      <p style="font-size:0.88rem;margin-bottom:12px">Clues: ${cur.mn.clues.join(' / ')}</p>
+      <p style="font-weight:800;margin-bottom:4px">Compare It</p>
+      <p style="font-size:0.88rem;margin-bottom:4px;line-height:1.8"><b>${cur.cmp.q}</b><br><b>A:</b> ${cur.cmp.workingA}<br><b>B:</b> ${cur.cmp.workingB}</p>
+      <p style="font-size:0.95rem;font-weight:800;color:#1798d3;margin-bottom:12px">${cur.cmp.answer}</p>
+      <p style="font-weight:800;margin-bottom:4px">Shape: ${cur.shp.name}</p>
+      <p style="font-size:0.88rem;margin-bottom:12px;line-height:1.8">${cur.shp.properties.map((p,i)=>cur.shp.questions[i]+': '+p).join('<br>')}</p>
+      <p style="font-weight:800;margin-bottom:4px">Estimation: ${cur.est.question}</p>
+      <p style="font-size:0.95rem;font-weight:800;color:#1798d3">${cur.est.answer}</p>
+      <p style="font-size:0.88rem">${cur.est.explanation}</p>`;
   } else if(cur.type==='humanities'){
-    t.textContent='Humanities — Map Challenge + Timeline';
-    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Map: ${cur.dataA.country}</p>
-      <p style="font-size:0.88rem;margin-bottom:12px;line-height:1.8">${cur.dataA.answers.map((a,i)=>cur.dataA.questions[i]+': '+a).join('<br>')}</p>
-      <p style="font-weight:800;margin-bottom:4px">Timeline: ${cur.dataB.title}</p>
-      <p style="font-size:0.88rem;line-height:1.8">${[...cur.dataB.events].sort((a,b)=>a.year-b.year).map((ev,i)=>`${i+1}. ${ev.year<0?Math.abs(ev.year)+' BC':ev.year+' AD'} — ${ev.text}`).join('<br>')}</p>`;
+    t.textContent='Humanities — Map Challenge · Timeline · Knowledge Quiz · Geography Quick';
+    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Map: ${cur.map.country}</p>
+      <p style="font-size:0.88rem;margin-bottom:12px;line-height:1.8">${cur.map.answers.map((a,i)=>cur.map.questions[i]+': '+a).join('<br>')}</p>
+      <p style="font-weight:800;margin-bottom:4px">Timeline: ${cur.tl.title}</p>
+      <p style="font-size:0.88rem;line-height:1.8;margin-bottom:12px">${[...cur.tl.events].sort((a,b)=>a.year-b.year).map((ev,i)=>`${i+1}. ${ev.year<0?Math.abs(ev.year)+' BC':ev.year+' AD'} — ${ev.text}`).join('<br>')}</p>
+      <p style="font-weight:800;margin-bottom:4px">Knowledge Quiz [${cur.kq.subject}]</p>
+      <p style="font-size:0.88rem;line-height:1.7;margin-bottom:12px"><b>Q:</b> ${cur.kq.q}<br><b>A:</b> ${cur.kq.a}<br><span style="color:#555">${cur.kq.exp}</span></p>
+      <p style="font-weight:800;margin-bottom:4px">Geography Quick</p>
+      <p style="font-size:0.88rem;line-height:1.7"><b>Q:</b> ${cur.gq.q}<br><b>A:</b> ${cur.gq.a}<br><span style="color:#555">${cur.gq.exp}</span></p>`;
   }
   document.getElementById('sol-ov').classList.add('on');
   document.getElementById('solbtn').textContent='Hide solutions';solsOpen=true;
