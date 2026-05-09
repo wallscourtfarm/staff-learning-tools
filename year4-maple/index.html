@@ -230,6 +230,57 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
 .tt-add-form input{width:100%;padding:6px 9px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.85rem;margin-bottom:6px}
 .tt-lie-label{display:flex;align-items:center;gap:6px;font-size:0.8rem;font-weight:700;color:#666;margin-bottom:6px}
 .tt-lie-label select{padding:4px 7px;border:1.5px solid #CCC;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.82rem}
+
+/* ─── Literacy Quadrant (replaces old WoD+SpotMistake pair) ─── */
+#literacy-panel{width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;min-height:0;overflow:hidden}
+/* Reuse .cpanel/.cpanel-hdr/.cpanel-body from combined panel */
+.lq-wod-word{font-size:clamp(1.5rem,4.5vh,2.8rem);font-weight:900;color:#1798d3;text-align:center;letter-spacing:0.02em;line-height:1;margin:0.3vh 0 0.3vh}
+.lq-wod-class{font-size:clamp(0.7rem,1.6vh,1rem);font-weight:800;color:#fff;background:#555;border-radius:14px;padding:0.1em 0.7em;display:inline-block;margin:0 auto 0.4vh;text-align:center}
+.lq-wod-def{font-size:clamp(0.85rem,2vh,1.3rem);font-weight:700;color:#333;text-align:center;line-height:1.35;margin:0 0.3vw 0.3vh;padding:0 0.4vw}
+.lq-wod-example{font-size:clamp(0.75rem,1.7vh,1.1rem);color:#666;font-style:italic;text-align:center;line-height:1.35;padding:0 0.4vw}
+.lq-syn-word{font-size:clamp(1.4rem,4vh,2.5rem);font-weight:900;color:#1798d3;text-align:center;letter-spacing:0.02em;line-height:1;margin:0.3vh 0}
+.lq-syn-instr{font-size:clamp(0.7rem,1.6vh,1rem);color:#888;text-align:center;font-weight:700;margin-bottom:0.3vh}
+.lq-syn-cols{display:grid;grid-template-columns:1fr 1fr;gap:0.5vw;width:100%;font-size:clamp(0.7rem,1.55vh,1rem)}
+.lq-syn-cols .col{display:flex;flex-direction:column;gap:2px}
+.lq-syn-hdr{font-weight:900;text-align:center;color:#fff;border-radius:4px;padding:0.1em 0.4em;font-size:clamp(0.65rem,1.5vh,0.95rem);text-transform:uppercase;letter-spacing:0.04em}
+.lq-syn-hdr.syn{background:#27AE60}
+.lq-syn-hdr.ant{background:#E74C3C}
+.lq-syn-list{font-size:clamp(0.7rem,1.55vh,1rem);color:#333;text-align:center;font-weight:700;line-height:1.45}
+.lq-pf-wrong{background:#FFF3F3;border:2px solid #E0A0A0;border-radius:6px;padding:0.5vh 0.7vw;font-family:monospace;font-size:clamp(0.78rem,1.7vh,1.05rem);font-weight:600;color:#7A1F1F;line-height:1.45;width:100%;text-align:left}
+.lq-pf-instr{font-size:clamp(0.7rem,1.55vh,1rem);font-weight:700;color:#888;text-align:center;margin-top:0.3vh}
+.lq-pf-correct{background:#E8F8E8;border:2px solid #98D098;border-radius:6px;padding:0.5vh 0.7vw;font-size:clamp(0.78rem,1.7vh,1.05rem);font-weight:700;color:#1A5C1A;line-height:1.45;width:100%;text-align:left;margin-top:0.3vh}
+.lq-pf-note{font-size:clamp(0.65rem,1.45vh,0.9rem);color:#555;font-style:italic;line-height:1.4;text-align:center;margin-top:0.3vh;padding:0 0.4vw}
+.lq-wc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.4vh 0.5vw;width:100%}
+.lq-wc-item{background:#F0F8FF;border:2px solid #AED6F1;border-radius:6px;padding:0.3vh 0.5vw;font-weight:800;font-size:clamp(0.78rem,1.7vh,1.1rem);color:#1A5276;text-align:center}
+.lq-wc-item.revealed{background:#FFF8E0;border-color:#F0C040}
+.lq-wc-class{font-size:clamp(0.6rem,1.35vh,0.85rem);font-weight:700;color:#888;display:block;margin-top:1px;text-transform:uppercase;letter-spacing:0.03em}
+.lq-wc-instr{font-size:clamp(0.7rem,1.55vh,1rem);font-weight:700;color:#888;text-align:center;margin-top:0.4vh}
+
+/* ─── Spot-the-Mistake combo layout (full-width STM on top, WL+KS below) ─── */
+#stmcombo-panel{width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;min-height:0;overflow:hidden}
+#stmcombo-panel .cpanel.stm-full{grid-column:1/3;grid-row:1}
+#stmcombo-panel .cpanel.wl-cell{grid-column:1;grid-row:2}
+#stmcombo-panel .cpanel.ks-cell{grid-column:2;grid-row:2}
+#stmcombo-panel .cpanel.stm-full{border-bottom:2.5px solid #EEE;border-right:none}
+#stmcombo-panel .cpanel.wl-cell{border-right:2.5px solid #EEE;border-bottom:none}
+#stmcombo-panel .cpanel.ks-cell{border-right:none;border-bottom:none}
+#stmcombo-panel .cpanel-body{overflow-y:auto}
+.stmc-para{background:#FFF8E7;border:2.5px solid #F0C040;border-radius:9px;padding:1vh 1.2vw;font-size:clamp(0.95rem,2.3vh,1.45rem);font-weight:600;line-height:1.55;color:#111;margin-bottom:0.5vh;width:100%}
+.stmc-instr{font-size:clamp(0.85rem,2vh,1.25rem);font-weight:800;color:#444;text-align:center;background:#F0F8FF;border:2px solid #AED6F1;border-radius:7px;padding:0.5vh 1vw;margin-bottom:0.4vh}
+.stmc-instr-num{color:#1798d3;font-weight:900}
+.stmc-ans{display:none;margin-top:0.4vh;background:#fff;border:2px solid #ddd;border-radius:7px;padding:0.6vh 1vw;font-size:clamp(0.85rem,1.85vh,1.2rem);line-height:1.55;color:#333}
+.stmc-ans .stm-ans-item{margin-bottom:0.4vh}
+.wl-rung{display:flex;align-items:center;gap:0.5vw;margin-bottom:0.3vh;justify-content:center}
+.wl-letter-box{width:clamp(22px,3.2vh,32px);height:clamp(22px,3.2vh,32px);border:2px solid #1798d3;border-radius:5px;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:clamp(0.85rem,2vh,1.25rem);color:#0d4a6b}
+.wl-letter-box.blank{background:#F8F8F8;border-style:dashed;color:transparent}
+.wl-letter-box.blank.revealed{background:#D5F5E3;border-style:solid;border-color:#27AE60;color:#145A32}
+.wl-letter-box.start,.wl-letter-box.end{background:#1798d3;color:#fff}
+.wl-clue{font-size:clamp(0.78rem,1.75vh,1.1rem);color:#555;font-style:italic;text-align:center;margin-top:0.3vh;padding:0 0.5vw}
+.wl-clue strong{color:#1798d3;font-weight:900;font-style:normal}
+.wl-instr{font-size:clamp(0.7rem,1.55vh,1rem);font-weight:700;color:#888;text-align:center;margin-top:0.3vh}
+.ks-pair{display:flex;flex-direction:column;gap:0.5vh;width:100%;align-items:center}
+.ks-word{font-size:clamp(1.4rem,4vh,2.4rem);font-weight:900;color:#1798d3;letter-spacing:0.02em;text-align:center;background:#F0F8FF;border:2.5px solid #AED6F1;border-radius:8px;padding:0.3vh 1vw;width:auto;min-width:60%}
+.ks-instr{font-size:clamp(0.78rem,1.75vh,1.1rem);font-weight:700;color:#444;text-align:center;line-height:1.4;margin-top:0.3vh;padding:0 0.4vw}
 </style>
 </head>
 <body>
@@ -929,6 +980,103 @@ const MAGIC_NUMBER_CLEAN=[
 ];
 
 // ═══════════════════════════════════════════════════════════
+// PUNCTUATION FIX BANK — Y4 pitch
+// Each entry: a sentence missing punctuation, plus the corrected version
+// and a brief note on what was added/changed.
+// ═══════════════════════════════════════════════════════════
+const PUNCTUATION_FIX=[
+  {wrong:"on saturday morning sam went to the park to meet his friends jack tom and ali",correct:"On Saturday morning, Sam went to the park to meet his friends Jack, Tom and Ali.",note:"Capital letters for sentence start and proper nouns; comma after fronted adverbial; commas in a list; full stop at the end."},
+  {wrong:"my dads bike has a flat tyre so he cant ride it to work today",correct:"My dad's bike has a flat tyre, so he can't ride it to work today.",note:"Apostrophe in 'dad's' for possession, apostrophe in 'can't' for contraction, comma before 'so', full stop at end."},
+  {wrong:"have you seen my new trainers asked maya excitedly",correct:"\"Have you seen my new trainers?\" asked Maya excitedly.",note:"Inverted commas around speech, question mark inside the speech, capital for 'Maya', full stop at end."},
+  {wrong:"the dog wagged its tail when it saw its owner",correct:"The dog wagged its tail when it saw its owner.",note:"Capital at start, full stop at end. 'Its' (no apostrophe) shows belonging — both uses here are correct."},
+  {wrong:"although it was raining heavily we still went outside to play football",correct:"Although it was raining heavily, we still went outside to play football.",note:"Capital at start, comma after the subordinate clause, full stop at end."},
+  {wrong:"i love reading harry potter charlottes web and the boy in the dress",correct:"I love reading Harry Potter, Charlotte's Web and The Boy in the Dress.",note:"Capital 'I'; capitals on book titles; apostrophe in 'Charlotte's'; commas separating items; full stop."},
+  {wrong:"after lunch we will be doing maths reading and pe said mrs jones",correct:"\"After lunch, we will be doing maths, reading and PE,\" said Mrs Jones.",note:"Inverted commas around speech, comma before closing speech mark, capitals for 'PE' and 'Mrs Jones', full stop."},
+  {wrong:"my brothers football kit was muddy after the match",correct:"My brother's football kit was muddy after the match.",note:"Apostrophe in 'brother's' for possession (the kit belongs to the brother)."},
+  {wrong:"because she had finished her work early sara helped her partner",correct:"Because she had finished her work early, Sara helped her partner.",note:"Capital at start, comma after subordinate clause, capital for 'Sara', full stop."},
+  {wrong:"wow that firework was amazing shouted the children",correct:"\"Wow! That firework was amazing!\" shouted the children.",note:"Inverted commas around speech; exclamation marks inside the speech; capital after exclamation."},
+  {wrong:"the giraffes long neck helps it reach leaves at the top of trees",correct:"The giraffe's long neck helps it reach leaves at the top of trees.",note:"Apostrophe in 'giraffe's' for singular possession (the neck belongs to one giraffe)."},
+  {wrong:"the children excited about the trip lined up by the door",correct:"The children, excited about the trip, lined up by the door.",note:"Pair of commas to demarcate the embedded clause adding extra information."},
+  {wrong:"do you want chips or jacket potato with your meal asked the dinner lady",correct:"\"Do you want chips or jacket potato with your meal?\" asked the dinner lady.",note:"Inverted commas around speech, question mark inside the speech, capital at start, full stop at end."},
+  {wrong:"my friends house is at the end of the street",correct:"My friend's house is at the end of the street.",note:"Apostrophe in 'friend's' for singular possession (one friend's house)."},
+  {wrong:"as soon as the bell rang the class lined up quietly",correct:"As soon as the bell rang, the class lined up quietly.",note:"Capital at start, comma after subordinate clause, full stop."},
+  {wrong:"i couldnt believe my eyes when i saw the size of the cake",correct:"I couldn't believe my eyes when I saw the size of the cake.",note:"Capital 'I' (twice), apostrophe in 'couldn't', full stop at end."},
+  {wrong:"the cats tails were tangled together as they slept on the sofa",correct:"The cats' tails were tangled together as they slept on the sofa.",note:"Apostrophe AFTER the 's' in cats' for plural possession (tails belong to more than one cat)."},
+  {wrong:"as the storm grew louder the dog hid under the bed",correct:"As the storm grew louder, the dog hid under the bed.",note:"Capital at start, comma after subordinate clause, full stop at end."},
+  {wrong:"watch out for the puddle warned ben",correct:"\"Watch out for the puddle!\" warned Ben.",note:"Inverted commas around speech, exclamation mark inside the speech, capital for 'Ben', full stop."},
+  {wrong:"the cake which was covered in chocolate icing looked delicious",correct:"The cake, which was covered in chocolate icing, looked delicious.",note:"Pair of commas to demarcate the relative clause adding extra information."}
+];
+
+// ═══════════════════════════════════════════════════════════
+// WORD CLASS BANK — Y4 pitch
+// Five words to sort into noun / verb / adjective / adverb.
+// answers: array matching words index → 'noun'|'verb'|'adjective'|'adverb'
+// ═══════════════════════════════════════════════════════════
+const WORD_CLASS=[
+  {words:['castle','quickly','ancient','explored','treasure'],answers:['noun','adverb','adjective','verb','noun']},
+  {words:['silently','dragon','fierce','roared','cave'],answers:['adverb','noun','adjective','verb','noun']},
+  {words:['scrambled','pancake','sticky','greedily','plate'],answers:['verb','noun','adjective','adverb','noun']},
+  {words:['enormous','elephant','stomped','through','jungle'],answers:['adjective','noun','verb','adverb','noun']},
+  {words:['whispered','secret','suddenly','library','dusty'],answers:['verb','noun','adverb','noun','adjective']},
+  {words:['football','clumsy','kicked','wildly','goalkeeper'],answers:['noun','adjective','verb','adverb','noun']},
+  {words:['shimmered','beach','golden','peacefully','wave'],answers:['verb','noun','adjective','adverb','noun']},
+  {words:['detective','curious','investigated','thoroughly','clue'],answers:['noun','adjective','verb','adverb','noun']},
+  {words:['volcano','rumbled','dangerously','fiery','scientist'],answers:['noun','verb','adverb','adjective','noun']},
+  {words:['carefully','knight','rusty','polished','helmet'],answers:['adverb','noun','adjective','verb','noun']},
+  {words:['bakery','crusty','baker','cheerfully','sliced'],answers:['noun','adjective','noun','adverb','verb']},
+  {words:['mountain','snowy','climbed','slowly','rope'],answers:['noun','adjective','verb','adverb','noun']},
+  {words:['pirate','rusty','swung','bravely','sword'],answers:['noun','adjective','verb','adverb','noun']},
+  {words:['squirrel','nimbly','leapt','sturdy','branch'],answers:['noun','adverb','verb','adjective','noun']},
+  {words:['shop','shopkeeper','politely','greeted','dusty'],answers:['noun','noun','adverb','verb','adjective']},
+  {words:['orchestra','tuneful','played','loudly','audience'],answers:['noun','adjective','verb','adverb','noun']},
+  {words:['rainforest','exotic','discovered','quietly','researcher'],answers:['noun','adjective','verb','adverb','noun']},
+  {words:['icicle','frozen','dripped','gradually','window'],answers:['noun','adjective','verb','adverb','noun']},
+  {words:['athlete','sprinted','rapidly','muscular','finish'],answers:['noun','verb','adverb','adjective','noun']},
+  {words:['gardener','tirelessly','dug','muddy','soil'],answers:['noun','adverb','verb','adjective','noun']}
+];
+
+// ═══════════════════════════════════════════════════════════
+// WORD LADDER BANK — Y4 pitch
+// path: full solution (start and end shown, middle rungs blank).
+// clue_idx: index into path of the rung the clue describes.
+// clue: the clue text for that one rung.
+// ═══════════════════════════════════════════════════════════
+const WORD_LADDER=[
+  {path:['CAT','COT','COG','DOG'],clue_idx:2,clue:'A wheel with teeth on it'},
+  {path:['HEAD','HEAR','BEAR','BEAT'],clue_idx:2,clue:'A wild animal with claws'},
+  {path:['LOAD','LOAF','LEAF','LEAP'],clue_idx:1,clue:'A type of bread'},
+  {path:['COLD','BOLD','BOLT','BELT'],clue_idx:2,clue:'A metal pin or a flash of lightning'},
+  {path:['MILK','MILL','BILL','BALL'],clue_idx:1,clue:'A building where flour is made'},
+  {path:['MOON','MOOD','FOOD','FOOL'],clue_idx:1,clue:'How you are feeling'},
+  {path:['TREE','FREE','FLEE','FLEA'],clue_idx:2,clue:'Run away quickly'},
+  {path:['GOLD','GOAD','GOAT','BOAT'],clue_idx:2,clue:'A farm animal with horns'},
+  {path:['DARK','DART','DIRT','DIRE'],clue_idx:1,clue:'A small thrown weapon'},
+  {path:['TIME','LIME','LIKE','LAKE'],clue_idx:1,clue:'A green citrus fruit'},
+  {path:['SUN','SON','SOW','LOW'],clue_idx:1,clue:'A male child'},
+  {path:['HAND','LAND','LEND','BEND'],clue_idx:1,clue:'Solid ground'},
+  {path:['SHIP','SHOP','SHOT','SLOT'],clue_idx:1,clue:'A place to buy things'},
+  {path:['ROCK','LOCK','LICK','KICK'],clue_idx:1,clue:'Used to keep a door shut'},
+  {path:['SAND','SAID','PAID','PAIN'],clue_idx:1,clue:'Past tense of "say"'},
+  {path:['BIRD','BIND','MIND','MINE'],clue_idx:2,clue:'Your thoughts and ideas'},
+  {path:['SNOW','SLOW','FLOW','FLEW'],clue_idx:1,clue:'The opposite of fast'},
+  {path:['GAME','GATE','LATE','LANE'],clue_idx:2,clue:'After the right or expected time'},
+  {path:['WARM','WART','WANT','WAND'],clue_idx:2,clue:'A wish or desire'},
+  {path:['CAVE','CASE','BASE','BASS'],clue_idx:1,clue:'Something used for carrying'},
+  {path:['FIRE','HIRE','HARE','HARD','HERD'],clue_idx:2,clue:'A long-eared animal that hops'},
+  {path:['SAND','BAND','BIND','FIND','FOND'],clue_idx:1,clue:'A group of musicians'},
+  {path:['WARM','WARN','WORN','CORN','COIN'],clue_idx:1,clue:'Used as a sign of danger'},
+  {path:['RICE','RACE','RACK','PACK','PACE'],clue_idx:2,clue:'A frame for hanging things'},
+  {path:['BEAR','BEAD','BEAM','TEAM','TEAR'],clue_idx:1,clue:'A small ball-shaped object on a thread'}
+];
+
+// ═══════════════════════════════════════════════════════════
+// KEY SPELLING — Y3/4 statutory word list
+// Picks 2 words at random each time. Pupils write each word 5 times,
+// then partner-test.
+// ═══════════════════════════════════════════════════════════
+const KEY_SPELLING_LIST=['accident','accidentally','actual','actually','address','answer','appear','arrive','believe','bicycle','breath','breathe','build','busy','business','calendar','caught','centre','century','certain','circle','complete','consider','continue','decide','describe','different','difficult','disappear','early','earth','eight','eighth','enough','exercise','experience','experiment','extreme','famous','favourite','February','forward','forwards','fruit','grammar','group','guard','guide','heard','heart','height','history','imagine','increase','important','interest','island','knowledge','learn','length','library','material','medicine','mention','minute','natural','naughty','notice','occasion','occasionally','often','opposite','ordinary','particular','peculiar','perhaps','popular','position','possess','possession','possible','potatoes','pressure','probably','promise','purpose','quarter','question','recent','regular','reign','remember','sentence','separate','special','straight','strange','strength','suppose','surprise','therefore','though','although','thought','through','various','weight','woman','women'];
+
+// ═══════════════════════════════════════════════════════════
 // SHAPE OF THE DAY BANK
 // ═══════════════════════════════════════════════════════════
 const SHAPES=[
@@ -1345,7 +1493,7 @@ function getTTSet(){
 // STATE & INIT
 // ═══════════════════════════════════════════════════════════
 let pType='boggle',cur=null,solsOpen=false;
-const ALL_TYPES=['boggle','number','combined','literacy','vocab','mathsreason','mathsshape','humanities'];
+const ALL_TYPES=['boggle','number','combined','literacy','spotmistakecombo','vocab','mathsreason','mathsshape','humanities'];
 
 
 // ═══════════════════════════════════════════════════════════
@@ -1439,9 +1587,21 @@ function newPuzzle(){
     const e=WOULD_YOU_RATHER[Math.floor(Math.random()*WOULD_YOU_RATHER.length)];
     cur={type:'wouldyourather',data:e};renderWouldYouRather(e);
   } else if(pType==='literacy'){
-    const eA=WORD_OF_DAY[Math.floor(Math.random()*WORD_OF_DAY.length)];
-    const eB=SPOT_MISTAKE[Math.floor(Math.random()*SPOT_MISTAKE.length)];
-    cur={type:'literacy',dataA:eA,dataB:eB};renderPairLiteracy(eA,eB);
+    const eWod=WORD_OF_DAY[Math.floor(Math.random()*WORD_OF_DAY.length)];
+    const eSyn=SYN_ANT[Math.floor(Math.random()*SYN_ANT.length)];
+    const ePunc=PUNCTUATION_FIX[Math.floor(Math.random()*PUNCTUATION_FIX.length)];
+    const eWc=WORD_CLASS[Math.floor(Math.random()*WORD_CLASS.length)];
+    cur={type:'literacy',wod:eWod,syn:eSyn,punc:ePunc,wc:eWc};
+    renderLiteracyQuad(eWod,eSyn,ePunc,eWc);
+  } else if(pType==='spotmistakecombo'){
+    const eStm=SPOT_MISTAKE[Math.floor(Math.random()*SPOT_MISTAKE.length)];
+    const eLad=WORD_LADDER[Math.floor(Math.random()*WORD_LADDER.length)];
+    // pick 2 distinct spelling words
+    const pool=KEY_SPELLING_LIST.slice();
+    const w1=pool.splice(Math.floor(Math.random()*pool.length),1)[0];
+    const w2=pool.splice(Math.floor(Math.random()*pool.length),1)[0];
+    cur={type:'spotmistakecombo',stm:eStm,ladder:eLad,spellings:[w1,w2]};
+    renderSpotMistakeCombo(eStm,eLad,[w1,w2]);
   } else if(pType==='vocab'){
     const eA=WORD_OF_DAY[Math.floor(Math.random()*WORD_OF_DAY.length)];
     const eB=SYN_ANT[Math.floor(Math.random()*SYN_ANT.length)];
@@ -1466,6 +1626,8 @@ function clearPuzzlePanel(){
   const pp=document.getElementById('puzzle-panel');
   pp.style.display='flex';pp.innerHTML='';
   const cp=document.getElementById('combined-panel');if(cp)cp.remove();
+  const lp=document.getElementById('literacy-panel');if(lp)lp.remove();
+  const sp=document.getElementById('stmcombo-panel');if(sp)sp.remove();
 }
 function toggleType(){
   pType=ALL_TYPES[(ALL_TYPES.indexOf(pType)+1)%ALL_TYPES.length];
@@ -1911,33 +2073,171 @@ function pairShell(){
   return [a,b];
 }
 
-function renderPairLiteracy(eA,eB){
-  const [a,b]=pairShell();
-  // Word of the Day (left)
-  a.innerHTML=`
-    <div class="ptitle" style="color:#888;text-transform:uppercase;letter-spacing:.1em">Word of the Day</div>
-    <div class="wod-word">${eA.word}</div>
-    <div class="wod-class">${eA.cls}</div>
-    <div class="wod-def">${eA.def}</div>
-    <div class="wod-example">"${eA.example}"</div>
-    <div class="wod-etymology">📚 ${eA.origin}</div>
-    <div id="wod-prompts" class="wod-qs" style="width:100%;font-size:clamp(0.8rem,1.7vh,1.1rem)">
-      <div>💡 Think of a <strong>synonym</strong></div>
-      <div>💡 Think of an <strong>antonym</strong></div>
-      <div>💡 Use <strong>${eA.word}</strong> in a sentence</div>
+function renderLiteracyQuad(eWod,eSyn,ePunc,eWc){
+  const pp=document.getElementById('puzzle-panel');
+  pp.style.display='none';
+  let lp=document.getElementById('literacy-panel');
+  if(!lp){lp=document.createElement('div');lp.id='literacy-panel';pp.parentNode.insertBefore(lp,pp);}
+
+  // Build word-class chips with hidden class labels
+  const wcHtml=eWc.words.map((w,i)=>`<div class="lq-wc-item" data-idx="${i}"><span class="lq-wc-word">${w}</span><span class="lq-wc-class" style="display:none">${eWc.answers[i]}</span></div>`).join('');
+
+  lp.innerHTML=`
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Word of the Day</span></div>
+      <div class="cpanel-body">
+        <div class="lq-wod-word">${eWod.word}</div>
+        <div class="lq-wod-class">${eWod.cls}</div>
+        <div class="lq-wod-def">${eWod.def}</div>
+        <div class="lq-wod-example">"${eWod.example}"</div>
+      </div>
     </div>
-    <button class="stm-btn" style="margin-top:0.3vh" onclick="revealWodExamples(this)">Show examples</button>
-    <div id="wod-examples" style="display:none;width:100%;background:#F0FFF0;border:2px solid #A9DFBF;border-radius:7px;padding:0.5vh 0.8vw;font-size:clamp(0.8rem,1.8vh,1.2rem);font-weight:700;line-height:1.8"></div>`;
-  // Spot the Mistake (right)
-  b.style.cssText+='overflow:hidden;height:100%';
-  b.innerHTML=`
-    <div class="ptitle">Spot the Mistake</div>
-    <div id="stm-puzzle">
-      <div class="stm-para">${eB.para}</div>
-      <div class="stm-count">There are <strong>${eB.count}</strong> mistakes hidden.</div>
-      <button class="stm-btn" onclick="revealStmAnswers(this)">Show Answers</button>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Synonym &amp; Antonym</span><button class="reveal-btn" onclick="revealLqSyn(this)">👁 Reveal</button></div>
+      <div class="cpanel-body">
+        <div class="lq-syn-word">${eSyn.word}</div>
+        <div class="lq-syn-instr">How many synonyms and antonyms can you think of?</div>
+        <div class="lq-syn-cols">
+          <div class="col"><div class="lq-syn-hdr syn">Synonyms</div><div class="lq-syn-list" id="lq-syn-syns">…</div></div>
+          <div class="col"><div class="lq-syn-hdr ant">Antonyms</div><div class="lq-syn-list" id="lq-syn-ants">…</div></div>
+        </div>
+      </div>
     </div>
-    <div class="stm-ans-list" id="stm-ans" style="display:none">${stmAnswerHtml(eB)}</div>`;
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Punctuation Fix</span><button class="reveal-btn" onclick="revealLqPunc(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" style="justify-content:flex-start">
+        <div class="lq-pf-instr">Rewrite this sentence with correct punctuation:</div>
+        <div class="lq-pf-wrong">${ePunc.wrong}</div>
+        <div class="lq-pf-correct" id="lq-pf-correct" style="display:none">${ePunc.correct}</div>
+        <div class="lq-pf-note" id="lq-pf-note" style="display:none">${ePunc.note}</div>
+      </div>
+    </div>
+    <div class="cpanel">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Word Class</span><button class="reveal-btn" onclick="revealLqWc(this)">👁 Reveal</button></div>
+      <div class="cpanel-body">
+        <div class="lq-wc-instr">Sort each word: noun, verb, adjective or adverb</div>
+        <div class="lq-wc-grid">${wcHtml}</div>
+      </div>
+    </div>`;
+}
+
+function revealLqSyn(btn){
+  const lp=document.getElementById('literacy-panel');
+  const syns=lp.querySelector('#lq-syn-syns');
+  const ants=lp.querySelector('#lq-syn-ants');
+  if(btn.dataset.revealed==='1'){
+    syns.textContent='…';ants.textContent='…';
+    btn.textContent='👁 Reveal';btn.dataset.revealed='0';
+  } else {
+    syns.textContent=cur.syn.syns.join(', ');
+    ants.textContent=cur.syn.ants.join(', ');
+    btn.textContent='👁 Hide';btn.dataset.revealed='1';
+  }
+}
+
+function revealLqPunc(btn){
+  const lp=document.getElementById('literacy-panel');
+  const c=lp.querySelector('#lq-pf-correct');
+  const n=lp.querySelector('#lq-pf-note');
+  if(btn.dataset.revealed==='1'){
+    c.style.display='none';n.style.display='none';
+    btn.textContent='👁 Reveal';btn.dataset.revealed='0';
+  } else {
+    c.style.display='block';n.style.display='block';
+    btn.textContent='👁 Hide';btn.dataset.revealed='1';
+  }
+}
+
+function revealLqWc(btn){
+  const lp=document.getElementById('literacy-panel');
+  const items=lp.querySelectorAll('.lq-wc-item');
+  if(btn.dataset.revealed==='1'){
+    items.forEach(it=>{it.classList.remove('revealed');it.querySelector('.lq-wc-class').style.display='none';});
+    btn.textContent='👁 Reveal';btn.dataset.revealed='0';
+  } else {
+    items.forEach(it=>{it.classList.add('revealed');it.querySelector('.lq-wc-class').style.display='block';});
+    btn.textContent='👁 Hide';btn.dataset.revealed='1';
+  }
+}
+
+function renderSpotMistakeCombo(eStm,eLad,spellings){
+  const pp=document.getElementById('puzzle-panel');
+  pp.style.display='none';
+  let sp=document.getElementById('stmcombo-panel');
+  if(!sp){sp=document.createElement('div');sp.id='stmcombo-panel';pp.parentNode.insertBefore(sp,pp);}
+
+  // Word ladder rungs — show start, blanks for middle, show end. Letter-box per character.
+  const ladHtml=eLad.path.map((w,i)=>{
+    const isStart=i===0, isEnd=i===eLad.path.length-1;
+    if(isStart||isEnd){
+      const cls=isStart?'start':'end';
+      const boxes=[...w].map(ch=>`<div class="wl-letter-box ${cls}">${ch}</div>`).join('');
+      return `<div class="wl-rung">${boxes}</div>`;
+    } else {
+      const boxes=[...w].map(ch=>`<div class="wl-letter-box blank" data-letter="${ch}"></div>`).join('');
+      return `<div class="wl-rung" data-rung="${i}">${boxes}</div>`;
+    }
+  }).join('');
+  const clueRung=eLad.path[eLad.clue_idx];
+  const clueText=`💡 Clue for rung ${eLad.clue_idx+1} (${clueRung.length} letters): <strong>${eLad.clue}</strong>`;
+
+  // Key spelling — two words shown
+  const ksHtml=spellings.map(w=>`<div class="ks-word">${w}</div>`).join('');
+
+  sp.innerHTML=`
+    <div class="cpanel stm-full">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Spot the Mistake</span><button class="reveal-btn" onclick="revealStmcAns(this)">👁 Reveal</button></div>
+      <div class="cpanel-body" style="justify-content:flex-start;align-items:stretch">
+        <div class="stmc-instr">There are <span class="stmc-instr-num">${eStm.count}</span> mistakes hidden in this paragraph. Find them all and rewrite the paragraph correctly.</div>
+        <div class="stmc-para">${eStm.para}</div>
+        <div class="stmc-ans" id="stmc-ans">${stmAnswerHtml(eStm)}</div>
+      </div>
+    </div>
+    <div class="cpanel wl-cell">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Word Ladder</span><button class="reveal-btn" onclick="revealWlPath(this)">👁 Reveal</button></div>
+      <div class="cpanel-body">
+        <div style="font-size:clamp(0.7rem,1.55vh,1rem);color:#888;font-weight:700;text-align:center">Change one letter at a time to get from start to end</div>
+        ${ladHtml}
+        <div class="wl-clue">${clueText}</div>
+      </div>
+    </div>
+    <div class="cpanel ks-cell">
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Key Spelling</span></div>
+      <div class="cpanel-body">
+        <div class="ks-pair">${ksHtml}</div>
+        <div class="ks-instr">Write each word <strong>5 times</strong>, then ask another learner to test you.</div>
+      </div>
+    </div>`;
+}
+
+function revealStmcAns(btn){
+  const sp=document.getElementById('stmcombo-panel');
+  const ans=sp.querySelector('#stmc-ans');
+  const para=sp.querySelector('.stmc-para');
+  const instr=sp.querySelector('.stmc-instr');
+  if(btn.dataset.revealed==='1'){
+    ans.style.display='none';
+    para.style.display='block';
+    instr.style.display='block';
+    btn.textContent='👁 Reveal';btn.dataset.revealed='0';
+  } else {
+    para.style.display='none';
+    instr.style.display='none';
+    ans.style.display='block';
+    btn.textContent='👁 Hide';btn.dataset.revealed='1';
+  }
+}
+
+function revealWlPath(btn){
+  const sp=document.getElementById('stmcombo-panel');
+  const blanks=sp.querySelectorAll('.wl-letter-box.blank');
+  if(btn.dataset.revealed==='1'){
+    blanks.forEach(b=>{b.classList.remove('revealed');b.textContent='';});
+    btn.textContent='👁 Reveal';btn.dataset.revealed='0';
+  } else {
+    blanks.forEach(b=>{b.classList.add('revealed');b.textContent=b.dataset.letter;});
+    btn.textContent='👁 Hide';btn.dataset.revealed='1';
+  }
 }
 
 function renderPairVocab(eA,eB){
@@ -2120,11 +2420,27 @@ function toggleSols(){
       <p style="font-size:0.88rem;margin-bottom:6px"><b>Option B:</b> ${e.optB}<br><span style="color:#3A9922">${e.workingB}</span></p>
       <p style="font-size:0.95rem;font-weight:800;color:#1798d3;border-top:2px solid #EEE;padding-top:8px;margin-top:4px">${e.answer}</p>`;
   } else if(cur.type==='literacy'){
-    t.textContent='Literacy — Word of the Day + Spot the Mistake';
-    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Word of the Day: ${cur.dataA.word}</p>
-      <p style="font-size:0.9rem;margin-bottom:12px;line-height:1.8"><b>Class:</b> ${cur.dataA.cls} — ${cur.dataA.def}<br><b>Example:</b> "${cur.dataA.example}"</p>
-      <p style="font-weight:800;margin-bottom:4px">Spot the Mistake — ${cur.dataB.count} errors</p>
-      ${cur.dataB.errors.map((er,i)=>`<p style="font-size:0.88rem;margin-bottom:6px;line-height:1.6"><b>${i+1}.</b> "${er.wrong}" → "${er.correct}"<br><span style="color:#555">${er.exp}</span></p>`).join('')}`;
+    t.textContent='Literacy — Word of the Day · Synonym & Antonym · Punctuation Fix · Word Class';
+    const wcRows=cur.wc.words.map((w,i)=>`<span style="display:inline-block;margin-right:10px"><b>${w}</b> <span style="color:#888;font-size:0.85em">(${cur.wc.answers[i]})</span></span>`).join('');
+    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Word of the Day: ${cur.wod.word}</p>
+      <p style="font-size:0.9rem;margin-bottom:12px;line-height:1.8"><b>Class:</b> ${cur.wod.cls} — ${cur.wod.def}<br><b>Example:</b> "${cur.wod.example}"</p>
+      <p style="font-weight:800;margin-bottom:4px">Synonym & Antonym — ${cur.syn.word}</p>
+      <p style="font-size:0.9rem;margin-bottom:12px;line-height:1.8"><b>Synonyms:</b> ${cur.syn.syns.join(', ')}<br><b>Antonyms:</b> ${cur.syn.ants.join(', ')}</p>
+      <p style="font-weight:800;margin-bottom:4px">Punctuation Fix</p>
+      <p style="font-size:0.88rem;margin-bottom:12px;line-height:1.7"><b>Wrong:</b> ${cur.punc.wrong}<br><b>Correct:</b> ${cur.punc.correct}<br><span style="color:#555">${cur.punc.note}</span></p>
+      <p style="font-weight:800;margin-bottom:4px">Word Class</p>
+      <p style="font-size:0.9rem;line-height:1.8">${wcRows}</p>`;
+  } else if(cur.type==='spotmistakecombo'){
+    t.textContent='Literacy 2 — Spot the Mistake · Word Ladder · Key Spelling';
+    const ladPath=cur.ladder.path.join(' → ');
+    c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Spot the Mistake — ${cur.stm.count} errors</p>
+      ${cur.stm.errors.map((er,i)=>`<p style="font-size:0.88rem;margin-bottom:6px;line-height:1.6"><b>${i+1}.</b> "${er.wrong}" → "${er.correct}"<br><span style="color:#555">${er.exp}</span></p>`).join('')}
+      <p style="font-weight:800;margin-top:14px;margin-bottom:4px">Word Ladder</p>
+      <p style="font-size:0.95rem;font-weight:700;color:#1798d3;margin-bottom:6px">${ladPath}</p>
+      <p style="font-size:0.88rem;color:#555;margin-bottom:12px"><b>Clue rung:</b> ${cur.ladder.path[cur.ladder.clue_idx]} — ${cur.ladder.clue}</p>
+      <p style="font-weight:800;margin-bottom:4px">Key Spelling</p>
+      <p style="font-size:0.95rem;font-weight:700;color:#1798d3">${cur.spellings.join(' &nbsp;·&nbsp; ')}</p>
+      <p style="font-size:0.85rem;color:#555">Pupils write each word 5 times, then partner-test.</p>`;
   } else if(cur.type==='vocab'){
     t.textContent='Vocab — Word of the Day + Synonyms & Antonyms';
     c.innerHTML=`<p style="font-weight:800;margin-bottom:4px">Word of the Day: ${cur.dataA.word}</p>
