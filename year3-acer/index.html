@@ -617,13 +617,13 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
 /* Left panel split: 2 WotD + Spelling Spotlight below */
 .y3lit-section-div{height:2px;background:#C0157A;opacity:0.18;margin:0.4vh 0;flex-shrink:0;border-radius:1px}
 .y3lit-bottom-lbl{font-size:clamp(0.62rem,1.35vh,0.85rem);font-weight:900;color:#C0157A;text-transform:uppercase;letter-spacing:0.07em;flex-shrink:0}
-.y3lit-cew-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.35vh 0.35vw;flex:0 0 auto}
-.y3lit-cew-mini-opt{background:#fff;border:2px solid #ddd;border-radius:8px;font-family:'Fredoka One',cursive;font-size:clamp(0.88rem,2vh,1.28rem);color:#333;display:flex;align-items:center;justify-content:center;transition:all 0.15s;padding:0.45vh 0.5vw}
+.y3lit-cew-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.35vh 0.35vw;flex:1;min-height:0}
+.y3lit-cew-mini-opt{background:#fff;border:2px solid #ddd;border-radius:8px;font-family:'Fredoka One',cursive;font-size:clamp(0.88rem,2vh,1.28rem);color:#333;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
 .y3lit-panel.revealed .y3lit-cew-mini-opt.correct{background:#F9DEF0;border-color:#C0157A;color:#7A0848;font-weight:900}
 .y3lit-panel.revealed .y3lit-cew-mini-opt.wrong{color:#ccc;border-color:#eee;background:#fafafa}
 .y3lit-cew-mini-hints{font-size:clamp(0.6rem,1.28vh,0.82rem);color:transparent;font-style:italic;transition:all 0.15s;flex-shrink:0;line-height:1.4}
 .y3lit-panel.revealed .y3lit-cew-mini-hints{color:#888}
-.y3lit-bottom-section{display:flex;flex-direction:column;gap:0.3vh;flex:0 0 auto;margin-top:1.5vh}
+.y3lit-bottom-section{display:flex;flex-direction:column;gap:0.3vh;flex:1;min-height:0;margin-top:1.5vh}
 </style>
 </head>
 <body>
