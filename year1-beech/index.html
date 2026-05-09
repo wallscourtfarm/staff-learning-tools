@@ -481,7 +481,7 @@ html,body{width:100vw;height:100vh;overflow:hidden;background:#fff;font-family:'
     <p style="font-size:0.82rem;color:#666;margin-bottom:10px">Tomato Pasta, Jacket Potato and Packed Lunch are fixed.</p>
     <div id="menu-form"></div>
 
-    <h3 style="margin-top:1.5rem">Phonics Focus — Sound it Out</h3>
+    <h3 id="setup-phonics-section" style="margin-top:1.5rem">Phonics Focus — Sound it Out</h3>
     <p style="font-size:0.82rem;color:#666;margin-bottom:10px">Choose word type and tick which graphemes children should practise. Tick none to use all sounds.</p>
     <div class="gp-mode" id="gp-mode-row">
       <button class="gp-mode-btn" data-mode="real" onclick="setPhonicsMode('real')">Real words</button>
@@ -1817,6 +1817,29 @@ function getTTSet(){
 let pType='boggle',cur=null,solsOpen=false;
 const ALL_TYPES=['y1combined','y1maths','y1literacy','boggle','number'];
 
+
+// ═══════════════════════════════════════════════════════════
+// SHARED MENU LOADER — added by patch_shared_menu.py
+// Fetches menu.json from the central repo on page load.
+// Falls back silently to in-file MENU_BY_WEEK on any error.
+// ═══════════════════════════════════════════════════════════
+async function loadSharedMenu(){
+  try{
+    const res = await fetch('https://wallscourtfarm.github.io/staff-learning-tools/menu.json', {cache:'no-cache'});
+    if(!res.ok) throw new Error('fetch failed');
+    const data = await res.json();
+    if(data && data.weeks && typeof data.weeks === 'object'){
+      // Replace the in-file MENU_BY_WEEK keys with shared ones.
+      // Don't replace the variable itself (it's const) — mutate in place.
+      Object.keys(MENU_BY_WEEK).forEach(k=>delete MENU_BY_WEEK[k]);
+      Object.assign(MENU_BY_WEEK, data.weeks);
+      console.log('[SharedMenu] Loaded', Object.keys(MENU_BY_WEEK).length, 'weeks');
+    }
+  } catch(e){
+    console.log('[SharedMenu] Using in-file fallback:', e.message);
+  }
+}
+
 function init(){
   renderDate();renderLunch();renderMsg();loadImg();
   // Y1/Y2 combined view: 4 mini-panels (Subitise / Sound it Out / Rhyme / Clock)
@@ -2780,7 +2803,7 @@ function renderY1Combined(){
       <div class="cpanel-body" style="padding:0.4vh 0.4vw"><div class="y1cd-sub-grid">${subHtml}</div></div>
     </div>
     <div class="cpanel">
-      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Sound it Out — Blend</span></div>
+      <div class="cpanel-hdr"><span class="cpanel-hdr-title">Sound it Out — Blend</span><button class="reveal-btn" onclick="openSetupPhonics()" title="Choose graphemes / word type">⚙️ Setup</button></div>
       <div class="cpanel-body" style="padding:0.4vh 0.4vw"><div class="y1cd-pb-grid">${phHtml}</div></div>
     </div>
     <div class="cpanel">
@@ -3188,6 +3211,21 @@ function openSetup(){
   document.getElementById('setup-ov').classList.add('on');
 }
 function closeSetup(){document.getElementById('setup-ov').classList.remove('on')}
+function openSetupPhonics(){
+  // Same as openSetup, but auto-scrolls and highlights the Phonics Focus section.
+  openSetup();
+  setTimeout(()=>{
+    const el=document.getElementById('setup-phonics-section');
+    if(!el) return;
+    el.scrollIntoView({behavior:'smooth',block:'start'});
+    // Brief highlight so it's obvious which section was targeted
+    const prevBg=el.style.background, prevPad=el.style.padding, prevRadius=el.style.borderRadius;
+    el.style.background='#FFF3CD';el.style.padding='8px 10px';el.style.borderRadius='6px';
+    el.style.transition='background 0.6s ease';
+    setTimeout(()=>{el.style.background='transparent';},1400);
+    setTimeout(()=>{el.style.background=prevBg;el.style.padding=prevPad;el.style.borderRadius=prevRadius;el.style.transition='';},2200);
+  },80);
+}
 
 let pendingGraphemes=new Set();
 let pendingPhonicsMode='real';
@@ -3295,7 +3333,7 @@ function saveSetup(){
   closeSetup();renderLunch();
 }
 
-init();
+loadSharedMenu().then(init);
 </script>
 </body>
 </html>
