@@ -1,1 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WFA Menu Editor</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;padding:24px;font-family:'Helvetica Neue',Arial,sans-serif;color:#222;background:#F4F6F8;line-height:1.4}
+  .container{max-width:1100px;margin:0 auto}
+  h1{margin:0 0 6px;color:#1F4E79;font-size:1.7rem}
+  .lead{color:#555;margin-bottom:24px;font-size:0.95rem}
+  .panel{background:#FFF;border:1px solid #DDE3E8;border-radius:10px;padding:18px 20px;margin-bottom:18px;box-shadow:0 1px 2px rgba(0,0,0,0.03)}
+  .panel h2{margin:0 0 6px;font-size:1.1rem;color:#1F4E79}
+  .panel p{margin:0 0 14px;color:#555;font-size:0.9rem}
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  button{cursor:pointer;border:none;border-radius:6px;padding:9px 16px;font-weight:700;font-size:0.92rem;font-family:inherit}
+  button.primary{background:#1F8B4D;color:#FFF}
+  button.primary:hover{background:#176E3D}
+  button.secondary{background:#3B82F6;color:#FFF}
+  button.secondary:hover{background:#2563EB}
+  button.warn{background:#E67E22;color:#FFF}
+  button.warn:hover{background:#C66610}
+  button.danger{background:#C0392B;color:#FFF}
+  button.danger:hover{background:#962D22}
+  button.ghost{background:#FFF;color:#3B82F6;border:1.5px solid #3B82F6}
+  button.ghost:hover{background:#EFF6FF}
+  .week{background:#FFF;border:1px solid #DDE3E8;border-radius:10px;padding:14px 18px;margin-bottom:14px;position:relative}
+  .week-hdr{display:flex;align-items:center;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+  .week-hdr label{font-weight:700;color:#444;font-size:0.9rem}
+  .week-hdr input[type=date]{font-family:inherit;font-size:0.95rem;padding:6px 10px;border:1.5px solid #BFD3E0;border-radius:6px}
+  .week-label{color:#1F4E79;font-weight:700;font-size:1rem;flex:1;min-width:200px}
+  .delete-week{background:#FEE;color:#C0392B;border:1px solid #FBB;border-radius:5px;padding:5px 10px;font-size:0.82rem;cursor:pointer;font-weight:600}
+  .delete-week:hover{background:#FCC}
+  .day-grid{display:grid;grid-template-columns:60px 1fr 1fr;gap:6px 10px;align-items:center}
+  .day-grid .col-hdr{font-weight:700;color:#666;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.05em;padding:0 4px}
+  .day-grid .col-hdr.red{color:#C0392B}
+  .day-grid .col-hdr.green{color:#1F8B4D}
+  .day-grid label{font-weight:700;color:#444;font-size:0.92rem}
+  .day-grid input[type=text]{font-family:inherit;font-size:0.92rem;padding:7px 10px;border:1.5px solid #DDE3E8;border-radius:5px;width:100%}
+  .day-grid input[type=text]:focus{outline:none;border-color:#3B82F6;background:#F8FBFF}
+  .status{padding:10px 14px;border-radius:6px;margin:10px 0;font-size:0.9rem;font-weight:600;display:none}
+  .status.ok{background:#D4EDDA;color:#155724;border:1px solid #C3E6CB;display:block}
+  .status.err{background:#F8D7DA;color:#721C24;border:1px solid #F5C6CB;display:block}
+  .status.info{background:#D1ECF1;color:#0C5460;border:1px solid #BEE5EB;display:block}
+  .meta{display:flex;gap:24px;flex-wrap:wrap;font-size:0.88rem;color:#555;margin-top:6px}
+  .meta strong{color:#222}
+  details{margin-top:10px}
+  summary{cursor:pointer;color:#3B82F6;font-weight:600;font-size:0.9rem}
+  pre{background:#1E2A3A;color:#E2E8F0;padding:14px;border-radius:6px;overflow:auto;font-size:0.78rem;max-height:300px;line-height:1.5}
+  .hint{font-size:0.82rem;color:#777;font-style:italic}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>WFA Lunch Menu Editor</h1>
+  <p class="lead">Builds the shared menu file used by every year-group morning tool. Load the current menu, make changes, download the file, then upload it to GitHub to overwrite <code>menu.json</code>.</p>
+
+  <div class="panel">
+    <h2>Step 1 — Load the current menu</h2>
+    <p>Pulls the live menu so you start from what's there now. You can also start from scratch or load a backup file.</p>
+    <div class="toolbar">
+      <button class="secondary" onclick="loadLive()">📥 Load current menu (from website)</button>
+      <button class="ghost" onclick="document.getElementById('file-load').click()">📂 Load from file</button>
+      <input id="file-load" type="file" accept=".json" style="display:none" onchange="loadFromFile(event)">
+      <button class="ghost" onclick="startBlank()">🆕 Start from scratch</button>
+    </div>
+    <div class="status" id="load-status"></div>
+    <div class="meta" id="meta"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Step 2 — Edit the weeks</h2>
+    <p>Each week is a Monday date plus 5 days × 2 options (red column, green column). Use exactly the wording you want shown on the smartboard.</p>
+    <div class="toolbar" style="margin-bottom:12px">
+      <button class="primary" onclick="addWeek()">➕ Add a week</button>
+      <button class="ghost" onclick="sortWeeks()">📅 Sort by date</button>
+      <span class="hint">Tip: copy a similar week first, then change just the date.</span>
+    </div>
+    <div id="weeks-container"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Step 3 — Download and upload</h2>
+    <p>Click below to download <code>menu.json</code>. Then go to GitHub and drag the file into the <code>staff-learning-tools</code> repo to replace the existing one.</p>
+    <div class="toolbar">
+      <button class="warn" onclick="downloadJson()" style="font-size:1rem;padding:11px 20px">⬇️ Download menu.json</button>
+      <button class="ghost" onclick="copyJson()">📋 Copy JSON to clipboard</button>
+    </div>
+    <div class="status" id="dl-status"></div>
+    <details>
+      <summary>Show JSON preview</summary>
+      <pre id="json-preview"></pre>
+    </details>
+  </div>
+
+  <div class="panel" style="background:#FFF8E7;border-color:#F0C36D">
+    <h2 style="color:#7A5A00">How to upload to GitHub (one-time setup-free way)</h2>
+    <ol style="margin:0;padding-left:22px;font-size:0.92rem;line-height:1.6">
+      <li>Go to <a href="https://github.com/wallscourtfarm/staff-learning-tools" target="_blank">the staff-learning-tools repo</a></li>
+      <li>Click "Add file" → "Upload files"</li>
+      <li>Drag the downloaded <code>menu.json</code> into the upload area</li>
+      <li>Type a commit message like "Update menu Spring/Summer 2026" and commit</li>
+      <li>All 6 year-group tools update within about a minute</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+const MENU_URL = 'https://wallscourtfarm.github.io/staff-learning-tools/menu.json';
+const DAYS = ['Mon','Tue','Wed','Thu','Fri'];
+let menuData = null;
+
+function setStatus(id, msg, kind){
+  const el = document.getElementById(id);
+  el.className = 'status ' + kind;
+  el.textContent = msg;
+  if(kind==='ok' || kind==='info') setTimeout(()=>{el.className='status';el.textContent='';}, 4500);
+}
+
+function updateMeta(){
+  const meta = document.getElementById('meta');
+  if(!menuData){meta.innerHTML='';return;}
+  const wkCount = Object.keys(menuData.weeks||{}).length;
+  meta.innerHTML = `<span><strong>${wkCount}</strong> weeks loaded</span>` +
+    (menuData._termLabel ? `<span><strong>Term:</strong> ${menuData._termLabel}</span>` : '') +
+    (menuData._lastUpdated ? `<span><strong>Last updated:</strong> ${menuData._lastUpdated}</span>` : '');
+}
+
+async function loadLive(){
+  setStatus('load-status', 'Loading from website...', 'info');
+  try {
+    const res = await fetch(MENU_URL + '?t=' + Date.now());
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    menuData = await res.json();
+    if(!menuData.weeks) menuData.weeks = {};
+    renderWeeks();
+    updateMeta();
+    setStatus('load-status', `Loaded ${Object.keys(menuData.weeks).length} weeks from the live site.`, 'ok');
+  } catch(e) {
+    setStatus('load-status', 'Could not load: ' + e.message + '. Try "Start from scratch" or "Load from file".', 'err');
+  }
+}
+
+function loadFromFile(evt){
+  const file = evt.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      menuData = JSON.parse(e.target.result);
+      if(!menuData.weeks) menuData.weeks = {};
+      renderWeeks();
+      updateMeta();
+      setStatus('load-status', `Loaded ${Object.keys(menuData.weeks).length} weeks from file.`, 'ok');
+    } catch(err) {
+      setStatus('load-status', 'File is not valid JSON: ' + err.message, 'err');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function startBlank(){
+  if(menuData && Object.keys(menuData.weeks||{}).length > 0){
+    if(!confirm('This will clear the current data. Continue?')) return;
+  }
+  menuData = {
+    _termLabel: '',
+    _lastUpdated: new Date().toISOString().slice(0,10),
+    weeks: {}
+  };
+  renderWeeks();
+  updateMeta();
+  setStatus('load-status', 'Started a blank menu. Add weeks below.', 'ok');
+}
+
+function blankDays(){
+  const d = {};
+  DAYS.forEach(day => d[day] = ['','']);
+  return d;
+}
+
+function addWeek(){
+  if(!menuData){ menuData = {_termLabel:'',_lastUpdated:new Date().toISOString().slice(0,10),weeks:{}}; }
+  // Pick next Monday after the last existing week, or next Monday from today
+  const existing = Object.keys(menuData.weeks).sort();
+  let baseDate;
+  if(existing.length){
+    baseDate = new Date(existing[existing.length-1] + 'T12:00:00');
+    baseDate.setDate(baseDate.getDate() + 7);
+  } else {
+    baseDate = new Date();
+    while(baseDate.getDay() !== 1) baseDate.setDate(baseDate.getDate() + 1);
+  }
+  const key = baseDate.toISOString().slice(0,10);
+  if(menuData.weeks[key]){
+    alert('A week starting ' + key + ' already exists.');
+    return;
+  }
+  menuData.weeks[key] = blankDays();
+  renderWeeks();
+  updateMeta();
+  // Scroll to the newly-added week
+  setTimeout(()=>{
+    const el = document.querySelector(`.week[data-key="${key}"]`);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+  }, 50);
+}
+
+function deleteWeek(key){
+  if(!confirm(`Delete week starting ${key}?`)) return;
+  delete menuData.weeks[key];
+  renderWeeks();
+  updateMeta();
+}
+
+function changeWeekDate(oldKey, newKey){
+  if(oldKey === newKey) return;
+  if(menuData.weeks[newKey]){
+    alert('A week starting ' + newKey + ' already exists.');
+    renderWeeks();
+    return;
+  }
+  // Validate it's a Monday
+  const d = new Date(newKey + 'T12:00:00');
+  if(d.getDay() !== 1){
+    if(!confirm(`${newKey} is a ${['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d.getDay()]}, not a Monday. The tools only show menu rows when the page loads on or after a stored Monday. Continue anyway?`)){
+      renderWeeks();
+      return;
+    }
+  }
+  menuData.weeks[newKey] = menuData.weeks[oldKey];
+  delete menuData.weeks[oldKey];
+  renderWeeks();
+}
+
+function updateOption(key, day, idx, val){
+  if(!menuData.weeks[key]) return;
+  if(!menuData.weeks[key][day]) menuData.weeks[key][day] = ['',''];
+  menuData.weeks[key][day][idx] = val;
+}
+
+function sortWeeks(){
+  if(!menuData) return;
+  const sorted = {};
+  Object.keys(menuData.weeks).sort().forEach(k => sorted[k] = menuData.weeks[k]);
+  menuData.weeks = sorted;
+  renderWeeks();
+}
+
+function fmtDate(key){
+  const d = new Date(key + 'T12:00:00');
+  return d.toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+
+function renderWeeks(){
+  const container = document.getElementById('weeks-container');
+  if(!menuData || !menuData.weeks){ container.innerHTML = '<p style="color:#888;font-style:italic">No menu loaded yet. Use the buttons above.</p>'; return; }
+  const keys = Object.keys(menuData.weeks).sort();
+  if(keys.length === 0){ container.innerHTML = '<p style="color:#888;font-style:italic">No weeks yet. Click "Add a week" to start.</p>'; return; }
+  let html = '';
+  for(const key of keys){
+    const week = menuData.weeks[key];
+    html += `<div class="week" data-key="${key}">
+      <div class="week-hdr">
+        <label>Monday:</label>
+        <input type="date" value="${key}" onchange="changeWeekDate('${key}', this.value)">
+        <span class="week-label">${fmtDate(key)}</span>
+        <button class="delete-week" onclick="deleteWeek('${key}')">Delete week</button>
+      </div>
+      <div class="day-grid">
+        <span></span>
+        <span class="col-hdr red">Red column</span>
+        <span class="col-hdr green">Green column (vegetarian)</span>`;
+    for(const day of DAYS){
+      const opts = week[day] || ['',''];
+      html += `<label>${day}</label>
+        <input type="text" value="${(opts[0]||'').replace(/"/g,'&quot;')}" placeholder="Hot option 1" oninput="updateOption('${key}','${day}',0,this.value)">
+        <input type="text" value="${(opts[1]||'').replace(/"/g,'&quot;')}" placeholder="Hot option 2" oninput="updateOption('${key}','${day}',1,this.value)">`;
+    }
+    html += `</div></div>`;
+  }
+  container.innerHTML = html;
+  refreshPreview();
+}
+
+function buildOutputJson(){
+  const sorted = {};
+  Object.keys(menuData.weeks).sort().forEach(k => sorted[k] = menuData.weeks[k]);
+  const out = {
+    _comment: 'WFA shared lunch menu. Updated 1-2 times per year via menu-editor. Each key is a Monday in YYYY-MM-DD format. Each day holds [red_option, green_option].',
+    _lastUpdated: new Date().toISOString().slice(0,10),
+    _termLabel: menuData._termLabel || '',
+    weeks: sorted
+  };
+  return out;
+}
+
+function refreshPreview(){
+  if(!menuData){ document.getElementById('json-preview').textContent = ''; return; }
+  document.getElementById('json-preview').textContent = JSON.stringify(buildOutputJson(), null, 2);
+}
+
+function downloadJson(){
+  if(!menuData || !menuData.weeks || Object.keys(menuData.weeks).length===0){
+    setStatus('dl-status', 'Nothing to download — add at least one week first.', 'err');
+    return;
+  }
+  refreshPreview();
+  const out = buildOutputJson();
+  const blob = new Blob([JSON.stringify(out, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'menu.json';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);}, 100);
+  setStatus('dl-status', 'Downloaded menu.json. Now upload it to GitHub.', 'ok');
+}
+
+function copyJson(){
+  refreshPreview();
+  const text = JSON.stringify(buildOutputJson(), null, 2);
+  navigator.clipboard.writeText(text)
+    .then(()=>setStatus('dl-status', 'JSON copied to clipboard.', 'ok'))
+    .catch(()=>setStatus('dl-status', 'Could not copy. Try Download instead.', 'err'));
+}
+
+// Auto-load on page open
+window.addEventListener('DOMContentLoaded', ()=>{
+  loadLive();
+});
+</script>
+</body>
+</html>
 
