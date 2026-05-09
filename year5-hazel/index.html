@@ -1347,6 +1347,29 @@ function getTTSet(){
 let pType='boggle',cur=null,solsOpen=false;
 const ALL_TYPES=['boggle','number','combined','literacy','vocab','mathsreason','mathsshape','humanities'];
 
+
+// ═══════════════════════════════════════════════════════════
+// SHARED MENU LOADER — added by patch_shared_menu.py
+// Fetches menu.json from the central repo on page load.
+// Falls back silently to in-file MENU_BY_WEEK on any error.
+// ═══════════════════════════════════════════════════════════
+async function loadSharedMenu(){
+  try{
+    const res = await fetch('https://wallscourtfarm.github.io/staff-learning-tools/menu.json', {cache:'no-cache'});
+    if(!res.ok) throw new Error('fetch failed');
+    const data = await res.json();
+    if(data && data.weeks && typeof data.weeks === 'object'){
+      // Replace the in-file MENU_BY_WEEK keys with shared ones.
+      // Don't replace the variable itself (it's const) — mutate in place.
+      Object.keys(MENU_BY_WEEK).forEach(k=>delete MENU_BY_WEEK[k]);
+      Object.assign(MENU_BY_WEEK, data.weeks);
+      console.log('[SharedMenu] Loaded', Object.keys(MENU_BY_WEEK).length, 'weeks');
+    }
+  } catch(e){
+    console.log('[SharedMenu] Using in-file fallback:', e.message);
+  }
+}
+
 function init(){
   renderDate();renderLunch();renderMsg();loadImg();
   const d=new Date().getDate();
@@ -2253,7 +2276,7 @@ function saveSetup(){
   closeSetup();renderLunch();
 }
 
-init();
+loadSharedMenu().then(init);
 </script>
 </body>
 </html>
