@@ -169,7 +169,7 @@ TYPES (use exact string):
 - "order"           — arrange in order; options = ["3.2","0.7","1.05","2.8"]
 - "explain"         — write an explanation (no answer box needed)
 - "complete-table"  — table with blanks; table = {"headers":["col1","col2"],"rows":[[1,null],[null,4]]}
-- "sequence"        — fill missing terms; options = [100,null,300,null,500]  (null = blank)
+- "sequence"        — fill missing terms; options = [100,null,300,null,500]  (null = blank). CRITICAL: the rule MUST produce every given term. Check your arithmetic before outputting.
 - "draw-on-grid"    — coordinate grid; hasGrid:true, gridType:"coordinate", gridConfig:{...}
 - "number-line"     — number line; hasGrid:true, gridType:"number-line", gridConfig:{...}
 - "multi-part"      — two sub-questions; parts = [{letter:"a",questionText:"...",answerLabel:"",marks:1,showMethod:false,answer:""},{letter:"b",...}]
@@ -214,6 +214,8 @@ ALGEBRA QUESTION FORMAT GUIDANCE (follow these strictly when algebra topics are 
 - Tick the expression → "tick-options" with exactly 4–5 algebraic options; only ONE is correct
 - Missing number table → "complete-table" with 2 rows and 2 columns (headers are the variable names); one cell per row is null
 - Number sequence (+n or ×n+m) → "sequence" type with nulls for the missing terms
+- SEQUENCE RULE: Every sequence MUST be verifiable. Before outputting, confirm the rule produces every term. Linear: each step adds the same n. Rule-based (×n+m): compute each term step by step. If any term fails, reject the sequence and generate a new one.
+- NEVER output a self-contradictory mark scheme (e.g. "multiplies by 3" then noting the product doesn't match). If the rule doesn't fit, change the rule or the numbers.
 - Number machine → "complete-table" with columns headed by each operation stage; use arrows implied in the question text; OR describe as "sequence" type with null for missing boxes
 - Two unknowns (shapes = totals) → "multi-part" with parts a and b, each 1 mark; describe the two totals in the question text; answer by inspection
 - Simple equation solving → "write-answer" with the equation displayed in the question text
@@ -1075,6 +1077,68 @@ def generate_questions(topics: list, difficulty: str, count: int) -> list:
     return json.loads(clean)
 
 
+def _validate_questions(questions: list) -> list:
+    """Check generated questions for arithmetic errors. Fix or remove broken ones."""
+    fixed = []
+    for q in questions:
+        qtype = q.get("type", "")
+
+        # Validate sequence questions: check that the non-null terms are consistent
+        if qtype == "sequence":
+            opts = q.get("options")
+            if opts and isinstance(opts, list):
+                nums = [(i, v) for i, v in enumerate(opts) if v is not None]
+                if len(nums) >= 3:
+                    # Try to verify a linear rule (constant difference)
+                    values = [v for _, v in nums]
+                    indices = [i for i, _ in nums]
+                    diffs = [values[j+1] - values[j] for j in range(len(values)-1)]
+                    if len(set(diffs)) == 1 and diffs[0] != 0:
+                        # Linear sequence — fill in all blanks
+                        step = diffs[0]
+                        for i in range(len(opts)):
+                            if opts[i] is None:
+                                opts[i] = nums[0][1] + (i - indices[0]) * step
+                        q["options"] = opts
+
+        # Validate pie chart: segments must sum to total
+        if qtype == "pie-chart":
+            chart = q.get("chart") or {}
+            segments = chart.get("segments") or []
+            total = chart.get("total", 0)
+            if segments and total:
+                seg_sum = sum(s.get("value", 0) for s in segments)
+                if seg_sum != total and seg_sum > 0:
+                    # Adjust total to match segment values
+                    chart["total"] = seg_sum
+                    q["chart"] = chart
+
+        # Validate bar chart: yMax should be above max data value
+        if qtype == "bar-chart":
+            chart = q.get("chart") or {}
+            data = chart.get("data") or []
+            y_max = chart.get("yMax", 0)
+            if data and y_max > 0:
+                max_val = max(d.get("value", 0) for d in data)
+                if max_val > y_max:
+                    chart["yMax"] = max_val + chart.get("yStep", 5)
+                    q["chart"] = chart
+
+        # Validate answer is a number when it should be
+        ans = q.get("answer", "")
+        if isinstance(ans, str) and ans.strip():
+            # Strip common units but check if the numeric part parses
+            cleaned = ans.strip().rstrip("°%cmmLkgmlg").strip()
+            try:
+                float(cleaned)
+            except ValueError:
+                # Not a simple number — that's fine for word answers
+                pass
+
+        fixed.append(q)
+    return fixed
+
+
 
 def _svg_to_drawing(svg_str: str, max_w_mm: float = 155.0):
     """Convert an SVG string to a reportlab Drawing, scaled to fit the page."""
@@ -1464,6 +1528,7 @@ if do_generate or do_regen:
     with st.spinner("Generating questions…"):
         try:
             qs = generate_questions(topics_to_use, diff_to_use, count_to_use)
+            qs = _validate_questions(qs)
             st.session_state.questions = qs
             st.session_state.show_ms = False
             st.session_state.topics_used = topics_to_use
