@@ -104,10 +104,14 @@ TOPICS = {
         "Proportion problems",
     ],
     "Algebra": [
-        "Missing numbers and unknowns",
-        "Number sequences",
-        "Two unknowns",
-        "Substitution",
+        "Formula substitution (forward)",
+        "Formula substitution (reverse — find the input)",
+        "Tick the expression",
+        "Missing number tables",
+        "Number sequences (linear)",
+        "Number sequences (multiply then add)",
+        "Two unknowns — shapes as values",
+        "Simple equation solving",
     ],
     "Measurement": [
         "Unit conversion",
@@ -203,6 +207,19 @@ GEOMETRY & MEASUREMENT RULES:
 - measuring-scale: pointer is always a specific value (the thing being read). step sets tick spacing, labelStep sets label spacing (can be larger for readability, e.g. step=50 labelStep=100). Units: ml, l, g, kg, °C.
 - timetable: 3–5 rows (stops), 3–4 time columns. Ask about journey times, how long to wait, or earliest departure. Use 24-hour clock for train/bus timetables.
 - Use angle-diagram for angles questions. Use labelled-shape for perimeter/area. Use clock for time reading/elapsed time. Use measuring-scale for weight/capacity/temperature reading. Use timetable for timetable problems.
+
+ALGEBRA QUESTION FORMAT GUIDANCE (follow these strictly when algebra topics are selected):
+- Formula substitution forward → "write-answer" with answerLabel for the unit (e.g. "kg", "minutes")
+- Formula substitution reverse (find the input) → "write-answer" with answerLabel for the unknown unit
+- Tick the expression → "tick-options" with exactly 4–5 algebraic options; only ONE is correct
+- Missing number table → "complete-table" with 2 rows and 2 columns (headers are the variable names); one cell per row is null
+- Number sequence (+n or ×n+m) → "sequence" type with nulls for the missing terms
+- Number machine → "complete-table" with columns headed by each operation stage; use arrows implied in the question text; OR describe as "sequence" type with null for missing boxes
+- Two unknowns (shapes = totals) → "multi-part" with parts a and b, each 1 mark; describe the two totals in the question text; answer by inspection
+- Simple equation solving → "write-answer" with the equation displayed in the question text
+- ALWAYS wrap algebra in a real-world context (cooking, money, distance, T-shirts, hall hire, etc.)
+- NEVER generate a question that requires formal algebraic manipulation, expanding brackets, or BODMAS chains
+- The expression displayed in any question should use plain text (e.g. "black = (white × 3) + 4") not LaTeX
 Generate exactly the count requested."""
 
 Y6_CURRICULUM = """Year 6 maths curriculum scope — pitch all questions here (this is SATs year):
@@ -211,7 +228,17 @@ Y6_CURRICULUM = """Year 6 maths curriculum scope — pitch all questions here (t
 - Multiplication & Division: long multiplication (up to 4-digit × 2-digit); long division (up to 4-digit ÷ 2-digit)
 - Fractions, Decimals & Percentages: add/subtract fractions with different denominators; multiply and divide fractions; convert fluently between fractions, decimals and percentages; find percentage of a value; find the whole given a percentage
 - Ratio & Proportion: describe ratio relationships; scale; solve proportion problems
-- Algebra: balancing equations; two unknowns; substitution; order of operations (BODMAS)
+- Algebra (Y6 SATs pitch — keep this accessible):
+  * Formula substitution: formula written in words or simple notation, substitute one given value (e.g. mass = 2 × (age + 5), find mass when age = 4)
+  * Reverse formula: given the output, find the input (e.g. mass is 16 kg, find age) — always one or two steps
+  * Tick the expression: given a real-world situation, tick which algebraic expression represents it (e.g. 10 – a means "£10 minus amount given away")
+  * Missing number tables: formula given (e.g. 3 × b – a = 2), one value in table supplied, find the other — max 2 rows
+  * Number sequences: linear sequences (+45, +100) or rule-based ("multiply by 2 then add 3") — find missing terms including those before the first given term
+  * Number machines: sequence of operations applied to an input — complete a row by following the machine pattern
+  * Two unknowns: two equations with shape or letter symbols, find both values by inspection or trial (e.g. 3 triangles + 2 circles = 96; 2 triangles + 2 circles = 100); NEVER use formal simultaneous equation method — these are solved by reasoning
+  * Simple equation solving: one-step or two-step (e.g. 2q + 4 = 100, find q; or x + 2y = 20 with x and y both less than 10)
+  CONTEXT: Always use a real-world context (cooking, hiring a hall, printing T-shirts, jewellery, ticket prices). Never present algebra in isolation.
+  DIFFICULTY CAP: The hardest single question is a 2-mark problem like "solve 2q + 4 = 100" or "find w given a labelled rectangle diagram". No quadratics, no rearranging multi-term expressions, no BODMAS chains.
 - Measurement: area of triangles (½bh); perimeter and area consolidation; volume of cuboids; unit conversion
 - Coordinates: all four quadrants — plot, read, translate, reflect
 - Statistics: construct and interpret pie charts; line graphs; mean average; two-way tables
