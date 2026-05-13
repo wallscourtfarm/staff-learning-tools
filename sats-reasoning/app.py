@@ -2,6 +2,7 @@ import streamlit as st
 import anthropic
 import json
 import re
+import math
 from pathlib import Path
 
 LOGO_PATH = Path("assets/wfa_logo.jpg")
@@ -143,13 +144,14 @@ Each element has this shape:
   "marks": 1,
   "type": "write-answer",
   "questionText": "Question text here.",
-  "answerLabel": "km",
+  "answerLabel": "",
   "showMethod": false,
   "hasGrid": false,
   "gridType": null,
   "gridConfig": null,
   "options": null,
   "table": null,
+  "chart": null,
   "parts": null,
   "answer": "correct answer",
   "markScheme": "Brief mark scheme note"
@@ -167,6 +169,16 @@ TYPES (use exact string):
 - "draw-on-grid"    — coordinate grid; hasGrid:true, gridType:"coordinate", gridConfig:{...}
 - "number-line"     — number line; hasGrid:true, gridType:"number-line", gridConfig:{...}
 - "multi-part"      — two sub-questions; parts = [{letter:"a",questionText:"...",answerLabel:"",marks:1,showMethod:false,answer:""},{letter:"b",...}]
+- "bar-chart"       — rendered bar chart; chart = {"title":"Favourite sports","xLabel":"Sport","yLabel":"Number of children","yMax":30,"yStep":5,"data":[{"label":"Football","value":14},{"label":"Swimming","value":8},...]}
+- "pie-chart"       — rendered pie chart; chart = {"title":"How children travel to school","total":60,"segments":[{"label":"Walk","value":24},{"label":"Car","value":18},{"label":"Bus","value":12},{"label":"Cycle","value":6}]}
+- "line-graph"      — rendered line graph; chart = {"title":"Daily temperature","xLabel":"Day","yLabel":"Temperature (°C)","yMin":0,"yMax":25,"yStep":5,"points":[{"label":"Mon","value":12},{"label":"Tue","value":16},...]}
+
+CHART RULES:
+- For bar-chart: make yMax a round number comfortably above the highest bar. Use 4–6 bars. Values must be readable from the y-axis scale (multiples of yStep or clearly between gridlines).
+- For pie-chart: segment values must sum to the stated total. Use 3–5 segments with realistic, non-trivial values. The question should require calculating an amount or fraction from the chart, not just reading a label.
+- For line-graph: use 5–7 points with a clear trend or pattern. yMin is usually 0. Make values fall exactly on or between gridlines.
+- Always write a question that requires interpreting or calculating from the chart — not just reading one value off directly.
+- Use bar-chart and line-graph for Statistics topics. Use pie-chart for Statistics topics involving fractions or percentages.
 
 gridConfig for coordinate:
 {"xMin":-5,"xMax":5,"yMin":-5,"yMax":5,"points":[{"label":"A","x":3,"y":2}],"mirrorLine":null}
@@ -177,6 +189,7 @@ gridConfig for number-line:
 
 Set showMethod:true when marks >= 2.
 Vary question types across the set — do not make all questions "write-answer".
+When the topic includes statistics, bar charts, pie charts or line graphs, USE those chart types rather than write-answer.
 Generate exactly the count requested."""
 
 Y6_CURRICULUM = """Year 6 maths curriculum scope — pitch all questions here (this is SATs year):
@@ -271,7 +284,206 @@ def number_line_svg(cfg: dict) -> str:
     return f'<svg width="{W}" height="{H}" style="display:block;margin:10px 0">{"".join(els)}</svg>'
 
 
-# ─── Question HTML renderers ──────────────────────────────────────────────────
+# ─── Chart SVG renderers ──────────────────────────────────────────────────────
+
+_CHART_COLOURS = ["#1798d3", "#e57d24", "#2bae62", "#c0157b", "#9b59b6", "#e74c3c", "#f39c12"]
+
+
+def bar_chart_svg(chart: dict) -> str:
+    data    = chart.get("data", [])
+    title   = chart.get("title", "")
+    x_label = chart.get("xLabel", "")
+    y_label = chart.get("yLabel", "")
+    y_step  = chart.get("yStep", 5)
+    y_max   = chart.get("yMax") or (max(d["value"] for d in data) * 1.25 if data else 10)
+
+    W, H = 500, 300
+    pl, pr, pt, pb = 58, 16, 38, 56   # pad left/right/top/bottom
+    cw = W - pl - pr
+    ch = H - pt - pb
+
+    n       = len(data)
+    slot_w  = cw / n
+    bar_w   = slot_w * 0.55
+
+    def bx(i):  return pl + i * slot_w + slot_w / 2
+    def by_(v): return pt + ch - (v / y_max) * ch
+
+    els = []
+
+    # Title
+    if title:
+        els.append(f'<text x="{W//2}" y="22" text-anchor="middle" font-size="13" font-weight="bold" font-family="Arial" fill="#1a1a1a">{title}</text>')
+
+    # Horizontal grid lines + y-axis labels
+    steps = round(y_max / y_step)
+    for i in range(steps + 1):
+        v  = i * y_step
+        yp = by_(v)
+        els.append(f'<line x1="{pl}" y1="{yp:.1f}" x2="{W-pr}" y2="{yp:.1f}" stroke="#e0e0e0" stroke-width="1"/>')
+        els.append(f'<text x="{pl-5}" y="{yp+4:.1f}" text-anchor="end" font-size="10" font-family="Arial" fill="#444">{v}</text>')
+
+    # Axes
+    els.append(f'<line x1="{pl}" y1="{pt}" x2="{pl}" y2="{pt+ch}" stroke="#333" stroke-width="1.5"/>')
+    els.append(f'<line x1="{pl}" y1="{pt+ch}" x2="{W-pr}" y2="{pt+ch}" stroke="#333" stroke-width="1.5"/>')
+
+    # Bars
+    for i, d in enumerate(data):
+        x   = bx(i)
+        bh  = (d["value"] / y_max) * ch
+        yp  = by_(d["value"])
+        els.append(
+            f'<rect x="{x - bar_w/2:.1f}" y="{yp:.1f}" width="{bar_w:.1f}" height="{bh:.1f}" '
+            f'fill="#1798d3"/>'
+        )
+        # value label above bar
+        els.append(f'<text x="{x:.1f}" y="{yp-4:.1f}" text-anchor="middle" font-size="10" font-family="Arial" fill="#1798d3">{d["value"]}</text>')
+        # category label below axis — wrap long labels at ~10 chars
+        label = d.get("label", "")
+        if len(label) > 10:
+            words = label.split()
+            lines, cur = [], ""
+            for w in words:
+                if len(cur) + len(w) + 1 <= 10:
+                    cur = (cur + " " + w).strip()
+                else:
+                    if cur:
+                        lines.append(cur)
+                    cur = w
+            if cur:
+                lines.append(cur)
+            for li, ln in enumerate(lines):
+                els.append(f'<text x="{x:.1f}" y="{pt+ch+14+li*12:.1f}" text-anchor="middle" font-size="10" font-family="Arial" fill="#333">{ln}</text>')
+        else:
+            els.append(f'<text x="{x:.1f}" y="{pt+ch+14:.1f}" text-anchor="middle" font-size="10" font-family="Arial" fill="#333">{label}</text>')
+
+    # Y-axis label (rotated)
+    if y_label:
+        mid_y = pt + ch / 2
+        els.append(f'<text x="12" y="{mid_y:.1f}" text-anchor="middle" font-size="10" font-family="Arial" fill="#555" transform="rotate(-90,12,{mid_y:.1f})">{y_label}</text>')
+
+    # X-axis label
+    if x_label:
+        els.append(f'<text x="{pl + cw/2:.1f}" y="{H-2}" text-anchor="middle" font-size="10" font-family="Arial" fill="#555">{x_label}</text>')
+
+    return f'<svg width="{W}" height="{H}" style="display:block;margin:12px 0">{"".join(els)}</svg>'
+
+
+def pie_chart_svg(chart: dict) -> str:
+    segments = chart.get("segments", [])
+    title    = chart.get("title", "")
+    total    = chart.get("total") or (sum(s["value"] for s in segments) or 1)
+
+    if not segments:
+        return ""
+
+    W, H  = 460, 280
+    cx, cy, r = 145, 148, 115
+
+    els = []
+
+    if title:
+        els.append(f'<text x="{W//2}" y="20" text-anchor="middle" font-size="13" font-weight="bold" font-family="Arial" fill="#1a1a1a">{title}</text>')
+
+    start = -math.pi / 2   # start at 12 o'clock
+    for i, seg in enumerate(segments):
+        sweep     = 2 * math.pi * seg["value"] / total
+        end       = start + sweep
+        x1, y1    = cx + r * math.cos(start), cy + r * math.sin(start)
+        x2, y2    = cx + r * math.cos(end),   cy + r * math.sin(end)
+        large_arc = 1 if sweep > math.pi else 0
+        colour    = _CHART_COLOURS[i % len(_CHART_COLOURS)]
+
+        els.append(
+            f'<path d="M {cx} {cy} L {x1:.2f} {y1:.2f} '
+            f'A {r} {r} 0 {large_arc} 1 {x2:.2f} {y2:.2f} Z" '
+            f'fill="{colour}" stroke="white" stroke-width="2"/>'
+        )
+
+        # Percentage label inside segment (only if segment >= 8%)
+        pct = seg["value"] / total * 100
+        if pct >= 8:
+            mid   = start + sweep / 2
+            lr    = r * 0.62
+            lx, ly = cx + lr * math.cos(mid), cy + lr * math.sin(mid)
+            els.append(
+                f'<text x="{lx:.1f}" y="{ly:.1f}" text-anchor="middle" '
+                f'dominant-baseline="middle" font-size="11" font-weight="bold" '
+                f'font-family="Arial" fill="white">{pct:.0f}%</text>'
+            )
+
+        start = end
+
+    # Legend — right of pie
+    leg_x = cx + r + 22
+    for i, seg in enumerate(segments):
+        colour = _CHART_COLOURS[i % len(_CHART_COLOURS)]
+        ly     = 50 + i * 26
+        els.append(f'<rect x="{leg_x}" y="{ly}" width="13" height="13" fill="{colour}" rx="2"/>')
+        els.append(
+            f'<text x="{leg_x+18}" y="{ly+10}" font-size="11" font-family="Arial" fill="#222">'
+            f'{seg["label"]} ({seg["value"]})</text>'
+        )
+
+    return f'<svg width="{W}" height="{H}" style="display:block;margin:12px 0">{"".join(els)}</svg>'
+
+
+def line_graph_svg(chart: dict) -> str:
+    points  = chart.get("points", [])
+    title   = chart.get("title", "")
+    x_label = chart.get("xLabel", "")
+    y_label = chart.get("yLabel", "")
+    y_step  = chart.get("yStep", 5)
+    y_min   = chart.get("yMin", 0)
+    y_max   = chart.get("yMax") or (max(p["value"] for p in points) * 1.25 if points else 10)
+
+    W, H = 500, 300
+    pl, pr, pt, pb = 58, 16, 38, 56
+    cw = W - pl - pr
+    ch = H - pt - pb
+
+    n = len(points)
+
+    def lx(i): return pl + (i / (n - 1)) * cw if n > 1 else pl + cw / 2
+    def ly_(v): return pt + ch - ((v - y_min) / (y_max - y_min)) * ch
+
+    els = []
+
+    if title:
+        els.append(f'<text x="{W//2}" y="22" text-anchor="middle" font-size="13" font-weight="bold" font-family="Arial" fill="#1a1a1a">{title}</text>')
+
+    # Grid lines + y labels
+    steps = round((y_max - y_min) / y_step)
+    for i in range(steps + 1):
+        v  = y_min + i * y_step
+        yp = ly_(v)
+        els.append(f'<line x1="{pl}" y1="{yp:.1f}" x2="{W-pr}" y2="{yp:.1f}" stroke="#e0e0e0" stroke-width="1"/>')
+        els.append(f'<text x="{pl-5}" y="{yp+4:.1f}" text-anchor="end" font-size="10" font-family="Arial" fill="#444">{v}</text>')
+
+    # Axes
+    els.append(f'<line x1="{pl}" y1="{pt}" x2="{pl}" y2="{pt+ch}" stroke="#333" stroke-width="1.5"/>')
+    els.append(f'<line x1="{pl}" y1="{pt+ch}" x2="{W-pr}" y2="{pt+ch}" stroke="#333" stroke-width="1.5"/>')
+
+    # Line path
+    if n >= 2:
+        coords = " ".join(f"{lx(i):.1f},{ly_(p['value']):.1f}" for i, p in enumerate(points))
+        els.append(f'<polyline points="{coords}" fill="none" stroke="#1798d3" stroke-width="2.5"/>')
+
+    # Points + x labels
+    for i, p in enumerate(points):
+        x = lx(i)
+        y = ly_(p["value"])
+        els.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4.5" fill="#1798d3" stroke="white" stroke-width="1.5"/>')
+        els.append(f'<text x="{x:.1f}" y="{pt+ch+14:.1f}" text-anchor="middle" font-size="10" font-family="Arial" fill="#333">{p["label"]}</text>')
+
+    if y_label:
+        mid_y = pt + ch / 2
+        els.append(f'<text x="12" y="{mid_y:.1f}" text-anchor="middle" font-size="10" font-family="Arial" fill="#555" transform="rotate(-90,12,{mid_y:.1f})">{y_label}</text>')
+
+    if x_label:
+        els.append(f'<text x="{pl + cw/2:.1f}" y="{H-2}" text-anchor="middle" font-size="10" font-family="Arial" fill="#555">{x_label}</text>')
+
+    return f'<svg width="{W}" height="{H}" style="display:block;margin:12px 0">{"".join(els)}</svg>'
 
 def _qt(text: str) -> str:
     return f'<p style="font-size:15px;font-family:Arial;line-height:1.5;margin:0 0 4px 0">{text}</p>'
@@ -385,6 +597,21 @@ def render_body(q: dict) -> str:
         svg = coord_grid_svg(cfg)
         note = '<p style="font-size:13px;color:#555;font-style:italic;margin-top:4px">Use a ruler.</p>' if cfg.get("mirrorLine") else ""
         return qt + svg + note
+
+    if qtype == "bar-chart":
+        chart = q.get("chart") or {}
+        svg = bar_chart_svg(chart)
+        return qt + svg + (_method_box() if q.get("showMethod") else "") + _answer_line(q.get("answerLabel", ""))
+
+    if qtype == "pie-chart":
+        chart = q.get("chart") or {}
+        svg = pie_chart_svg(chart)
+        return qt + svg + (_method_box() if q.get("showMethod") else "") + _answer_line(q.get("answerLabel", ""))
+
+    if qtype == "line-graph":
+        chart = q.get("chart") or {}
+        svg = line_graph_svg(chart)
+        return qt + svg + (_method_box() if q.get("showMethod") else "") + _answer_line(q.get("answerLabel", ""))
 
     if qtype == "number-line":
         cfg = q.get("gridConfig") or {}
