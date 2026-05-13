@@ -190,6 +190,19 @@ gridConfig for number-line:
 Set showMethod:true when marks >= 2.
 Vary question types across the set — do not make all questions "write-answer".
 When the topic includes statistics, bar charts, pie charts or line graphs, USE those chart types rather than write-answer.
+- "angle-diagram"   — rendered angle(s); angleConfig = {"subtype":"standalone|on-line|at-point|triangle","angles":[{"value":65,"label":""},{"value":null,"label":"x"}]}
+- "labelled-shape"  — 2D shape with labelled sides; shapeConfig = {"shape":"rectangle|right-triangle|isosceles-triangle|l-shape|trapezium|parallelogram","sides":["8 cm","5 cm","8 cm","5 cm"]}
+- "clock"           — analogue clock face; clockConfig = {"hours":8,"minutes":20}
+- "measuring-scale" — measuring jug / scale; scaleConfig = {"unit":"ml","min":0,"max":500,"step":100,"labelStep":100,"pointer":350}
+- "timetable"       — train/bus timetable; timetableConfig = {"title":"Train timetable","headers":["Station","Train A","Train B","Train C"],"rows":[["Bristol","07:15","08:30","09:45"],["Bath","07:28","08:43","09:58"],["London","09:05","10:20","11:35"]]}
+
+GEOMETRY & MEASUREMENT RULES:
+- angle-diagram subtypes: standalone=one angle two rays; on-line=angles on a straight line summing to 180°; at-point=angles around a point summing to 360°; triangle=three angles summing to 180°. Unknown angle shown as null with a letter label (e.g. "x"). Unknown angles rendered in pink — pupils calculate and write them in.
+- labelled-shape sides count: rectangle=4, right-triangle=3, isosceles-triangle=3, l-shape=6, trapezium=4, parallelogram=4. Use "?" for unknown sides. Question must require a calculation (perimeter, area, or missing length).
+- clock: ask to read time shown, calculate elapsed time, or state time after/before given duration.
+- measuring-scale: pointer is always a specific value (the thing being read). step sets tick spacing, labelStep sets label spacing (can be larger for readability, e.g. step=50 labelStep=100). Units: ml, l, g, kg, °C.
+- timetable: 3–5 rows (stops), 3–4 time columns. Ask about journey times, how long to wait, or earliest departure. Use 24-hour clock for train/bus timetables.
+- Use angle-diagram for angles questions. Use labelled-shape for perimeter/area. Use clock for time reading/elapsed time. Use measuring-scale for weight/capacity/temperature reading. Use timetable for timetable problems.
 Generate exactly the count requested."""
 
 Y6_CURRICULUM = """Year 6 maths curriculum scope — pitch all questions here (this is SATs year):
@@ -485,6 +498,318 @@ def line_graph_svg(chart: dict) -> str:
 
     return f'<svg width="{W}" height="{H}" style="display:block;margin:12px 0">{"".join(els)}</svg>'
 
+
+
+# ─── Geometry & Measurement renderers ────────────────────────────────────────
+
+def angle_diagram_svg(config: dict) -> str:
+    subtype     = config.get("subtype", "standalone")
+    angles_data = config.get("angles", [])
+    W, H = 340, 230
+    els  = []
+
+    def _pt(cx, cy, deg, r):
+        return (cx + r * math.cos(math.radians(deg)),
+                cy - r * math.sin(math.radians(deg)))
+
+    def _ray(cx, cy, deg, L, sw=1.5):
+        ex, ey = _pt(cx, cy, deg, L)
+        return (f'<line x1="{cx:.1f}" y1="{cy:.1f}" x2="{ex:.1f}" y2="{ey:.1f}" '
+                f'stroke="#333" stroke-width="{sw}" stroke-linecap="round"/>')
+
+    def _arc(cx, cy, r, a0, a1):
+        x1, y1 = _pt(cx, cy, a0, r)
+        x2, y2 = _pt(cx, cy, a1, r)
+        lg = 1 if (a1 - a0) > 180 else 0
+        return (f'<path d="M {x1:.1f},{y1:.1f} A {r},{r} 0 {lg},0 {x2:.1f},{y2:.1f}" '
+                f'fill="none" stroke="#555" stroke-width="1"/>')
+
+    def _lbl(cx, cy, mid_deg, r, text, unk=False):
+        lx, ly = _pt(cx, cy, mid_deg, r)
+        col = "#c0157b" if unk else "#333"
+        fw  = "bold"   if unk else "normal"
+        return (f'<text x="{lx:.1f}" y="{ly:.1f}" text-anchor="middle" '
+                f'dominant-baseline="middle" font-size="13" font-weight="{fw}" '
+                f'font-family="Arial" fill="{col}">{text}</text>')
+
+    def _dot(cx, cy):
+        return f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="2.5" fill="#333"/>'
+
+    def _fmt(a):
+        if a.get("value") is not None:
+            return f'{a["value"]}\u00b0', False
+        return f'{a.get("label","x")}\u00b0', True
+
+    if subtype == "standalone":
+        cx, cy, L = 85, 185, 135
+        a0 = angles_data[0] if angles_data else {"value": 65}
+        draw_deg = a0.get("value") if a0.get("value") is not None else 65
+        txt, unk = _fmt(a0)
+        els += [_ray(cx, cy, 0, L), _ray(cx, cy, draw_deg, L),
+                _arc(cx, cy, 40, 0, draw_deg),
+                _lbl(cx, cy, draw_deg / 2, 65, txt, unk), _dot(cx, cy)]
+
+    elif subtype == "on-line":
+        cy, cx, L = 155, W // 2, 115
+        els.append(f'<line x1="20" y1="{cy}" x2="{W-20}" y2="{cy}" stroke="#333" stroke-width="1.5"/>')
+        if len(angles_data) >= 2:
+            v0 = angles_data[0].get("value")
+            v1 = angles_data[1].get("value")
+            ray_deg = (180 - v0) if (v0 is not None and v1 is None) else (v1 if v1 is not None else 65)
+            t0, u0 = _fmt(angles_data[0])
+            t1, u1 = _fmt(angles_data[1])
+            els += [_ray(cx, cy, ray_deg, L),
+                    _arc(cx, cy, 38, ray_deg, 180), _lbl(cx, cy, (ray_deg + 180) / 2, 60, t0, u0),
+                    _arc(cx, cy, 38, 0, ray_deg),   _lbl(cx, cy, ray_deg / 2, 60, t1, u1),
+                    _dot(cx, cy)]
+        elif len(angles_data) == 1:
+            a0 = angles_data[0]
+            draw_deg = a0.get("value") if a0.get("value") is not None else 65
+            txt, unk = _fmt(a0)
+            els += [_ray(cx, cy, draw_deg, L),
+                    _arc(cx, cy, 38, 0, draw_deg),
+                    _lbl(cx, cy, draw_deg / 2, 60, txt, unk), _dot(cx, cy)]
+
+    elif subtype == "at-point":
+        cx, cy, L = W // 2, H // 2 + 10, 100
+        known_sum = sum(a.get("value", 0) for a in angles_data if a.get("value") is not None)
+        n_unk     = sum(1 for a in angles_data if a.get("value") is None)
+        unk_val   = (360 - known_sum) / max(n_unk, 1)
+        boundaries = [0.0]
+        for a in angles_data:
+            v = a.get("value") if a.get("value") is not None else unk_val
+            boundaries.append(boundaries[-1] + v)
+        for d in boundaries[:-1]:
+            els.append(_ray(cx, cy, d % 360, L))
+        prev = 0.0
+        for a in angles_data:
+            v   = a.get("value") if a.get("value") is not None else unk_val
+            nxt = prev + v
+            txt, unk = _fmt(a)
+            els += [_arc(cx, cy, 36, prev, nxt), _lbl(cx, cy, (prev + nxt) / 2, 58, txt, unk)]
+            prev = nxt
+        els.append(_dot(cx, cy))
+
+    elif subtype == "triangle":
+        if len(angles_data) >= 3:
+            has_right = any(a.get("value") == 90 for a in angles_data)
+            if has_right:
+                v = [(55, 175), (270, 175), (55, 50)]
+                sq_idx = next(i for i, a in enumerate(angles_data) if a.get("value") == 90)
+                sq_d1, sq_d2 = (1, 0), (0, -1)
+            else:
+                v = [(50, 180), (290, 180), (170, 42)]
+                sq_idx = None; sq_d1 = sq_d2 = None
+            pts = " ".join(f"{int(p[0])},{int(p[1])}" for p in v)
+            els.append(f'<polygon points="{pts}" fill="none" stroke="#333" stroke-width="1.5"/>')
+            if sq_idx is not None:
+                vx, vy = v[sq_idx]; s = 13
+                p1 = (vx+sq_d1[0]*s, vy+sq_d1[1]*s)
+                p2 = (vx+(sq_d1[0]+sq_d2[0])*s, vy+(sq_d1[1]+sq_d2[1])*s)
+                p3 = (vx+sq_d2[0]*s, vy+sq_d2[1]*s)
+                els.append(f'<polyline points="{p1[0]},{p1[1]} {p2[0]},{p2[1]} {p3[0]},{p3[1]}" '
+                            f'fill="none" stroke="#333" stroke-width="1.5"/>')
+            cx_c = sum(p[0] for p in v) / 3
+            cy_c = sum(p[1] for p in v) / 3
+            for i, (a, (vx, vy)) in enumerate(zip(angles_data, v)):
+                if sq_idx == i and a.get("value") == 90 and not a.get("label"): continue
+                dx, dy = cx_c - vx, cy_c - vy
+                dist = math.sqrt(dx*dx + dy*dy)
+                lx, ly = vx + dx/dist*30, vy + dy/dist*30
+                txt, unk = _fmt(a)
+                col = "#c0157b" if unk else "#333"
+                fw  = "bold" if unk else "normal"
+                els.append(f'<text x="{lx:.1f}" y="{ly:.1f}" text-anchor="middle" '
+                            f'dominant-baseline="middle" font-size="13" font-weight="{fw}" '
+                            f'font-family="Arial" fill="{col}">{txt}</text>')
+
+    return f'<svg width="{W}" height="{H}" style="display:block;margin:12px 0">{"".join(els)}</svg>'
+
+
+def labelled_shape_svg(config: dict) -> str:
+    shape = config.get("shape", "rectangle")
+    sides = config.get("sides", [])
+    W, H  = 340, 230
+    els   = []
+
+    def _sl(x, y, text, anchor="middle"):
+        return (f'<text x="{x:.1f}" y="{y:.1f}" text-anchor="{anchor}" '
+                f'dominant-baseline="middle" font-size="12" font-family="Arial" fill="#333">{text}</text>')
+
+    def _ra(vx, vy, d1, d2, s=11):
+        p1 = (vx+d1[0]*s, vy+d1[1]*s)
+        p2 = (vx+(d1[0]+d2[0])*s, vy+(d1[1]+d2[1])*s)
+        p3 = (vx+d2[0]*s, vy+d2[1]*s)
+        return (f'<polyline points="{p1[0]:.0f},{p1[1]:.0f} {p2[0]:.0f},{p2[1]:.0f} '
+                f'{p3[0]:.0f},{p3[1]:.0f}" fill="none" stroke="#333" stroke-width="1"/>')
+
+    if shape == "rectangle":
+        x0, y0, x1, y1 = 55, 55, 285, 175
+        els.append(f'<rect x="{x0}" y="{y0}" width="{x1-x0}" height="{y1-y0}" '
+                   f'fill="none" stroke="#333" stroke-width="1.5"/>')
+        for vx, vy, d1, d2 in [(x0,y0,(1,0),(0,1)),(x1,y0,(-1,0),(0,1)),
+                                (x1,y1,(-1,0),(0,-1)),(x0,y1,(1,0),(0,-1))]:
+            els.append(_ra(vx, vy, d1, d2))
+        lps = [((x0+x1)/2, y0-14, "middle"), (x1+15, (y0+y1)/2, "start"),
+               ((x0+x1)/2, y1+15, "middle"), (x0-15, (y0+y1)/2, "end")]
+        for i, (lx, ly, anc) in enumerate(lps):
+            if i < len(sides): els.append(_sl(lx, ly, sides[i], anc))
+
+    elif shape == "right-triangle":
+        v = [(55,185),(285,185),(55,45)]
+        pts = " ".join(f"{p[0]},{p[1]}" for p in v)
+        els.append(f'<polygon points="{pts}" fill="none" stroke="#333" stroke-width="1.5"/>')
+        els.append(_ra(v[0][0], v[0][1], (1,0), (0,-1)))
+        lps = [((v[0][0]+v[1][0])/2, v[0][1]+15, "middle"),
+               ((v[1][0]+v[2][0])/2+14, (v[1][1]+v[2][1])/2, "start"),
+               (v[0][0]-14, (v[0][1]+v[2][1])/2, "end")]
+        for i, (lx, ly, anc) in enumerate(lps):
+            if i < len(sides): els.append(_sl(lx, ly, sides[i], anc))
+
+    elif shape == "isosceles-triangle":
+        v = [(170,40),(55,195),(285,195)]
+        pts = " ".join(f"{p[0]},{p[1]}" for p in v)
+        els.append(f'<polygon points="{pts}" fill="none" stroke="#333" stroke-width="1.5"/>')
+        for pair in [(0,1),(0,2)]:
+            mx=(v[pair[0]][0]+v[pair[1]][0])/2; my=(v[pair[0]][1]+v[pair[1]][1])/2
+            dx=v[pair[1]][0]-v[pair[0]][0]; dy=v[pair[1]][1]-v[pair[0]][1]
+            dist=math.sqrt(dx*dx+dy*dy); px,py=-dy/dist*6,dx/dist*6
+            els.append(f'<line x1="{mx-px:.1f}" y1="{my-py:.1f}" x2="{mx+px:.1f}" y2="{my+py:.1f}" '
+                       f'stroke="#333" stroke-width="1.5"/>')
+        lps = [(v[0][0]-16, (v[0][1]+v[1][1])/2, "end"),
+               ((v[1][0]+v[2][0])/2, v[1][1]+15, "middle"),
+               (v[0][0]+16, (v[0][1]+v[2][1])/2, "start")]
+        for i, (lx, ly, anc) in enumerate(lps):
+            if i < len(sides): els.append(_sl(lx, ly, sides[i], anc))
+
+    elif shape == "l-shape":
+        x0,y0=50,30; ow,oh,nw,nh=240,185,130,90
+        v=[(x0,y0),(x0+ow,y0),(x0+ow,y0+nh),(x0+ow-nw,y0+nh),(x0+ow-nw,y0+oh),(x0,y0+oh)]
+        pts = " ".join(f"{p[0]},{p[1]}" for p in v)
+        els.append(f'<polygon points="{pts}" fill="none" stroke="#333" stroke-width="1.5"/>')
+        for idx,d1,d2 in [(0,(1,0),(0,1)),(1,(-1,0),(0,1)),(2,(0,1),(-1,0)),
+                           (3,(1,0),(0,1)),(4,(-1,0),(0,-1)),(5,(1,0),(0,-1))]:
+            els.append(_ra(v[idx][0],v[idx][1],d1,d2))
+        lps=[((v[0][0]+v[1][0])/2, v[0][1]-14, "middle"),
+             (v[1][0]+14, (v[1][1]+v[2][1])/2, "start"),
+             ((v[2][0]+v[3][0])/2, v[2][1]-12, "middle"),
+             (v[3][0]-14, (v[3][1]+v[4][1])/2, "end"),
+             ((v[4][0]+v[5][0])/2, v[4][1]+15, "middle"),
+             (v[5][0]-14, (v[5][1]+v[0][1])/2, "end")]
+        for i, (lx, ly, anc) in enumerate(lps):
+            if i < len(sides): els.append(_sl(lx, ly, sides[i], anc))
+
+    elif shape == "trapezium":
+        v=[(105,55),(245,55),(295,180),(55,180)]
+        pts = " ".join(f"{p[0]},{p[1]}" for p in v)
+        els.append(f'<polygon points="{pts}" fill="none" stroke="#333" stroke-width="1.5"/>')
+        for tx,ty in [((v[0][0]+v[1][0])/2,v[0][1]),((v[2][0]+v[3][0])/2,v[2][1])]:
+            els.append(f'<line x1="{tx-6}" y1="{ty}" x2="{tx+6}" y2="{ty}" stroke="#333" stroke-width="2"/>')
+        lps=[((v[0][0]+v[1][0])/2, v[0][1]-14, "middle"),
+             ((v[1][0]+v[2][0])/2+14, (v[1][1]+v[2][1])/2, "start"),
+             ((v[2][0]+v[3][0])/2, v[2][1]+15, "middle"),
+             ((v[3][0]+v[0][0])/2-14, (v[3][1]+v[0][1])/2, "end")]
+        for i, (lx, ly, anc) in enumerate(lps):
+            if i < len(sides): els.append(_sl(lx, ly, sides[i], anc))
+
+    elif shape == "parallelogram":
+        v=[(90,175),(290,175),(250,48),(50,48)]
+        pts = " ".join(f"{p[0]},{p[1]}" for p in v)
+        els.append(f'<polygon points="{pts}" fill="none" stroke="#333" stroke-width="1.5"/>')
+        lps=[((v[3][0]+v[2][0])/2, v[2][1]-14, "middle"),
+             ((v[1][0]+v[2][0])/2+14, (v[1][1]+v[2][1])/2, "start"),
+             ((v[0][0]+v[1][0])/2, v[0][1]+15, "middle"),
+             ((v[3][0]+v[0][0])/2-14, (v[3][1]+v[0][1])/2, "end")]
+        for i, (lx, ly, anc) in enumerate(lps):
+            if i < len(sides): els.append(_sl(lx, ly, sides[i], anc))
+
+    return f'<svg width="{W}" height="{H}" style="display:block;margin:12px 0">{"".join(els)}</svg>'
+
+
+def clock_svg(config: dict) -> str:
+    hours   = config.get("hours", 3) % 12
+    minutes = config.get("minutes", 0) % 60
+    cx, cy, r = 110, 110, 96
+    els = []
+    els.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="white" stroke="#333" stroke-width="2.5"/>')
+    for i in range(60):
+        ang = math.radians(i*6 - 90); major = i % 5 == 0
+        inner = r-(11 if major else 5)
+        x1=cx+inner*math.cos(ang); y1=cy+inner*math.sin(ang)
+        x2=cx+(r-2)*math.cos(ang); y2=cy+(r-2)*math.sin(ang)
+        els.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" '
+                   f'stroke="#333" stroke-width="{2 if major else 0.8}"/>')
+    for i in range(1, 13):
+        ang=math.radians(i*30-90); nr=r-22
+        nx=cx+nr*math.cos(ang); ny=cy+nr*math.sin(ang)
+        els.append(f'<text x="{nx:.1f}" y="{ny:.1f}" text-anchor="middle" dominant-baseline="middle" '
+                   f'font-size="14" font-weight="bold" font-family="Arial" fill="#222">{i}</text>')
+    ma=math.radians(minutes*6-90)
+    mhx=cx+(r-14)*math.cos(ma); mhy=cy+(r-14)*math.sin(ma)
+    els.append(f'<line x1="{cx}" y1="{cy}" x2="{mhx:.1f}" y2="{mhy:.1f}" '
+               f'stroke="#333" stroke-width="2" stroke-linecap="round"/>')
+    ha=math.radians((hours+minutes/60)*30-90)
+    hhx=cx+(r-38)*math.cos(ha); hhy=cy+(r-38)*math.sin(ha)
+    els.append(f'<line x1="{cx}" y1="{cy}" x2="{hhx:.1f}" y2="{hhy:.1f}" '
+               f'stroke="#333" stroke-width="3.5" stroke-linecap="round"/>')
+    els.append(f'<circle cx="{cx}" cy="{cy}" r="4" fill="#333"/>')
+    return f'<svg width="220" height="220" style="display:block;margin:12px 0">{"".join(els)}</svg>'
+
+
+def measuring_scale_svg(config: dict) -> str:
+    unit       = config.get("unit", "ml")
+    mn         = config.get("min", 0)
+    mx_val     = config.get("max", 500)
+    step       = config.get("step", 100)
+    label_step = config.get("labelStep", step)
+    pointer    = config.get("pointer", None)
+    W, H = 210, 290
+    jx,jw,jt,jb = 55,72,30,262
+    jh = jb - jt
+
+    def sy(v): return jb - ((v-mn)/(mx_val-mn))*jh if mx_val != mn else jb
+
+    els = []
+    if pointer is not None:
+        py=sy(pointer); fill_h=jb-py
+        els.append(f'<rect x="{jx}" y="{py:.1f}" width="{jw}" height="{fill_h:.1f}" fill="#d0eaff" stroke="none"/>')
+        els.append(f'<line x1="{jx}" y1="{py:.1f}" x2="{jx+jw}" y2="{py:.1f}" stroke="#1798d3" stroke-width="2"/>')
+    els.append(f'<line x1="{jx}" y1="{jt}" x2="{jx}" y2="{jb}" stroke="#888" stroke-width="1.5"/>')
+    els.append(f'<line x1="{jx+jw}" y1="{jt}" x2="{jx+jw}" y2="{jb}" stroke="#888" stroke-width="1.5"/>')
+    els.append(f'<line x1="{jx}" y1="{jb}" x2="{jx+jw}" y2="{jb}" stroke="#888" stroke-width="2"/>')
+    els.append(f'<line x1="{jx}" y1="{jt}" x2="{jx+jw}" y2="{jt}" stroke="#888" stroke-width="1" stroke-dasharray="4,3"/>')
+    n_steps=round((mx_val-mn)/step)
+    for i in range(n_steps+1):
+        v=mn+i*step; y=sy(v); tlen=14 if v%label_step==0 else 7
+        els.append(f'<line x1="{jx+jw}" y1="{y:.1f}" x2="{jx+jw+tlen}" y2="{y:.1f}" stroke="#333" stroke-width="1.5"/>')
+        if v % label_step == 0:
+            els.append(f'<text x="{jx+jw+18}" y="{y:.1f}" dominant-baseline="middle" '
+                       f'font-size="12" font-family="Arial" fill="#333">{v} {unit}</text>')
+    return f'<svg width="{W}" height="{H}" style="display:block;margin:12px 0">{"".join(els)}</svg>'
+
+
+def timetable_html(config: dict) -> str:
+    title   = config.get("title", "")
+    headers = config.get("headers", [])
+    rows    = config.get("rows", [])
+    title_html=(f'<div style="font-size:13px;font-family:Arial;font-weight:600;color:#333;'
+                f'margin-bottom:8px">{title}</div>') if title else ""
+    th_cells="".join(
+        f'<th style="border:1.5px solid #999;padding:6px 12px;background:#f0f4f8;font-size:13px;'
+        f'font-family:Arial;font-weight:600;text-align:center;white-space:nowrap">{h}</th>'
+        for h in headers)
+    rows_html=""
+    for ri, row in enumerate(rows):
+        bg="#fff" if ri%2==0 else "#f8f9fb"; cells=""
+        for ci, cell in enumerate(row):
+            bold="font-weight:600;" if ci==0 else ""; align="left" if ci==0 else "center"
+            cells+=(f'<td style="border:1px solid #ccc;padding:5px 12px;font-size:13px;'
+                    f'font-family:Arial;{bold}text-align:{align};white-space:nowrap">{cell}</td>')
+        rows_html+=f'<tr style="background:{bg}">{cells}</tr>'
+    return (f'{title_html}<table style="border-collapse:collapse;margin:10px 0 14px 0">'
+            f'<thead><tr>{th_cells}</tr></thead><tbody>{rows_html}</tbody></table>')
+
+
 def _qt(text: str) -> str:
     return f'<p style="font-size:15px;font-family:Arial;line-height:1.5;margin:0 0 4px 0">{text}</p>'
 
@@ -613,6 +938,27 @@ def render_body(q: dict) -> str:
         svg = line_graph_svg(chart)
         return qt + svg + (_method_box() if q.get("showMethod") else "") + _answer_line(q.get("answerLabel", ""))
 
+    if qtype == "angle-diagram":
+        cfg = q.get("angleConfig") or {}
+        return qt + angle_diagram_svg(cfg) + (_method_box() if q.get("showMethod") else "") + _answer_line(q.get("answerLabel", ""))
+
+    if qtype == "labelled-shape":
+        cfg = q.get("shapeConfig") or {}
+        return qt + labelled_shape_svg(cfg) + (_method_box() if q.get("showMethod") else "") + _answer_line(q.get("answerLabel", ""))
+
+    if qtype == "clock":
+        cfg = q.get("clockConfig") or {}
+        return qt + clock_svg(cfg) + _answer_line(q.get("answerLabel", ""))
+
+    if qtype == "measuring-scale":
+        cfg = q.get("scaleConfig") or {}
+        return qt + measuring_scale_svg(cfg) + _answer_line(q.get("answerLabel", ""))
+
+    if qtype == "timetable":
+        cfg = q.get("timetableConfig") or {}
+        tbl = timetable_html(cfg)
+        return qt + tbl + (_method_box() if q.get("showMethod") else "") + _answer_line(q.get("answerLabel", ""))
+
     if qtype == "number-line":
         cfg = q.get("gridConfig") or {}
         svg = number_line_svg(cfg)
@@ -702,6 +1048,259 @@ def generate_questions(topics: list, difficulty: str, count: int) -> list:
     return json.loads(clean)
 
 
+
+def _svg_to_drawing(svg_str: str, max_w_mm: float = 155.0):
+    """Convert an SVG string to a reportlab Drawing, scaled to fit the page."""
+    import tempfile, os
+    from reportlab.lib.units import mm as _mm
+    try:
+        from svglib.svglib import svg2rlg
+        with tempfile.NamedTemporaryFile(suffix=".svg", mode="w", delete=False, encoding="utf-8") as f:
+            f.write(svg_str); tmp = f.name
+        try:
+            drw = svg2rlg(tmp)
+        finally:
+            os.unlink(tmp)
+        if drw and drw.width > 0:
+            max_w = max_w_mm * _mm
+            if drw.width > max_w:
+                scale = max_w / drw.width
+                drw.width  = max_w
+                drw.height = drw.height * scale
+                drw.transform = (scale, 0, 0, scale, 0, 0)
+        return drw
+    except Exception:
+        return None
+
+
+def build_pdf_bytes(questions: list, topics_display: str) -> bytes | None:
+    """Build an A4 PDF of the question paper using reportlab + svglib."""
+    try:
+        from io import BytesIO
+        import tempfile, os
+        from reportlab.lib.pagesizes import A4
+        from reportlab.lib.units import mm
+        from reportlab.lib import colors
+        from reportlab.lib.styles import ParagraphStyle
+        from reportlab.lib.enums import TA_CENTER
+        from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer,
+                                         HRFlowable, Table, TableStyle)
+        from reportlab.platypus.flowables import Flowable
+    except ImportError:
+        return None
+
+    # ── Custom Flowables ─────────────────────────────────────────────────────
+
+    class _AnswerLine(Flowable):
+        def __init__(self, label="", width_mm=80):
+            super().__init__()
+            self._label = label; self._lw = width_mm * mm
+            self.width = self._lw + 50 * mm; self.height = 12 * mm
+        def draw(self):
+            c = self.canv
+            x = 0
+            if self._label:
+                c.setFont("Helvetica", 11)
+                c.drawString(0, 3 * mm, self._label)
+                x = c.stringWidth(self._label, "Helvetica", 11) + 5 * mm
+            c.setLineWidth(1.2)
+            c.line(x, 0, x + self._lw, 0)
+
+    class _ShadedBox(Flowable):
+        def __init__(self, label="Show your method", height_mm=28):
+            super().__init__()
+            self._label = label; self.width = 160 * mm; self.height = height_mm * mm
+        def draw(self):
+            c = self.canv
+            c.setStrokeGray(0.7); c.setFillGray(0.97)
+            c.rect(0, 0, self.width, self.height, fill=1, stroke=1)
+            if self._label:
+                c.setFillGray(0.5); c.setFont("Helvetica-Oblique", 10)
+                c.drawString(4 * mm, self.height - 5 * mm, self._label)
+
+    class _MarkBadge(Flowable):
+        def __init__(self, text):
+            super().__init__(); self._text = text
+            self.width = 160 * mm; self.height = 7 * mm
+        def draw(self):
+            c = self.canv; c.setFont("Helvetica", 10)
+            w = c.stringWidth(self._text, "Helvetica", 10)
+            x = self.width - w
+            c.setLineWidth(0.8); c.line(x, -1, self.width, -1)
+            c.drawString(x, 1 * mm, self._text)
+
+    # ── Styles ───────────────────────────────────────────────────────────────
+    body   = ParagraphStyle("body",   fontName="Helvetica",        fontSize=11, leading=15, spaceAfter=3)
+    meta_s = ParagraphStyle("meta",   fontName="Helvetica",        fontSize=9,  textColor=colors.HexColor("#444444"))
+    title_s= ParagraphStyle("title",  fontName="Helvetica-Bold",   fontSize=17, textColor=colors.HexColor("#1a1a8c"), spaceAfter=4)
+    ital   = ParagraphStyle("ital",   fontName="Helvetica-Oblique",fontSize=10, textColor=colors.HexColor("#666666"))
+    end_s  = ParagraphStyle("end",    fontName="Helvetica",        fontSize=9,  textColor=colors.HexColor("#bbbbbb"), alignment=TA_CENTER)
+
+    # ── SVG helper ───────────────────────────────────────────────────────────
+    def _svg(q):
+        qtype = q.get("type", "")
+        fn_map = {
+            "bar-chart":       lambda: bar_chart_svg(q.get("chart") or {}),
+            "pie-chart":       lambda: pie_chart_svg(q.get("chart") or {}),
+            "line-graph":      lambda: line_graph_svg(q.get("chart") or {}),
+            "angle-diagram":   lambda: angle_diagram_svg(q.get("angleConfig") or {}),
+            "labelled-shape":  lambda: labelled_shape_svg(q.get("shapeConfig") or {}),
+            "clock":           lambda: clock_svg(q.get("clockConfig") or {}),
+            "measuring-scale": lambda: measuring_scale_svg(q.get("scaleConfig") or {}),
+            "draw-on-grid":    lambda: coord_grid_svg(q.get("gridConfig") or {}),
+            "number-line":     lambda: number_line_svg(q.get("gridConfig") or {}),
+        }
+        fn = fn_map.get(qtype)
+        return fn() if fn else None
+
+    # ── Build story ──────────────────────────────────────────────────────────
+    buf = BytesIO()
+    doc = SimpleDocTemplate(buf, pagesize=A4,
+                             leftMargin=18*mm, rightMargin=18*mm,
+                             topMargin=18*mm,  bottomMargin=22*mm)
+    story = []
+
+    story += [
+        Paragraph("Key Stage 2 Mathematics — Reasoning | Year 6", meta_s),
+        Paragraph(f"{topics_display} Practice Questions", title_s),
+        HRFlowable(width="100%", thickness=2, color=colors.black, spaceAfter=5*mm),
+    ]
+
+    for qi, q in enumerate(questions, 1):
+        qtype = q.get("type", "write-answer")
+        marks = (sum(p.get("marks", 1) for p in (q.get("parts") or []))
+                 if qtype == "multi-part" else q.get("marks", 1))
+        mark_str = f'{marks} {"mark" if marks == 1 else "marks"}'
+
+        # Question text
+        story.append(Paragraph(f"<b>{qi}</b>  {q.get('questionText','')}", body))
+
+        # SVG visual
+        svg_str = _svg(q)
+        if svg_str:
+            drw = _svg_to_drawing(svg_str)
+            if drw:
+                story += [Spacer(1, 2*mm), drw]
+
+        # Timetable
+        if qtype == "timetable":
+            cfg = q.get("timetableConfig") or {}
+            hdrs, rows = cfg.get("headers",[]), cfg.get("rows",[])
+            if hdrs and rows:
+                tdata = [hdrs] + rows
+                col_w = [50*mm] + [28*mm]*(len(hdrs)-1)
+                t = Table(tdata, colWidths=col_w)
+                t.setStyle(TableStyle([
+                    ("BACKGROUND",(0,0),(-1,0), colors.HexColor("#f0f4f8")),
+                    ("FONTNAME",  (0,0),(-1,0), "Helvetica-Bold"),
+                    ("FONTNAME",  (0,1),(0,-1), "Helvetica-Bold"),
+                    ("FONTSIZE",  (0,0),(-1,-1), 10),
+                    ("ALIGN",     (1,0),(-1,-1), "CENTER"),
+                    ("GRID",      (0,0),(-1,-1), 0.8, colors.HexColor("#cccccc")),
+                    ("ROWBACKGROUNDS",(0,1),(-1,-1),[colors.white, colors.HexColor("#f8f9fb")]),
+                ]))
+                story += [Spacer(1,2*mm), t]
+
+        # Complete table
+        if qtype == "complete-table":
+            td = q.get("table") or {}
+            hdrs, rows = td.get("headers",[]), td.get("rows",[])
+            if hdrs and rows:
+                tdata = [hdrs] + [[("___" if c is None else str(c)) for c in r] for r in rows]
+                col_w = [40*mm]*len(hdrs)
+                t = Table(tdata, colWidths=col_w)
+                t.setStyle(TableStyle([
+                    ("BACKGROUND",(0,0),(-1,0), colors.HexColor("#f4f4f4")),
+                    ("FONTNAME",  (0,0),(-1,0), "Helvetica-Bold"),
+                    ("FONTSIZE",  (0,0),(-1,-1), 11),
+                    ("ALIGN",     (0,0),(-1,-1), "CENTER"),
+                    ("GRID",      (0,0),(-1,-1), 1, colors.HexColor("#555555")),
+                ]))
+                story += [Spacer(1,2*mm), t]
+
+        # Match
+        if qtype == "match":
+            opts = q.get("options") or {}
+            left  = opts.get("left",[])  if isinstance(opts, dict) else []
+            right = opts.get("right",[]) if isinstance(opts, dict) else []
+            if left and right:
+                tdata = [[l,"",r] for l,r in zip(left, right)]
+                t = Table(tdata, colWidths=[55*mm, 50*mm, 55*mm])
+                t.setStyle(TableStyle([
+                    ("BOX",(0,0),(0,-1),0.8,colors.black),
+                    ("BOX",(2,0),(2,-1),0.8,colors.black),
+                    ("FONTSIZE",(0,0),(-1,-1),11),
+                    ("ALIGN",(0,0),(0,-1),"CENTER"),
+                    ("ALIGN",(2,0),(2,-1),"CENTER"),
+                ]))
+                story += [Spacer(1,2*mm), t]
+
+        # Tick options
+        if qtype == "tick-options":
+            for o in (q.get("options") or []):
+                story.append(Paragraph(f"☐ {o}", body))
+
+        # Circle options
+        if qtype == "circle-options":
+            opts = q.get("options") or []
+            story.append(Paragraph("     ".join(f"( {o} )" for o in opts), body))
+
+        # Order
+        if qtype == "order":
+            opts = q.get("options") or []
+            story.append(Paragraph("  ".join(str(o) for o in opts), body))
+            story.append(Paragraph("Write in order, smallest to largest:", ital))
+            story += [Spacer(1,2*mm), _AnswerLine(width_mm=60)]
+
+        # Sequence
+        if qtype == "sequence":
+            opts = q.get("options") or []
+            parts = ["―――――" if v is None else str(v) for v in opts]
+            story.append(Paragraph("  →  ".join(parts), body))
+
+        # Explain box
+        if qtype == "explain":
+            story += [Spacer(1,2*mm), _ShadedBox(label="", height_mm=32)]
+
+        # Method box
+        if q.get("showMethod") and qtype not in ("explain","multi-part","timetable"):
+            story += [Spacer(1,2*mm), _ShadedBox()]
+
+        # Multi-part sub-questions
+        if qtype == "multi-part":
+            for p in (q.get("parts") or []):
+                pm = p.get("marks", 1)
+                story.append(Paragraph(f"<b>{p.get('letter','')}</b>  {p.get('questionText','')}", body))
+                if p.get("showMethod"):
+                    story += [Spacer(1,2*mm), _ShadedBox()]
+                story += [Spacer(1,2*mm), _AnswerLine(p.get("answerLabel",""))]
+                story.append(Paragraph(f'{pm} {"mark" if pm==1 else "marks"}', ital))
+                story.append(Spacer(1,3*mm))
+            story.append(_MarkBadge(mark_str))
+
+        else:
+            # Answer line for most types
+            if qtype not in ("explain","tick-options","circle-options","match","order","sequence",
+                             "bar-chart","pie-chart","line-graph","angle-diagram","labelled-shape",
+                             "clock","measuring-scale","draw-on-grid","number-line","timetable",
+                             "complete-table"):
+                story += [Spacer(1,2*mm), _AnswerLine(q.get("answerLabel",""))]
+            elif qtype not in ("match","tick-options","circle-options","explain"):
+                story += [Spacer(1,2*mm), _AnswerLine(q.get("answerLabel",""))]
+            story.append(_MarkBadge(mark_str))
+
+        story += [
+            Spacer(1, 3*mm),
+            HRFlowable(width="100%", thickness=0.5, color=colors.HexColor("#dddddd")),
+            Spacer(1, 2*mm),
+        ]
+
+    story.append(Paragraph("[END OF QUESTIONS]", end_s))
+
+    doc.build(story)
+    return buf.getvalue()
+
+
 # ─── Session state ────────────────────────────────────────────────────────────
 
 for key, default in [
@@ -710,6 +1309,7 @@ for key, default in [
     ("topics_used", []),
     ("diff_used", "Mixed"),
     ("count_used", 4),
+    ("pdf_bytes", None),
 ]:
     if key not in st.session_state:
         st.session_state[key] = default
@@ -811,8 +1411,18 @@ with st.sidebar:
         if st.button(ms_label, use_container_width=True, key="ms_btn"):
             st.session_state.show_ms = not st.session_state.show_ms
             st.rerun()
-        if st.button("🖨️  Print / Save PDF", use_container_width=True, key="print_btn"):
-            st.markdown("<script>window.print()</script>", unsafe_allow_html=True)
+        pdf_bytes = st.session_state.get("pdf_bytes")
+        if pdf_bytes:
+            st.download_button(
+                "⬇️  Download PDF",
+                data=pdf_bytes,
+                file_name="SATs_Reasoning_Questions.pdf",
+                mime="application/pdf",
+                use_container_width=True,
+                key="pdf_dl_btn",
+            )
+        else:
+            st.caption("PDF unavailable — install weasyprint.")
 
 # ─── Generation logic ─────────────────────────────────────────────────────────
 
@@ -832,6 +1442,9 @@ if do_generate or do_regen:
             st.session_state.topics_used = topics_to_use
             st.session_state.diff_used = diff_to_use
             st.session_state.count_used = count_to_use
+            topics_disp = ", ".join(topics_to_use)
+            with st.spinner("Building PDF…"):
+                st.session_state.pdf_bytes = build_pdf_bytes(qs, topics_disp)
             st.rerun()
         except Exception as e:
             st.error(f"Failed to generate questions — {e}")
