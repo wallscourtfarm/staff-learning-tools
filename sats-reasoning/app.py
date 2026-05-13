@@ -2,11 +2,18 @@ import streamlit as st
 import anthropic
 import json
 import re
+from pathlib import Path
+
+LOGO_PATH = Path("assets/wfa_logo.jpg")
+
+def _b64_img(path):
+    import base64
+    return base64.b64encode(Path(path).read_bytes()).decode()
 
 # ─── Page config ─────────────────────────────────────────────────────────────
 
 st.set_page_config(
-    page_title="KS2 SATs Reasoning — Question Generator",
+    page_title="WFA KS2 SATs Reasoning",
     page_icon="✏️",
     layout="wide",
 )
@@ -15,23 +22,9 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-    /* Sidebar background */
+    /* Sidebar */
     [data-testid="stSidebar"] { background: #f4f6f8; }
-    [data-testid="stSidebar"] > div:first-child { padding-top: 0; }
-
-    /* Primary button colour */
-    .stButton > button[kind="primary"] {
-        background-color: #1798d3 !important;
-        border-color: #1798d3 !important;
-        color: white !important;
-    }
-    .stButton > button[kind="primary"]:hover {
-        background-color: #1280b8 !important;
-        border-color: #1280b8 !important;
-    }
-    .stButton > button {
-        border-radius: 5px !important;
-    }
+    [data-testid="stSidebar"] > div:first-child { padding-top: 12px; }
 
     /* Tighten expander padding in sidebar */
     [data-testid="stSidebar"] [data-testid="stExpander"] {
@@ -46,13 +39,20 @@ st.markdown("""
         color: #1a2a3a;
         padding: 8px 12px;
     }
-    [data-testid="stSidebar"] .stCheckbox label {
-        font-size: 13px;
-    }
+    [data-testid="stSidebar"] .stCheckbox label { font-size: 13px; }
     [data-testid="stSidebar"] .stCheckbox { margin-bottom: 2px; }
 
-    /* Main area */
-    .block-container { padding-top: 24px; padding-bottom: 48px; }
+    /* Primary button */
+    .stButton > button[kind="primary"] {
+        background-color: #1798d3 !important;
+        border-color: #1798d3 !important;
+        color: white !important;
+    }
+    .stButton > button[kind="primary"]:hover {
+        background-color: #1280b8 !important;
+        border-color: #1280b8 !important;
+    }
+    .stButton > button { border-radius: 5px !important; }
 
     /* Print styles */
     @media print {
@@ -61,7 +61,6 @@ st.markdown("""
         [data-testid="stHeader"],
         #MainMenu,
         .stButton,
-        .no-print,
         footer { display: none !important; }
         .main .block-container { padding: 0 !important; max-width: 100% !important; }
         body { background: white; }
@@ -491,19 +490,11 @@ for key, default in [
 # ─── Sidebar ─────────────────────────────────────────────────────────────────
 
 with st.sidebar:
-    st.markdown("""
-    <div style="background:#1798d3;color:white;padding:16px 18px;border-radius:8px;margin-bottom:18px">
-        <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;opacity:0.75;font-family:Arial;font-weight:600">
-            Wallscourt Farm Academy
-        </div>
-        <div style="font-size:18px;font-weight:700;margin-top:4px;font-family:Arial;line-height:1.2">
-            KS2 SATs Reasoning
-        </div>
-        <div style="font-size:11px;opacity:0.8;margin-top:3px;font-family:Arial">
-            Question Generator
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        '<p style="font-size:13px;font-weight:700;color:#1798d3;margin:4px 0 12px 0">'
+        'KS2 SATs Reasoning</p>',
+        unsafe_allow_html=True,
+    )
 
     # API key — only show if not in secrets
     has_secret_key = False
@@ -619,6 +610,24 @@ if do_generate or do_regen:
             st.error(f"Failed to generate questions — {e}")
 
 # ─── Main area ────────────────────────────────────────────────────────────────
+
+# Header — same pattern as all WFA Streamlit apps
+if LOGO_PATH.exists():
+    logo_b64 = _b64_img(LOGO_PATH)
+    st.markdown(
+        f'<div style="display:flex;align-items:center;gap:18px;margin-bottom:6px;">'
+        f'<img src="data:image/jpeg;base64,{logo_b64}" style="height:60px;width:auto;">'
+        f'<span style="font-size:1.75rem;font-weight:700;color:#1798d3;">'
+        f'WFA KS2 SATs Reasoning</span></div>',
+        unsafe_allow_html=True,
+    )
+else:
+    st.markdown(
+        '<span style="font-size:1.75rem;font-weight:700;color:#1798d3;">'
+        'WFA KS2 SATs Reasoning</span>',
+        unsafe_allow_html=True,
+    )
+st.divider()
 
 questions = st.session_state.questions
 
